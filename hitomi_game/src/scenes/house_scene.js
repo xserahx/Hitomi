@@ -2,7 +2,7 @@ PP.scenes.add(
   'house_scene',
 
   function preload(scene) {
-    // Se vuoi, puoi caricare un'immagine per la porta
+    // Sprite della porta
     // scene.load.image('door', 'assets/images/door.png');
   },
 
@@ -82,3 +82,4 @@ PP.scenes.add(
     // Cleanup risorse se necessario
   }
 );
+
