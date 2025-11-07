@@ -3,6 +3,9 @@ PP.scenes.add(
 
   function preload(scene) {
     // Carica eventuali risorse in futuro (suoni, immagini, ecc.)
+    // === AUDIO AMBIENTALE ===
+    // Suoni tipici di una foresta che si possono aggiungere per dare maggior atmosfera
+    //scene.load.audio('forest_ambience', 'assets/audio/forest_ambience.mp4');
   },
 
   function create(scene) {
@@ -61,3 +64,4 @@ PP.scenes.add(
     // Pulizia risorse se necessaria
   }
 );
+
