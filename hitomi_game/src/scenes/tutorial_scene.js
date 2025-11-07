@@ -1,5 +1,5 @@
 PP.scenes.add(
-'main_scene',
+'tutorial_scene', 
 
   function preload(scene) {
     // Nothing to load for now
@@ -11,6 +11,13 @@ PP.scenes.add(
     const ground = scene.add.rectangle(400, 580, 10000, 40, 0x000000)
     scene.physics.add.existing(ground, true)
 
+    const playButton = scene.add.text(400, 400, 'Inizia Gioco', { fontSize: 24, color: '#060d9aff' })
+    .setOrigin(0.5)
+    .setInteractive();
+
+  playButton.on('pointerdown', () => {
+    scene.scene.start('house_scene');
+});
     
     //---------PLATFORMS------------------------------------------------------------------//
     // positions and sizes for platforms
@@ -48,7 +55,6 @@ PP.scenes.add(
       SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
       LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
       RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-      UP: Phaser.Input.Keyboard.KeyCodes.UP
 });
     // enable collision between player and all platforms
     scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms)
