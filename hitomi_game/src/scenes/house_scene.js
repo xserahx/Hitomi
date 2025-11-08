@@ -4,7 +4,7 @@ function preload_house(scene) {
   // scene.load.image('door', 'assets/images/door.png'); // opzionale
 }
 
-function create_house(scene) {
+function create_house(scene, data) {
   // === GROUND ===
   const ground = scene.add.rectangle(400, 580, 10000, 40, 0x000000);
   scene.physics.add.existing(ground, true);
@@ -31,7 +31,9 @@ function create_house(scene) {
   scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
   // === PLAYER ===
-  PP.game_state.player = PP.entities.player.create(scene, 200, 500);
+  const startX = data && data.x !== undefined ? data.x : 200;
+  const startY = data && data.y !== undefined ? data.y : 500;
+  PP.game_state.player = PP.entities.player.create(scene, startX, startY);
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
@@ -55,12 +57,33 @@ function create_house(scene) {
   door.setStrokeStyle(4, 0x000000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);
-
   scene.physics.add.overlap(PP.game_state.player, door, () => {
     scene.cameras.main.fadeOut(1000, 0, 0, 0);
     scene.time.delayedCall(1000, () => {
-      scene.scene.start('forest_scene');
+      scene.scene.start('forest_scene', { x: PP.game_state.player.x, y: PP.game_state.player.y });
     });
+  });
+
+  // === CAMBIO MONDO (U/u) ===
+  PP.game_state.changingWorld = false;
+  scene.input.keyboard.on('keydown-U', () => {
+    if (!PP.game_state.changingWorld) {
+      PP.game_state.changingWorld = true;
+      const currentScene = scene.scene.key;
+      let nextScene;
+      if (currentScene.startsWith('ghostly_')) {
+        nextScene = currentScene.replace('ghostly_', '');
+      } else {
+        nextScene = 'ghostly_' + currentScene;
+      }
+      scene.cameras.main.fadeOut(1000, 0, 0, 0);
+      scene.time.delayedCall(1000, () => {
+        const px = PP.game_state.player.x;
+        const py = PP.game_state.player.y;
+        scene.scene.start(nextScene, { x: px, y: py }); // Mantiene posizione
+        PP.game_state.changingWorld = false;
+      });
+    }
   });
 }
 
@@ -75,12 +98,7 @@ function destroy_house(scene) {
 // === REGISTRA LA SCENA ===
 PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
 
-    // console.log(`Player position → x: ${PP.game_state.player.x.toFixed(0)}, y: ${PP.game_state.player.y.toFixed(0)}`);
-  },
 
-  function destroy(scene) {
-    // Cleanup risorse se necessario
-  }
-);
+
 
 
