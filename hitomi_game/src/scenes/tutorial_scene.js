@@ -61,6 +61,28 @@ function create_tutorial(scene) {
 
   // === FADE IN ===
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
+
+  // === CAMBIO MONDO (U/u) ===
+  PP.game_state.changingWorld = false;
+  scene.input.keyboard.on('keydown-U', () => {
+    if (!PP.game_state.changingWorld) {
+      PP.game_state.changingWorld = true;
+      const currentScene = scene.scene.key;
+      let nextScene;
+      if (currentScene.startsWith('ghostly_')) {
+        nextScene = currentScene.replace('ghostly_', '');
+      } else {
+        nextScene = 'ghostly_' + currentScene;
+      }
+      scene.cameras.main.fadeOut(1000, 0, 0, 0);
+      scene.time.delayedCall(1000, () => {
+        const px = PP.game_state.player.x;
+        const py = PP.game_state.player.y;
+        scene.scene.start(nextScene, { x: px, y: py });
+        PP.game_state.changingWorld = false;
+      });
+    }
+  });
 }
 
 function update_tutorial(scene) {
