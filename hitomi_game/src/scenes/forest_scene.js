@@ -1,19 +1,20 @@
-function preload_forest(s) {
+// === FOREST SCENE ===
+function preload_forest(scene) {
     // Carica eventuali risorse future (audio, immagini, ecc.)
 }
 
-function create_forest(s) {
+function create_forest(scene, data) {
     // === SFONDO ===
-    s.cameras.main.setBackgroundColor(0x0b3d0b);
+    scene.cameras.main.setBackgroundColor(0x0b3d0b);
 
     // === LUCE / NEBBIA SOFT ===
-    let overlay = s.add.rectangle(1000, 300, 2000, 600, 0x00ff00);
+    let overlay = scene.add.rectangle(1000, 300, 2000, 600, 0x00ff00);
     overlay.setAlpha(0.05);
     overlay.setBlendMode(Phaser.BlendModes.ADD);
 
     // === TERRA ===
-    const ground = s.add.rectangle(1000, 580, 10000, 40, 0x4a3b2a);
-    s.physics.add.existing(ground, true); // STATIC
+    const ground = scene.add.rectangle(1000, 580, 10000, 40, 0x4a3b2a);
+    scene.physics.add.existing(ground, true); // STATIC
 
     // === PIATTAFORME "TRONCHI" ===
     const platformPositions = [
@@ -23,15 +24,17 @@ function create_forest(s) {
         { x: 1500, y: 500, w: 220, h: 20 },
         { x: 1800, y: 400, w: 180, h: 20 }
     ];
-    PP.game_state.platforms = PP.scene_objects.platform.create(s, platformPositions);
+    PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
     // === PLAYER ===
-    PP.game_state.player = PP.entities.player.create(s, 100, 500);
-    s.physics.add.collider(PP.game_state.player, ground);
-    s.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
+    const startX = data && data.x !== undefined ? data.x : 100;
+    const startY = data && data.y !== undefined ? data.y : 500;
+    PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+    scene.physics.add.collider(PP.game_state.player, ground);
+    scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
 
     // === INPUT ===
-    PP.interactive.kb.keys = s.input.keyboard.addKeys({
+    PP.interactive.kb.keys = scene.input.keyboard.addKeys({
         A: Phaser.Input.Keyboard.KeyCodes.A,
         D: Phaser.Input.Keyboard.KeyCodes.D,
         SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
@@ -40,21 +43,45 @@ function create_forest(s) {
     });
 
     // === CAMERA ===
-    s.cameras.main.startFollow(PP.game_state.player);
-    s.cameras.main.setBounds(0, 0, 2000, 600);
-    s.physics.world.setBounds(0, 0, 2000, 600);
+    scene.cameras.main.startFollow(PP.game_state.player);
+    scene.cameras.main.setBounds(0, 0, 2000, 600);
+    scene.physics.world.setBounds(0, 0, 2000, 600);
 
     // === FADE IN ===
-    s.cameras.main.fadeIn(1000, 0, 0, 0);
+    scene.cameras.main.fadeIn(1000, 0, 0, 0);
+
+   // === CAMBIO MONDO (U/u) ===
+  PP.game_state.changingWorld = false;
+  scene.input.keyboard.on('keydown-U', () => {
+    if (!PP.game_state.changingWorld) {
+      PP.game_state.changingWorld = true;
+      const currentScene = scene.scene.key;
+      let nextScene;
+      if (currentScene.startsWith('ghostly_')) {
+        nextScene = currentScene.replace('ghostly_', '');
+      } else {
+        nextScene = 'ghostly_' + currentScene;
+      }
+      scene.cameras.main.fadeOut(1000, 0, 0, 0);
+      scene.time.delayedCall(1000, () => {
+        const px = PP.game_state.player.x;
+        const py = PP.game_state.player.y;
+        scene.scene.start(nextScene, { x: px, y: py });
+        PP.game_state.changingWorld = false;
+      });
+    }
+  });
 }
 
-function update_forest(s) {
-    PP.entities.player.update(s, PP.game_state.player, PP.interactive.kb.keys);
+function update_forest(scene) {
+    PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
 }
 
-function destroy_forest(s) {
+function destroy_forest(scene) {
     // Pulizia risorse se necessaria
 }
 
 // === AGGIUNGI LA SCENA ===
 PP.scenes.add('forest_scene', preload_forest, create_forest, update_forest, destroy_forest);
+
+
