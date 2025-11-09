@@ -1,6 +1,6 @@
 const config = {
-  canvas_width: 800,
-  canvas_height: 600,
+  canvas_width: 1280,
+  canvas_height: 720,
   canvas_id: 'game',
   background_color: 0x87ceeb,
   debug_mode: true,

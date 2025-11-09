@@ -6,7 +6,7 @@ function preload_tutorial(scene) {
 
 function create_tutorial(scene) {
   // === GROUND ===
-  const ground = scene.add.rectangle(400, 580, 10000, 40, 0x000000);
+  const ground = scene.add.rectangle(640, 700, 1280, 40, 0x000000);
   scene.physics.add.existing(ground, true);
 
   // === PULSANTE START ===
@@ -20,27 +20,25 @@ function create_tutorial(scene) {
 
   // === PLATFORMS ===
   const platformPositions = [
-    { x: 0, y: 250, w: 100, h: 620 },
-    { x: 600, y: 450, w: 150, h: 20 },
-    { x: 900, y: 380, w: 120, h: 20 },
-    { x: 1200, y: 320, w: 200, h: 20 },
+    { x: 250, y: 350, w: 50, h: 400 },
+    { x: 850, y: 500, w: 150, h: 20 },
+    { x: 600, y: 400, w: 150, h: 20 },
+    { x: 1100, y: 650, w: 100, h: 60 },
     { x: 1500, y: 530, w: 300, h: 20 },
-    { x: 1000, y: 300, w: 90, h: 20 },
-    { x: 3200, y: 320, w: 200, h: 20 },
-    { x: 900, y: 90, w: 200, h: 20 }
+    { x: 350, y: 300, w: 150, h: 20 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  // === MOVING PLATFORMS ===
+  /* === MOVING PLATFORMS ===
   const movingPlatformConfigs = [
     { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
     { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
   ];
   PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
+  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
 
   // === PLAYER ===
-  PP.game_state.player = PP.entities.player.create(scene, 200, 500);
+  PP.game_state.player = PP.entities.player.create(scene, 1200, 500);
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
@@ -54,13 +52,13 @@ function create_tutorial(scene) {
     RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT
   });
 
-  // === CAMERA ===
+  /* === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
   scene.cameras.main.setBounds(0, 0, 10000, 600);
-  scene.physics.world.setBounds(0, 0, 2000, 600);
+  scene.physics.world.setBounds(0, 0, 2000, 600);*/
 
-  // === FADE IN ===
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
+  /* === FADE IN ===
+  scene.cameras.main.fadeIn(1000, 0, 0, 0);*/
 
   // === CAMBIO MONDO (U/u) ===
   PP.game_state.changingWorld = false;
