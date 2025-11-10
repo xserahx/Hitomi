@@ -52,7 +52,8 @@ function create_ghostly_tutorial(scene, data) {
     SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
     LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
     RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-    U: Phaser.Input.Keyboard.KeyCodes.U
+    U: Phaser.Input.Keyboard.KeyCodes.U,
+    SHIFT:  Phaser.Input.Keyboard.KeyCodes.SHIFT,
   });
 
   /* === CAMERA ===
