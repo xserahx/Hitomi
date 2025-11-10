@@ -40,7 +40,8 @@ function create_ghostly_forest(scene, data) {
         D: Phaser.Input.Keyboard.KeyCodes.D,
         SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
         LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
-        RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT
+        RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+        SHIFT:  Phaser.Input.Keyboard.KeyCodes.SHIFT
     });
 
     // === CAMERA ===
@@ -84,3 +85,8 @@ function destroy_ghostly_forest(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('ghostly_forest_scene', preload_ghostly_forest, create_ghostly_forest, update_ghostly_forest, destroy_ghostly_forest);
+
+
+// === REGISTRA LA SCENA ===
+PP.scenes.add('ghostly_forest_scene', preload_ghostly_forest, create_ghostly_forest, update_ghostly_forest, destroy_ghostly_forest);
+
