@@ -1,4 +1,3 @@
-// src/entities/player.js
 PP.entities = PP.entities || {};
 PP.entities.player = {};
 
@@ -17,6 +16,11 @@ PP.entities.player.create = function(scene, x, y) {
     player.gravityDown = 1200;     // discesa più veloce
     player.jumpCutMultiplier = 2.5;
     player.lastGrounded = 0;
+    player.isDashing = false;
+    player.dashSpeed = 600;        // velocità durante il dash
+    player.dashTime = 200;         // durata del dash in ms
+    player.dashCooldown = 200;    // cooldown tra dash in ms
+    player.lastDash = 0;
 
     player.body.setGravityY(player.gravityDown);
 
@@ -24,9 +28,38 @@ PP.entities.player.create = function(scene, x, y) {
 };
 
 PP.entities.player.update = function(scene, player, keys) {
-    const speed = 200; 
+    const speed = 200;
     let movingLeft = keys.A.isDown || keys.LEFT.isDown;
     let movingRight = keys.D.isDown || keys.RIGHT.isDown;
+
+    // Dash
+    if (Phaser.Input.Keyboard.JustDown(keys.SHIFT) && !player.isDashing && (scene.time.now - player.lastDash > player.dashCooldown)) {
+        // attiva dash
+        player.isDashing = true;
+        player.lastDash = scene.time.now;
+
+        // determina direzione
+        let dir = 0;
+        if (keys.A.isDown || keys.LEFT.isDown) {
+            dir = -1;
+        } else if (keys.D.isDown || keys.RIGHT.isDown) {
+            dir = +1;
+        } else {
+            // se non si muove orizzontalmente, dash verso il fronte (esempio: destra)
+            dir = player.body.velocity.x >= 0 ? +1 : -1;
+        }
+        player.body.setVelocityX(dir * player.dashSpeed);
+    }
+
+    // Durante il dash: controllo durata
+    if (player.isDashing) {
+        if (scene.time.now - player.lastDash > player.dashTime) {
+            // termina dash
+            player.isDashing = false;
+        } else {
+            return; // esci da update prima che la logica normale del movimento orizzontale prenda il sopravvento
+        }
+    }
 
     // Movimento orizzontale
     if (movingLeft && !movingRight) {
@@ -63,4 +96,6 @@ PP.entities.player.update = function(scene, player, keys) {
     if (Phaser.Input.Keyboard.JustUp(keys.SPACE) && player.body.velocity.y < 0) {
         player.body.setVelocityY(player.body.velocity.y / player.jumpCutMultiplier);
     }
+
 };
+
