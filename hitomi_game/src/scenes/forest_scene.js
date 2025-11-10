@@ -39,7 +39,8 @@ function create_forest(scene, data) {
         D: Phaser.Input.Keyboard.KeyCodes.D,
         SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
         LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
-        RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT
+        RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+        SHIFT:  Phaser.Input.Keyboard.KeyCodes.SHIFT
     });
 
     // === CAMERA ===
@@ -83,5 +84,6 @@ function destroy_forest(scene) {
 
 // === AGGIUNGI LA SCENA ===
 PP.scenes.add('forest_scene', preload_forest, create_forest, update_forest, destroy_forest);
+
 
 
