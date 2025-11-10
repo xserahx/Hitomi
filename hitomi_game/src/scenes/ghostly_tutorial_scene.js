@@ -1,25 +1,36 @@
 // === GHOSTLY TUTORIAL SCENE ===
 function preload_ghostly_tutorial(scene) {
-  // Caricamenti opzionali di sprite o audio
-  // scene.load.image('button', 'assets/images/button.png'); // opzionale
+  // Caricamenti opzionali (audio, sprite, ecc.)
 }
 
 function create_ghostly_tutorial(scene, data) {
+
+  // === SFONDO ROSSO SCURO ===
+  scene.cameras.main.setBackgroundColor(0x1a0000);
+
   // === GROUND ===
-  const ground = scene.add.rectangle(640, 700, 1280, 40, 0x330000); // colore più inquietante rosso scuro
+  const ground = scene.add.rectangle(640, 700, 1280, 40, 0x220000);
   scene.physics.add.existing(ground, true);
 
+  // === NEBBIA ROSSA ===
+  const overlay = scene.add.rectangle(640, 360, 1280, 720, 0x660000);
+  overlay.setAlpha(0.2);
+  overlay.setBlendMode(Phaser.BlendModes.ADD);
+
   // === PULSANTE START ===
-  const playButton = scene.add.text(400, 400, 'Inizia Gioco', { fontSize: 24, color: '#ff3333' })
+  const playButton = scene.add.text(400, 400, 'Inizia Gioco', { fontSize: 24, color: '#ff4444' })
     .setOrigin(0.5)
     .setInteractive();
 
   playButton.on('pointerdown', () => {
-    scene.scene.start('ghostly_house_scene'); // versione spettrale della house
+    scene.scene.start('ghostly_house_scene', {
+      x: PP.game_state.player.x,
+      y: PP.game_state.player.y
+    });
   });
 
   // === PIATTAFORME ===
-   const platformPositions = [
+  const platformPositions = [
     { x: 250, y: 350, w: 50, h: 400 },
     { x: 850, y: 500, w: 150, h: 20 },
     { x: 600, y: 400, w: 150, h: 20 },
@@ -29,21 +40,14 @@ function create_ghostly_tutorial(scene, data) {
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  /* === PIATTAFORME MOBILI ===
-  const movingPlatformConfigs = [
-    { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
-    { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
-  ];
-  PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
-
   // === PLAYER ===
-  const startX = data?.x || 200;
-  const startY = data?.y || 500;
+  const startX = (data && data.x) || (PP.game_state.playerPosition?.x ?? 1200);
+  const startY = (data && data.y) || (PP.game_state.playerPosition?.y ?? 500);
+
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+  PP.game_state.player.fillColor = 0xff2222; // rosso pallido
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
-  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
 
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
@@ -52,37 +56,58 @@ function create_ghostly_tutorial(scene, data) {
     SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
     LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
     RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-    U: Phaser.Input.Keyboard.KeyCodes.U,
-    SHIFT:  Phaser.Input.Keyboard.KeyCodes.SHIFT,
+    SHIFT: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+    U: Phaser.Input.Keyboard.KeyCodes.U
   });
 
-  /* === CAMERA ===
-  scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 10000, 600);
-  scene.physics.world.setBounds(0, 0, 2000, 600);*/
+  // === CAMERA ===
+  //scene.cameras.main.startFollow(PP.game_state.player);
+  scene.cameras.main.setBounds(0, 0, 2000, 800);
+  scene.physics.world.setBounds(0, 0, 2000, 800);
 
-  /* === FADE IN ===
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);*/
+  // === FADE IN ===
+  scene.cameras.main.fadeIn(800, 0, 0, 0);
+
+  // === CAMBIO MONDO (U / u) ===
+  PP.game_state.changingWorld = false;
+  scene.input.keyboard.on('keydown-U', () => switchWorld(scene));
+  scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
+}
+
+// === FUNZIONE CAMBIO MONDO ===
+function switchWorld(scene) {
+  if (PP.game_state.changingWorld) return;
+  PP.game_state.changingWorld = true;
+
+  // 🔥 Salva posizione globale del giocatore
+  PP.game_state.playerPosition = {
+    x: PP.game_state.player.x,
+    y: PP.game_state.player.y
+  };
+
+  const currentScene = scene.scene.key;
+  const nextScene = currentScene.startsWith('ghostly_')
+    ? currentScene.replace('ghostly_', '')
+    : 'ghostly_' + currentScene;
+
+  // === Transizione semplice fade-out / fade-in ===
+  scene.cameras.main.fadeOut(500, 0, 0, 0);
+  scene.time.delayedCall(500, () => {
+    const { x, y } = PP.game_state.playerPosition;
+    scene.scene.start(nextScene, { x, y });
+    PP.game_state.changingWorld = false;
+  });
 }
 
 function update_ghostly_tutorial(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
 
-  // === CAMBIO MONDO CON U o u ===
-  const keyUUpper = PP.interactive.kb.keys.U;
-  const keyULower = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.u);
-
-  if (keyUUpper.isDown || keyULower.isDown) {
-    const px = PP.game_state.player.x;
-    const py = PP.game_state.player.y;
-    const nextScene = scene.scene.key === 'ghostly_tutorial_scene'
-                      ? 'tutorial_scene'
-                      : 'ghostly_tutorial_scene';
-
-    scene.cameras.main.fadeOut(800, 0, 0, 0);
-    scene.time.delayedCall(800, () => {
-      scene.scene.start(nextScene, { x: px, y: py });
-    });
+  // Aggiorna posizione globale continuamente
+  if (PP.game_state.player) {
+    PP.game_state.playerPosition = {
+      x: PP.game_state.player.x,
+      y: PP.game_state.player.y
+    };
   }
 }
 
@@ -91,4 +116,4 @@ function destroy_ghostly_tutorial(scene) {
 }
 
 // === REGISTRA LA SCENA ===
-PP.scenes.add('ghostly_tutorial_scene', preload_ghostly_tutorial, create_ghostly_tutorial, update_ghostly_tutorial, destroy_ghostly_tutorial);
+PP.scenes.add('ghostly_tutorial_scene',preload_ghostly_tutorial,create_ghostly_tutorial,update_ghostly_tutorial,destroy_ghostly_tutorial);
