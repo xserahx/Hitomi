@@ -117,3 +117,4 @@ function destroy_ghostly_tutorial(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('ghostly_tutorial_scene',preload_ghostly_tutorial,create_ghostly_tutorial,update_ghostly_tutorial,destroy_ghostly_tutorial);
+
