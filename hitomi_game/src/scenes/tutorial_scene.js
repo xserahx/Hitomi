@@ -1,10 +1,11 @@
 // === TUTORIAL SCENE ===
 function preload_tutorial(scene) {
   // Caricamenti opzionali di sprite o audio
-  // scene.load.image('button', 'assets/images/button.png'); // opzionale
 }
 
+// === CREAZIONE SCENA ===
 function create_tutorial(scene) {
+
   // === GROUND ===
   const ground = scene.add.rectangle(640, 700, 1280, 40, 0x000000);
   scene.physics.add.existing(ground, true);
@@ -29,19 +30,15 @@ function create_tutorial(scene) {
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  /* === MOVING PLATFORMS ===
-  const movingPlatformConfigs = [
-    { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
-    { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
-  ];
-  PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
-
   // === PLAYER ===
-  PP.game_state.player = PP.entities.player.create(scene, 1200, 500);
+  const startX = (scene.scene.settings.data && scene.scene.settings.data.x) ||
+                 (PP.game_state.playerPosition?.x ?? 1200);
+  const startY = (scene.scene.settings.data && scene.scene.settings.data.y) ||
+                 (PP.game_state.playerPosition?.y ?? 500);
+
+  PP.game_state.player = PP.entities.player.create(scene, startX, startY);
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
-  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
 
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
@@ -50,42 +47,61 @@ function create_tutorial(scene) {
     SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
     LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
     RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-    SHIFT:  Phaser.Input.Keyboard.KeyCodes.SHIFT
+    SHIFT: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+    U: Phaser.Input.Keyboard.KeyCodes.U
   });
 
-  /* === CAMERA ===
-  scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 10000, 600);
-  scene.physics.world.setBounds(0, 0, 2000, 600);*/
+  // === CAMERA ===
+  //scene.cameras.main.startFollow(PP.game_state.player);
+  //scene.cameras.main.setBounds(0, 0, 2000, 800);
+  //scene.physics.world.setBounds(0, 0, 2000, 800);
 
-  /* === FADE IN ===
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);*/
+  // === FADE IN ===
+  scene.cameras.main.fadeIn(800, 0, 0, 0);
 
-  // === CAMBIO MONDO (U/u) ===
+  // === CAMBIO MONDO (U / u) ===
   PP.game_state.changingWorld = false;
-  scene.input.keyboard.on('keydown-U', () => {
-    if (!PP.game_state.changingWorld) {
-      PP.game_state.changingWorld = true;
-      const currentScene = scene.scene.key;
-      let nextScene;
-      if (currentScene.startsWith('ghostly_')) {
-        nextScene = currentScene.replace('ghostly_', '');
-      } else {
-        nextScene = 'ghostly_' + currentScene;
-      }
-      scene.cameras.main.fadeOut(1000, 0, 0, 0);
-      scene.time.delayedCall(1000, () => {
-        const px = PP.game_state.player.x;
-        const py = PP.game_state.player.y;
-        scene.scene.start(nextScene, { x: px, y: py });
-        PP.game_state.changingWorld = false;
-      });
-    }
+
+  scene.input.keyboard.on('keydown-U', () => switchWorld(scene));
+  scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
+}
+
+// === FUNZIONE CAMBIO MONDO ===
+function switchWorld(scene) {
+  if (PP.game_state.changingWorld) return;
+
+  PP.game_state.changingWorld = true;
+
+  // 🔥 Salva la posizione del giocatore globalmente
+  PP.game_state.playerPosition = {
+    x: PP.game_state.player.x,
+    y: PP.game_state.player.y
+  };
+
+  const currentScene = scene.scene.key;
+  const nextScene = currentScene.startsWith('ghostly_')
+    ? currentScene.replace('ghostly_', '')
+    : 'ghostly_' + currentScene;
+
+  // === Transizione semplice (fade-out / fade-in) ===
+  scene.cameras.main.fadeOut(500, 0, 0, 0);
+  scene.time.delayedCall(500, () => {
+    const { x, y } = PP.game_state.playerPosition;
+    scene.scene.start(nextScene, { x, y });
+    PP.game_state.changingWorld = false;
   });
 }
 
 function update_tutorial(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
+
+  // Aggiorna posizione globale in tempo reale
+  if (PP.game_state.player) {
+    PP.game_state.playerPosition = {
+      x: PP.game_state.player.x,
+      y: PP.game_state.player.y
+    };
+  }
 }
 
 function destroy_tutorial(scene) {
