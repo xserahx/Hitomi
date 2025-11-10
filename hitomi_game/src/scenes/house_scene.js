@@ -44,7 +44,8 @@ function create_house(scene, data) {
     D: Phaser.Input.Keyboard.KeyCodes.D,
     SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
     LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
-    RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT
+    RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+    SHIFT:  Phaser.Input.Keyboard.KeyCodes.SHIFT
   });
 
   // === CAMERA ===
@@ -97,8 +98,4 @@ function destroy_house(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
-
-
-
-
 
