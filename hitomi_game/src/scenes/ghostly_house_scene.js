@@ -8,7 +8,7 @@ function create_ghostly_house(scene, data) {
   scene.cameras.main.setBackgroundColor(0x1a0000);
 
   // === GROUND ===
-   const ground = scene.add.rectangle(400, 700, 7680, 40, 0x000000);
+   const ground = scene.add.rectangle(3840, 700, 7680, 40, 0x000000);
   scene.physics.add.existing(ground, true);
 
   // === NEBBIA ROSSA ===
@@ -30,7 +30,8 @@ function create_ghostly_house(scene, data) {
     { x: 2780, y: 650, w: 300, h: 20 },
     { x: 2280, y: 420, w: 90, h: 20 },
     { x: 4480, y: 460, w: 200, h: 20 },
-    { x: 2180, y: 110, w: 200, h: 20 }
+    { x: 2180, y: 110, w: 200, h: 20 },
+    { x: 7650, y: 250, w: 100, h: 620 },
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
