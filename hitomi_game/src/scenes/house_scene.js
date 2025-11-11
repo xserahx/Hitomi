@@ -1,7 +1,6 @@
 // === HOUSE SCENE ===
 function preload_house(scene) {
   // Caricamenti opzionali di sprite o audio
-  // scene.load.image('door', 'assets/images/door.png'); // opzionale
 }
 
 function create_house(scene, data) {
@@ -19,23 +18,13 @@ function create_house(scene, data) {
     { x: 1100, y: 650, w: 100, h: 60 },
     { x: 350, y: 300, w: 150, h: 20 },
     { x: 1280, y: 250, w: 100, h: 620 },
-    
     { x: 1600, y: 600, w: 150, h: 20 },
     { x: 1800, y: 500, w: 150, h: 20 },
     { x: 2300, y: 400, w: 150, h: 20 },
     { x: 2560, y: 250, w: 100, h: 620 },
-
     { x: 7650, y: 250, w: 100, h: 620 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
-
-   /* === MOVING PLATFORMS ===
-  const movingPlatformConfigs = [
-    { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
-    { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
-  ];
-  PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 200;
@@ -44,7 +33,6 @@ function create_house(scene, data) {
 
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
-  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
@@ -52,18 +40,37 @@ function create_house(scene, data) {
   scene.physics.world.setBounds(0, 0, 7680, 700);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
-  // === PORTA (verso FOREST) ===
+  // === CHIAVE ===
+  const key = scene.add.rectangle(500, 600, 20, 20, 0xFFFF00);
+  scene.physics.add.existing(key, true);
+
+  scene.physics.add.overlap(PP.game_state.player, key, () => {
+    PP.game_state.player.hasKey = "goldenKey";
+    key.destroy();
+    showAchievement(scene, "Madama Goody ha raccolto la chiave!");
+  });
+
+  // === PORTA BLOCCATA ===
   const door = scene.add.rectangle(6000, 560, 60, 120, 0x8B4513);
   door.setStrokeStyle(4, 0x000000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);
+
+  door.isLocked = true;
+  door.keyId = "goldenKey";
+
   scene.physics.add.overlap(PP.game_state.player, door, () => {
-    scene.cameras.main.fadeOut(1000, 0, 0, 0);
-    scene.time.delayedCall(1000, () => {
-      const { x, y } = PP.game_state.player;
-      PP.game_state.playerPosition = { x, y };
-      scene.scene.start('forest_scene', { x, y });
-    });
+    if (door.isLocked && PP.game_state.player.hasKey === door.keyId) {
+      door.isLocked = false;
+      openDoor(door, scene);
+    } else if (!door.isLocked) {
+      scene.cameras.main.fadeOut(1000, 0, 0, 0);
+      scene.time.delayedCall(1000, () => {
+        const { x, y } = PP.game_state.player;
+        PP.game_state.playerPosition = { x, y };
+        scene.scene.start('forest_scene', { x, y });
+      });
+    }
   });
 
   // === INPUT ===
@@ -83,12 +90,51 @@ function create_house(scene, data) {
   scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
 }
 
-// === FUNZIONE CAMBIO MONDO ===
+// === FUNZIONE ACHIEVEMENT ===
+function showAchievement(scene, text) {
+  const achievementText = scene.add.text(
+    scene.cameras.main.centerX, 100,
+    text,
+    { font: "28px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 }, align: "center" }
+  );
+  achievementText.setOrigin(0.5, 0.5);
+  achievementText.setAlpha(0);
+
+  scene.tweens.add({
+    targets: achievementText,
+    alpha: 1,
+    duration: 400,
+    onComplete: () => {
+      scene.time.delayedCall(2000, () => {
+        scene.tweens.add({
+          targets: achievementText,
+          alpha: 0,
+          duration: 400,
+          onComplete: () => achievementText.destroy()
+        });
+      });
+    }
+  });
+}
+
+// === FUNZIONE APERTURA PORTA (SCORRIMENTO LATERALE) ===
+function openDoor(door, scene) {
+  scene.tweens.add({
+    targets: door,
+    x: door.x + 80,  // verso destra
+    duration: 500,
+    ease: 'Power2',
+    onComplete: () => {
+      door.body.enable = false;
+    }
+  });
+}
+
+// === CAMBIO MONDO ===
 function switchWorld(scene) {
   if (PP.game_state.changingWorld) return;
   PP.game_state.changingWorld = true;
 
-  // Salva posizione globale
   PP.game_state.playerPosition = {
     x: PP.game_state.player.x,
     y: PP.game_state.player.y
@@ -110,7 +156,6 @@ function switchWorld(scene) {
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
 
-  // aggiorna la posizione globale costantemente
   if (PP.game_state.player) {
     PP.game_state.playerPosition = {
       x: PP.game_state.player.x,
