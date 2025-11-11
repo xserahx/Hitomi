@@ -9,19 +9,25 @@ function create_house(scene, data) {
   scene.cameras.main.setBackgroundColor(0x202020);
 
   // === GROUND ===
-  const ground = scene.add.rectangle(400, 580, 10000, 40, 0x000000);
+  const ground = scene.add.rectangle(400, 700, 7680, 40, 0x000000);
   scene.physics.add.existing(ground, true);
 
   // === PLATFORMS ===
   const platformPositions = [
-    { x: 0, y: 250, w: 100, h: 620 },
-    { x: 600, y: 450, w: 150, h: 20 },
-    { x: 900, y: 380, w: 120, h: 20 },
-    { x: 1200, y: 320, w: 200, h: 20 },
+    { x: 250, y: 350, w: 50, h: 400 },
+    { x: 850, y: 500, w: 150, h: 20 },
+    { x: 1100, y: 650, w: 100, h: 60 },
     { x: 1500, y: 530, w: 300, h: 20 },
-    { x: 1000, y: 300, w: 90, h: 20 },
-    { x: 3200, y: 320, w: 200, h: 20 },
-    { x: 900, y: 90, w: 200, h: 20 }
+    { x: 350, y: 300, w: 150, h: 20 },
+
+    { x: 1280, y: 250, w: 100, h: 620 },
+    { x: 1880, y: 570, w: 150, h: 20 },
+    { x: 2180, y: 400, w: 120, h: 20 },
+    { x: 2480, y: 440, w: 200, h: 20 },
+    { x: 2780, y: 650, w: 300, h: 20 },
+    { x: 2280, y: 420, w: 90, h: 20 },
+    { x: 4480, y: 460, w: 200, h: 20 },
+    { x: 2180, y: 110, w: 200, h: 20 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
@@ -44,8 +50,8 @@ function create_house(scene, data) {
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 10000, 600);
-  scene.physics.world.setBounds(0, 0, 2000, 600);
+  scene.cameras.main.setBounds(0, 0, 10000, 700);
+  scene.physics.world.setBounds(0, 0, 2000, 700);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === PORTA (verso FOREST) ===
