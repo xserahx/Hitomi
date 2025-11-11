@@ -8,7 +8,7 @@ function create_ghostly_house(scene, data) {
   scene.cameras.main.setBackgroundColor(0x1a0000);
 
   // === GROUND ===
-   const ground = scene.add.rectangle(3840, 700, 7680, 40, 0x000000);
+  const ground = scene.add.rectangle(400, 700, 7680, 40, 0x000000);
   scene.physics.add.existing(ground, true);
 
   // === NEBBIA ROSSA ===
@@ -21,37 +21,56 @@ function create_ghostly_house(scene, data) {
     { x: 250, y: 350, w: 50, h: 400 },
     { x: 850, y: 500, w: 150, h: 20 },
     { x: 1100, y: 650, w: 100, h: 60 },
+    { x: 1500, y: 530, w: 300, h: 20 },
     { x: 350, y: 300, w: 150, h: 20 },
     { x: 1280, y: 250, w: 100, h: 620 },
-    
-    { x: 1600, y: 600, w: 150, h: 20 },
-    { x: 1800, y: 500, w: 150, h: 20 },
-    { x: 2050, y: 300, w: 150, h: 20 },
-    { x: 2050, y: 550, w: 150, h: 20 },
-    { x: 2300, y: 400, w: 150, h: 20 },
-    { x: 2560, y: 250, w: 100, h: 620 },
-
-    { x: 7650, y: 250, w: 100, h: 620 }
+    { x: 1880, y: 570, w: 150, h: 20 },
+    { x: 2180, y: 400, w: 120, h: 20 },
+    { x: 2480, y: 440, w: 200, h: 20 },
+    { x: 2780, y: 650, w: 300, h: 20 },
+    { x: 2280, y: 420, w: 90, h: 20 },
+    { x: 4480, y: 460, w: 200, h: 20 },
+    { x: 2180, y: 110, w: 200, h: 20 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  /* === MOVING PLATFORMS ===
+  // === MOVING PLATFORMS ===
   const movingPlatformConfigs = [
     { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
     { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
   ];
   PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
+  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 200;
   const startY = data?.y ?? PP.game_state.playerPosition?.y ?? 500;
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
-  PP.game_state.player.fillColor = 0xff2222; // tono rosso spettrale
+  PP.game_state.player.fillColor = 0xff2222;
 
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
+
+  // === VITE PLAYER VISUALIZZATE ===
+  PP.game_state.playerLivesText = scene.add.text(20, 20, `Lives: ${PP.game_state.player.lives}`, {
+    font: "28px Arial",
+    fill: "#ffffff"
+  }).setScrollFactor(0); // rimane fisso sulla camera
+
+  // === NEMICI ===
+  const enemyPositions = [
+    { x: 600, y: 600, speed: 80 },
+    { x: 1200, y: 600, speed: 100 }
+  ];
+  PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+  scene.physics.add.collider(PP.game_state.enemies, PP.game_state.platforms);
+  scene.physics.add.collider(PP.game_state.enemies, ground);
+
+  // Overlap player-nemici per danno
+  scene.physics.add.overlap(PP.game_state.player, PP.game_state.enemies, () => {
+    PP.entities.player.damage(scene);
+  });
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
@@ -59,12 +78,11 @@ function create_ghostly_house(scene, data) {
   scene.physics.world.setBounds(0, 0, 7680, 700);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
-  // === PORTA (per andare alla foresta spettrale) ===
-  const door = scene.add.rectangle(6000, 560, 60, 120, 0x660000);
+  // === PORTA ===
+  const door = scene.add.rectangle(1800, 560, 60, 120, 0x660000);
   door.setStrokeStyle(4, 0xaa0000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);
-
   scene.physics.add.overlap(PP.game_state.player, door, () => {
     scene.cameras.main.fadeOut(1000, 0, 0, 0);
     scene.time.delayedCall(1000, () => {
@@ -85,18 +103,17 @@ function create_ghostly_house(scene, data) {
     U: Phaser.Input.Keyboard.KeyCodes.U
   });
 
-  // === CAMBIO MONDO (U / u) ===
+  // === CAMBIO MONDO ===
   PP.game_state.changingWorld = false;
   scene.input.keyboard.on('keydown-U', () => switchWorld(scene));
   scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
 }
 
-// === FUNZIONE CAMBIO MONDO ===
+// === CAMBIO MONDO ===
 function switchWorld(scene) {
   if (PP.game_state.changingWorld) return;
   PP.game_state.changingWorld = true;
 
-  // Salva posizione globale
   PP.game_state.playerPosition = {
     x: PP.game_state.player.x,
     y: PP.game_state.player.y
@@ -116,28 +133,67 @@ function switchWorld(scene) {
 }
 
 function update_ghostly_house(scene) {
-  PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
+  const player = PP.game_state.player;
 
-  // aggiorna costantemente la posizione
-  if (PP.game_state.player) {
-    PP.game_state.playerPosition = {
-      x: PP.game_state.player.x,
-      y: PP.game_state.player.y
-    };
+  // === UPDATE PLAYER ===
+  PP.entities.player.update(scene, player, PP.interactive.kb.keys);
+
+  // === UPDATE NEMICI ===
+  if (PP.game_state.enemies) {
+    PP.entities.enemy.update(scene, PP.game_state.enemies, player);
+  }
+
+  // === AGGIORNA POSIZIONE GLOBALE ===
+  if (player) {
+    PP.game_state.playerPosition = { x: player.x, y: player.y };
+    PP.game_state.playerLivesText.setText(`Lives: ${player.lives}`);
   }
 }
 
 function destroy_ghostly_house(scene) {
-  // pulizia risorse
+  // Pulizia risorse
 }
 
-// === REGISTRA LA SCENA ===
-PP.scenes.add(
-  'ghostly_house_scene',
-  preload_ghostly_house,
-  create_ghostly_house,
-  update_ghostly_house,
-  destroy_ghostly_house
-);
+// === FUNZIONE DI DANNO PLAYER ===
+PP.entities.player.damage = function(scene) {
+  const player = PP.game_state.player;
+  if (player.isInvincible) return;
 
+  player.lives -= 1;
+  player.isInvincible = true;
 
+  const originalColor = player.fillColor;
+  let flashCount = 0;
+
+  // === Lampeggio rosso ===
+  scene.time.addEvent({
+    delay: 100,
+    repeat: 5,
+    callback: () => {
+      player.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor;
+      flashCount++;
+    }
+  });
+
+  // === Knockback ===
+  const knockback = 250;
+  const direction = player.body.velocity.x >= 0 ? -1 : 1;
+  player.body.setVelocity(knockback * direction, -200);
+
+  // === Ritorna hittabile dopo 2 sec ===
+  scene.time.delayedCall(2000, () => {
+    player.isInvincible = false;
+    player.fillColor = originalColor;
+  });
+
+  // === GAME OVER ALL’ULTIMA VITA ===
+  if (player.lives <= 0) {
+    scene.cameras.main.shake(400, 0.02);
+    scene.time.delayedCall(400, () => {
+      scene.scene.start("game_over", { restartScene: scene.scene.key });
+    });
+  }
+};
+
+// === REGISTRA SCENA ===
+PP.scenes.add('ghostly_house_scene',preload_ghostly_house,create_ghostly_house,update_ghostly_house,destroy_ghostly_house);
