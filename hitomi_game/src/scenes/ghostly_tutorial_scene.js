@@ -17,18 +17,6 @@ function create_ghostly_tutorial(scene, data) {
   overlay.setAlpha(0.2);
   overlay.setBlendMode(Phaser.BlendModes.ADD);
 
-  // === PULSANTE START ===
-  const playButton = scene.add.text(400, 400, 'Inizia Gioco', { fontSize: 24, color: '#ff4444' })
-    .setOrigin(0.5)
-    .setInteractive();
-
-  playButton.on('pointerdown', () => {
-    scene.scene.start('ghostly_house_scene', {
-      x: PP.game_state.player.x,
-      y: PP.game_state.player.y
-    });
-  });
-
   // === PIATTAFORME ===
   const platformPositions = [
     { x: 250, y: 350, w: 50, h: 400 },
@@ -117,4 +105,3 @@ function destroy_ghostly_tutorial(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('ghostly_tutorial_scene',preload_ghostly_tutorial,create_ghostly_tutorial,update_ghostly_tutorial,destroy_ghostly_tutorial);
-
