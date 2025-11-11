@@ -10,15 +10,6 @@ function create_tutorial(scene) {
   const ground = scene.add.rectangle(640, 700, 1280, 40, 0x000000);
   scene.physics.add.existing(ground, true);
 
-  // === PULSANTE START ===
-  const playButton = scene.add.text(400, 400, 'Inizia Gioco', { fontSize: 24, color: '#060d9aff' })
-    .setOrigin(0.5)
-    .setInteractive();
-
-  playButton.on('pointerdown', () => {
-    scene.scene.start('house_scene');
-  });
-
   // === PLATFORMS ===
   const platformPositions = [
     { x: 250, y: 350, w: 50, h: 400 },
@@ -85,7 +76,7 @@ function switchWorld(scene) {
 
   PP.game_state.changingWorld = true;
 
-  // 🔥 Salva la posizione del giocatore globalmente
+  // Salva la posizione del giocatore globalmente
   PP.game_state.playerPosition = {
     x: PP.game_state.player.x,
     y: PP.game_state.player.y
@@ -123,3 +114,4 @@ function destroy_tutorial(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('tutorial_scene', preload_tutorial, create_tutorial, update_tutorial, destroy_tutorial);
+
