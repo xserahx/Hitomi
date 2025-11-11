@@ -1,101 +1,132 @@
 PP.entities = PP.entities || {};
 PP.entities.player = {};
 
-PP.entities.player.create = function(scene, x, y) {
-    const player = scene.add.rectangle(x, y, 40, 60, 0xFFFF00);
-    scene.physics.add.existing(player);
-    player.body.setCollideWorldBounds(true);
+PP.entities.player.create = function (scene, x, y) {
+  const player = scene.add.rectangle(x, y, 40, 60, 0xFFFF00);
+  scene.physics.add.existing(player);
+  player.body.setCollideWorldBounds(true);
 
-    // Parametri salto realistico ma più alto
-    player.jumpPressedTime = 0;
+  // === STATI VITA ===
+  player.maxLives = 3;
+  player.lives = 3;
+  player.isInvincible = false;
+
+  // Parametri salto e movimento
+  player.jumpPressedTime = 0;
+  player.canJump = false;
+  player.coyoteTime = 150;
+  player.jumpHoldTime = 400;
+  player.jumpForce = -650;
+  player.gravityUp = 600;
+  player.gravityDown = 1200;
+  player.jumpCutMultiplier = 2.5;
+  player.lastGrounded = 0;
+  player.isDashing = false;
+  player.dashSpeed = 600;
+  player.dashTime = 200;
+  player.dashCooldown = 200;
+  player.lastDash = 0;
+
+  player.body.setGravityY(player.gravityDown);
+
+  return player;
+};
+
+PP.entities.player.update = function (scene, player, keys) {
+  const speed = 200;
+  let movingLeft = keys.A.isDown || keys.LEFT.isDown;
+  let movingRight = keys.D.isDown || keys.RIGHT.isDown;
+
+  // === DASH ===
+  if (
+    Phaser.Input.Keyboard.JustDown(keys.SHIFT) &&
+    !player.isDashing &&
+    scene.time.now - player.lastDash > player.dashCooldown
+  ) {
+    player.isDashing = true;
+    player.lastDash = scene.time.now;
+
+    let dir = 0;
+    if (movingLeft) dir = -1;
+    else if (movingRight) dir = +1;
+    else dir = player.body.velocity.x >= 0 ? +1 : -1;
+
+    player.body.setVelocityX(dir * player.dashSpeed);
+  }
+
+  if (player.isDashing) {
+    if (scene.time.now - player.lastDash > player.dashTime) {
+      player.isDashing = false;
+    } else {
+      return;
+    }
+  }
+
+  // === MOVIMENTO ORIZZONTALE ===
+  if (movingLeft && !movingRight) player.body.setVelocityX(-speed);
+  else if (movingRight && !movingLeft) player.body.setVelocityX(speed);
+  else player.body.setVelocityX(0);
+
+  // === COYOTE TIME ===
+  if (player.body.blocked.down) {
+    player.canJump = true;
+    player.lastGrounded = scene.time.now;
+  } else if (scene.time.now - player.lastGrounded > player.coyoteTime) {
     player.canJump = false;
-    player.coyoteTime = 150;       // ms
-    player.jumpHoldTime = 400;     // aumento durata salto
-    player.jumpForce = -650;       // aumento forza salto
-    player.gravityUp = 600;        // salita morbida
-    player.gravityDown = 1200;     // discesa più veloce
-    player.jumpCutMultiplier = 2.5;
-    player.lastGrounded = 0;
-    player.isDashing = false;
-    player.dashSpeed = 600;        // velocità durante il dash
-    player.dashTime = 200;         // durata del dash in ms
-    player.dashCooldown = 200;    // cooldown tra dash in ms
-    player.lastDash = 0;
+  }
 
-    player.body.setGravityY(player.gravityDown);
+  // === SALTO ===
+  if (Phaser.Input.Keyboard.JustDown(keys.SPACE) && player.canJump) {
+    player.body.setVelocityY(player.jumpForce);
+    player.jumpPressedTime = scene.time.now;
+    player.canJump = false;
+  }
 
-    return player;
+  if (keys.SPACE.isDown && scene.time.now - player.jumpPressedTime < player.jumpHoldTime)
+    player.body.setGravityY(player.gravityUp);
+  else player.body.setGravityY(player.gravityDown);
+
+  if (Phaser.Input.Keyboard.JustUp(keys.SPACE) && player.body.velocity.y < 0)
+    player.body.setVelocityY(player.body.velocity.y / player.jumpCutMultiplier);
 };
 
-PP.entities.player.update = function(scene, player, keys) {
-    const speed = 200;
-    let movingLeft = keys.A.isDown || keys.LEFT.isDown;
-    let movingRight = keys.D.isDown || keys.RIGHT.isDown;
+// === FUNZIONE DI DANNO ===
+PP.entities.player.damage = function (scene) {
+  const player = PP.game_state.player;
+  if (player.isInvincible) return;
 
-    // Dash
-    if (Phaser.Input.Keyboard.JustDown(keys.SHIFT) && !player.isDashing && (scene.time.now - player.lastDash > player.dashCooldown)) {
-        // attiva dash
-        player.isDashing = true;
-        player.lastDash = scene.time.now;
+  player.lives -= 1;
+  player.isInvincible = true;
 
-        // determina direzione
-        let dir = 0;
-        if (keys.A.isDown || keys.LEFT.isDown) {
-            dir = -1;
-        } else if (keys.D.isDown || keys.RIGHT.isDown) {
-            dir = +1;
-        } else {
-            // se non si muove orizzontalmente, dash verso il fronte (esempio: destra)
-            dir = player.body.velocity.x >= 0 ? +1 : -1;
-        }
-        player.body.setVelocityX(dir * player.dashSpeed);
-    }
+  // === LAMPEGGIO ROSSO ===
+  const originalColor = player.fillColor;
+  let flashCount = 0;
+  const flashTimer = scene.time.addEvent({
+    delay: 100,
+    repeat: 10,
+    callback: () => {
+      player.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor;
+      flashCount++;
+    },
+  });
 
-    // Durante il dash: controllo durata
-    if (player.isDashing) {
-        if (scene.time.now - player.lastDash > player.dashTime) {
-            // termina dash
-            player.isDashing = false;
-        } else {
-            return; // esci da update prima che la logica normale del movimento orizzontale prenda il sopravvento
-        }
-    }
+  // === KNOCKBACK ===
+  const knockback = 250;
+  const direction = player.body.velocity.x >= 0 ? -1 : 1;
+  player.body.setVelocity(knockback * direction, -200);
 
-    // Movimento orizzontale
-    if (movingLeft && !movingRight) {
-        player.body.setVelocityX(-speed);
-    } else if (movingRight && !movingLeft) {
-        player.body.setVelocityX(speed);
-    } else {
-        player.body.setVelocityX(0);
-    }
+  // === INVINCIBILITÀ TEMPORANEA ===
+  scene.time.delayedCall(1500, () => {
+    player.isInvincible = false;
+    player.fillColor = originalColor;
+  });
 
-    // Coyote time
-    if (player.body.blocked.down) {
-        player.canJump = true;
-        player.lastGrounded = scene.time.now;
-    } else if (scene.time.now - player.lastGrounded > player.coyoteTime) {
-        player.canJump = false;
-    }
-
-    // Inizio salto
-    if (Phaser.Input.Keyboard.JustDown(keys.SPACE) && player.canJump) {
-        player.body.setVelocityY(player.jumpForce);
-        player.jumpPressedTime = scene.time.now;
-        player.canJump = false;
-    }
-
-    // Salto variabile
-    if (keys.SPACE.isDown && (scene.time.now - player.jumpPressedTime < player.jumpHoldTime)) {
-        player.body.setGravityY(player.gravityUp);
-    } else {
-        player.body.setGravityY(player.gravityDown);
-    }
-
-    // Early release
-    if (Phaser.Input.Keyboard.JustUp(keys.SPACE) && player.body.velocity.y < 0) {
-        player.body.setVelocityY(player.body.velocity.y / player.jumpCutMultiplier);
-    }
-
+  // === GAME OVER ===
+  if (player.lives <= 0) {
+    scene.cameras.main.shake(300, 0.01);
+    scene.time.delayedCall(300, () => {
+      scene.scene.restart();
+      player.lives = player.maxLives;
+    });
+  }
 };
-
