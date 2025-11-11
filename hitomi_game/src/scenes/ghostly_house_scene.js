@@ -18,6 +18,7 @@ function create_ghostly_house(scene, data) {
 
   // === PLATFORMS ===
   const platformPositions = [
+    // ---------------- TUTORIAL ----------------
       { x: 250, y: 350, w: 50, h: 400 },
     { x: 850, y: 500, w: 150, h: 20 },
     { x: 600, y: 400, w: 150, h: 20 },
@@ -25,6 +26,7 @@ function create_ghostly_house(scene, data) {
     { x: 350, y: 300, w: 150, h: 20 },
     { x: 1280, y: 250, w: 100, h: 620 },
 
+    // ---------------- FIRST ROOM ----------------
     { x: 1600, y: 600, w: 150, h: 20 },
     { x: 1800, y: 500, w: 150, h: 20 },
     { x: 2050, y: 300, w: 150, h: 20 },
@@ -32,6 +34,15 @@ function create_ghostly_house(scene, data) {
     { x: 2300, y: 400, w: 150, h: 20 },
     { x: 2560, y: 250, w: 100, h: 620 },
 
+    // ---------------- SECOND ROOM ----------------
+    { x: 2850, y: 675, w: 150, h: 100 },
+    { x: 3100, y: 625, w: 150, h: 200 },
+    { x: 3350, y: 350, w: 150, h: 20 },
+    { x: 3350, y: 550, w: 150, h: 20 },
+    { x: 3600, y: 450, w: 150, h: 20 },
+    { x: 3840, y: 250, w: 100, h: 620 },
+
+    // ---------------- EXIT ----------------
     { x: 7650, y: 250, w: 100, h: 620 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
