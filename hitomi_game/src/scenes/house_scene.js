@@ -19,7 +19,6 @@ function create_house(scene, data) {
     { x: 1100, y: 650, w: 100, h: 60 },
     { x: 1500, y: 530, w: 300, h: 20 },
     { x: 350, y: 300, w: 150, h: 20 },
-
     { x: 1280, y: 250, w: 100, h: 620 },
     { x: 1880, y: 570, w: 150, h: 20 },
     { x: 2180, y: 400, w: 120, h: 20 },
@@ -50,8 +49,8 @@ function create_house(scene, data) {
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 10000, 700);
-  scene.physics.world.setBounds(0, 0, 2000, 700);
+  scene.cameras.main.setBounds(0, 0, 7680, 700);
+  scene.physics.world.setBounds(0, 0, 7680, 700);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === PORTA (verso FOREST) ===
