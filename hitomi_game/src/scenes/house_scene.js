@@ -17,6 +17,7 @@ function create_house(scene, data) {
     { x: 250, y: 350, w: 50, h: 400 },
     { x: 850, y: 500, w: 150, h: 20 },
     { x: 1100, y: 650, w: 100, h: 60 },
+    { x: 1500, y: 530, w: 300, h: 20 },
     { x: 350, y: 300, w: 150, h: 20 },
     { x: 1280, y: 250, w: 100, h: 620 },
     
@@ -29,7 +30,7 @@ function create_house(scene, data) {
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  /* === MOVING PLATFORMS ===
+   /* === MOVING PLATFORMS ===
   const movingPlatformConfigs = [
     { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
     { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
@@ -125,5 +126,8 @@ function destroy_house(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
+
+
+
 
 
