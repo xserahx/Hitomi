@@ -37,6 +37,24 @@ function create_ghostly_tutorial(scene, data) {
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
 
+  // === VITE PLAYER VISUALIZZATE ===
+  PP.game_state.playerLivesText = scene.add.text(20, 20, `Lives: ${PP.game_state.player.lives}`, {
+    font: "28px Arial",
+    fill: "#ffffff"
+  }).setScrollFactor(0); // rimane fisso sulla camera
+
+  // === NEMICI ===
+  const enemyPositions = [
+    { x: 400, y: 200, speed: 80 }
+  ];
+  PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+  scene.physics.add.collider(PP.game_state.enemies, PP.game_state.platforms);
+  scene.physics.add.collider(PP.game_state.enemies, ground);
+
+  // Overlap player-nemici per danno
+  scene.physics.add.overlap(PP.game_state.player, PP.game_state.enemies, () => {
+    PP.entities.player.damage(scene);
+  });
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
     A: Phaser.Input.Keyboard.KeyCodes.A,
@@ -105,3 +123,44 @@ function destroy_ghostly_tutorial(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add('ghostly_tutorial_scene',preload_ghostly_tutorial,create_ghostly_tutorial,update_ghostly_tutorial,destroy_ghostly_tutorial);
+
+// === FUNZIONE DI DANNO PLAYER ===
+PP.entities.player.damage = function(scene) {
+  const player = PP.game_state.player;
+  if (player.isInvincible) return;
+
+  player.lives -= 1;
+  player.isInvincible = true;
+
+  const originalColor = player.fillColor;
+  let flashCount = 0;
+
+  // === Lampeggio rosso ===
+  scene.time.addEvent({
+    delay: 100,
+    repeat: 5,
+    callback: () => {
+      player.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor;
+      flashCount++;
+    }
+  });
+
+  // === Knockback ===
+  const knockback = 250;
+  const direction = player.body.velocity.x >= 0 ? -1 : 1;
+  player.body.setVelocity(knockback * direction, -200);
+
+  // === Ritorna hittabile dopo 2 sec ===
+  scene.time.delayedCall(2000, () => {
+    player.isInvincible = false;
+    player.fillColor = originalColor;
+  });
+
+  // === GAME OVER ALL’ULTIMA VITA ===
+  if (player.lives <= 0) {
+    scene.cameras.main.shake(400, 0.02);
+    scene.time.delayedCall(400, () => {
+      scene.scene.start("game_over", { restartScene: scene.scene.key });
+    });
+  }
+};
