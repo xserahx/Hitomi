@@ -21,27 +21,27 @@ function create_ghostly_house(scene, data) {
     { x: 250, y: 350, w: 50, h: 400 },
     { x: 850, y: 500, w: 150, h: 20 },
     { x: 1100, y: 650, w: 100, h: 60 },
-    { x: 1500, y: 530, w: 300, h: 20 },
     { x: 350, y: 300, w: 150, h: 20 },
     { x: 1280, y: 250, w: 100, h: 620 },
-    { x: 1880, y: 570, w: 150, h: 20 },
-    { x: 2180, y: 400, w: 120, h: 20 },
-    { x: 2480, y: 440, w: 200, h: 20 },
-    { x: 2780, y: 650, w: 300, h: 20 },
-    { x: 2280, y: 420, w: 90, h: 20 },
-    { x: 4480, y: 460, w: 200, h: 20 },
-    { x: 2180, y: 110, w: 200, h: 20 },
-    { x: 7650, y: 250, w: 100, h: 620 },
+    
+    { x: 1600, y: 600, w: 150, h: 20 },
+    { x: 1800, y: 500, w: 150, h: 20 },
+    { x: 2050, y: 300, w: 150, h: 20 },
+    { x: 2050, y: 550, w: 150, h: 20 },
+    { x: 2300, y: 400, w: 150, h: 20 },
+    { x: 2560, y: 250, w: 100, h: 620 },
+
+    { x: 7650, y: 250, w: 100, h: 620 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  // === MOVING PLATFORMS ===
+  /* === MOVING PLATFORMS ===
   const movingPlatformConfigs = [
     { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
     { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
   ];
   PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
+  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 200;
@@ -60,7 +60,7 @@ function create_ghostly_house(scene, data) {
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === PORTA (per andare alla foresta spettrale) ===
-  const door = scene.add.rectangle(1800, 560, 60, 120, 0x660000);
+  const door = scene.add.rectangle(6000, 560, 60, 120, 0x660000);
   door.setStrokeStyle(4, 0xaa0000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);
