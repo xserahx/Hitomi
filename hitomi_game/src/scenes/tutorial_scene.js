@@ -63,6 +63,20 @@ function create_tutorial(scene) {
 
   scene.input.keyboard.on('keydown-U', () => switchWorld(scene));
   scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
+
+    // === PORTA (verso CASA) ===
+  const door = scene.add.rectangle(50, 650, 60, 120, 0x8B4513);
+  door.setStrokeStyle(4, 0x000000);
+  door.setOrigin(0.5, 1);
+  scene.physics.add.existing(door, true);
+  scene.physics.add.overlap(PP.game_state.player, door, () => {
+    scene.cameras.main.fadeOut(1000, 0, 0, 0);
+    scene.time.delayedCall(1000, () => {
+      const { x, y } = PP.game_state.player;
+      PP.game_state.playerPosition = { x, y };
+      scene.scene.start('house_scene', { x, y });
+    });
+  });
 }
 
 // === FUNZIONE CAMBIO MONDO ===
