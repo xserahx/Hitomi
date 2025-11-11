@@ -8,7 +8,7 @@ function create_ghostly_house(scene, data) {
   scene.cameras.main.setBackgroundColor(0x1a0000);
 
   // === GROUND ===
-  const ground = scene.add.rectangle(400, 700, 7680, 40, 0x000000);
+  const ground = scene.add.rectangle(3840, 700, 7680, 40, 0x000000);
   scene.physics.add.existing(ground, true);
 
   // === NEBBIA ROSSA ===
@@ -81,7 +81,7 @@ function create_ghostly_house(scene, data) {
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === PORTA ===
-  const door = scene.add.rectangle(6000, 560, 60, 120, 0x660000);
+  const door = scene.add.rectangle(7600, 650, 60, 120, 0x660000);
   door.setStrokeStyle(4, 0xaa0000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);

@@ -51,7 +51,7 @@ function create_house(scene, data) {
   });
 
   // === PORTA BLOCCATA ===
-  const door = scene.add.rectangle(6000, 560, 60, 120, 0x8B4513);
+  const door = scene.add.rectangle(7600, 650, 60, 120, 0x8B4513);
   door.setStrokeStyle(4, 0x000000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);
