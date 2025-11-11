@@ -26,21 +26,9 @@ function create_game_over(scene, data) {
   restartButton.setOrigin(0.5);
   restartButton.setInteractive({ useHandCursor: true });
   restartButton.on("pointerdown", () => {
-    const sceneToRestart = data?.restartScene || "ghostly_house_scene";
-    scene.scene.start(sceneToRestart);
-  });
-
-  // Pulsante Return to Menu
-  const menuButton = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY + 80,
-    "Return to Menu",
-    { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
-  );
-  menuButton.setOrigin(0.5);
-  menuButton.setInteractive({ useHandCursor: true });
-  menuButton.on("pointerdown", () => {
-    scene.scene.start("main_menu");
+    // Forza la posizione iniziale del player all’inizio della casa
+    PP.game_state.playerPosition = { x: 200, y: 500 };
+    scene.scene.start("ghostly_house_scene", { x: 200, y: 500 });
   });
 
   // Fade in della scena
