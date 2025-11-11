@@ -23,7 +23,6 @@ function create_tutorial(scene) {
   const platformPositions = [
     { x: 250, y: 350, w: 50, h: 400 },
     { x: 850, y: 500, w: 150, h: 20 },
-    { x: 600, y: 400, w: 150, h: 20 },
     { x: 1100, y: 650, w: 100, h: 60 },
     { x: 1500, y: 530, w: 300, h: 20 },
     { x: 350, y: 300, w: 150, h: 20 }
