@@ -26,8 +26,8 @@ function create(s) {
   // === MENU OPZIONI ===
   const menuItems = [
     { label: "Start", y: centerY + 100, action: () => PP.scenes.start("tutorial_scene") },
-    { label: "Story", y: centerY + 180, action: () => PP.scenes.start("story_scene") },
-    { label: "Credits", y: centerY + 260, action: () => PP.scenes.start("credits_scene") }
+    { label: "House Scene (DEVELOPMENT REASONS)", y: centerY + 180, action: () => PP.scenes.start("house_scene") },
+    { label: "Forest Scene (DEVELOPMENT REASONS)", y: centerY + 260, action: () => PP.scenes.start("forest_scene") }
   ];
 
   menuItems.forEach(item => {
