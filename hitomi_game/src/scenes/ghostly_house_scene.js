@@ -35,7 +35,7 @@ function create_ghostly_house(scene, data) {
     { x: 2560, y: 250, w: 100, h: 620 },
 
     // ---------------- SECOND ROOM ----------------
-    { x: 3100, y: 625, w: 150, h: 200 },
+    { x: 3100, y: 625, w: 150, h: 250 },
     { x: 3350, y: 350, w: 150, h: 20 },
     { x: 3350, y: 550, w: 150, h: 20 },
     { x: 3600, y: 450, w: 150, h: 20 },
@@ -91,7 +91,7 @@ function create_ghostly_house(scene, data) {
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === PORTA ===
-  const door = scene.add.rectangle(7600, 650, 60, 120, 0x660000);
+  const door = scene.add.rectangle(2000, 650, 60, 120, 0x660000);
   door.setStrokeStyle(4, 0xaa0000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);

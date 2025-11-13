@@ -28,7 +28,7 @@ function create_house(scene, data) {
 
     // ---------------- SECOND ROOM ----------------
     { x: 2850, y: 675, w: 150, h: 100 },
-    { x: 3100, y: 625, w: 150, h: 200 },
+    { x: 3100, y: 625, w: 150, h: 250 },
     { x: 3600, y: 450, w: 150, h: 20 },
     { x: 3840, y: 250, w: 100, h: 620 },
 
@@ -62,7 +62,7 @@ function create_house(scene, data) {
   });
 
   // === PORTA BLOCCATA ===
-  const door = scene.add.rectangle(7600, 650, 60, 120, 0x8B4513);
+  const door = scene.add.rectangle(2000, 650, 60, 120, 0x8B4513);
   door.setStrokeStyle(4, 0x000000);
   door.setOrigin(0.5, 1);
   scene.physics.add.existing(door, true);
