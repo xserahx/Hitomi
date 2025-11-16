@@ -29,8 +29,8 @@ function create_ghostly_house(scene, data) {
     // ---------------- FIRST ROOM ----------------
     { x: 1600, y: 600, w: 150, h: 20 },
     { x: 1800, y: 500, w: 150, h: 20 },
-    { x: 2050, y: 300, w: 150, h: 20 },
-    { x: 2050, y: 550, w: 150, h: 20 },
+    /*{ x: 2050, y: 300, w: 150, h: 20 },
+    { x: 2050, y: 550, w: 150, h: 20 },*/
     { x: 2300, y: 400, w: 150, h: 20 },
     { x: 2560, y: 250, w: 100, h: 620 },
 
@@ -64,13 +64,12 @@ function create_ghostly_house(scene, data) {
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  /* === MOVING PLATFORMS ===
+  // === MOVING PLATFORMS ===
   const movingPlatformConfigs = [
-    { x: 300, y: 300, w: 150, h: 20, direction: 'y', range: 150, speed: 60 },
-    { x: 1100, y: 250, w: 120, h: 20, direction: 'y', range: 100, speed: 40 }
+    { x: 2050, y: 450, w: 150, h: 20, direction: 'y', range: 150, speed: 60 }
   ];
   PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);*/
+  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 200;
@@ -172,6 +171,9 @@ function update_ghostly_house(scene) {
   if (PP.game_state.enemies) {
     PP.entities.enemy.update(scene, PP.game_state.enemies, player);
   }
+
+  // === UPDATE PIATTAFORME ===
+  PP.scene_objects.moving_platform.update(scene, PP.game_state.movingPlatforms);
 
   // === AGGIORNA POSIZIONE GLOBALE ===
   if (player) {
