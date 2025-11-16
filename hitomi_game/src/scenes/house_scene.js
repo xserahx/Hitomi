@@ -75,7 +75,7 @@ function create_house(scene, data) {
   scene.physics.add.overlap(PP.game_state.player, door, () => {
     if (door._opening) return;
 
-    // porta bloccata senza chiave
+    // SITUAZIONE PORTA BLOCCATA E GOODY SENZA CHIAVE
     if (door.isLocked && PP.game_state.player.hasKey !== door.keyId) {
       if (!door._msgShownLocked) {
         showFloatingMessage(scene, "La porta è bloccata, mi serve una chiave... Meglio guardare in giro", PP.game_state.player.x, PP.game_state.player.y);
@@ -84,12 +84,12 @@ function create_house(scene, data) {
       return;
     }
 
-   // porta bloccata ma ho la chiave -> scelta cliccabile
+   // SITUAZIONE PORTA BLOCCATA E MADAMA GOODY HA LA CHIAVE
 if (door.isLocked && PP.game_state.player.hasKey === door.keyId && !door._opened) {
   if (!door._msgShownUseKey) {
     door._msgShownUseKey = true;
     door._popupActive = false;        // indica se il popup è attivo
-    door._delayedQuestionShown = false; // indica se la domanda automatica è stata già mostrata
+    door._delayedQuestionShown = false; // indica se la domanda è stata già mostrata
 
     function showQuestion() {
       if (door._popupActive) return; // evita sovrapposizioni
@@ -139,10 +139,10 @@ if (door.isLocked && PP.game_state.player.hasKey === door.keyId && !door._opened
       });
     }
 
-    // Mostra la domanda subito
+    // MOSTRA LA DOMANDA
     showQuestion();
 
-    // Mostra la domanda automatica dopo 2 secondi (solo una volta)
+    // MOSTRA NUOVAMENTE LA DOMANDA DOPO CIRCA 2 SECONDI
     if (!door._delayedQuestionShown) {
       door._delayedQuestionShown = true;
       scene.time.delayedCall(2000, () => {
@@ -159,7 +159,7 @@ if (door.isLocked && PP.game_state.player.hasKey === door.keyId && !door._opened
   }
   return;
 }
-    // porta già aperta -> entra nella scena
+    // PORTA APERTA -> ENTRA NELLA SCENA
     if (!door.isLocked && door._opened) {
       if (door._enteringScene) return;
       door._enteringScene = true;
