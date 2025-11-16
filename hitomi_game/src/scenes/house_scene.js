@@ -13,45 +13,20 @@ function create_house(scene, data) {
 
   // === PLATFORMS ===
   const platformPositions = [
-    // ---------------- TUTORIAL ----------------
-    { x: 250, y: 350, w: 50, h: 400 },
-    { x: 850, y: 500, w: 150, h: 20 },
-    { x: 1100, y: 650, w: 100, h: 60 },
-    { x: 350, y: 300, w: 150, h: 20 },
-    { x: 1280, y: 250, w: 100, h: 620 },
-
-    // ---------------- FIRST ROOM ----------------
-    { x: 1600, y: 600, w: 150, h: 20 },
-    { x: 1800, y: 500, w: 150, h: 20 },
-    { x: 2300, y: 400, w: 150, h: 20 },
-    { x: 2560, y: 250, w: 100, h: 620 },
-
-    // ---------------- SECOND ROOM ----------------
-    { x: 2850, y: 675, w: 150, h: 100 },
-    { x: 3100, y: 625, w: 150, h: 250 },
-    { x: 3600, y: 450, w: 150, h: 20 },
-    { x: 3840, y: 250, w: 100, h: 620 },
-
-    // ---------------- EXIT ROOM ----------------
-    { x: 4040, y: 250, w: 300, h: 150 },
-    { x: 4265, y: 250, w: 150, h: 40 },
-    { x: 4335, y: 220, w: 40, h: 120 },
-    { x: 4335, y: 150, w: 100, h: 20 },
-
-    { x: 4300, y: 630, w: 150, h: 100 },
-    { x: 4500, y: 470, w: 150, h: 20 },
-    { x: 4550, y: 130, w: 150, h: 20 },
-    { x: 4650, y: 300, w: 150, h: 20 },
-    { x: 4745, y: 375, w: 40, h: 150 },
-
-    { x: 5250, y: 300, w: 150, h: 100 },
-    { x: 5650, y: 250, w: 150, h: 100 },
-    { x: 6050, y: 200, w: 150, h: 100 },
-    { x: 6450, y: 300, w: 150, h: 100 },
-
-    { x: 7000, y: 480, w: 150, h: 20 },
-    { x: 7150, y: 595, w: 150, h: 250 },
-
+    { x: 250, y: 350, w: 50, h: 400 }, { x: 850, y: 500, w: 150, h: 20 },
+    { x: 1100, y: 650, w: 100, h: 60 }, { x: 350, y: 300, w: 150, h: 20 },
+    { x: 1280, y: 250, w: 100, h: 620 }, { x: 1600, y: 600, w: 150, h: 20 },
+    { x: 1800, y: 500, w: 150, h: 20 }, { x: 2300, y: 400, w: 150, h: 20 },
+    { x: 2560, y: 250, w: 100, h: 620 }, { x: 2850, y: 675, w: 150, h: 100 },
+    { x: 3100, y: 625, w: 150, h: 250 }, { x: 3600, y: 450, w: 150, h: 20 },
+    { x: 3840, y: 250, w: 100, h: 620 }, { x: 4040, y: 250, w: 300, h: 150 },
+    { x: 4265, y: 250, w: 150, h: 40 }, { x: 4335, y: 220, w: 40, h: 120 },
+    { x: 4335, y: 150, w: 100, h: 20 }, { x: 4300, y: 630, w: 150, h: 100 },
+    { x: 4500, y: 470, w: 150, h: 20 }, { x: 4550, y: 130, w: 150, h: 20 },
+    { x: 4650, y: 300, w: 150, h: 20 }, { x: 4745, y: 375, w: 40, h: 150 },
+    { x: 5250, y: 300, w: 150, h: 100 }, { x: 5650, y: 250, w: 150, h: 100 },
+    { x: 6050, y: 200, w: 150, h: 100 }, { x: 6450, y: 300, w: 150, h: 100 },
+    { x: 7000, y: 480, w: 150, h: 20 }, { x: 7150, y: 595, w: 150, h: 250 },
     { x: 7650, y: 250, w: 100, h: 620 }
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -74,10 +49,13 @@ function create_house(scene, data) {
   const key = scene.add.rectangle(500, 600, 20, 20, 0xFFFF00);
   scene.physics.add.existing(key, true);
 
+  let keyCollected = false;
   scene.physics.add.overlap(PP.game_state.player, key, () => {
+    if (keyCollected) return;
+    keyCollected = true;
     PP.game_state.player.hasKey = "goldenKey";
     key.destroy();
-    showAchievement(scene, "Madama Goody ha raccolto la chiave!");
+    showAchievement(scene, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
   });
 
   // === PORTA BLOCCATA ===
@@ -88,17 +66,107 @@ function create_house(scene, data) {
 
   door.isLocked = true;
   door.keyId = "goldenKey";
+  door._opening = false;
+  door._opened = false;
+  door._msgShownLocked = false;
+  door._msgShownUseKey = false;
+  door._enteringScene = false;
 
   scene.physics.add.overlap(PP.game_state.player, door, () => {
-    if (door.isLocked && PP.game_state.player.hasKey === door.keyId) {
-      door.isLocked = false;
-      openDoor(door, scene);
-    } else if (!door.isLocked) {
+    if (door._opening) return;
+
+    // porta bloccata senza chiave
+    if (door.isLocked && PP.game_state.player.hasKey !== door.keyId) {
+      if (!door._msgShownLocked) {
+        showFloatingMessage(scene, "La porta è bloccata, mi serve una chiave... Meglio guardare in giro", PP.game_state.player.x, PP.game_state.player.y);
+        door._msgShownLocked = true;
+      }
+      return;
+    }
+
+   // porta bloccata ma ho la chiave -> scelta cliccabile
+if (door.isLocked && PP.game_state.player.hasKey === door.keyId && !door._opened) {
+  if (!door._msgShownUseKey) {
+    door._msgShownUseKey = true;
+    door._popupActive = false;        // indica se il popup è attivo
+    door._delayedQuestionShown = false; // indica se la domanda automatica è stata già mostrata
+
+    function showQuestion() {
+      if (door._popupActive) return; // evita sovrapposizioni
+      door._popupActive = true;
+
+      const question = scene.add.text(PP.game_state.player.x, PP.game_state.player.y - 80,
+        "Vuoi usare la chiave per aprire la porta?",
+        { font: "24px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 8, y: 4 } }
+      ).setOrigin(0.5, 1);
+
+      const btnYes = scene.add.text(PP.game_state.player.x - 40, PP.game_state.player.y - 40, "Sì",
+        { font: "24px Arial", fill: "#00ff00", backgroundColor: "#000000", padding: { x: 8, y: 4 } }
+      ).setOrigin(0.5, 0.5).setInteractive({ useHandCursor: true });
+
+      const btnNo = scene.add.text(PP.game_state.player.x + 40, PP.game_state.player.y - 40, "No",
+        { font: "24px Arial", fill: "#ff0000", backgroundColor: "#000000", padding: { x: 8, y: 4 } }
+      ).setOrigin(0.5, 0.5).setInteractive({ useHandCursor: true });
+
+      btnYes.on('pointerdown', () => {
+        question.destroy();
+        btnYes.destroy();
+        btnNo.destroy();
+        door._popupActive = false;
+
+        door._opening = true;
+        openDoor(door, scene, () => {
+          door._opening = false;
+          door._opened = true;
+          door.isLocked = false;
+
+          if (!door._enteringScene) {
+            door._enteringScene = true;
+            scene.cameras.main.fadeOut(1000, 0, 0, 0);
+            scene.time.delayedCall(1000, () => {
+              PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
+              scene.scene.start('forest_scene', { x: PP.game_state.player.x, y: PP.game_state.player.y });
+            });
+          }
+        });
+      });
+
+      btnNo.on('pointerdown', () => {
+        question.destroy();
+        btnYes.destroy();
+        btnNo.destroy();
+        door._popupActive = false;
+      });
+    }
+
+    // Mostra la domanda subito
+    showQuestion();
+
+    // Mostra la domanda automatica dopo 2 secondi (solo una volta)
+    if (!door._delayedQuestionShown) {
+      door._delayedQuestionShown = true;
+      scene.time.delayedCall(2000, () => {
+        const playerNearDoor = Phaser.Math.Distance.Between(
+          PP.game_state.player.x, PP.game_state.player.y,
+          door.x, door.y
+        ) < 150;
+
+        if (playerNearDoor && door.isLocked && !door._opened) {
+          showQuestion();
+        }
+      });
+    }
+  }
+  return;
+}
+    // porta già aperta -> entra nella scena
+    if (!door.isLocked && door._opened) {
+      if (door._enteringScene) return;
+      door._enteringScene = true;
       scene.cameras.main.fadeOut(1000, 0, 0, 0);
       scene.time.delayedCall(1000, () => {
-        const { x, y } = PP.game_state.player;
-        PP.game_state.playerPosition = { x, y };
-        scene.scene.start('forest_scene', { x, y });
+        PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
+        scene.scene.start('forest_scene', { x: PP.game_state.player.x, y: PP.game_state.player.y });
       });
     }
   });
@@ -120,13 +188,33 @@ function create_house(scene, data) {
   scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
 }
 
-// === FUNZIONE ACHIEVEMENT ===
+// === MESSAGGIO SOPRA IL GIOCATORE ===
+function showFloatingMessage(scene, text, x, y) {
+  const msg = scene.add.text(x, y - 50, text, { font: "24px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 8, y: 4 }, align: "center" });
+  msg.setOrigin(0.5, 1);
+  msg.setAlpha(0);
+
+  scene.tweens.add({
+    targets: msg,
+    alpha: 1,
+    duration: 400,
+    onComplete: () => {
+      scene.time.delayedCall(2000, () => {
+        scene.tweens.add({
+          targets: msg,
+          alpha: 0,
+          duration: 400,
+          onComplete: () => msg.destroy()
+        });
+      });
+    }
+  });
+}
+
+// === ACHIEVEMENT CENTRATO ===
 function showAchievement(scene, text) {
-  const achievementText = scene.add.text(
-    scene.cameras.main.centerX, 100,
-    text,
-    { font: "28px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 }, align: "center" }
-  );
+  const achievementText = scene.add.text(scene.cameras.main.centerX, 100, text,
+    { font: "24px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 }, align: "center" });
   achievementText.setOrigin(0.5, 0.5);
   achievementText.setAlpha(0);
 
@@ -147,15 +235,20 @@ function showAchievement(scene, text) {
   });
 }
 
-// === FUNZIONE APERTURA PORTA (SCORRIMENTO LATERALE) ===
-function openDoor(door, scene) {
+// === APERTURA PORTA ===
+function openDoor(door, scene, onComplete) {
+  if (door._isTweening) return;
+  door._isTweening = true;
+
   scene.tweens.add({
     targets: door,
-    x: door.x + 80,  // verso destra
+    x: door.x + 80,
     duration: 500,
     ease: 'Power2',
     onComplete: () => {
-      door.body.enable = false;
+      if (door.body) door.body.enable = false;
+      door._isTweening = false;
+      if (typeof onComplete === 'function') onComplete();
     }
   });
 }
@@ -165,10 +258,7 @@ function switchWorld(scene) {
   if (PP.game_state.changingWorld) return;
   PP.game_state.changingWorld = true;
 
-  PP.game_state.playerPosition = {
-    x: PP.game_state.player.x,
-    y: PP.game_state.player.y
-  };
+  PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
 
   const currentScene = scene.scene.key;
   const nextScene = currentScene.startsWith('ghostly_')
@@ -177,20 +267,15 @@ function switchWorld(scene) {
 
   scene.cameras.main.fadeOut(500, 0, 0, 0);
   scene.time.delayedCall(500, () => {
-    const { x, y } = PP.game_state.playerPosition;
-    scene.scene.start(nextScene, { x, y });
+    scene.scene.start(nextScene, { x: PP.game_state.player.x, y: PP.game_state.player.y });
     PP.game_state.changingWorld = false;
   });
 }
 
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
-
   if (PP.game_state.player) {
-    PP.game_state.playerPosition = {
-      x: PP.game_state.player.x,
-      y: PP.game_state.player.y
-    };
+    PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
   }
 }
 
