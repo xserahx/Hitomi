@@ -13,7 +13,7 @@ function create_ghostly_forest(scene, data) {
   overlay.setBlendMode(Phaser.BlendModes.ADD);
 
   // === GROUND ===
-  const ground = scene.add.rectangle(3200, 70, 6400, 40, 0x33000);
+  const ground = scene.add.rectangle(3200, 700, 6400, 40, 0x33000);
   scene.physics.add.existing(ground, true); // STATIC
 
   // === PIATTAFORME ===
