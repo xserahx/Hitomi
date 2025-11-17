@@ -13,7 +13,7 @@ function create_forest(scene, data) {
   overlay.setBlendMode(Phaser.BlendModes.ADD);
 
   // === GROUND ===
-  const ground = scene.add.rectangle(3200, 700, 6400, 40, 0x4a3b2a);
+  const ground = scene.add.rectangle(3200, 658, 6400, 120, 0x4a3b2a);
   scene.physics.add.existing(ground, true);
 
   // === PIATTAFORME "TRONCHI" ===
@@ -47,8 +47,8 @@ function create_forest(scene, data) {
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 6400, 700);
-  scene.physics.world.setBounds(0, 0, 6400, 700);
+  scene.cameras.main.setBounds(0, 0, 6400, 600);
+  scene.physics.world.setBounds(0, 0, 6400, 600);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === CAMBIO MONDO (U / u) ===
