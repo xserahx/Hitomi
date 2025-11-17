@@ -13,7 +13,7 @@ function create_ghostly_forest(scene, data) {
   overlay.setBlendMode(Phaser.BlendModes.ADD);
 
   // === GROUND ===
-  const ground = scene.add.rectangle(3200, 658, 6400, 120, 0x33000);
+  const ground = scene.add.rectangle(3200, 70, 6400, 40, 0x33000);
   scene.physics.add.existing(ground, true); // STATIC
 
   // === PIATTAFORME ===
@@ -48,8 +48,8 @@ function create_ghostly_forest(scene, data) {
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 6400, 600);
-  scene.physics.world.setBounds(0, 0, 6400, 600);
+  scene.cameras.main.setBounds(0, 0, 6400, 700);
+  scene.physics.world.setBounds(0, 0, 6400, 700);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
 
