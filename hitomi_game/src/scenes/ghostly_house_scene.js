@@ -107,20 +107,167 @@ function create_ghostly_house(scene, data) {
   scene.physics.world.setBounds(0, 0, 7680, 700);
   scene.cameras.main.fadeIn(800, 0, 0, 0);
 
-  // === PORTA ===
-  const door = scene.add.rectangle(2000, 650, 60, 120, 0x660000);
-  door.setStrokeStyle(4, 0xaa0000);
-  door.setOrigin(0.5, 1);
-  scene.physics.add.existing(door, true);
-  scene.physics.add.overlap(PP.game_state.player, door, () => {
-    scene.cameras.main.fadeOut(1000, 0, 0, 0);
-    scene.time.delayedCall(1000, () => {
-      const { x, y } = PP.game_state.player;
-      PP.game_state.playerPosition = { x, y };
-      scene.scene.start('ghostly_forest_scene', { x, y });
-    });
-  });
 
+  // === CHIAVE GHOSTLY ===
+const ghostKey = scene.add.rectangle(1400, 600, 20, 20, 0xff2222);
+scene.physics.add.existing(ghostKey, true);
+
+let keyCollected = false;
+scene.physics.add.overlap(PP.game_state.player, ghostKey, () => {
+    if (keyCollected) return;
+    keyCollected = true;
+
+    PP.game_state.player.hasGhostKey = "bloodKey";
+    ghostKey.destroy();
+
+    // Achievement stile ghostly
+    const msg = scene.add.text(scene.cameras.main.centerX, 120,
+      "Hai raccolto la chiave insanguinata...",
+      { font: "26px Arial", fill: "#ffcccc", backgroundColor: "#440000", padding: { x:12, y:6 } }
+    ).setOrigin(0.5).setScrollFactor(0);
+
+    scene.tweens.add({
+      targets: msg,
+      alpha: 0,
+      duration: 400,
+      delay: 2000,
+      onComplete: () => msg.destroy()
+    });
+});
+
+  const door = scene.add.rectangle(2000, 650, 60, 120, 0xaa0000);
+door.setStrokeStyle(4, 0xff4444);
+door.setOrigin(0.5, 1);
+scene.physics.add.existing(door, true);
+
+door.isLocked = true;
+door.keyId = "bloodKey";
+door._opened = false;
+door._popupShown = false;
+door._pendingAsk = false;
+
+scene.physics.add.overlap(PP.game_state.player, door, () => {
+
+    // --- Porta bloccata senza chiave ---
+    if (door.isLocked && PP.game_state.player.hasGhostKey !== door.keyId) {
+        if (!door._msgLocked) {
+            door._msgLocked = true;
+
+            const warn = scene.add.text(PP.game_state.player.x, PP.game_state.player.y - 60,
+              "La porta è bloccata... serve una chiave. Meglio tornare indietro e dare un'occhiata.",
+              { font: "22px Arial", fill: "#ffaaaa", backgroundColor: "#550000", padding:{x:8,y:4}}
+            ).setOrigin(0.5);
+
+            scene.tweens.add({
+              targets: warn,
+              alpha: 0,
+              duration: 400,
+              delay: 2000,
+              onComplete: () => warn.destroy()
+            });
+        }
+        return;
+    }
+
+// --- Porta bloccata ma ho la chiave (popup Sì/No) ---
+if (door.isLocked && PP.game_state.player.hasGhostKey === door.keyId && !door._opened) {
+
+    // se è già visibile o programmato → basta
+    if (door._popupShown || door._pendingAsk) return;
+
+    function showDoorPopup() {
+
+        door._popupShown = true;   // popup attivo ORA
+        door._pendingAsk = false;  // nessun popup programmato
+
+        const px = PP.game_state.player.x;
+        const py = PP.game_state.player.y;
+
+        const question = scene.add.text(px, py - 90, "Usare la Chiave Insanguinata?",
+            { font:"26px Arial", fill:"#ffcccc", backgroundColor:"#550000", padding:{x:10,y:6}}
+        ).setOrigin(0.5,1);
+
+        const yesBtn = scene.add.text(px - 50, py - 40, "Sì",
+            { font:"26px Arial", fill:"#00ff00", backgroundColor:"#000000", padding:{x:8,y:4}}
+        ).setOrigin(0.5).setInteractive({useHandCursor:true});
+
+        const noBtn = scene.add.text(px + 50, py - 40, "No",
+            { font:"26px Arial", fill:"#ff0000", backgroundColor:"#000000", padding:{x:8,y:4}}
+        ).setOrigin(0.5).setInteractive({useHandCursor:true});
+
+        function removePopup() {
+            question.destroy();
+            yesBtn.destroy();
+            noBtn.destroy();
+            door._popupShown = false; // popup non più attivo
+        }
+
+        // ---- SÌ: apri porta e mai più popup ----
+        yesBtn.on("pointerdown", () => {
+            removePopup();
+
+            door._opened = true;
+            door.isLocked = false;
+
+            scene.tweens.add({
+                targets: door,
+                x: door.x + 70,
+                duration: 500,
+                ease: "Power2",
+                onComplete: () => {
+                    scene.cameras.main.fadeOut(800, 0, 0, 0);
+                    scene.time.delayedCall(800, () => {
+                        const { x, y } = PP.game_state.player;
+                        PP.game_state.playerPosition = { x, y };
+                        scene.scene.start("ghostly_forest_scene", { x, y });
+                    });
+                }
+            });
+        });
+
+        // ---- NO: programma UNA sola ricomparsa ----
+        noBtn.on("pointerdown", () => {
+            removePopup();
+
+            if (!door._pendingAsk) {
+                door._pendingAsk = true; // una sola possibilità
+
+                scene.time.delayedCall(1500, () => {
+
+                    // ricompare solo 1 volta e solo se il player è vicino
+                    const dist = Phaser.Math.Distance.Between(
+                        PP.game_state.player.x, PP.game_state.player.y,
+                        door.x, door.y
+                    );
+
+                    if (dist < 150 && door.isLocked && !door._opened && !door._popupShown) {
+                        showDoorPopup();
+                    } else {
+                        door._pendingAsk = false; // annulla richiesta
+                    }
+
+                });
+            }
+        });
+    }
+
+    // mostra subito il popup
+    showDoorPopup();
+    return;
+}
+
+    // --- Porta già aperta → cambia scena ---
+    if (!door.isLocked && door._opened) {
+
+        scene.cameras.main.fadeOut(800, 0, 0, 0);
+        scene.time.delayedCall(800, () => {
+            const { x, y } = PP.game_state.player;
+            PP.game_state.playerPosition = { x, y };
+            scene.scene.start("ghostly_forest_scene", { x, y });
+        });
+    }
+
+});
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
     A: Phaser.Input.Keyboard.KeyCodes.A,
