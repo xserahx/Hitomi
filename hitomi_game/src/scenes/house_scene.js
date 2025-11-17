@@ -85,11 +85,75 @@ function create_house(scene, data) {
   door._msgShownLocked = false;
   door._msgShownUseKey = false;
   door._enteringScene = false;
+  door._popupActive = false;
+  door._pendingAsk = false;
+
+  function showDoorPopup() {
+    if (door._popupActive) return;
+    door._popupActive = true;
+
+    const px = PP.game_state.player.x;
+    const py = PP.game_state.player.y;
+
+    const question = scene.add.text(px, py - 90, "Vuoi usare la chiave per aprire la porta?",
+      { font:"26px Arial", fill:"#ffffff", backgroundColor:"#333333", padding:{x:10,y:6}}).setOrigin(0.5,1);
+
+    const btnYes = scene.add.text(px - 50, py - 40, "Sì",
+      { font:"26px Arial", fill:"#00ff00", backgroundColor:"#000000", padding:{x:8,y:4}}
+    ).setOrigin(0.5).setInteractive({useHandCursor:true});
+
+    const btnNo = scene.add.text(px + 50, py - 40, "No",
+      { font:"26px Arial", fill:"#ff0000", backgroundColor:"#000000", padding:{x:8,y:4}}
+    ).setOrigin(0.5).setInteractive({useHandCursor:true});
+
+    function removePopup() {
+      question.destroy();
+      btnYes.destroy();
+      btnNo.destroy();
+      door._popupActive = false;
+    }
+
+    btnYes.on("pointerdown", () => {
+      removePopup();
+      door._opening = true;
+      openDoor(door, scene, () => {
+        door._opening = false;
+        door._opened = true;
+        door.isLocked = false;
+
+        if (!door._enteringScene) {
+          door._enteringScene = true;
+          scene.cameras.main.fadeOut(1000, 0, 0, 0);
+          scene.time.delayedCall(1000, () => {
+            PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
+            scene.scene.start('forest_scene', { x: PP.game_state.player.x, y: PP.game_state.player.y });
+          });
+        }
+      });
+    });
+
+    btnNo.on("pointerdown", () => {
+      removePopup();
+      if (!door._pendingAsk) {
+        door._pendingAsk = true;
+        scene.time.delayedCall(1500, () => {
+          const dist = Phaser.Math.Distance.Between(
+            PP.game_state.player.x, PP.game_state.player.y,
+            door.x, door.y
+          );
+          if (dist < 150 && door.isLocked && !door._opened) {
+            showDoorPopup();
+          }
+          door._pendingAsk = false;
+        });
+      }
+    });
+  }
 
   scene.physics.add.overlap(PP.game_state.player, door, () => {
     if (door._opening) return;
 
-    // SITUAZIONE PORTA BLOCCATA E GOODY SENZA CHIAVE
+    // PORTA BLOCCATA SENZA CHIAVE
     if (door.isLocked && PP.game_state.player.hasKey !== door.keyId) {
       if (!door._msgShownLocked) {
         showFloatingMessage(scene, "La porta è bloccata, mi serve una chiave... Meglio guardare in giro", PP.game_state.player.x, PP.game_state.player.y);
@@ -98,82 +162,13 @@ function create_house(scene, data) {
       return;
     }
 
-   // SITUAZIONE PORTA BLOCCATA E MADAMA GOODY HA LA CHIAVE
-if (door.isLocked && PP.game_state.player.hasKey === door.keyId && !door._opened) {
-  if (!door._msgShownUseKey) {
-    door._msgShownUseKey = true;
-    door._popupActive = false;        // indica se il popup è attivo
-    door._delayedQuestionShown = false; // indica se la domanda è stata già mostrata
-
-    function showQuestion() {
-      if (door._popupActive) return; // evita sovrapposizioni
-      door._popupActive = true;
-
-      const question = scene.add.text(PP.game_state.player.x, PP.game_state.player.y - 80,
-        "Vuoi usare la chiave per aprire la porta?",
-        { font: "24px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 8, y: 4 } }
-      ).setOrigin(0.5, 1);
-
-      const btnYes = scene.add.text(PP.game_state.player.x - 40, PP.game_state.player.y - 40, "Sì",
-        { font: "24px Arial", fill: "#00ff00", backgroundColor: "#000000", padding: { x: 8, y: 4 } }
-      ).setOrigin(0.5, 0.5).setInteractive({ useHandCursor: true });
-
-      const btnNo = scene.add.text(PP.game_state.player.x + 40, PP.game_state.player.y - 40, "No",
-        { font: "24px Arial", fill: "#ff0000", backgroundColor: "#000000", padding: { x: 8, y: 4 } }
-      ).setOrigin(0.5, 0.5).setInteractive({ useHandCursor: true });
-
-      btnYes.on('pointerdown', () => {
-        question.destroy();
-        btnYes.destroy();
-        btnNo.destroy();
-        door._popupActive = false;
-
-        door._opening = true;
-        openDoor(door, scene, () => {
-          door._opening = false;
-          door._opened = true;
-          door.isLocked = false;
-
-          if (!door._enteringScene) {
-            door._enteringScene = true;
-            scene.cameras.main.fadeOut(1000, 0, 0, 0);
-            scene.time.delayedCall(1000, () => {
-              PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
-              scene.scene.start('forest_scene', { x: PP.game_state.player.x, y: PP.game_state.player.y });
-            });
-          }
-        });
-      });
-
-      btnNo.on('pointerdown', () => {
-        question.destroy();
-        btnYes.destroy();
-        btnNo.destroy();
-        door._popupActive = false;
-      });
+    // PORTA BLOCCATA MA PLAYER HA LA CHIAVE
+    if (door.isLocked && PP.game_state.player.hasKey === door.keyId && !door._opened) {
+      showDoorPopup();
+      return;
     }
 
-    // MOSTRA LA DOMANDA
-    showQuestion();
-
-    // MOSTRA NUOVAMENTE LA DOMANDA DOPO CIRCA 2 SECONDI
-    if (!door._delayedQuestionShown) {
-      door._delayedQuestionShown = true;
-      scene.time.delayedCall(2000, () => {
-        const playerNearDoor = Phaser.Math.Distance.Between(
-          PP.game_state.player.x, PP.game_state.player.y,
-          door.x, door.y
-        ) < 150;
-
-        if (playerNearDoor && door.isLocked && !door._opened) {
-          showQuestion();
-        }
-      });
-    }
-  }
-  return;
-}
-    // PORTA APERTA -> ENTRA NELLA SCENA
+    // PORTA APERTA
     if (!door.isLocked && door._opened) {
       if (door._enteringScene) return;
       door._enteringScene = true;
@@ -207,17 +202,12 @@ function showFloatingMessage(scene, text, x, y) {
   const msg = scene.add.text(x, y - 50, text, { font: "24px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 8, y: 4 }, align: "center" });
   msg.setOrigin(0.5, 1);
   msg.setAlpha(0);
-
   scene.tweens.add({
-    targets: msg,
-    alpha: 1,
-    duration: 400,
+    targets: msg, alpha: 1, duration: 400,
     onComplete: () => {
       scene.time.delayedCall(2000, () => {
         scene.tweens.add({
-          targets: msg,
-          alpha: 0,
-          duration: 400,
+          targets: msg, alpha: 0, duration: 400,
           onComplete: () => msg.destroy()
         });
       });
@@ -231,19 +221,11 @@ function showAchievement(scene, text) {
     { font: "24px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 }, align: "center" });
   achievementText.setOrigin(0.5, 0.5);
   achievementText.setAlpha(0);
-
   scene.tweens.add({
-    targets: achievementText,
-    alpha: 1,
-    duration: 400,
+    targets: achievementText, alpha: 1, duration: 400,
     onComplete: () => {
       scene.time.delayedCall(2000, () => {
-        scene.tweens.add({
-          targets: achievementText,
-          alpha: 0,
-          duration: 400,
-          onComplete: () => achievementText.destroy()
-        });
+        scene.tweens.add({ targets: achievementText, alpha: 0, duration: 400, onComplete: () => achievementText.destroy() });
       });
     }
   });
@@ -253,12 +235,8 @@ function showAchievement(scene, text) {
 function openDoor(door, scene, onComplete) {
   if (door._isTweening) return;
   door._isTweening = true;
-
   scene.tweens.add({
-    targets: door,
-    x: door.x + 80,
-    duration: 500,
-    ease: 'Power2',
+    targets: door, x: door.x + 80, duration: 500, ease: 'Power2',
     onComplete: () => {
       if (door.body) door.body.enable = false;
       door._isTweening = false;
@@ -271,14 +249,11 @@ function openDoor(door, scene, onComplete) {
 function switchWorld(scene) {
   if (PP.game_state.changingWorld) return;
   PP.game_state.changingWorld = true;
-
   PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
-
   const currentScene = scene.scene.key;
   const nextScene = currentScene.startsWith('ghostly_')
     ? currentScene.replace('ghostly_', '')
     : 'ghostly_' + currentScene;
-
   scene.cameras.main.fadeOut(500, 0, 0, 0);
   scene.time.delayedCall(500, () => {
     scene.scene.start(nextScene, { x: PP.game_state.player.x, y: PP.game_state.player.y });
