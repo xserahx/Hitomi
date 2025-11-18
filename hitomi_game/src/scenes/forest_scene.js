@@ -8,9 +8,11 @@ function create_forest(scene, data) {
   scene.cameras.main.setBackgroundColor(0x0b3d0b);
 
   // === LUCE / NEBBIA SOFT ===
-  const overlay = scene.add.rectangle(1000, 300, 2000, 600, 0x00ff00);
+  //  const overlay = scene.add.rectangle(1000, 300, 2000, 600, 0x00ff00); da cambiare con quello sotto
+  const overlay = scene.add.rectangle(1000, 300, 2000, 6000, 0x00ff00);
   overlay.setAlpha(0.05);
   overlay.setBlendMode(Phaser.BlendModes.ADD);
+
 
   // === GROUND ===
   const ground = scene.add.rectangle(3200, 700, 6400, 40, 0x4a3b2a);
@@ -18,13 +20,64 @@ function create_forest(scene, data) {
 
   // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
-    { x: 300, y: 450, w: 200, h: 20 },
-    { x: 700, y: 380, w: 180, h: 20 },
-    { x: 1100, y: 320, w: 150, h: 20 },
-    { x: 1500, y: 500, w: 220, h: 20 },
-    { x: 1800, y: 400, w: 180, h: 20 }
+
+    // PRIMA CHAMBER
+    { x: 300, y: 570, w: 200, h: 20 },
+    { x: 720, y: 570, w: 200, h: 20 },
+    { x: 950, y: 440, w: 150, h: 20 },
+    //    { x: 1250, y: 440, w: 150, h: 20 }, mondo spettrale
+
+    // MASSI
+    { x: 1600, y: 585, w: 150, h: 190 },
+    { x: 1732, y: 655, w: 100, h: 50 },
+
+    // SCALA
+    { x: 2080, y: 570, w: 100, h: 20 },
+    { x: 2250, y: 450, w: 100, h: 20 },
+
+
+    // BLOCCO A SINISTRA DELLA SCALA
+    { x: 2150, y: 210, w: 300, h: 20 },
+
+    // PIATTAFROME SOPRA AI MASSI
+    { x: 2450, y: 120, w: 100, h: 20 }, // <-- si trasforma
+    { x: 2675, y: 170, w: 150, h: 20 },
+
+    // MASSO SINGOLO
+    { x: 2725, y: 642, w: 115, h: 76 },
+
+    // ULTIMA PIATTAFORMA SOPRAELEVATA
+    { x: 2890, y: 605, w: 215, h: 150 },
+
+
+    // piattafrome da cui poi si plana, questo è il locco superiore
+    // aggiungere y: -300 per farli arrivare all'altezza corretta
+    //    { x: 300, y: 450, w: 200, h: 20 },
+    //   { x: 620, y: 550, w: 200, h: 20 },
+    // { x: 950, y: 510, w: 200, h: 20 },
+    // { x: 1300, y: 470, w: 200, h: 20 },
+    // { x: 1600, y: 550, w: 300, h: 20 },
+
+    // continuo del livello per espandere in orizzontale
+    //  { x: 3300, y: 420, w: 120, h: 20 },
+    //  { x: 3500, y: 445, w: 100, h: 20 },
+    //  { x: 3850, y: 495, w: 80, h: 20 },
+
+    // MASSI
+    { x: 3450, y: 643, w: 160, h: 75 },
+
+    // PIATTAFROME SOPRAELEVATE
+    { x: 3000, y: 220, w: 100, h: 20 },
+    { x: 3200, y: 245, w: 100, h: 20 },
+    { x: 3500, y: 200, w: 150, h: 20 },
+
+    //PIATTAFROMA FINALE
+    // { x: 3750, y: 130, w: 150, h: 20 }, mondo fantasma
+
+
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
+
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 100;
@@ -33,6 +86,7 @@ function create_forest(scene, data) {
 
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
+  //  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
 
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
@@ -45,11 +99,18 @@ function create_forest(scene, data) {
     U: Phaser.Input.Keyboard.KeyCodes.U
   });
 
-  // === CAMERA ===
-  scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 6400, 700);
-  scene.physics.world.setBounds(0, 0, 6400, 700);
-  scene.cameras.main.fadeIn(800, 0, 0, 0);
+ // === CAMERA ===
+scene.cameras.main.startFollow(PP.game_state.player, true);
+
+// imposta i bounds (larghezza 6400, altezza ad es. 2000)
+scene.cameras.main.setBounds(0, 0, 6400, 700);
+scene.physics.world.setBounds(0, 0, 6400, 2000);
+
+// crea una deadzone verticale (es. 100px sopra e sotto il player)
+scene.cameras.main.setDeadzone(0, 700);
+
+// fade-in come prima
+scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === CAMBIO MONDO (U / u) ===
   PP.game_state.changingWorld = false;
@@ -81,8 +142,11 @@ function switchWorld(scene) {
   });
 }
 
+
+
 function update_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
+
 
   // Aggiorna posizione globale costantemente
   if (PP.game_state.player) {

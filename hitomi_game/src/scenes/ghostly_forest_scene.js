@@ -12,19 +12,70 @@ function create_ghostly_forest(scene, data) {
   overlay.setAlpha(0.2);
   overlay.setBlendMode(Phaser.BlendModes.ADD);
 
-  // === GROUND ===
-  const ground = scene.add.rectangle(3200, 700, 6400, 40, 0x33000);
-  scene.physics.add.existing(ground, true); // STATIC
 
-  // === PIATTAFORME ===
+  // === GROUND ===
+  const ground = scene.add.rectangle(3200, 700, 6400, 40, 0x4a3b2a);
+  scene.physics.add.existing(ground, true);
+
+  // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
-    { x: 300, y: 450, w: 200, h: 20 },
-    { x: 700, y: 380, w: 180, h: 20 },
-    { x: 1100, y: 320, w: 150, h: 20 },
-    { x: 1500, y: 500, w: 220, h: 20 },
-    { x: 1800, y: 400, w: 180, h: 20 }
+
+    // PRIMA CHAMBER
+    { x: 300, y: 570, w: 200, h: 20 },
+    { x: 720, y: 570, w: 200, h: 20 },
+    { x: 950, y: 440, w: 150, h: 20 },
+    { x: 1250, y: 440, w: 150, h: 20 },
+
+    // MASSI
+    { x: 1600, y: 585, w: 150, h: 190 },
+    { x: 1732, y: 655, w: 100, h: 50 },
+
+    // SCALA
+   // { x: 2080, y: 570, w: 100, h: 20 },
+    { x: 2250, y: 450, w: 100, h: 20 },
+
+    // BLOCCO A SINISTRA DELLA SCALA
+    { x: 2150, y: 210, w: 300, h: 20 },
+
+    // PIATTAFROME SOPRA AI MASSI
+    { x: 2450, y: 120, w: 100, h: 20 },
+    { x: 2675, y: 170, w: 150, h: 20 },
+
+
+    { x: 2725, y: 642, w: 100, h: 76 },
+
+    // MASSI
+    { x: 2890, y: 605, w: 200, h: 150 },
+
+    //piattafrome da cui poi si plana, questo è il locco superiore
+    //aggiungere y: -300 per farli arrivare all'altezza corretta
+    //    { x: 300, y: 450, w: 200, h: 20 },
+    //   { x: 620, y: 550, w: 200, h: 20 },
+    // { x: 950, y: 510, w: 200, h: 20 },
+    // { x: 1300, y: 470, w: 200, h: 20 },
+    // { x: 1600, y: 550, w: 300, h: 20 },
+
+    // MASSI
+    { x: 3450, y: 643, w: 160, h: 75 },
+
+    // PIATTAFROME SOPRAELEVATE
+    { x: 3000, y: 220, w: 100, h: 20 },
+    { x: 3200, y: 245, w: 100, h: 20 },
+    { x: 3500, y: 200, w: 150, h: 20 },
+
+    //PIATTAFROMA FINALE
+    { x: 3750, y: 130, w: 150, h: 20 },
+
   ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
+
+  // HELL
+  // === MOVING PLATFORMS ===
+  const movingPlatformConfigs = [
+    { x: 2400, y: 330, w: 100, h: 20, direction: 'y', range: 105, speed: 60 }
+  ];
+  PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
+  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 100;
@@ -34,6 +85,7 @@ function create_ghostly_forest(scene, data) {
 
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
+  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
 
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
@@ -46,11 +98,19 @@ function create_ghostly_forest(scene, data) {
     U: Phaser.Input.Keyboard.KeyCodes.U
   });
 
-  // === CAMERA ===
-  scene.cameras.main.startFollow(PP.game_state.player);
-  scene.cameras.main.setBounds(0, 0, 6400, 700);
-  scene.physics.world.setBounds(0, 0, 6400, 700);
-  scene.cameras.main.fadeIn(800, 0, 0, 0);
+
+ // === CAMERA ===
+scene.cameras.main.startFollow(PP.game_state.player, true);
+
+// imposta i bounds (larghezza 6400, altezza ad es. 2000)
+scene.cameras.main.setBounds(0, 0, 6400, 700);
+scene.physics.world.setBounds(0, 0, 6400, 2000);
+
+// crea una deadzone verticale (es. 100px sopra e sotto il player)
+scene.cameras.main.setDeadzone(0, 700);
+
+// fade-in come prima
+scene.cameras.main.fadeIn(800, 0, 0, 0);
 
 
   // === CAMBIO MONDO (U / u) ===
@@ -85,6 +145,9 @@ function switchWorld(scene) {
 
 function update_ghostly_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
+
+  // === UPDATE PIATTAFORME ===
+  PP.scene_objects.moving_platform.update(scene, PP.game_state.movingPlatforms);
 
   // Aggiorna posizione globale costantemente
   if (PP.game_state.player) {
