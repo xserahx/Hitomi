@@ -27,27 +27,27 @@ function create_ghostly_forest(scene, data) {
 const platformPositions = [
 
   // PRIMA CHAMBER
-  { x: 300,  y: 570 + 300, w: 200, h: 20 },
-  { x: 720,  y: 570 + 300, w: 200, h: 20 },
-  { x: 950,  y: 440 + 300, w: 150, h: 20 },
-  { x: 1250, y: 440 + 300, w: 150, h: 20 },
+  { x: 320,  y: 550 + 300, w: 200, h: 20 },
+  { x: 740,  y: 550 + 300, w: 200, h: 20 },
+  { x: 970,  y: 420 + 300, w: 150, h: 20 },
+{ x: 1270, y: 440 + 300, w: 150, h: 20 },
 
   // MASSI
   { x: 1600, y: 585 + 300, w: 150, h: 190 },
   { x: 1732, y: 655 + 300, w: 100, h: 50 },
 
   // SCALA
-  // { x: 2080, y: 570 + 300, w: 100, h: 20 },
-  { x: 2250, y: 450 + 300, w: 100, h: 20 },
+  // { x: 2080, y: 550 + 300, w: 100, h: 20 },
+  { x: 2250, y: 440 + 300, w: 100, h: 20 },
 
   // BLOCCO A SINISTRA DELLA SCALA
-  { x: 2150, y: 210 + 300, w: 300, h: 20 },
+  { x: 2050, y: 120 + 300, w: 300, h: 20 },
 
-  // PIATTAFROME SOPRA AI MASSI
-  { x: 2450, y: 120 + 300, w: 100, h: 20 },
-  { x: 2675, y: 170 + 300, w: 150, h: 20 },
+// PIATTAFROME SOPRA AI MASSI
+  { x: 2550, y: 20 + 300, w: 100, h: 20 },
+  { x: 2775, y: 0 + 270, w: 150, h: 20 },
 
-  { x: 2725, y: 642 + 300, w: 100, h: 76 },
+  { x: 2825, y: 642 + 300, w: 100, h: 76 },
 
   // MASSI
   { x: 2890, y: 605 + 300, w: 200, h: 150 },
@@ -78,7 +78,7 @@ const platformPositions = [
   // HELL
   // === MOVING PLATFORMS ===
   const movingPlatformConfigs = [
-    { x: 2400, y: 630, w: 100, h: 20, direction: 'y', range: 105, speed: 60 }
+    { x: 2400, y: 600, w: 100, h: 20, direction: 'y', range: 200, speed: 60 }
   ];
   PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
   scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);

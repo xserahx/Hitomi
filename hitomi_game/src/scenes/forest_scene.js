@@ -22,45 +22,44 @@ function create_forest(scene, data) {
   // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
 
-  // PRIMA CHAMBER
-  { x: 300,  y: 570 + 300, w: 200, h: 20 },
-  { x: 720,  y: 570 + 300, w: 200, h: 20 },
-  { x: 950,  y: 440 + 300, w: 150, h: 20 },
-  // { x: 1250, y: 440 + 300, w: 150, h: 20 }, mondo spettrale
+    // PRIMA CHAMBER
+    { x: 320, y: 550 + 300, w: 200, h: 20 },
+    { x: 740, y: 550 + 300, w: 200, h: 20 },
+    { x: 970, y: 420 + 300, w: 150, h: 20 },
+    // { x: 1270, y: 440 + 300, w: 150, h: 20 }, mondo spettrale
 
-  // MASSI
-  { x: 1600, y: 585 + 300, w: 150, h: 190 },
-  { x: 1732, y: 655 + 300, w: 100, h: 50 },
+    // MASSI
+    { x: 1600, y: 585 + 300, w: 150, h: 190 },
+    { x: 1732, y: 655 + 300, w: 100, h: 50 },
 
-  // SCALA
-  { x: 2080, y: 570 + 300, w: 100, h: 20 },
-  { x: 2250, y: 450 + 300, w: 100, h: 20 },
+    // SCALA
+    { x: 2080, y: 550 + 300, w: 100, h: 20 },
+    { x: 2250, y: 440 + 300, w: 100, h: 20 },
 
-  // BLOCCO A SINISTRA DELLA SCALA
-  { x: 2150, y: 210 + 300, w: 300, h: 20 },
+    // BLOCCO A SINISTRA DELLA SCALA
+    { x: 2050, y: 120 + 300, w: 300, h: 20 },
 
-  // PIATTAFROME SOPRA AI MASSI
-  { x: 2450, y: 120 + 300, w: 100, h: 20 }, // <-- si trasforma
-  { x: 2675, y: 170 + 300, w: 150, h: 20 },
+    // PIATTAFROME SOPRA AI MASSI
+    { x: 2550, y: 0 + 300, w: 100, h: 20 },
+    { x: 2775, y: 0 + 250, w: 150, h: 20 },
 
-  // MASSO SINGOLO
-  { x: 2725, y: 642 + 300, w: 115, h: 76 },
+    { x: 2825, y: 642 + 300, w: 100, h: 76 },
 
-  // ULTIMA PIATTAFORMA SOPRAELEVATA
-  { x: 2890, y: 605 + 300, w: 215, h: 150 },
+    // ULTIMA PIATTAFORMA SOPRAELEVATA
+    { x: 2890, y: 605 + 300, w: 215, h: 150 },
 
-  // MASSI
-  { x: 3450, y: 643 + 300, w: 160, h: 75 },
+    // MASSI
+    { x: 3450, y: 643 + 300, w: 160, h: 75 },
 
-  // PIATTAFROME SOPRAELEVATE
-  { x: 3000, y: 220 + 300, w: 100, h: 20 },
-  { x: 3200, y: 245 + 300, w: 100, h: 20 },
-  { x: 3500, y: 200 + 300, w: 150, h: 20 },
+    // PIATTAFROME SOPRAELEVATE
+    { x: 3000, y: 220 + 300, w: 100, h: 20 },
+    { x: 3200, y: 245 + 300, w: 100, h: 20 },
+    { x: 3500, y: 200 + 300, w: 150, h: 20 },
 
-  // PIATTAFROMA FINALE
-  // { x: 3750, y: 130 + 300, w: 150, h: 20 }, mondo fantasma
+    // PIATTAFROMA FINALE
+    // { x: 3750, y: 130 + 300, w: 150, h: 20 }, mondo fantasma
 
-];
+  ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
@@ -88,7 +87,7 @@ function create_forest(scene, data) {
 
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player, true);
-  
+
   scene.cameras.main.setBounds(0, 0, 6400, 1000);
   scene.physics.world.setBounds(0, 0, 6400, 1000);
 
