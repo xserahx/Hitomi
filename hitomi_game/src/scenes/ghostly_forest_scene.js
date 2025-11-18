@@ -1,3 +1,7 @@
+//=====PALLEEEEEEEE=======
+
+
+
 // === GHOSTLY FOREST SCENE ===
 function preload_ghostly_forest(scene) {
   scene.load.image('goody', 'assets/images/goody.jpeg');
