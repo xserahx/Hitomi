@@ -38,7 +38,7 @@ function create_tutorial(scene) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 400, y: 200, speed: 80 }
+    { x: 400, y: 400, speed: 80 }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
   scene.physics.add.collider(PP.game_state.enemies, PP.game_state.platforms);
@@ -49,6 +49,19 @@ function create_tutorial(scene) {
     PP.entities.player.damage(scene);
   });
 
+  // Danno ai nemici durante attacco
+scene.physics.add.overlap(
+  PP.game_state.player.attackHitbox,
+  PP.game_state.enemies,
+  (hitbox, enemy) => {
+    if (PP.game_state.player.isAttacking) {
+      enemy.destroy();
+      console.log("Nemico sconfitto!");
+    }
+  }
+);
+
+
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
     A: Phaser.Input.Keyboard.KeyCodes.A,
@@ -57,7 +70,9 @@ function create_tutorial(scene) {
     LEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
     RIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
     SHIFT: Phaser.Input.Keyboard.KeyCodes.SHIFT,
-    U: Phaser.Input.Keyboard.KeyCodes.U
+    U: Phaser.Input.Keyboard.KeyCodes.U,
+    K: Phaser.Input.Keyboard.KeyCodes.K
+
   });
 
   // === CAMERA ===
