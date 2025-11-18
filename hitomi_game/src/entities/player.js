@@ -26,17 +26,6 @@ PP.entities.player.create = function (scene, x, y) {
   player.dashTime = 200;
   player.dashCooldown = 1000;
   player.lastDash = 0;
-  // === ATTACCO ===
-player.isAttacking = false;
-player.attackTime = 200; // durata attacco in ms
-player.lastAttack = 0;
-
-// === HITBOX ATTACCO ===
-player.attackHitbox = scene.add.rectangle(x, y, 150, 120, 0xff0000, 0);
-scene.physics.add.existing(player.attackHitbox);
-player.attackHitbox.body.enable = false;
-player.attackHitbox.body.allowGravity = false;
-
 
   player.body.setGravityY(player.gravityDown);
 
@@ -72,30 +61,6 @@ PP.entities.player.update = function (scene, player, keys) {
       return;
     }
   }
-
-  // === ATTACCO ===
-if (
-  Phaser.Input.Keyboard.JustDown(keys.K) &&
-  scene.time.now - player.lastAttack > player.attackTime
-) {
-  player.isAttacking = true;
-  player.lastAttack = scene.time.now;
-
-  // Attiva hitbox temporanea
-  player.attackHitbox.body.enable = true;
-
-  // Direzione attacco
-  const dir = player.body.velocity.x >= 0 ? 1 : -1;
-  player.attackHitbox.x = player.x + dir * 100;
-  player.attackHitbox.y = player.y;
-
-  // Disattiva hitbox finita animazione attacco
-  scene.time.delayedCall(player.attackTime, () => {
-    player.isAttacking = false;
-    player.attackHitbox.body.enable = false;
-  });
-}
-
 
   // === MOVIMENTO ORIZZONTALE ===
   if (movingLeft && !movingRight) player.body.setVelocityX(-speed);
