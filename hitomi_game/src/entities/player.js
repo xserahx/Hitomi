@@ -2,7 +2,7 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.create = function (scene, x, y) {
-  const player = scene.add.rectangle(x, y, 40, 60, 0xFFFF00);
+  const player = scene.add.rectangle(x, y, 80, 120, 0xFFFF00);
   scene.physics.add.existing(player);
   player.body.setCollideWorldBounds(true);
 
@@ -22,9 +22,9 @@ PP.entities.player.create = function (scene, x, y) {
   player.jumpCutMultiplier = 2.5;
   player.lastGrounded = 0;
   player.isDashing = false;
-  player.dashSpeed = 600;
+  player.dashSpeed = 900; //600 ORIGINALE
   player.dashTime = 200;
-  player.dashCooldown = 200;
+  player.dashCooldown = 1000;
   player.lastDash = 0;
 
   player.body.setGravityY(player.gravityDown);
@@ -33,7 +33,7 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player, keys) {
-  const speed = 200;
+  const speed = 400; //200 ORIGINALE
   let movingLeft = keys.A.isDown || keys.LEFT.isDown;
   let movingRight = keys.D.isDown || keys.RIGHT.isDown;
 
