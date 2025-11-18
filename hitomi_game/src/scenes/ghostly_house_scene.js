@@ -135,7 +135,7 @@ scene.physics.add.overlap(PP.game_state.player, ghostKey, () => {
     });
 });
 
-  const door = scene.add.rectangle(2000, 650, 60, 120, 0xaa0000);
+  const door = scene.add.rectangle(7650, 700, 60, 120, 0xaa0000);
 door.setStrokeStyle(4, 0xff4444);
 door.setOrigin(0.5, 1);
 scene.physics.add.existing(door, true);

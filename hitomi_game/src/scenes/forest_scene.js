@@ -1,5 +1,6 @@
 // === FOREST SCENE ===
 function preload_forest(scene) {
+  scene.load.image('goody', 'assets/images/goody.jpeg');
   // Carica eventuali risorse future (audio, immagini, ecc.)
 }
 
@@ -15,68 +16,54 @@ function create_forest(scene, data) {
 
 
   // === GROUND ===
-  const ground = scene.add.rectangle(3200, 700, 6400, 40, 0x4a3b2a);
+  const ground = scene.add.rectangle(3200, 1000, 6400, 40, 0x4a3b2a);
   scene.physics.add.existing(ground, true);
 
   // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
 
-    // PRIMA CHAMBER
-    { x: 300, y: 570, w: 200, h: 20 },
-    { x: 720, y: 570, w: 200, h: 20 },
-    { x: 950, y: 440, w: 150, h: 20 },
-    //    { x: 1250, y: 440, w: 150, h: 20 }, mondo spettrale
+  // PRIMA CHAMBER
+  { x: 300,  y: 570 + 300, w: 200, h: 20 },
+  { x: 720,  y: 570 + 300, w: 200, h: 20 },
+  { x: 950,  y: 440 + 300, w: 150, h: 20 },
+  // { x: 1250, y: 440 + 300, w: 150, h: 20 }, mondo spettrale
 
-    // MASSI
-    { x: 1600, y: 585, w: 150, h: 190 },
-    { x: 1732, y: 655, w: 100, h: 50 },
+  // MASSI
+  { x: 1600, y: 585 + 300, w: 150, h: 190 },
+  { x: 1732, y: 655 + 300, w: 100, h: 50 },
 
-    // SCALA
-    { x: 2080, y: 570, w: 100, h: 20 },
-    { x: 2250, y: 450, w: 100, h: 20 },
+  // SCALA
+  { x: 2080, y: 570 + 300, w: 100, h: 20 },
+  { x: 2250, y: 450 + 300, w: 100, h: 20 },
 
+  // BLOCCO A SINISTRA DELLA SCALA
+  { x: 2150, y: 210 + 300, w: 300, h: 20 },
 
-    // BLOCCO A SINISTRA DELLA SCALA
-    { x: 2150, y: 210, w: 300, h: 20 },
+  // PIATTAFROME SOPRA AI MASSI
+  { x: 2450, y: 120 + 300, w: 100, h: 20 }, // <-- si trasforma
+  { x: 2675, y: 170 + 300, w: 150, h: 20 },
 
-    // PIATTAFROME SOPRA AI MASSI
-    { x: 2450, y: 120, w: 100, h: 20 }, // <-- si trasforma
-    { x: 2675, y: 170, w: 150, h: 20 },
+  // MASSO SINGOLO
+  { x: 2725, y: 642 + 300, w: 115, h: 76 },
 
-    // MASSO SINGOLO
-    { x: 2725, y: 642, w: 115, h: 76 },
+  // ULTIMA PIATTAFORMA SOPRAELEVATA
+  { x: 2890, y: 605 + 300, w: 215, h: 150 },
 
-    // ULTIMA PIATTAFORMA SOPRAELEVATA
-    { x: 2890, y: 605, w: 215, h: 150 },
+  // MASSI
+  { x: 3450, y: 643 + 300, w: 160, h: 75 },
 
+  // PIATTAFROME SOPRAELEVATE
+  { x: 3000, y: 220 + 300, w: 100, h: 20 },
+  { x: 3200, y: 245 + 300, w: 100, h: 20 },
+  { x: 3500, y: 200 + 300, w: 150, h: 20 },
 
-    // piattafrome da cui poi si plana, questo è il locco superiore
-    // aggiungere y: -300 per farli arrivare all'altezza corretta
-    //    { x: 300, y: 450, w: 200, h: 20 },
-    //   { x: 620, y: 550, w: 200, h: 20 },
-    // { x: 950, y: 510, w: 200, h: 20 },
-    // { x: 1300, y: 470, w: 200, h: 20 },
-    // { x: 1600, y: 550, w: 300, h: 20 },
+  // PIATTAFROMA FINALE
+  // { x: 3750, y: 130 + 300, w: 150, h: 20 }, mondo fantasma
 
-    // continuo del livello per espandere in orizzontale
-    //  { x: 3300, y: 420, w: 120, h: 20 },
-    //  { x: 3500, y: 445, w: 100, h: 20 },
-    //  { x: 3850, y: 495, w: 80, h: 20 },
+];
 
-    // MASSI
-    { x: 3450, y: 643, w: 160, h: 75 },
-
-    // PIATTAFROME SOPRAELEVATE
-    { x: 3000, y: 220, w: 100, h: 20 },
-    { x: 3200, y: 245, w: 100, h: 20 },
-    { x: 3500, y: 200, w: 150, h: 20 },
-
-    //PIATTAFROMA FINALE
-    // { x: 3750, y: 130, w: 150, h: 20 }, mondo fantasma
-
-
-  ];
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
+
 
 
   // === PLAYER ===
@@ -99,18 +86,17 @@ function create_forest(scene, data) {
     U: Phaser.Input.Keyboard.KeyCodes.U
   });
 
- // === CAMERA ===
-scene.cameras.main.startFollow(PP.game_state.player, true);
+  // === CAMERA ===
+  scene.cameras.main.startFollow(PP.game_state.player, true);
+  
+  scene.cameras.main.setBounds(0, 0, 6400, 1000);
+  scene.physics.world.setBounds(0, 0, 6400, 1000);
 
-// imposta i bounds (larghezza 6400, altezza ad es. 2000)
-scene.cameras.main.setBounds(0, 0, 6400, 700);
-scene.physics.world.setBounds(0, 0, 6400, 2000);
+  // deadzone solo sull’asse Y
+  scene.cameras.main.setDeadzone(0, 200);
 
-// crea una deadzone verticale (es. 100px sopra e sotto il player)
-scene.cameras.main.setDeadzone(0, 700);
-
-// fade-in come prima
-scene.cameras.main.fadeIn(800, 0, 0, 0);
+  // fade
+  scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === CAMBIO MONDO (U / u) ===
   PP.game_state.changingWorld = false;
