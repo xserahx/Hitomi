@@ -47,7 +47,7 @@ function create_house(scene, data) {
     scene.cameras.main.setBackgroundColor(0x202020);
 
     // === GROUND ===
-    const ground = scene.add.rectangle(3840, 720, 7680, 40, 0x000000);
+    const ground = scene.add.rectangle(3840, 720+175, 7680, 40, 0x000000);
     scene.physics.add.existing(ground, true);
 
 
@@ -55,38 +55,38 @@ function create_house(scene, data) {
     // --- PIATTAFORME ---
     const platformData = [
         // PIATTAFORME GIA' CON SPRITE //
-        { x: 140, y: 635, w: 130, h: 130, spriteKey: "rialzino" },
-        { x: 250, y: 564, w: 50, h: 270, spriteKey: "palo_verticale" },
-        { x: 540, y: 520, w: 150, h: 42, spriteKey: "piattaforma" },
-        { x: 1050, y: 635, w: 87, h: 130, spriteKey: "vaso" },
-        { x: 780, y: 610, w: 130, h: 180, spriteKey: "armadio" },
+        { x: 140, y: 635+175, w: 130, h: 130, spriteKey: "rialzino" },
+        { x: 250, y: 564+175, w: 50, h: 270, spriteKey: "palo_verticale" },
+        { x: 540, y: 520+175, w: 150, h: 42, spriteKey: "piattaforma" },
+        { x: 1050, y: 635+175, w: 87, h: 130, spriteKey: "vaso" },
+        { x: 780, y: 610+175, w: 130, h: 180, spriteKey: "armadio" },
 
-        { x: 350, y: 470, w: 150, h: 20, spriteKey: "platform_block2" }, // basetta attaccata al palo
-        { x: 1280, y: 250, w: 100, h: 620, spriteKey: "wall_big1" },  // muro grande a sinistra
-        { x: 1600, y: 600, w: 150, h: 20, spriteKey: "platform_block3" }, // piattaforma piccola dopo muro grande
-        { x: 1800, y: 500, w: 150, h: 20, spriteKey: "platform_block4" }, // seconda piattaforma piccola dopo muro grande
-        { x: 2300, y: 400, w: 150, h: 20, spriteKey: "platform_block5" }, // ultima piattaforma piccola prima del secondo muro grande
-        { x: 2560, y: 250, w: 100, h: 620, spriteKey: "wall_big2" },  // secondo muro grande
-        { x: 2850, y: 675, w: 150, h: 100, spriteKey: "platform_block6" }, // cubone 1 dopo secondo muro
-        { x: 3100, y: 625, w: 150, h: 250, spriteKey: "platform_block7" }, // cubone 2 dopo secondo muro
-        { x: 3600, y: 450, w: 150, h: 20, spriteKey: "platform_block8" },  // piattaforma dopo i  cuboni 
-        { x: 3840, y: 250, w: 100, h: 620, spriteKey: "wall_big3" }, // terzo muro grande
-        { x: 4040, y: 250, w: 300, h: 150, spriteKey: "platform_block9" }, // piattaforma grande attaccata al terzo muro
-        { x: 4265, y: 250, w: 150, h: 40, spriteKey: "platform_block10" }, 
-        { x: 4335, y: 220, w: 40, h: 120, spriteKey: "wall_vertical_small" },
-        { x: 4335, y: 150, w: 100, h: 20, spriteKey: "platform_block11" },
-        { x: 4300, y: 630, w: 150, h: 100, spriteKey: "platform_block12" },
-        { x: 4500, y: 470, w: 150, h: 20, spriteKey: "platform_block13" },
-        { x: 4550, y: 130, w: 150, h: 20, spriteKey: "platform_block14" },
-        { x: 4650, y: 300, w: 150, h: 20, spriteKey: "platform_block15" },
-        { x: 4745, y: 375, w: 40, h: 150, spriteKey: "wall_vertical_small2" },
-        { x: 5250, y: 300, w: 150, h: 100, spriteKey: "platform_block16" },
-        { x: 5650, y: 250, w: 150, h: 100, spriteKey: "platform_block17" },
-        { x: 6050, y: 200, w: 150, h: 100, spriteKey: "platform_block18" },
-        { x: 6450, y: 300, w: 150, h: 100, spriteKey: "platform_block19" },
-        { x: 7000, y: 480, w: 150, h: 20, spriteKey: "platform_block20" },
-        { x: 7150, y: 595, w: 150, h: 250, spriteKey: "platform_block21" },
-        { x: 7650, y: 250, w: 100, h: 620, spriteKey: "wall_big4" }
+        { x: 350, y: 470+175, w: 150, h: 20, spriteKey: "platform_block2" }, // basetta attaccata al palo
+        { x: 1280, y: 250+175, w: 100, h: 620, spriteKey: "wall_big1" },  // muro grande a sinistra
+        { x: 1600, y: 600+175, w: 150, h: 20, spriteKey: "platform_block3" }, // piattaforma piccola dopo muro grande
+        { x: 1800, y: 500+175, w: 150, h: 20, spriteKey: "platform_block4" }, // seconda piattaforma piccola dopo muro grande
+        { x: 2300, y: 400+175, w: 150, h: 20, spriteKey: "platform_block5" }, // ultima piattaforma piccola prima del secondo muro grande
+        { x: 2560, y: 250+175, w: 100, h: 620, spriteKey: "wall_big2" },  // secondo muro grande
+        { x: 2850, y: 675+175, w: 150, h: 100, spriteKey: "platform_block6" }, // cubone 1 dopo secondo muro
+        { x: 3100, y: 625+175, w: 150, h: 250, spriteKey: "platform_block7" }, // cubone 2 dopo secondo muro
+        { x: 3600, y: 450+175, w: 150, h: 20, spriteKey: "platform_block8" },  // piattaforma dopo i  cuboni 
+        { x: 3840, y: 250+175, w: 100, h: 620, spriteKey: "wall_big3" }, // terzo muro grande
+        { x: 4040, y: 250+175, w: 300, h: 150, spriteKey: "platform_block9" }, // piattaforma grande attaccata al terzo muro
+        { x: 4265, y: 250+175, w: 150, h: 40, spriteKey: "platform_block10" }, 
+        { x: 4335, y: 220+175, w: 40, h: 120, spriteKey: "wall_vertical_small" },
+        { x: 4335, y: 150+175, w: 100, h: 20, spriteKey: "platform_block11" },
+        { x: 4300, y: 630+175, w: 150, h: 100, spriteKey: "platform_block12" },
+        { x: 4500, y: 470+175, w: 150, h: 20, spriteKey: "platform_block13" },
+        { x: 4550, y: 130+175, w: 150, h: 20, spriteKey: "platform_block14" },
+        { x: 4650, y: 300+175, w: 150, h: 20, spriteKey: "platform_block15" },
+        { x: 4745, y: 375+175, w: 40, h: 150, spriteKey: "wall_vertical_small2" },
+        { x: 5250, y: 300+175, w: 150, h: 100, spriteKey: "platform_block16" },
+        { x: 5650, y: 250+175, w: 150, h: 100, spriteKey: "platform_block17" },
+        { x: 6050, y: 200+175, w: 150, h: 100, spriteKey: "platform_block18" },
+        { x: 6450, y: 300+175, w: 150, h: 100, spriteKey: "platform_block19" },
+        { x: 7000, y: 480+175, w: 150, h: 20, spriteKey: "platform_block20" },
+        { x: 7150, y: 595+175, w: 150, h: 250, spriteKey: "platform_block21" },
+        { x: 7650, y: 250+175, w: 100, h: 620, spriteKey: "wall_big4" }
     ];
 
     PP.game_state.platforms = scene.physics.add.staticGroup();
@@ -111,8 +111,8 @@ function create_house(scene, data) {
 
     // === CAMERA ===
     scene.cameras.main.startFollow(PP.game_state.player);
-    scene.cameras.main.setBounds(0, 0, 7680, 700);
-    scene.physics.world.setBounds(0, 0, 7680, 700);
+    scene.cameras.main.setBounds(0, 0, 7680, 900);
+    scene.physics.world.setBounds(0, 0, 7680, 900);
     scene.cameras.main.fadeIn(800, 0, 0, 0);
 
 
