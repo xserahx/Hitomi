@@ -16,54 +16,58 @@ function create_forest(scene, data) {
 
 
   // === GROUND ===
-  const ground = scene.add.rectangle(3200, 1000, 6400, 40, 0x4a3b2a);
+  const ground = scene.add.rectangle(3200, 2000, 6400, 40, 0x4a3b2a);
   scene.physics.add.existing(ground, true);
 
   // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
 
     // PRIMA CHAMBER
-    { x: 320, y: 550 + 300, w: 200, h: 20 },
-    { x: 740, y: 550 + 300, w: 200, h: 20 },
-    { x: 970, y: 420 + 300, w: 150, h: 20 },
-    // { x: 1270, y: 440 + 300, w: 150, h: 20 }, mondo spettrale
+    { x: 320, y: 550 + 1300, w: 200, h: 20 },
+    { x: 740, y: 550 + 1300, w: 200, h: 20 },
+    { x: 970, y: 420 + 1300, w: 150, h: 20 },
+    // { x: 1270, y: 440 + 1300, w: 150, h: 20 },
 
     // MASSI
-    { x: 1600, y: 585 + 300, w: 150, h: 190 },
-    { x: 1732, y: 655 + 300, w: 100, h: 50 },
+    { x: 1600, y: 585 + 1300, w: 150, h: 190 },
+    { x: 1732, y: 655 + 1300, w: 100, h: 50 },
 
     // SCALA
-    { x: 2080, y: 550 + 300, w: 100, h: 20 },
-    { x: 2250, y: 440 + 300, w: 100, h: 20 },
+    { x: 2080, y: 550 + 1300, w: 100, h: 20 },
+    { x: 2250, y: 440 + 1300, w: 100, h: 20 },
 
     // BLOCCO A SINISTRA DELLA SCALA
-    { x: 2050, y: 120 + 300, w: 300, h: 20 },
+ //   { x: 2050, y: 20 + 1300, w: 300, h: 20 },
 
-    // PIATTAFROME SOPRA AI MASSI
-    { x: 2550, y: 0 + 300, w: 100, h: 20 },
-    { x: 2775, y: 0 + 250, w: 150, h: 20 },
-
-    { x: 2825, y: 642 + 300, w: 100, h: 76 },
-
-    // ULTIMA PIATTAFORMA SOPRAELEVATA
-    { x: 2890, y: 605 + 300, w: 215, h: 150 },
+    // SECONDA RAMPA DI SCALE no prb
+    { x: 2450, y: 20 + 1150, w: 100, h: 20 },
+    { x: 2675, y: 0 + 1070, w: 150, h: 20 },
+   { x: 3000, y: 0 + 1000, w: 150, h: 20 },  //apice
 
     // MASSI
-    { x: 3450, y: 643 + 300, w: 160, h: 75 },
+    { x: 2890, y: 605 + 1300, w: 200, h: 150 },
+ // PIATTAFROME FRA I DUE MASSI
+    { x: 3190, y: 450 + 1300, w: 100, h: 20 },
 
-    // PIATTAFROME SOPRAELEVATE
-    { x: 3000, y: 220 + 300, w: 100, h: 20 },
-    { x: 3200, y: 245 + 300, w: 100, h: 20 },
-    { x: 3500, y: 200 + 300, w: 150, h: 20 },
+    //PIATTAFROME ADIACENTE ALL'ASCENSORE
+    { x: 3500, y: 400 + 1300, w: 100, h: 20 },
+//PIATTAFORMA SOPRA L'ASCENSORE
+        { x: 3450, y: 200 + 1300, w: 200, h: 20 },
 
-    // PIATTAFROMA FINALE
-    // { x: 3750, y: 130 + 300, w: 150, h: 20 }, mondo fantasma
+    // SPAZIO PER MOVING PLATFORM
 
+    // MASSI finale
+    { x: 3850, y: 643 + 1300, w: 160, h: 75 },
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-
+  // === MOVING PLATFORMS ===
+  const movingPlatformConfigs = [
+    { x: 3600, y: 300 + 1300, w: 100, h: 20, direction: 'y', range: 100, speed: 60 }
+  ];
+  PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
+  scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
   // === PLAYER ===
   const startX = data?.x ?? PP.game_state.playerPosition?.x ?? 100;
@@ -72,7 +76,7 @@ function create_forest(scene, data) {
 
   scene.physics.add.collider(PP.game_state.player, ground);
   scene.physics.add.collider(PP.game_state.player, PP.game_state.platforms);
-  //  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
+  scene.physics.add.collider(PP.game_state.player, PP.game_state.movingPlatforms);
 
   // === INPUT ===
   PP.interactive.kb.keys = scene.input.keyboard.addKeys({
@@ -88,8 +92,8 @@ function create_forest(scene, data) {
   // === CAMERA ===
   scene.cameras.main.startFollow(PP.game_state.player, true);
 
-  scene.cameras.main.setBounds(0, 0, 6400, 1000);
-  scene.physics.world.setBounds(0, 0, 6400, 1000);
+  scene.cameras.main.setBounds(0, 0, 6400, 2000);
+  scene.physics.world.setBounds(0, 0, 6400, 2000);
 
   // deadzone solo sull’asse Y
   scene.cameras.main.setDeadzone(0, 200);
@@ -132,6 +136,8 @@ function switchWorld(scene) {
 function update_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player, PP.interactive.kb.keys);
 
+  // === UPDATE PIATTAFORME ===
+  PP.scene_objects.moving_platform.update(scene, PP.game_state.movingPlatforms);
 
   // Aggiorna posizione globale costantemente
   if (PP.game_state.player) {
