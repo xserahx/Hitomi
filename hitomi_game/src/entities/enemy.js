@@ -64,6 +64,8 @@ PP.entities.enemy.update = function (scene, enemies, player) {
     }
   }
 
-PP.entities.enemy.damage = function (scene, a, b) {
-}
+
 };
+PP.entities.enemy.damage = function (scene, a, b) {
+  console.log("ENEMY DAMAGED");
+}

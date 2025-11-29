@@ -100,26 +100,31 @@ PP.entities.player.update = function (scene, player) {
     PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);
 };
 
-// === FUNZIONE DI ATTACCO ===
+/* === FUNZIONE DI ATTACCO ===
 PP.entities.player.attack = function (scene, player, enemies) {
 
   //Per evitare bug
   if (player.isDashing == true || player.isAttacking == true) return;
 
   player.isAttacking = true;
-
+  console.log("THE PLAYER IS ATTACKING");
   //attacca verso l'ultima direzione presa
   const dir = player.lastDirection;
 
-  const hitbox = PP.shapes.rectangle_add(scene, player.x * dir + 50, player.y, 60, 80, "0xABCDEF", 1);
+  console.log("DIRECTION: " + dir);
+
+  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.x * dir + 50, player.geometry.y, 60, 80, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);  
   //PP.physics.set_allow_gravity(hitbox, false); RETARDED
 
   for (let enemy of enemies) {
-    PP.physics.add_overlap_f(scene, hitbox, enemy, PP.entities.enemy.damage(scene, hitbox, enemies));
+    PP.physics.add_overlap_f(scene, hitbox, enemy, (scene, hb, en) => {
+    PP.entities.enemy.damage(scene, hb, en);
+});
+
   }
 
-}
+}*/
 
 // === FUNZIONE DI DANNO ===
 PP.entities.player.damage = function (scene, player) {
