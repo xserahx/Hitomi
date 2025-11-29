@@ -6,17 +6,17 @@ PP.scene_objects.platform = {};
 
 // === CREAZIONE DELLE PIATTAFORME STATICHE ===
 PP.scene_objects.platform.create = function(scene, positions) {
-    const platforms = scene.physics.add.staticGroup();
+    const platforms = [];
 
     for (let p of positions) {
         // Creo un rettangolo visivo centrato
-        let plat = scene.add.rectangle(p.x, p.y, p.w, p.h, 0x000000);
+        let plat = PP.shapes.rectangle_add(scene, p.x, p.y, p.w, p.h, "0x000000", 1);
         // Aggiungo il corpo fisico statico che corrisponde al rettangolo
-        scene.physics.add.existing(plat, true); // true -> static body
+        PP.physics.add(scene, plat, PP.physics.type.STATIC);
         // Assicuro che il corpo fisico corrisponda a dimensione e posizione del rettangolo
-        plat.body.setSize(p.w, p.h);
+        PP.physics.set_collision_rectangle(plat, p.w, p.h, 0, 0);
         // Aggiungo il rettangolo al gruppo statico per la collisione
-        platforms.add(plat);
+        platforms.push(plat);
     }
 
     return platforms;

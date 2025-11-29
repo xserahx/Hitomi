@@ -2,9 +2,9 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.create = function (scene, x, y) {
-  const player = scene.add.rectangle(x, y, 80, 120, 0xFFFF00);
-  scene.physics.add.existing(player);
-  player.body.setCollideWorldBounds(true);
+  const player = PP.shapes.rectangle_add(scene, x, y, 80, 120, "0xFFFF00", 1);
+  PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
+  PP.physics.set_collide_world_bounds(player, true);
 
   // === STATI VITA ===
   player.maxLives = 3;
@@ -27,35 +27,39 @@ PP.entities.player.create = function (scene, x, y) {
   player.dashCooldown = 1000;
   player.lastDash = 0;
 
-  player.body.setGravityY(player.gravityDown);
+  // === ATTACCO ===
+  player.isAttacking = false;
+  player.lastDirection = 1;
+
+  PP.physics.set_acceleration_y(player, player.gravityDown);
 
   return player;
 };
 
-PP.entities.player.update = function (scene, player, keys) {
+PP.entities.player.update = function (scene, player) {
   const speed = 400; //200 ORIGINALE
-  let movingLeft = keys.A.isDown || keys.LEFT.isDown;
-  let movingRight = keys.D.isDown || keys.RIGHT.isDown;
+  let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
+  let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
 
   // === DASH ===
   if (
-    Phaser.Input.Keyboard.JustDown(keys.SHIFT) &&
+    PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) &&
     !player.isDashing &&
-    scene.time.now - player.lastDash > player.dashCooldown
+    PP.timers.getTime(scene) - player.lastDash > player.dashCooldown
   ) {
     player.isDashing = true;
-    player.lastDash = scene.time.now;
+    player.lastDash = PP.timers.getTime(scene);
 
     let dir = 0;
     if (movingLeft) dir = -1;
     else if (movingRight) dir = +1;
     else dir = player.body.velocity.x >= 0 ? +1 : -1;
 
-    player.body.setVelocityX(dir * player.dashSpeed);
+    PP.physics.set_velocity_x(player, dir * player.dashSpeed);
   }
 
   if (player.isDashing) {
-    if (scene.time.now - player.lastDash > player.dashTime) {
+    if (PP.timers.getTime(scene) - player.lastDash > player.dashTime) {
       player.isDashing = false;
     } else {
       return;
@@ -63,63 +67,95 @@ PP.entities.player.update = function (scene, player, keys) {
   }
 
   // === MOVIMENTO ORIZZONTALE ===
-  if (movingLeft && !movingRight) player.body.setVelocityX(-speed);
-  else if (movingRight && !movingLeft) player.body.setVelocityX(speed);
-  else player.body.setVelocityX(0);
+  if (movingLeft && !movingRight) {
+    PP.physics.set_velocity_x(player, -speed);
+    player.lastDirection = -1;
+  }
+  else if (movingRight && !movingLeft) {
+    PP.physics.set_velocity_x(player, speed);
+    player.lastDirection = 1;
+  }
+  else PP.physics.set_velocity_x(player, 0);
 
-  // === COYOTE TIME ===
-  if (player.body.blocked.down) {
+  // === COYOTE TIME SALTO===
+  if (player.ph_obj.body.blocked.down) { //uso player.ph_obj perché la proprietà body.blocked.donw non appartiene a Poliphazer e dunque per farla leggere a Phazer occorre aggiungerlo in quanto è come se player è wrappato in Poliphazer
     player.canJump = true;
-    player.lastGrounded = scene.time.now;
+    player.lastGrounded = PP.timers.getTime(scene);
   } else if (scene.time.now - player.lastGrounded > player.coyoteTime) {
     player.canJump = false;
   }
 
   // === SALTO ===
-  if (Phaser.Input.Keyboard.JustDown(keys.SPACE) && player.canJump) {
-    player.body.setVelocityY(player.jumpForce);
-    player.jumpPressedTime = scene.time.now;
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.canJump) {
+    PP.physics.set_velocity_y(player, player.jumpForce);
+    player.jumpPressedTime = PP.timers.getTime(scene);
     player.canJump = false;
   }
 
-  if (keys.SPACE.isDown && scene.time.now - player.jumpPressedTime < player.jumpHoldTime)
-    player.body.setGravityY(player.gravityUp);
-  else player.body.setGravityY(player.gravityDown);
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime)
+    PP.physics.set_acceleration_y(player, player.gravityUp);
+  else PP.physics.set_acceleration_y(player, player.gravityDown);
 
-  if (Phaser.Input.Keyboard.JustUp(keys.SPACE) && player.body.velocity.y < 0)
-    player.body.setVelocityY(player.body.velocity.y / player.jumpCutMultiplier);
+  if (PP.interactive.kb.is_key_up(scene, PP.key_codes.SPACE) && PP.physics.get_velocity_y(player) < 0)
+    PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);
 };
 
+// === FUNZIONE DI ATTACCO ===
+PP.entities.player.attack = function (scene, player, enemies) {
+
+  //Per evitare bug
+  if (player.isDashing == true || player.isAttacking == true) return;
+
+  player.isAttacking = true;
+
+  //attacca verso l'ultima direzione presa
+  const dir = player.lastDirection;
+
+  const hitbox = PP.shapes.rectangle_add(scene, player.x * dir + 50, player.y, 60, 80, "0xABCDEF", 1);
+  PP.physics.add(scene, hitbox, PP.physics.type.STATIC);  
+  //PP.physics.set_allow_gravity(hitbox, false); RETARDED
+
+  for (let enemy of enemies) {
+    PP.physics.add_overlap_f(scene, hitbox, enemy, PP.entities.enemy.damage(scene, hitbox, enemies));
+  }
+
+}
+
 // === FUNZIONE DI DANNO ===
-PP.entities.player.damage = function (scene) {
-  const player = PP.game_state.player;
+PP.entities.player.damage = function (scene, player) {
   if (player.isInvincible) return;
 
   player.lives -= 1;
   player.isInvincible = true;
 
   // === LAMPEGGIO ROSSO ===
-  const originalColor = player.fillColor;
+  player.isFlashing = true;
   let flashCount = 0;
-  const flashTimer = scene.time.addEvent({
-    delay: 100,
-    repeat: 10,
-    callback: () => {
-      player.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor;
-      flashCount++;
-    },
-  });
+  const originalColor = player.ph_obj.fillColor; //Non esiste una funzione di poliphazer per zambiare colore
+
+  PP.timers.add_timer(scene, 100, (s) => {
+    if (!player.isFlashing) return;
+
+    player.ph_obj.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor; //Non esiste una funzione di poliphazer per zambiare colore
+    flashCount++;
+
+    if (flashCount >= player.maxLives) {
+      player.isFlashing = false;
+      player.ph_obj.fillColor = originalColor; //Non esiste una funzione di poliphazer per zambiare colore
+      flashCount = 0;
+    }
+  }, true);
 
   // === KNOCKBACK ===
-  const knockback = 250;
-  const direction = player.body.velocity.x >= 0 ? -1 : 1;
-  player.body.setVelocity(knockback * direction, -200);
+  const knockback = 600;
+  PP.physics.set_velocity_x(player, knockback * -player.lastDirection);
+  PP.physics.set_velocity_y(player, -300);
 
   // === INVINCIBILITÀ TEMPORANEA ===
-  scene.time.delayedCall(1500, () => {
+  PP.timers.add_timer(scene, 1500, (s) => {
     player.isInvincible = false;
     player.fillColor = originalColor;
-  });
+  }, false);
 
   // === GAME OVER ===
   if (player.lives <= 0) {
@@ -129,4 +165,4 @@ PP.entities.player.damage = function (scene) {
       player.lives = player.maxLives;
     });
   }
-};
+}

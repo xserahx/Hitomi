@@ -6,9 +6,9 @@ PP.entities.enemy.create = function (scene, positions) {
   const enemies = [];
 
   for (let pos of positions) {
-    const enemy = scene.add.rectangle(pos.x, pos.y, 40, 60, 0xff0000);
-    scene.physics.add.existing(enemy);
-    enemy.body.setCollideWorldBounds(true);
+    const enemy = PP.shapes.rectangle_add(scene, pos.x, pos.y, 40, 60, "0xff0000", 1);
+    PP.physics.add(scene, enemy, PP.physics.type.DYNAMIC);
+    PP.physics.set_collide_world_bounds(enemy, true);
 
     // Parametri base
     enemy.speed = pos.speed || 80;
@@ -20,6 +20,9 @@ PP.entities.enemy.create = function (scene, positions) {
     enemy.startX = pos.x;
     enemy.direction = 1;
     enemy.patrolMode = true;
+
+    // === VITA ===
+    enemy.hp = 2;
 
     enemies.push(enemy);
   }
@@ -38,11 +41,11 @@ PP.entities.enemy.update = function (scene, enemies, player) {
       enemy.patrolMode = false;
 
       if (dx > enemy.deadZone) {
-        enemy.body.setVelocityX(enemy.speed);
+        PP.physics.set_velocity_x(enemy, enemy.speed);
       } else if (dx < -enemy.deadZone) {
-        enemy.body.setVelocityX(-enemy.speed);
+        PP.physics.set_velocity_x(enemy, -enemy.speed);
       } else {
-        enemy.body.setVelocityX(0);
+        PP.physics.set_velocity_x(enemy, 0);
       }
     }
     // Altrimenti → pattuglia avanti e indietro
@@ -50,7 +53,7 @@ PP.entities.enemy.update = function (scene, enemies, player) {
       enemy.patrolMode = true;
 
       // Sposta
-      enemy.body.setVelocityX(enemy.direction * enemy.speed * 0.5);
+      PP.physics.set_velocity_x(enemy, enemy.direction * enemy.speed * 0.5);
 
       // Inverti direzione ai bordi della zona di pattuglia
       if (enemy.x > enemy.startX + enemy.patrolDistance) {
@@ -60,4 +63,7 @@ PP.entities.enemy.update = function (scene, enemies, player) {
       }
     }
   }
+
+PP.entities.enemy.damage = function (scene, a, b) {
+}
 };

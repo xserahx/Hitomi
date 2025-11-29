@@ -86,4 +86,4 @@ function update_ghostly_tutorial(scene) {
 function destroy_ghostly_tutorial(scene) {}
 
 
-PP.scenes.add("ghostly_tutorial_scene", preload_ghostly_tutorial, create_ghostly_tutorial, update_ghostly_tutorial, destroy_ghostly_tutorial);
+PP.scenes.add("ghostly_house_scene", preload_ghostly_tutorial, create_ghostly_tutorial, update_ghostly_tutorial, destroy_ghostly_tutorial);
