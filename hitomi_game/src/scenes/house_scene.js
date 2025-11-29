@@ -12,11 +12,12 @@ function preload_house(scene) {
 function create_house(scene, data) {
 
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 3840, 895, 7680, 40, "0x000000", 1);
+    const ground = PP.shapes.rectangle_add(scene, 3840, 895, 7700, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
      // === PIATTAFORME ===
     const platformPositions = [
+        { x: 0, y: 500, w: 20, h: 800 }, //Primo muro a sinistra
         { x: 140, y: 810, w: 130, h: 130 },  // rialzino
         { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
         { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
@@ -56,7 +57,7 @@ function create_house(scene, data) {
 
 
    // === PLAYER ===
-    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
+    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
     const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -69,7 +70,7 @@ function create_house(scene, data) {
     
 
     // === CAMERA ===
-    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+    PP.camera.start_follow(scene, PP.game_state.player, 0, 200);
     /*scene.cameras.main.startFollow(PP.game_state.player);
     scene.cameras.main.setBounds(0, 0, 1280, 900);
     scene.physics.world.setBounds(0, 0, 1280, 900);
@@ -337,13 +338,27 @@ function create_house(scene, data) {
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
+  console.log(config.player_x);
 
   if (PP.game_state.player) {
     PP.game_state.playerPosition = {
-      x: PP.game_state.player.x,
-       y: PP.game_state.player.y
+      x: config.player_x,
+       y: config.player_y
         };
     }
+
+  if(config.player_x < 1280) {
+      PP.camera.set_follow_offset(scene, config.player_x - 640, 150);
+    }else if (config.player_x < 2560){
+      PP.camera.set_follow_offset(scene, config.player_x - 1920, 150);
+    }else if (config.player_x < 3840){
+      PP.camera.set_follow_offset(scene, config.player_x - 3200, 150);
+    } else if (config.player_x > 6400){
+      PP.camera.set_follow_offset(scene, config.player_x - 7400, 150);
+    }else{
+      PP.camera.start_follow(scene, PP.game_state.player, 0, 150);
+    } 
+
 }
 
 

@@ -4,7 +4,9 @@ const config = {
   canvas_id: 'game',
   background_color: 0x87ceeb,
   debug_mode: true,
-  gravity_value: 600
+  gravity_value: 600,
+  player_x: 0,
+  player_y: 0
 }
 
 // Create the game with PoliPhazer

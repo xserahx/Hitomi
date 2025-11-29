@@ -40,6 +40,7 @@ PP.entities.player.update = function (scene, player) {
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
 
+  config.player_x = player.geometry.x;
   // === DASH ===
   if (
     PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) &&
