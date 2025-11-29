@@ -108,6 +108,7 @@ function create_forest(scene, data) {
     }
 
   // === CAMERA ===
+  PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
   //scene.cameras.main.startFollow(PP.game_state.player, true);
 
   //scene.cameras.main.setBounds(0, 0, 6400, 2000);

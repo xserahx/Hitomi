@@ -4,7 +4,6 @@ PP.entities.player = {};
 PP.entities.player.create = function (scene, x, y) {
   const player = PP.shapes.rectangle_add(scene, x, y, 80, 120, "0xFFFF00", 1);
   PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
-  PP.physics.set_collide_world_bounds(player, true);
 
   // === STATI VITA ===
   player.maxLives = 3;

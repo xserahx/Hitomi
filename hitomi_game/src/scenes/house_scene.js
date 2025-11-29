@@ -24,7 +24,7 @@ function create_house(scene, data) {
         { x: 780, y: 785, w: 130, h: 180 },  // armadio
 
         { x: 350, y: 645, w: 150, h: 20  },  // basetta attaccata al palo
-        { x: 1280, y: 425, w: 100, h: 620},  // muro grande a sinistra
+        { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
         { x: 1600, y: 775, w: 150, h: 20 },  // piattaforma piccola dopo muro grande
         { x: 1800, y: 675, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
         { x: 2300, y: 575, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
@@ -69,8 +69,8 @@ function create_house(scene, data) {
     
 
     // === CAMERA ===
-    /*PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
-    scene.cameras.main.startFollow(PP.game_state.player);
+    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+    /*scene.cameras.main.startFollow(PP.game_state.player);
     scene.cameras.main.setBounds(0, 0, 1280, 900);
     scene.physics.world.setBounds(0, 0, 1280, 900);
     scene.cameras.main.fadeIn(800, 0, 0, 0);*/
