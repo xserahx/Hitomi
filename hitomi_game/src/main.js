@@ -6,7 +6,8 @@ const config = {
   debug_mode: true,
   gravity_value: 600,
   player_x: 0,
-  player_y: 0
+  player_y: 0,
+  player_is_hit: false
 }
 
 // Create the game with PoliPhazer

@@ -36,9 +36,8 @@ PP.entities.boss.create = function (scene, positions) {
 // === UPDATE NEMICI ===
 PP.entities.boss.update = function (scene, enemies, player) {
   for (let boss of enemies) {
-    const dx = player.x - boss.x;
+    const dx = player.geometry.x - boss.geometry.x;
     const distance = Math.abs(dx);
-
 
 
     // Se il player è vicino → insegui
@@ -47,15 +46,17 @@ PP.entities.boss.update = function (scene, enemies, player) {
 
       if (dx > boss.deadZone) {
         PP.physics.set_velocity_x(boss, boss.speed);
+        boss.direction = 1;
       } else if (dx < -boss.deadZone) {
         PP.physics.set_velocity_x(boss, -boss.speed);
+        boss.direction = -1;
       } else {
         PP.physics.set_velocity_x(boss, 0);
       }
     }
 
 
-    // Altrimenti → pattuglia avanti e indietro
+    /* Altrimenti → pattuglia avanti e indietro
     else {
       boss.patrolMode = true;
 
@@ -63,21 +64,22 @@ PP.entities.boss.update = function (scene, enemies, player) {
       PP.physics.set_velocity_x(boss, boss.direction * boss.speed * 0.5);
 
       // Inverti direzione ai bordi della zona di pattuglia
-      if (boss.x > boss.startX + boss.patrolDistance) {
+      if (boss.geometry.x > boss.startX + boss.patrolDistance) {
         boss.direction = -1;
-      } else if (boss.x < boss.startX - boss.patrolDistance) {
+      } else if (boss.geometry.x < boss.startX - boss.patrolDistance) {
         boss.direction = 1;
       }
-    }
+    }*/
 
     //Se il player è vicino, attacca
-    if(dx < 60){
-        PP.entities.boss.attack(scene, boss, player);
+    if (dx < 300 && dx > -300) {
+
+      PP.entities.boss.attack(scene, boss, player);
     }
   }
 
-PP.entities.boss.damage = function (scene, a, b) {
-}
+  PP.entities.boss.damage = function (scene, hitbox, boss) {
+  }
 };
 
 
@@ -90,14 +92,23 @@ PP.entities.boss.attack = function (scene, boss, player) {
   boss.isAttacking = true;
 
   //attacca verso l'ultima direzione presa
-  const dir = boss.Direction;
+  let dir = boss.direction;
 
-  const hitbox = PP.shapes.rectangle_add(scene, boss.x * dir + 50, boss.y, 60, 80, "0xABCDEF", 1);
-  PP.physics.add(scene, hitbox, PP.physics.type.STATIC);  
+  const hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50*dir, boss.geometry.y, 100, 80, "0xABCDEF", 1);
+  PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
   //PP.physics.set_allow_gravity(hitbox, false); RETARDED
 
-  for (let pg of player) {
-    PP.physics.add_overlap_f(scene, hitbox, pg, PP.entities.player.damage(scene, hitbox, player));
-  }
+
+  PP.physics.add_overlap_f(scene, hitbox, player, (scene, player) => {
+    config.player_is_hit = true;
+  });
+
+  PP.timers.add_timer(scene, 100, (s) => {
+    PP.shapes.destroy(hitbox);
+  }, false);
+
+  PP.timers.add_timer(scene, 1000, (s) => {
+    boss.isAttacking = false;
+  }, false);
 
 }

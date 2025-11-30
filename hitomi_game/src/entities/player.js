@@ -151,16 +151,19 @@ PP.entities.player.damage = function (scene, player) {
     }
   }, true);
 
-  // === KNOCKBACK ===
-  const knockback = 600;
+  /* === KNOCKBACK ===
+  const knockback = 900;
   PP.physics.set_velocity_x(player, knockback * -player.lastDirection);
   PP.physics.set_velocity_y(player, -300);
+
+  console.log("è avvenuto il knockback");*/
 
   // === INVINCIBILITÀ TEMPORANEA ===
   PP.timers.add_timer(scene, 1500, (s) => {
     player.isInvincible = false;
     player.fillColor = originalColor;
   }, false);
+
 
   // === GAME OVER ===
   if (player.lives <= 0) {

@@ -74,6 +74,11 @@ function update_bossfight_scene(scene) {
             console.log("ATTACK");
             PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
     }
+
+    if(config.player_is_hit == true){
+        PP.entities.player.damage(scene, PP.game_state.player);
+        config.player_is_hit = false;
+    }
 }
 
 function destroy_bossfight_scene(scene) {}
