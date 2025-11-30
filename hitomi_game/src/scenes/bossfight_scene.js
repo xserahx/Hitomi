@@ -9,19 +9,16 @@ function create_bossfight_scene(scene) {
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
-    /* === PIATTAFORME ===
+    // === PIATTAFORME ===
     const platformPositions = [
-        { x: 150, y: 550, w: 200, h: 20 },
-        { x: 395, y: 400, w: 200, h: 20 },
-        { x: 640, y: 550, w: 200, h: 20 },
-        { x: 885, y: 400, w: 200, h: 20 },
-        { x: 1130, y: 550, w: 200, h: 20 }
+        { x: -5, y: 360, w: 10, h: 720 },
+        { x: 1285, y: 360, w: 10, h: 720 }
     ];
 
-    PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);*/
+    PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
     // === PLAYER ===
-    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
+    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 70;
     const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -29,14 +26,14 @@ function create_bossfight_scene(scene) {
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
 
-    /*for (let plat of PP.game_state.platforms) {
+    for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
-    }*/
+    }
 
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
     // === NEMICI ===
-    const bossPositions = [{ x: 400, y: 200, speed: 80 }];
+    const bossPositions = [{ x: 1230, y: 500, speed: 150 }];
     PP.game_state.enemies = PP.entities.boss.create(scene, bossPositions);
 
     for (let boss of PP.game_state.enemies) {
@@ -44,9 +41,9 @@ function create_bossfight_scene(scene) {
         // collisioni con terreno e piattaforme
         PP.physics.add_collider(scene, boss, ground);
 
-        /*for (let plat of PP.game_state.platforms) {
+        for (let plat of PP.game_state.platforms) {
             PP.physics.add_collider(scene, boss, plat);
-        }*/
+        }
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, boss, () => {

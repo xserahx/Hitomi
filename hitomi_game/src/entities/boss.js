@@ -11,15 +11,12 @@ PP.entities.boss.create = function (scene, positions) {
     PP.physics.set_collide_world_bounds(boss, true);
 
     // Parametri base
-    boss.speed = pos.speed || 80;
-    boss.detectionRange = pos.detection || 250;
+    boss.speed = pos.speed || 150;
+    boss.detectionRange = pos.detection || 1280;
     boss.deadZone = pos.deadZone || 5;
-
-    // === NUOVI PARAMETRI PER PATTUGLIA ===
-    boss.patrolDistance = pos.patrolDistance || 100;
-    boss.startX = pos.x;
+    boss.dashzone = pos.dashzone || 400;
+    boss.dashSpeed = pos.dashSpeed || 700;
     boss.direction = 1;
-    boss.patrolMode = true;
 
     // === VITA ===
     boss.hp = 3;
@@ -42,34 +39,19 @@ PP.entities.boss.update = function (scene, enemies, player) {
 
     // Se il player è vicino → insegui
     if (distance < boss.detectionRange) {
-      boss.patrolMode = false;
 
       if (dx > boss.deadZone) {
-        PP.physics.set_velocity_x(boss, boss.speed);
+        if (dx < boss.dashzone) { PP.physics.set_velocity_x(boss, boss.speed); }
+        else { PP.physics.set_velocity_x(boss, boss.dashSpeed); }
         boss.direction = 1;
       } else if (dx < -boss.deadZone) {
-        PP.physics.set_velocity_x(boss, -boss.speed);
+        if (dx > -boss.dashzone) { PP.physics.set_velocity_x(boss, -boss.speed); }
+        else { PP.physics.set_velocity_x(boss, -boss.dashSpeed); }
         boss.direction = -1;
       } else {
         PP.physics.set_velocity_x(boss, 0);
       }
     }
-
-
-    /* Altrimenti → pattuglia avanti e indietro
-    else {
-      boss.patrolMode = true;
-
-      // Sposta
-      PP.physics.set_velocity_x(boss, boss.direction * boss.speed * 0.5);
-
-      // Inverti direzione ai bordi della zona di pattuglia
-      if (boss.geometry.x > boss.startX + boss.patrolDistance) {
-        boss.direction = -1;
-      } else if (boss.geometry.x < boss.startX - boss.patrolDistance) {
-        boss.direction = 1;
-      }
-    }*/
 
     //Se il player è vicino, attacca
     if (dx < 300 && dx > -300) {
@@ -94,7 +76,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
   //attacca verso l'ultima direzione presa
   let dir = boss.direction;
 
-  const hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50*dir, boss.geometry.y, 100, 80, "0xABCDEF", 1);
+  const hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y, 100, 80, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
   //PP.physics.set_allow_gravity(hitbox, false); RETARDED
 
