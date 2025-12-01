@@ -59,15 +59,13 @@ function create_tutorial_scene(scene) {
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            PP.entities.player.damage(scene, PP.game_state.player);
+            PP.entities.player.damage(scene, PP.game_state.player, enemy);
         });
     }
     // === CLICK DEL MOUSE PER ATTACCARE ===
-    /*PP.interactive.mouse.add(scene, (pointer) => {
-        if (pointer.left) {
-            PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
-        }
-    });*/
+    scene.input.on("pointerdown", () => {
+        PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
+    });
 
     PP.game_state.changingWorld = false;
 }

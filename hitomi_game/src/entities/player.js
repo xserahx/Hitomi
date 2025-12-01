@@ -9,6 +9,7 @@ PP.entities.player.create = function (scene, x, y) {
   player.maxLives = 3;
   player.lives = 3;
   player.isInvincible = false;
+  player.isKnocked = false;
 
   // Parametri salto e movimento
   player.jumpPressedTime = 0;
@@ -23,7 +24,7 @@ PP.entities.player.create = function (scene, x, y) {
   player.isDashing = false;
   player.dashSpeed = 900; //600 ORIGINALE
   player.dashTime = 200;
-  player.dashCooldown = 1000;
+  player.dashCooldown = 400;
   player.lastDash = 0;
 
   // === ATTACCO ===
@@ -50,12 +51,7 @@ PP.entities.player.update = function (scene, player) {
     player.isDashing = true;
     player.lastDash = PP.timers.getTime(scene);
 
-    let dir = 0;
-    if (movingLeft) dir = -1;
-    else if (movingRight) dir = +1;
-    else dir = player.body.velocity.x >= 0 ? +1 : -1;
-
-    PP.physics.set_velocity_x(player, dir * player.dashSpeed);
+    PP.physics.set_velocity_x(player, player.lastDirection * player.dashSpeed);
   }
 
   if (player.isDashing) {
@@ -67,15 +63,17 @@ PP.entities.player.update = function (scene, player) {
   }
 
   // === MOVIMENTO ORIZZONTALE ===
-  if (movingLeft && !movingRight) {
-    PP.physics.set_velocity_x(player, -speed);
-    player.lastDirection = -1;
+  if (!player.isKnocked) {
+    if (movingLeft && !movingRight) {
+      player.lastDirection = -1;
+      PP.physics.set_velocity_x(player, -speed);
+    }
+    else if (movingRight && !movingLeft) {
+      player.lastDirection = 1;
+      PP.physics.set_velocity_x(player, speed);
+    }
+    else PP.physics.set_velocity_x(player, 0);
   }
-  else if (movingRight && !movingLeft) {
-    PP.physics.set_velocity_x(player, speed);
-    player.lastDirection = 1;
-  }
-  else PP.physics.set_velocity_x(player, 0);
 
   // === COYOTE TIME SALTO===
   if (player.ph_obj.body.blocked.down) { //uso player.ph_obj perché la proprietà body.blocked.donw non appartiene a Poliphazer e dunque per farla leggere a Phazer occorre aggiungerlo in quanto è come se player è wrappato in Poliphazer
@@ -100,34 +98,40 @@ PP.entities.player.update = function (scene, player) {
     PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);
 };
 
-/* === FUNZIONE DI ATTACCO ===
+// === FUNZIONE DI ATTACCO ===
 PP.entities.player.attack = function (scene, player, enemies) {
-
+  if (player.isAttacking) return; // evita spam
   //Per evitare bug
   if (player.isDashing == true || player.isAttacking == true) return;
 
   player.isAttacking = true;
-  console.log("THE PLAYER IS ATTACKING");
-  //attacca verso l'ultima direzione presa
-  const dir = player.lastDirection;
 
-  console.log("DIRECTION: " + dir);
+  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.x + 50 * player.lastDirection, player.geometry.y, 100, 80, "0xABCDEF", 1);
+  PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
-  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.x * dir + 50, player.geometry.y, 60, 80, "0xABCDEF", 1);
-  PP.physics.add(scene, hitbox, PP.physics.type.STATIC);  
-  //PP.physics.set_allow_gravity(hitbox, false); RETARDED
-
-  for (let enemy of enemies) {
-    PP.physics.add_overlap_f(scene, hitbox, enemy, (scene, hb, en) => {
-    PP.entities.enemy.damage(scene, hb, en);
-});
-
+  if (Array.isArray(enemies)) {
+    for (let enemy of enemies) {
+      PP.physics.add_overlap_f(scene, hitbox, enemy, () => {
+        PP.entities.enemy.damage(scene, enemy, hitbox);
+      });
+    }
+  } else {
+    PP.physics.add_overlap_f(scene, hitbox, enemies, () => {
+      PP.entities.boss.damage(scene, enemies, hitbox);
+    });
   }
 
-}*/
+  PP.timers.add_timer(scene, 100, (s) => {
+    PP.shapes.destroy(hitbox);
+  }, false);
+
+  PP.timers.add_timer(scene, 400, (s) => {
+    player.isAttacking = false;
+  }, false);
+}
 
 // === FUNZIONE DI DANNO ===
-PP.entities.player.damage = function (scene, player) {
+PP.entities.player.damage = function (scene, player, enemy) {
   if (player.isInvincible) return;
 
   player.lives -= 1;
@@ -151,12 +155,18 @@ PP.entities.player.damage = function (scene, player) {
     }
   }, true);
 
-  /* === KNOCKBACK ===
-  const knockback = 900;
-  PP.physics.set_velocity_x(player, knockback * -player.lastDirection);
-  PP.physics.set_velocity_y(player, -300);
+  // === KNOCKBACK ===
+  player.isKnocked = true;
+  const knockbackX = 600;
+  const knockbackY = -300;
+  const dirX = (player.geometry.x < enemy.geometry.x) ? -1 : 1; //Non c'è modo di avere la x del player
 
-  console.log("è avvenuto il knockback");*/
+  PP.physics.set_velocity_x(player, knockbackX * dirX);
+  PP.physics.set_velocity_y(player, knockbackY);
+
+  PP.timers.add_timer(scene, 200, (s) => {
+    player.isKnocked = false;
+  }, false);
 
   // === INVINCIBILITÀ TEMPORANEA ===
   PP.timers.add_timer(scene, 1500, (s) => {

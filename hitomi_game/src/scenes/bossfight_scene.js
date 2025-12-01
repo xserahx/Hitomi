@@ -32,49 +32,33 @@ function create_bossfight_scene(scene) {
 
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
-    // === NEMICI ===
-    const bossPositions = [{ x: 1230, y: 500, speed: 150 }];
-    PP.game_state.enemies = PP.entities.boss.create(scene, bossPositions);
-
-    for (let boss of PP.game_state.enemies) {
-
-        // collisioni con terreno e piattaforme
-        PP.physics.add_collider(scene, boss, ground);
-
-        for (let plat of PP.game_state.platforms) {
-            PP.physics.add_collider(scene, boss, plat);
-        }
-
-        // Overlap player-nemico
-        PP.physics.add_overlap_f(scene, PP.game_state.player, boss, () => {
-            PP.entities.player.damage(scene, PP.game_state.player);
-        });
+    // === BOSS ===
+    PP.game_state.boss = PP.entities.boss.create(scene)
+    PP.physics.add_collider(scene, PP.game_state.boss, ground);
+    for (let plat of PP.game_state.platforms) {
+        PP.physics.add_collider(scene, PP.game_state.boss, plat);
     }
+    PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
+        PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss);
+    });
 
+    // === CLICK DEL MOUSE PER ATTACCARE ===
+    scene.input.on("pointerdown", () => {
+        PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.boss);
+    });
 
     PP.game_state.changingWorld = false;
 }
 
 function update_bossfight_scene(scene) {
     PP.entities.player.update(scene, PP.game_state.player);
-    PP.entities.boss.update(scene, PP.game_state.enemies, PP.game_state.player);
+    PP.entities.boss.update(scene, PP.game_state.boss, PP.game_state.player);
 
     if (PP.game_state.player) {
         PP.game_state.playerPosition = {
             x: PP.game_state.player.x,
             y: PP.game_state.player.y
         };
-    }
-
-        // === CLICK DEL MOUSE PER ATTACCARE ===
-    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.TAB) ){
-            console.log("ATTACK");
-            PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
-    }
-
-    if(config.player_is_hit == true){
-        PP.entities.player.damage(scene, PP.game_state.player);
-        config.player_is_hit = false;
     }
 }
 
