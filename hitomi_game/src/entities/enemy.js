@@ -12,14 +12,14 @@ PP.entities.enemy.create = function (scene, positions) {
 
     // Parametri base
     enemy.speed = pos.speed || 80;
-    enemy.detectionRange = pos.detection || 250;
-    enemy.deadZone = pos.deadZone || 5;
+    enemy.detectionRange = 250;
+    enemy.deadZone = 5;
 
     // === NUOVI PARAMETRI PER PATTUGLIA ===
-    enemy.patrolDistance = pos.patrolDistance || 100;
+    enemy.patrolDistance = 100;
     enemy.startX = pos.x;
-    enemy.direction = 1;
     enemy.patrolMode = true;
+    enemy.patrolInterval = 2000;
 
     // === VITA ===
     enemy.maxLives = 2;
@@ -27,7 +27,7 @@ PP.entities.enemy.create = function (scene, positions) {
     enemy.isInvincible = false;
     enemy.isFlashing = false;
     enemy.isKnocked = false;
-
+    enemy.lastPatrolSwitch = 0;
     enemies.push(enemy);
   }
 
@@ -36,37 +36,33 @@ PP.entities.enemy.create = function (scene, positions) {
 
 // === UPDATE NEMICI ===
 PP.entities.enemy.update = function (scene, enemies, player) {
-  /*for (let enemy of enemies) {
-    const dx = player.x - enemy.x;
-    const distance = Math.abs(dx);
+  for (let enemy of enemies) {
+    if (!enemy || !enemy.ph_obj || !enemy.ph_obj.body) continue;
 
-    // Se il player è vicino → insegui
-    if (distance < enemy.detectionRange) {
-      enemy.patrolMode = false;
+    const dx = player.geometry.x - enemy.geometry.x;
+    const dy = player.geometry.y - enemy.geometry.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (dx > enemy.deadZone) {
-        PP.physics.set_velocity_x(enemy, enemy.speed);
-      } else if (dx < -enemy.deadZone) {
-        PP.physics.set_velocity_x(enemy, -enemy.speed);
-      } else {
-        PP.physics.set_velocity_x(enemy, 0);
+    // === INSEGUIMENTO ===
+    if (distance <= enemy.detectionRange) {
+      const dirX = dx < 0 ? -1 : 1;
+
+      PP.physics.set_velocity_x(enemy, dirX * enemy.speed);
+    }else{
+      // === PATTUGLIAMENTO ===
+      if (enemy.patrolDir === undefined) {
+        enemy.patrolDir = 1; // parte andando a destra
+        enemy.lastPatrolSwitch = scene.time.now;
       }
-    }
-    // Altrimenti → pattuglia avanti e indietro
-    else {
-      enemy.patrolMode = true;
-
-      // Sposta
-      PP.physics.set_velocity_x(enemy, enemy.direction * enemy.speed * 0.5);
-
-      // Inverti direzione ai bordi della zona di pattuglia
-      if (enemy.x > enemy.startX + enemy.patrolDistance) {
-        enemy.direction = -1;
-      } else if (enemy.x < enemy.startX - enemy.patrolDistance) {
-        enemy.direction = 1;
+      // cambia direzione ogni intervallo
+      if (scene.time.now - enemy.lastPatrolSwitch > enemy.patrolInterval) {
+        enemy.patrolDir *= -1;
+        enemy.lastPatrolSwitch = scene.time.now;
       }
+
+      PP.physics.set_velocity_x(enemy, enemy.patrolDir * enemy.speed * 0.5);
     }
-  }*/
+  }
 
 
 };
