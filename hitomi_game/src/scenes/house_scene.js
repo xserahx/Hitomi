@@ -17,7 +17,7 @@ function create_house(scene, data) {
 
      // === PIATTAFORME ===
     const platformPositions = [
-        { x: 0, y: 500, w: 20, h: 800 }, //Primo muro a sinistra
+        { x: 0, y: 500, w: 20, h: 800 },     // Primo muro a sinistra
         { x: 140, y: 810, w: 130, h: 130 },  // rialzino
         { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
         { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
@@ -94,7 +94,7 @@ function create_house(scene, data) {
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            PP.entities.player.damage(scene, PP.game_state.player);
+            PP.entities.player.damage(scene, PP.game_state.player,enemy);
         });
     }
 
@@ -361,8 +361,8 @@ function update_house(scene) {
 
 }
 
-
 // === DESTROY ===
 function destroy_house(scene) {}
 
+PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
 PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
