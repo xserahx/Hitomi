@@ -51,6 +51,8 @@ PP.entities.player.update = function (scene, player) {
     player.isDashing = true;
     player.lastDash = PP.timers.getTime(scene);
 
+    PP.physics.change_gravity(scene, 200);
+
     PP.physics.set_velocity_x(player, player.lastDirection * player.dashSpeed);
   }
 
@@ -61,6 +63,7 @@ PP.entities.player.update = function (scene, player) {
       return;
     }
   }
+
 
   // === MOVIMENTO ORIZZONTALE ===
   if (!player.isKnocked) {
