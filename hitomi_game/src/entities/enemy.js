@@ -39,8 +39,8 @@ PP.entities.enemy.update = function (scene, enemies, player) {
   for (let enemy of enemies) {
     if (!enemy || !enemy.ph_obj || !enemy.ph_obj.body) continue;
 
-    const dx = player.geometry.x - enemy.geometry.x;
-    const dy = player.geometry.y - enemy.geometry.y;
+    const dx = player.geometry.body_x - enemy.geometry.body_x;
+    const dy = player.geometry.body_y - enemy.geometry.body_y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     // === INSEGUIMENTO ===
@@ -94,7 +94,7 @@ PP.entities.enemy.damage = function (scene, enemy, hitbox) {
   enemy.isKnocked = true;
   const knockbackX = 600;
   const knockbackY = -300;
-  const dirX = (enemy.geometry.x < hitbox.geometry.x) ? -1 : 1; //Non c'è modo di avere la x del player
+  const dirX = (enemy.geometry.body_x < hitbox.geometry.body_x) ? -1 : 1; //Non c'è modo di avere la x del player
 
   PP.physics.set_velocity_x(enemy, knockbackX * dirX);
   PP.physics.set_velocity_y(enemy, knockbackY);
