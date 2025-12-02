@@ -657,7 +657,6 @@ PP.assets.image.load = function(scene, image_path) {
     let url_hash = __PP_internal_cyrb53(image_path);  // This is used as ID
 
     if(PP.assets.list_images_id.includes(url_hash)) {
-        console.warn('WARNING: you are trying to load multiple times the same image/spritesheet ('+image_path+'). Aborting this load request.');
         return {id: url_hash, type: "image"};
     }
 
@@ -726,7 +725,6 @@ PP.assets.sprite.load_spritesheet = function(scene, image_path, frame_width, fra
     let url_hash = __PP_internal_cyrb53(image_path);  // This is used as ID
 
     if(PP.assets.list_images_id.includes(url_hash)) {
-        console.warn('WARNING: you are trying to load multiple times the same image/spritesheet ('+image_path+'). Aborting this load request.');
         return {id: url_hash, type: "sprite"};
     }
 
@@ -1352,10 +1350,24 @@ PP.camera.set_follow_offset = function(scene, offset_x, offset_y) {
 }
 
 
+/**
+ * Return the scroll on the x axis of the camera.
+ * They represent the distance between the top-left of the camera's world view and its viewport.
+ * @function get_scroll_x
+ * @memberof PP.camera
+ * @param {object}      s     The scene object.
+ */
 PP.camera.get_scroll_x = function(s) {
     return s.cameras.main.scrollX;
 }
 
+/**
+ * Return the scroll on the y axis of the camera.
+ * They represent the distance between the top-left of the camera's world view and its viewport.
+ * @function get_scroll_y
+ * @memberof PP.camera
+ * @param {object}      s     The scene object.
+ */
 PP.camera.get_scroll_y = function(s) {
     return s.cameras.main.scrollY;
 }
