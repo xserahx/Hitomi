@@ -165,7 +165,7 @@ PP.entities.player.damage = function (scene, player, enemy) {
     }
   }, true);
 
-  // === KNOCKBACK ===
+  /*// === KNOCKBACK ===
   player.isKnocked = true;
   const knockbackX = 600;
   const knockbackY = -300;
@@ -176,7 +176,7 @@ PP.entities.player.damage = function (scene, player, enemy) {
 
   PP.timers.add_timer(scene, 200, (s) => {
     player.isKnocked = false;
-  }, false);
+  }, false);*/
 
   // === INVINCIBILITÀ TEMPORANEA ===
   PP.timers.add_timer(scene, 1500, (s) => {
