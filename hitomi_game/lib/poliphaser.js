@@ -1,4 +1,4 @@
-console.log('%c    PoliPhaser - Version 1.01   ', 'background: #728FA5; color: white; font-size:20px;');
+console.log('%c    PoliPhaser - Version 1.2    ', 'background: #728FA5; color: white; font-size:20px;');
 
 /************* HELPER FUNCTIONS *************/
 
@@ -372,6 +372,7 @@ PP.debug = {
  * @param {number} config.background_color Default background color used when no background is drawn, in RGB HEX format (for example 0x000000).
  * @param {boolean} config.debug_mode      It defines whether PoliPhaser should run in debug mode showing various debug information. 
  * @param {number} config.gravity_value    The value of gravity in pixels per second squared.
+ * @param {boolean} config.pixel_art       It defines whether pixel art should be enabled or disabled. 
  * @return A game object. The user should not directly manipulate it, but pass it to other functions.
  */
 PP.game.create = function (config) {
@@ -405,7 +406,7 @@ PP.game.create = function (config) {
         height: config.canvas_height,
         backgroundColor: config.background_color,
         scene: PP.scenes.list,
-        pixelArt: true,
+        pixelArt: config.pixel_art ?? true,
         parent: config.canvas_id,
         physics: {
             default: 'arcade',
@@ -929,7 +930,6 @@ PP.assets.destroy = function(obj) {
     PP.debug.assert(typeof obj.ph_obj === "object", "Parameter error: obj is not a valid PP object instance.");
 
     obj.ph_obj.destroy();
-
 }
 
 /**
@@ -1596,12 +1596,29 @@ PP.physics.add_overlap_f = function(s, obj1, obj2, func) {
     return {ph_collider: ph_obj};
 }
 
+/**
+ * 
+ * Remove a previously created collider (or overlap)
+ * @param {object}  s   The scene
+ * @param {float}   obj The collider (or overlap) to be removed as returned from functions like add_collider.
+ */
 PP.physics.remove_collider_or_overlap = function(s, obj) {
     PP.debug.assert(typeof s === "object", "Parameter error: s should be an object.");
     PP.debug.assert(typeof obj === "object", "Parameter error: obj should be an object.");
     PP.debug.assert(typeof obj.ph_collider === "object",  "Parameter error: obj is an object but it is a collider.");
 
     s.physics.world.removeCollider(obj.ph_collider);
+}
+
+/**
+ * 
+ * Change the value of the gravity
+ * @param {object}  s          The scene
+ * @param {float}  new_gravity The new value in px/s2 of the gravity in the y axis.
+ */
+PP.physics.change_gravity = function(s, new_gravity) {
+    s.physics.world.gravity.set(0,new_gravity);
+    PP.game.config.gravity_value = new_gravity;
 }
 
 /**
