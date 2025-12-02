@@ -18,9 +18,9 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
     // === PIATTAFORME ===
     const platformPositions = [ 
-        { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
+        { x: 250, y: 370, w: 30, h: 320 },  // colonna di sinistra
         { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
-        { x: 1100, y: 650, w: 100, h: 60 }, // muretto
+        { x: 1100, y: 650, w: 100, h: 60 }, // muretto (blocco spostabile)
         { x: 500, y: 500, w: 200, h: 20 }, // piattaforma centrale
         { x: 350, y: 350, w: 200, h: 20 }, // base del nemico
         { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
@@ -36,6 +36,7 @@ function create_tutorial_scene(scene) {
 
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
+    PP.physics.add_collider(scene, PP.game_state.player, leftWall);
     PP.physics.add_collider(scene, PP.game_state.player, leftWall);
     PP.physics.add_collider(scene, PP.game_state.player, rightWall);
 
