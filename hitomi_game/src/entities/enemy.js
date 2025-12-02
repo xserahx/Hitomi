@@ -8,7 +8,6 @@ PP.entities.enemy.create = function (scene, positions) {
   for (let pos of positions) {
     const enemy = PP.shapes.rectangle_add(scene, pos.x, pos.y, 40, 60, "0xff0000", 1);
     PP.physics.add(scene, enemy, PP.physics.type.DYNAMIC);
-    PP.physics.set_collide_world_bounds(enemy, true);
 
     // Parametri base
     enemy.speed = pos.speed || 80;

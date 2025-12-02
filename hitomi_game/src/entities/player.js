@@ -106,7 +106,14 @@ PP.entities.player.attack = function (scene, player, enemies) {
 
   player.isAttacking = true;
 
-  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.body_x + 50 * player.lastDirection, player.geometry.body_y +70, 100, 100, "0xABCDEF", 1);
+  let hitboxX;
+  if (player.lastDirection == -1) {
+    hitboxX = player.geometry.body_x + 50 * player.lastDirection;
+  }else{
+    hitboxX = player.geometry.body_x + 80 /*player.width*/ + 50;
+  }
+  let hitboxY = player.geometry.body_y +70;
+  const hitbox = PP.shapes.rectangle_add(scene, hitboxX, hitboxY, 100, 100, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
   if (Array.isArray(enemies)) {

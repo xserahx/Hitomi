@@ -23,7 +23,6 @@ function create_house(scene, data) {
 
         // === PIATTAFORME ===
     const platformPositions = [
-   { x: 0, y: 500, w: 20, h: 800 }, //Primo muro a sinistra
     { x: 140, y: 810, w: 130, h: 130 },  // rialzino
     { x: 250, y: 739, w: 50, h: 270 },  // palo verticale
     { x: 540, y: 695, w: 150, h: 42 },  // piattaforma
@@ -79,11 +78,13 @@ function create_house(scene, data) {
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
 
         // === NEMICI ===
-    const enemyPositions = [{ x: 450, y: 645, speed: 80 },
-  /*{ x: 2300, y: 405, speed: 0 },
-  { x: 4745, y: 375, speed: 0 },
-  { x: 5600, y: 100, speed: 80 },
-  { x: 6000, y: 100, speed: 80 }*/];
+    const enemyPositions = [
+      { x: 450, y: 645, speed: 80 },
+      { x: 2300, y: 405, speed: 0 },
+      { x: 4745, y: 375, speed: 0 },
+      { x: 5600, y: 100, speed: 80 },
+      { x: 6000, y: 100, speed: 80 }
+    ];
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
