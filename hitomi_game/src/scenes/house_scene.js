@@ -134,27 +134,38 @@ function create_house(scene, data) {
 
   PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame, () => {
     if (keyCollected == false) {
-      PP.game_state.statusDoor = PP.shapes.text_add(scene, 3800, 300, "La porta è chiusa a chiave...");
-      PP.timers.add_timer(scene, 1000, (scene) => {
-        PP.assets.destroy(PP.game_state.statusDoor);
+      let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "La porta è chiusa a chiave...");
+
+      PP.timers.add_timer(scene, 300, (s) => {
+        PP.assets.destroy(avvisoPorta);
       }, false);
+
       return;
     }
-    PP.game_state.statusDoor = PP.shapes.text_add(scene, 3800, 300, "Vuoi usare la chiave per aprire la porta?");
+    let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "Vuoi usare la chiave per aprire la porta?");
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+        PP.assets.destroy(avvisoPorta);
+      }, false);
 
     let button_si = PP.shapes.text_add(scene, 3740, 400, "Si");
     let button_no = PP.shapes.text_add(scene, 3830, 400, "No");
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+        PP.assets.destroy(button_no);
+        PP.assets.destroy(button_si);
+    }, false);
 
     PP.interactive.mouse.add(button_si, "pointerdown", () => {
       PP.assets.destroy(door);
       PP.assets.destroy(button_no);
       PP.assets.destroy(button_si);
-      PP.assets.destroy(PP.game_state.statusKey);
+      PP.assets.destroy(avvisoPorta);
     });
     PP.interactive.mouse.add(button_no, "pointerdown", () => {
       PP.assets.destroy(button_no);
       PP.assets.destroy(button_si);
-      PP.assets.destroy(PP.game_state.statusKey);
+      PP.assets.destroy(avvisoPorta);
     });
   });
 
