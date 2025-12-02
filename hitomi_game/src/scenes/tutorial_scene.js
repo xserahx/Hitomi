@@ -17,12 +17,13 @@ function create_tutorial_scene(scene) {
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
     // === PIATTAFORME ===
-    const platformPositions = [
-        { x: 250, y: 370, w: 50, h: 400 },
-        { x: 890, y: 480, w: 200, h: 20 },
-        { x: 1100, y: 650, w: 100, h: 60 },
-        { x: 500, y: 500, w: 200, h: 20 },
-        { x: 350, y: 350, w: 200, h: 20 }
+    const platformPositions = [ 
+        { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
+        { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
+        { x: 1100, y: 650, w: 100, h: 60 }, // muretto
+        { x: 500, y: 500, w: 200, h: 20 }, // piattaforma centrale
+        { x: 350, y: 350, w: 200, h: 20 }, // base del nemico
+        { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
