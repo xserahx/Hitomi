@@ -28,7 +28,7 @@ PP.entities.boss.update = function (scene, boss, player) {
 
   if (distance < boss.detectionRange) {
 
-    if (dx > boss.deadZone) {
+    if (dx > boss.deadZone && boss.lives > 0) {
       if (dx < boss.dashzone) { PP.physics.set_velocity_x(boss, boss.speed); }
       else { PP.physics.set_velocity_x(boss, boss.dashSpeed); }
       boss.direction = 1;
