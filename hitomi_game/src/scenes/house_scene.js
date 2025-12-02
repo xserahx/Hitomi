@@ -24,37 +24,37 @@ function create_house(scene, data) {
         // === PIATTAFORME ===
     const platformPositions = [
     { x: 140, y: 810, w: 130, h: 130 },  // rialzino
-    { x: 250, y: 739, w: 50, h: 270 },  // palo verticale
-    { x: 540, y: 695, w: 150, h: 42 },  // piattaforma
+    { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
+    { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
     { x: 1050, y: 810, w: 87, h: 130 },  // vaso
     { x: 780, y: 785, w: 130, h: 180 },  // armadio
 
-    { x: 350, y: 645, w: 150, h: 20 },  // basetta attaccata al palo
-    { x: 1280, y: 425, w: 100, h: 620 },  // muro grande a dx
+    { x: 350, y: 645, w: 150, h: 20  },  // basetta attaccata al palo
+    { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
     { x: 1600, y: 740, w: 150, h: 20 },  // piattaforma piccola dopo muro grande
     { x: 1800, y: 650, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
     { x: 2300, y: 475, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
-    { x: 2560, y: 425, w: 100, h: 620 },  // secondo muro grande
-    { x: 2850, y: 675, w: 150, h: 100 },  // cubone 1 dopo secondo muro
-    { x: 3100, y: 625, w: 150, h: 250 },  // cubone 2 dopo secondo muro
+    { x: 2560, y: 425, w: 100, h: 620},  // secondo muro grande
+    { x: 2850, y: 675, w: 150, h: 10 },  // cubone 1 dopo secondo muro
+    { x: 3100, y: 625, w: 150, h: 250},  // cubone 2 dopo secondo muro
     { x: 3600, y: 450, w: 150, h: 20 },  // piattaforma dopo i cuboni 
-    { x: 3840, y: 425, w: 100, h: 620 },  // terzo muro grande
-    { x: 4040, y: 425, w: 300, h: 150 },  // piattaforma grande attaccata al terzo muro
+    { x: 3840, y: 425, w: 100, h: 620},  // terzo muro grande
+    { x: 4040, y: 425, w: 300, h: 15 },  // piattaforma grande attaccata al terzo muro
     { x: 4265, y: 425, w: 150, h: 40 },
-    { x: 4335, y: 395, w: 40, h: 120, },
+    { x: 4335, y: 395, w: 40, h: 120,},
     { x: 4335, y: 325, w: 100, h: 20 },
-    { x: 4300, y: 805, w: 150, h: 100 },
+    { x: 4300, y: 805, w: 150, h: 100},
     { x: 4500, y: 470, w: 150, h: 20 },
     { x: 4550, y: 130, w: 150, h: 20 },
     { x: 4650, y: 300, w: 150, h: 20 },
     { x: 4745, y: 375, w: 40, h: 150 },
-    { x: 5250, y: 300, w: 150, h: 100 },
-    { x: 5650, y: 250, w: 150, h: 100 },
-    { x: 6050, y: 200, w: 150, h: 100 },
-    { x: 6450, y: 300, w: 150, h: 100 },
-    { x: 7000, y: 480, w: 150, h: 20 },
-    { x: 7150, y: 595, w: 150, h: 250 },
-    { x: 7650, y: 250, w: 100, h: 620 }
+    { x: 5250, y: 300, w: 150, h: 100},
+    { x: 5650, y: 250, w: 150, h: 100},
+    { x: 6050, y: 200, w: 150, h: 100},
+    { x: 6450, y: 300, w: 150, h: 100},
+    { x: 7000, y: 480, w: 150, h: 20 }
+    { x: 7150, y: 595, w: 150, h: 250},
+    { x: 7650, y: 250, w: 100, h: 620}
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
