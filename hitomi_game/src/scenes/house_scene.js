@@ -360,7 +360,6 @@ function create_house(scene, data) {
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
-  console.log(config.player_x);
 
   if (PP.game_state.player) {
     PP.game_state.playerPosition = {
