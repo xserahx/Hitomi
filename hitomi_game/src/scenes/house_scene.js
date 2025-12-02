@@ -107,16 +107,20 @@ function create_house(scene, data) {
 
   let keyCollected = false;
 
-  // === COLLECT KEY ===
+  // === RACCOLTA CHIAVE ===
   PP.physics.add_overlap_f(scene, PP.game_state.player, key, () => {
     if (keyCollected == true) {
       console.log("Chiave già raccolta!");
       return;
     }
     keyCollected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 1000, 600, "Una chiave? Potrebbe aprire una porta!");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 1000, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
     console.log("Key collected!");
-    PP.shapes.destroy(key);
+    PP.assets.destroy(key);
+
+    PP.timers.add_timer(scene, 1000, (s) => {
+    PP.assets.destroy(PP.game_state.statusKey);
+  }, false);
   });
 
 
@@ -133,21 +137,6 @@ function create_house(scene, data) {
 
   // === CAMBIO MONDO ===
   PP.game_state.changingWorld = false;
-
-  // === CHIAVE ===
-  //const key = scene.physics.add.staticSprite(500, 600, "key_gold");
-  //let keyCollected = false;
-
-  //scene.physics.add.overlap(PP.game_state.player, key, () => {
-  //if (keyCollected) return;
-  //keyCollected = true;
-  //PP.game_state.player.hasKey = "goldenKey";
-  //key.destroy();
-
-  //showAchievement(scene,
-  //   "Una chiave? Forse potrebbe aprire qualche piccola serratura..."
-  // );
-  // });
 
   // === PORTA ===
   // const door = scene.physics.add.staticSprite(7650, 700, "door_locked");
