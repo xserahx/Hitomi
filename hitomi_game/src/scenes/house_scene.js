@@ -24,37 +24,37 @@ function create_house(scene, data) {
   // === PIATTAFORME ===
   const platformPositions = [
     { x: 140, y: 810, w: 130, h: 130 },  // rialzino
-    { x: 250, y: 739, w: 50, h: 270 },  // palo verticale
-    { x: 540, y: 695, w: 150, h: 42 },  // piattaforma
+    { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
+    { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
     { x: 1050, y: 810, w: 87, h: 130 },  // vaso
     { x: 780, y: 785, w: 130, h: 180 },  // armadio
 
-    { x: 350, y: 645, w: 150, h: 20 },  // basetta attaccata al palo
-    { x: 1280, y: 425, w: 100, h: 620 },  // muro grande a dx
+    { x: 350, y: 645, w: 150, h: 20  },  // basetta attaccata al palo
+    { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
     { x: 1600, y: 740, w: 150, h: 20 },  // piattaforma piccola dopo muro grande
     { x: 1800, y: 650, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
     { x: 2300, y: 475, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
-    { x: 2560, y: 425, w: 100, h: 620 },  // secondo muro grande
+    { x: 2560, y: 425, w: 100, h: 620},  // secondo muro grande
     { x: 2850, y: 675, w: 150, h: 10 },  // cubone 1 dopo secondo muro
-    { x: 3100, y: 625, w: 150, h: 250 },  // cubone 2 dopo secondo muro
+    { x: 3100, y: 625, w: 150, h: 250},  // cubone 2 dopo secondo muro
     { x: 3600, y: 450, w: 150, h: 20 },  // piattaforma dopo i cuboni 
-    { x: 3840, y: 425, w: 100, h: 620 },  // terzo muro grande
+    { x: 3840, y: 425, w: 100, h: 620},  // terzo muro grande
     { x: 4040, y: 425, w: 300, h: 15 },  // piattaforma grande attaccata al terzo muro
     { x: 4265, y: 425, w: 150, h: 40 },
-    { x: 4335, y: 395, w: 40, h: 120, },
+    { x: 4335, y: 395, w: 40, h: 120 },
     { x: 4335, y: 325, w: 100, h: 20 },
-    { x: 4300, y: 805, w: 150, h: 100 },
+    { x: 4300, y: 805, w: 150, h: 100},
     { x: 4500, y: 470, w: 150, h: 20 },
     { x: 4550, y: 130, w: 150, h: 20 },
     { x: 4650, y: 300, w: 150, h: 20 },
     { x: 4745, y: 375, w: 40, h: 150 },
-    { x: 5250, y: 300, w: 150, h: 100 },
-    { x: 5650, y: 250, w: 150, h: 100 },
-    { x: 6050, y: 200, w: 150, h: 100 },
-    { x: 6450, y: 300, w: 150, h: 100 },
+    { x: 5250, y: 300, w: 150, h: 100},
+    { x: 5650, y: 250, w: 150, h: 100},
+    { x: 6050, y: 200, w: 150, h: 100},
+    { x: 6450, y: 300, w: 150, h: 100},
     { x: 7000, y: 480, w: 150, h: 20 },
-    { x: 7150, y: 595, w: 150, h: 250 },
-    { x: 7650, y: 250, w: 100, h: 620 }
+    { x: 7150, y: 595, w: 150, h: 250},
+    { x: 7650, y: 250, w: 100, h: 620}
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -101,8 +101,6 @@ function create_house(scene, data) {
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });
   }
-
-
 
   // === CHIAVE ===
   const key = PP.shapes.rectangle_add(scene, 1050, 695, 50, 50, "0x123456", 0);
@@ -160,8 +158,6 @@ function create_house(scene, data) {
     });
   });
 
-
-
   // === CLICK DEL MOUSE PER ATTACCARE ===
   scene.input.on("pointerdown", () => {
     PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
@@ -175,181 +171,8 @@ function create_house(scene, data) {
 
   // === CAMBIO MONDO ===
   PP.game_state.changingWorld = false;
-
-  // === PORTA ===
-  // const door = scene.physics.add.staticSprite(7650, 700, "door_locked");
-  // door.setOrigin(0.5, 1);
-
-  //door.isLocked = true;
-  //door.keyId = "goldenKey";
-  //door._opening = false;
-  //door._opened = false;
-  //door._enteringScene = false;
-  //door._popupActive = false;
-  //door._pendingAsk = false;
-  //door._msgShownLocked = false;
-
-
-  //function showDoorPopup() {
-
-  // if (door._popupActive) return;
-  // door._popupActive = true;
-
-  // const px = PP.game_state.player.x;
-  // const py = PP.game_state.player.y;
-
-  //const msg = scene.add.text(px, py - 90,
-  //"Vuoi usare la chiave per aprire la porta?",
-  // { font:"26px Arial", fill:"#fff", backgroundColor:"#333", padding:{x:10,y:6}}
-  //).setOrigin(0.5,1);
-
-  //const btnYes = scene.add.text(px - 50, py - 40, "Sì",
-  //{ font:"26px Arial", fill:"#0f0", backgroundColor:"#000", padding:{x:8,y:4}}
-  //).setOrigin(0.5).setInteractive({useHandCursor:true});
-
-  //const btnNo = scene.add.text(px + 50, py - 40, "No",
-  //{ font:"26px Arial", fill:"#f00", backgroundColor:"#000", padding:{x:8,y:4}}
-  //).setOrigin(0.5).setInteractive({useHandCursor:true});
-
-  //function removePopup() {
-  //  msg.destroy();
-  // btnYes.destroy();
-  //btnNo.destroy();
-  // door._popupActive = false;
-  //}
-
-  //btnYes.on("pointerdown", () => {
-  //    removePopup();
-  //    door._opening = true;
-
-  //  openDoor(door, scene, () => {
-  //    door._opening = false;
-  //  door.isLocked = false;
-  // door._opened = true;
-
-  //if (!door._enteringScene) {
-  //  door._enteringScene = true;
-  //scene.cameras.main.fadeOut(1000);
-
-  //scene.time.delayedCall(1000, () => {
-  //  PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
-  //scene.scene.start("forest_scene", PP.game_state.playerPosition);
-  //});
-  // }
-  //});
-  //});
-
-  //btnNo.on("pointerdown", () => {
-  //  removePopup();
-
-  //if (!door._pendingAsk) {
-  //  door._pendingAsk = true;
-
-  //scene.time.delayedCall(1500, () => {
-  //  const dist = Phaser.Math.Distance.Between(
-  //    PP.game_state.player.x, PP.game_state.player.y,
-  //  door.x, door.y
-  //);
-
-  //if (dist < 150 && door.isLocked) showDoorPopup();
-
-  //door._pendingAsk = false;
-  //});
-  //}
-  //});
-  // }
-
-  // === COLLISIONE PORTA ===
-  //scene.physics.add.overlap(PP.game_state.player, door, () => {
-
-  // if (door._opening) return;
-
-  // Porta chiusa → NON ho la chiave
-  //if (door.isLocked && PP.game_state.player.hasKey !== door.keyId) {
-  //  if (!door._msgShownLocked) {
-  //    door._msgShownLocked = true;
-  //   showFloatingMessage(scene,
-  //     "La porta è bloccata... dovrei trovare una chiave.",
-  //   PP.game_state.player.x, PP.game_state.player.y
-  //);
-  //}
-  //return;
-  //}
-
-  // Porta chiusa → ho la chiave
-  //if (door.isLocked && PP.game_state.player.hasKey === door.keyId) {
-  //  showDoorPopup();
-  // return;
-  //}
-
-  // Porta già aperta
-  //if (!door.isLocked && door._opened && !door._enteringScene) {
-  // door._enteringScene = true;
-  // scene.cameras.main.fadeOut(1000);
-
-  // scene.time.delayedCall(1000, () => {
-  //     PP.game_state.playerPosition = { x: PP.game_state.player.x, y: PP.game_state.player.y };
-  //     scene.scene.start("forest_scene", PP.game_state.playerPosition);
-  // });
-  //}
-  // });
-
-  // === CAMBIO MONDO ===
-  PP.game_state.changingWorld = false;
   //scene.input.keyboard.on("keydown-U", () => switchWorld(scene));
   //scene.input.keyboard.on("keydown-u", () => switchWorld(scene));
-  //}
-
-  // === MESSAGGIO  ===
-  //function showFloatingMessage(scene, text, x, y) {
-  //  const msg = scene.add.text(x, y - 50, text,
-  //    { font:"24px Arial", fill:"#fff", backgroundColor:"#333", padding:{x:8,y:4} }
-  //);
-  //msg.setOrigin(0.5, 1);
-  //msg.setAlpha(0);
-
-  //scene.tweens.add({
-  //    targets: msg,
-  //    alpha: 1,
-  //    duration: 400,
-  //  onComplete: () => {
-  //        scene.time.delayedCall(2000, () => {
-  //            scene.tweens.add({
-  //                targets: msg,
-  //                alpha: 0,
-  //                duration: 400,
-  //                onComplete: () => msg.destroy()
-  // });
-  // });
-  // }
-  //});
-  //}
-
-
-  // === ACHIEVEMENT ===
-  //function showAchievement(scene, text) {
-  // const t = scene.add.text(
-  // scene.cameras.main.centerX, 100, text,
-  // { font:"24px Arial", fill:"#fff", backgroundColor:"#333", padding:{x:10,y:5} }
-  //);
-  // t.setOrigin(0.5);
-  //t.setAlpha(0);
-
-  //scene.tweens.add({
-  //    targets: t,
-  //    alpha: 1,
-  //     duration: 400,
-  //     onComplete: () => {
-  //       scene.time.delayedCall(2000, () => {
-  //           scene.tweens.add({
-  //             targets: t,
-  //               alpha: 0,
-  //            duration: 400,
-  //            onComplete: () => t.destroy()
-  //       });
-  //  });
-  //}
-  //});
   //}
 
   // === APERTURA PORTA (ANIMAZIONE SLIDE) ===
