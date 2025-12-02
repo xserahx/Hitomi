@@ -106,7 +106,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
 
   player.isAttacking = true;
 
-  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.body_x + 50 * player.lastDirection, player.geometry.body_y, 100, 80, "0xABCDEF", 1);
+  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.body_x + 50 * player.lastDirection, player.geometry.body_y +70, 100, 100, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
   if (Array.isArray(enemies)) {

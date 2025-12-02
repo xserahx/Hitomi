@@ -11,13 +11,18 @@ function preload_house(scene) {
 
 function create_house(scene, data) {
 
+    const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
+    PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
+
+    const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
+    PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
+
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 3840, 895, 7700, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
      // === PIATTAFORME ===
     const platformPositions = [
-        { x: 0, y: 500, w: 20, h: 800 },     // Primo muro a sinistra
         { x: 140, y: 810, w: 130, h: 130 },  // rialzino
         { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
         { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
@@ -64,17 +69,11 @@ function create_house(scene, data) {
 
      // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
+    PP.physics.add_collider(scene, PP.game_state.player, leftWall);
+    PP.physics.add_collider(scene, PP.game_state.player, rightWall);
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
-    
-
-    // === CAMERA ===
-    PP.camera.start_follow(scene, PP.game_state.player, 0, 200);
-    /*scene.cameras.main.startFollow(PP.game_state.player);
-    scene.cameras.main.setBounds(0, 0, 1280, 900);
-    scene.physics.world.setBounds(0, 0, 1280, 900);
-    scene.cameras.main.fadeIn(800, 0, 0, 0);*/
 
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
@@ -97,6 +96,17 @@ function create_house(scene, data) {
             PP.entities.player.damage(scene, PP.game_state.player,enemy);
         });
     }
+
+    // === CLICK DEL MOUSE PER ATTACCARE ===
+    scene.input.on("pointerdown", () => {
+        PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
+    });
+
+    // === CAMERA ===
+    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+    const worldHeight = ground.geometry.body_y + 40;
+    scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
     // === CAMBIO MONDO ===
     PP.game_state.changingWorld = false;
@@ -347,7 +357,7 @@ function update_house(scene) {
         };
     }
 
-  if(config.player_x < 1280) {
+  /*if(config.player_x < 1280) {
       PP.camera.set_follow_offset(scene, config.player_x - 640, 150);
     }else if (config.player_x < 2560){
       PP.camera.set_follow_offset(scene, config.player_x - 1920, 150);
@@ -357,12 +367,11 @@ function update_house(scene) {
       PP.camera.set_follow_offset(scene, config.player_x - 7400, 150);
     }else{
       PP.camera.start_follow(scene, PP.game_state.player, 0, 150);
-    } 
+    } */  
 
 }
 
 // === DESTROY ===
 function destroy_house(scene) {}
 
-PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
 PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);

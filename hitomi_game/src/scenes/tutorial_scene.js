@@ -68,6 +68,12 @@ function create_tutorial_scene(scene) {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
     });
 
+    // === CAMERA ===
+    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+    const worldHeight = ground.geometry.body_y + 40;
+    scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+
     PP.game_state.changingWorld = false;
 }
 
