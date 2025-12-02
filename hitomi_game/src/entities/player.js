@@ -41,7 +41,7 @@ PP.entities.player.update = function (scene, player) {
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
 
-  config.player_x = player.geometry.x;
+  config.player_x = player.geometry.body_x;
   // === DASH ===
   if (
     PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) &&
@@ -106,7 +106,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
 
   player.isAttacking = true;
 
-  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.x + 50 * player.lastDirection, player.geometry.y, 100, 80, "0xABCDEF", 1);
+  const hitbox = PP.shapes.rectangle_add(scene, player.geometry.body_x + 50 * player.lastDirection, player.geometry.body_y, 100, 80, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
   if (Array.isArray(enemies)) {
@@ -159,7 +159,7 @@ PP.entities.player.damage = function (scene, player, enemy) {
   player.isKnocked = true;
   const knockbackX = 600;
   const knockbackY = -300;
-  const dirX = (player.geometry.x < enemy.geometry.x) ? -1 : 1; //Non c'è modo di avere la x del player
+  const dirX = (player.geometry.body_x < enemy.geometry.body_x) ? -1 : 1; //Non c'è modo di avere la x del player
 
   PP.physics.set_velocity_x(player, knockbackX * dirX);
   PP.physics.set_velocity_y(player, knockbackY);
