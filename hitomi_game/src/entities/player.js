@@ -184,3 +184,9 @@ PP.entities.player.damage = function (scene, player, enemy) {
     });
   }
 }
+
+// === RACCOLTA BAMBINO ===
+PP.entities.player.get_baby = function (scene, player) {
+  player.has_baby = true;
+  console.log("Player has baby:", player.has_baby);
+}

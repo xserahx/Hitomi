@@ -28,6 +28,10 @@ function create_tutorial_scene(scene) {
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+    // === BAMBINO ===
+    const baby = PP.shapes.rectangle_add(scene, 70, 600, 40, 40, "0x00ff00", 1);
+    PP.physics.add(scene, baby, PP.physics.type.STATIC);
+
     // === PLAYER ===
     const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
     const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
@@ -42,6 +46,35 @@ function create_tutorial_scene(scene) {
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
+
+    // === COLLDIER BAMBINO ===
+     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
+        /*PP.timers.add_timer(scene, 300, (s) => {
+             PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
+        }, true);*/
+
+        let layer_domanda = PP.layers.create(scene);
+        PP.layers.set_z_index(layer_domanda, 10);
+
+
+        PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
+
+        let button_si = PP.shapes.text_add(scene, 580, 400, "Si");
+        let button_no = PP.shapes.text_add(scene, 780, 400, "No");
+
+        //PP.layers.add_to_layer(layer_domanda, game_state.askChild);
+        PP.layers.add_to_layer(layer_domanda, button_no);
+        PP.layers.add_to_layer(layer_domanda, button_si);
+
+        PP.interactive.mouse.add(button_si,"pointerdown",() => {
+            PP.entities.player.get_baby(scene, PP.game_state.player);
+            PP.scenes.start("house_scene");
+        });
+        PP.interactive.mouse.add(button_no,"pointerdown",() => {
+            PP.scenes.start("house_scene");
+        });
+
+    });
 
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
