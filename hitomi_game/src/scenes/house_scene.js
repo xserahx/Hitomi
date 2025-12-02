@@ -101,6 +101,9 @@ function create_house(scene, data) {
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });
   }
+
+
+
   // === CHIAVE ===
   const key = PP.shapes.rectangle_add(scene, 1050, 695, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key, PP.physics.type.STATIC);
@@ -119,9 +122,44 @@ function create_house(scene, data) {
     PP.assets.destroy(key);
 
     PP.timers.add_timer(scene, 1000, (s) => {
-    PP.assets.destroy(PP.game_state.statusKey);
-  }, false);
+      PP.assets.destroy(PP.game_state.statusKey);
+    }, false);
   });
+
+  // === PORTA ===
+  const door = PP.shapes.rectangle_add(scene, 3800, 820, 100, 120, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3800, 820, 120, 130, "0x000000", 0.2);
+  PP.physics.add(scene, door, PP.physics.type.STATIC);
+  PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
+
+  PP.physics.add_collider(scene, PP.game_state.player, door);
+
+  PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame, () => {
+    if (keyCollected == false) {
+      PP.game_state.statusDoor = PP.shapes.text_add(scene, 3800, 300, "La porta è chiusa a chiave...");
+      PP.timers.add_timer(scene, 1000, (scene) => {
+        PP.assets.destroy(PP.game_state.statusDoor);
+      }, false);
+      return;
+    }
+    PP.game_state.statusDoor = PP.shapes.text_add(scene, 3800, 300, "Vuoi usare la chiave per aprire la porta?");
+
+    let button_si = PP.shapes.text_add(scene, 3740, 400, "Si");
+    let button_no = PP.shapes.text_add(scene, 3830, 400, "No");
+
+    PP.interactive.mouse.add(button_si, "pointerdown", () => {
+      PP.assets.destroy(door);
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(PP.game_state.statusKey);
+    });
+    PP.interactive.mouse.add(button_no, "pointerdown", () => {
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(PP.game_state.statusKey);
+    });
+  });
+
 
 
   // === CLICK DEL MOUSE PER ATTACCARE ===
