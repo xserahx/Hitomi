@@ -60,6 +60,12 @@ function update_bossfight_scene(scene) {
             y: PP.game_state.player.y
         };
     }
+
+    if(config.player_is_hit == true){
+        console.log("Player hit!");
+        PP.entities.player.damage(scene, PP.game_state.player);
+        config.player_is_hit = false;
+    }
 }
 
 function destroy_bossfight_scene(scene) {}

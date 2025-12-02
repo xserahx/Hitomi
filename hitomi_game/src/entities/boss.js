@@ -73,7 +73,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
   }, false);
 
   PP.timers.add_timer(scene, 1000, (s) => {
-    PP.entities.player.damage(scene, player, hitbox);
+    boss.isAttacking = false;
   }, false);
 
 }
