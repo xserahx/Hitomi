@@ -103,7 +103,7 @@ function create_forest(scene, data) {
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            PP.entities.player.damage(scene, PP.game_state.player);
+            PP.entities.player.damage(scene, PP.game_state.player,enemy);
         });
     }
 
@@ -169,4 +169,7 @@ function destroy_forest(scene) {
 
 // === AGGIUNGI LA SCENA ===
 PP.scenes.add('forest_scene', preload_forest, create_forest, update_forest, destroy_forest);
+
+
+
 
