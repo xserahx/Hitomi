@@ -71,6 +71,21 @@ function create_bossfight_scene(scene) {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.boss);
     });
 
+        // --- NEVE ---
+    // array per i fiocchi
+    scene.snowflakes = [];
+
+    // timer che crea fiocchi
+    scene.time.addEvent({
+        delay: 200,
+        callback: () => {
+            const x = Phaser.Math.Between(0, scene.sys.game.config.width);
+            const flake = scene.add.image(x, 0, 'snowflake').setScale(0.2);
+            scene.snowflakes.push(flake);
+        },
+        loop: true
+    });
+
     PP.game_state.changingWorld = false;
 }
 
@@ -83,6 +98,14 @@ function update_bossfight_scene(scene) {
             x: PP.game_state.player.x,
             y: PP.game_state.player.y
         };
+    }
+
+    // muovi i fiocchi verso il basso
+    for (let flake of scene.snowflakes) {
+        flake.y += 2; // velocità caduta
+        if (flake.y > scene.sys.game.config.height) {
+            flake.destroy();
+        }
     }
 
     if (config.player_is_hit == true) {
