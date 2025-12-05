@@ -45,11 +45,12 @@ PP.entities.boss.update = function (scene, boss, player) {
   if(PP.game_state.bossIsDead == true){
     boss.speed = 50;
 
-    if(boss.geometry.body_x > 80)
+    if(boss.geometry.body_x > 120)
     {
       PP.physics.set_velocity_x(boss, -boss.speed);
     }else {
       boss.speed = 0;
+      PP.physics.set_velocity_x(boss, 0);
       PP.game_state.bossIsDead = false;
       PP.game_state.bossIsFriendly = true;
     }
