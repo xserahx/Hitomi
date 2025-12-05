@@ -5,6 +5,15 @@ function preload_forest(scene) {
 }
 
 function create_forest(scene, data) {
+  // Setta la scena del mondo spettrale
+    PP.game_state.otherWorld = "ghostly_forest_scene";
+
+    const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
+  PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
+
+  const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
+  PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
+
   // === SFONDO ===
   scene.cameras.main.setBackgroundColor(0x0b3d0b);
 
@@ -73,8 +82,14 @@ function create_forest(scene, data) {
   //scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
    // === PLAYER ===
-    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
-    const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
+    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+
+    //Check se sta cambaindo mondo
+    if(PP.game_state.changingWorld){
+        startX = config.player_x;
+        startY = config.player_y;
+    }
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
@@ -108,17 +123,10 @@ function create_forest(scene, data) {
     }
 
   // === CAMERA ===
+  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+  const worldHeight = ground.geometry.body_y + 40;
+  scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
-  //scene.cameras.main.startFollow(PP.game_state.player, true);
-
-  //scene.cameras.main.setBounds(0, 0, 6400, 2000);
-  //scene.physics.world.setBounds(0, 0, 6400, 2000);
-
-  // deadzone solo sull’asse Y
-  //scene.cameras.main.setDeadzone(0, 200);
-
-  // fade
-  //scene.cameras.main.fadeIn(800, 0, 0, 0);
 
   // === CAMBIO MONDO (U / u) ===
   PP.game_state.changingWorld = false;
@@ -153,6 +161,12 @@ function create_forest(scene, data) {
 function update_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
+
+  // === CAMBIO MONDO ===
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
+        console.log("Changing world");
+        PP.entities.player.changeWorld(scene);
+    }
 
   if (PP.game_state.player) {
     PP.game_state.playerPosition = {
