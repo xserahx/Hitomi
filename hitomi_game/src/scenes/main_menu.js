@@ -6,6 +6,10 @@ function create(s) {
   const centerX = PP.game.config.canvas_width / 2;
   const centerY = PP.game.config.canvas_height / 2;
 
+  
+  PP.game_state.bossIsDead = false;
+  PP.game_state.bossIsFriendly = false;
+
   // === TITOLO PRINCIPALE ===
   s.add.text(centerX, centerY - 120, "Hitomi", {
     fontFamily: "Helvetica",

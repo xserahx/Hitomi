@@ -33,9 +33,7 @@ function create_bossfight_scene(scene) {
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
     // === BOSS ===
-    PP.game_state.boss = PP.entities.boss.create(scene)
-    PP.game_state.bossIsDead = false;
-    PP.game_state.bossIsFriendly = false;
+    PP.game_state.boss = PP.entities.boss.create(scene);
 
     // === COLLIDER BOSS ===
     PP.physics.add_collider(scene, PP.game_state.boss, ground);
