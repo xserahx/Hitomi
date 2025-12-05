@@ -1,6 +1,6 @@
 // === bossfight SCENE ===
 function preload_bossfight_scene(scene) {
-    // Caricamenti opzionali
+    scene.load.image('snowflake', 'assets/images/forest/neve.png');
 }
 
 // === CREAZIONE SCENA ===
@@ -32,6 +32,7 @@ function create_bossfight_scene(scene) {
 
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
+    
     // === BOSS ===
     PP.game_state.boss = PP.entities.boss.create(scene);
 

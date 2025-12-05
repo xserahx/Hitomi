@@ -1,7 +1,6 @@
 // === ghostly_tutorial SCENE ===
 function preload_ghostly_tutorial_scene(scene) {
-    // Caricamenti opzionali
-        scene.load.image('snowflake', 'assets/images/mushroom_1.png');
+       
 }
 
 // === CREAZIONE SCENA ===
@@ -115,36 +114,13 @@ function create_ghostly_tutorial_scene(scene) {
     scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
     PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
-    // --- NEVE ---
-    // array per i fiocchi
-    scene.snowflakes = [];
-
-    // timer che crea fiocchi
-    scene.time.addEvent({
-        delay: 200,
-        callback: () => {
-            const x = Phaser.Math.Between(0, scene.sys.game.config.width);
-            const flake = scene.add.image(x, 0, 'snowflake').setScale(0.2);
-            scene.snowflakes.push(flake);
-        },
-        loop: true
-    });
-
     PP.game_state.changingWorld = false;
 }
 
 function update_ghostly_tutorial_scene(scene) {
     PP.entities.player.update(scene, PP.game_state.player);
     PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
-
-    // muovi i fiocchi verso il basso
-    for (let flake of scene.snowflakes) {
-        flake.y += 2; // velocità caduta
-        if (flake.y > scene.sys.game.config.height) {
-            flake.destroy();
-        }
-    }
-
+    
         // === CAMBIO MONDO ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
         PP.entities.player.changeWorld(scene);
