@@ -34,12 +34,36 @@ function create_bossfight_scene(scene) {
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
     // === BOSS ===
     PP.game_state.boss = PP.entities.boss.create(scene)
+    PP.game_state.bossIsDead = false;
+    PP.game_state.bossIsFriendly = false;
+
+    // === COLLIDER BOSS ===
     PP.physics.add_collider(scene, PP.game_state.boss, ground);
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.boss, plat);
     }
     PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
-        PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss);
+        console.log("Boss overlap");
+        if (PP.game_state.bossIsDead == false && PP.game_state.bossIsFriendly == false) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
+        else if (PP.game_state.bossIsFriendly == true) {
+
+            PP.game_state.askSamurai = PP.shapes.text_add(scene, 200, 360, "Haruki is defeated, i could ask him what is going on.");
+
+            let button_si = PP.shapes.text_add(scene, 150, 400, "Stay");
+            let button_no = PP.shapes.text_add(scene, 250, 400, "Don't stay");
+
+            PP.interactive.mouse.add(button_si, "pointerdown", () => {
+                PP.assets.destroy(PP.game_state.askSamurai);
+                PP.assets.destroy(button_si);
+                PP.assets.destroy(button_no);
+                let victory = PP.shapes.text_add(scene, 580, 400, "Good ending is currently a work in progress, but thanks for playing!");
+            });
+            PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                PP.assets.destroy(PP.game_state.askSamurai);
+                PP.assets.destroy(button_si);
+                PP.assets.destroy(button_no);
+            });
+        }
     });
 
     // === CLICK DEL MOUSE PER ATTACCARE ===
@@ -61,14 +85,18 @@ function update_bossfight_scene(scene) {
         };
     }
 
-    if(config.player_is_hit == true){
+    if (config.player_is_hit == true) {
         console.log("Player hit!");
         PP.entities.player.damage(scene, PP.game_state.player);
         config.player_is_hit = false;
     }
+
+    if(PP.game_state.bossIsFriendly == true){
+        let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
+    }
 }
 
-function destroy_bossfight_scene(scene) {}
+function destroy_bossfight_scene(scene) { }
 
 
 PP.scenes.add("bossfight_scene", preload_bossfight_scene, create_bossfight_scene, update_bossfight_scene, destroy_bossfight_scene);

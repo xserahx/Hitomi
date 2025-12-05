@@ -7,12 +7,13 @@ PP.entities.boss.create = function (scene, positions) {
   PP.physics.add(scene, boss, PP.physics.type.DYNAMIC);
   PP.physics.set_collide_world_bounds(boss, true);
 
-  boss.speed = 150;
+  boss.speed = 0;
   boss.detectionRange = 1280;
   boss.deadZone = 5;
   boss.dashzone = 400;
   boss.dashSpeed = 700;
   boss.direction = 1;
+  boss.maxLives = 10;
   boss.lives = 3;
 
   boss.isAttacking = false;
@@ -26,13 +27,13 @@ PP.entities.boss.update = function (scene, boss, player) {
   const dx = player.geometry.x - boss.geometry.x;
   const distance = Math.abs(dx);
 
-  if (distance < boss.detectionRange) {
+  if (distance < boss.detectionRange && PP.game_state.bossIsDead == false && PP.game_state.bossIsFriendly == false) {
 
     if (dx > boss.deadZone && boss.lives > 0) {
       if (dx < boss.dashzone) { PP.physics.set_velocity_x(boss, boss.speed); }
       else { PP.physics.set_velocity_x(boss, boss.dashSpeed); }
       boss.direction = 1;
-    } else if (dx < -boss.deadZone) {
+    } else if (dx < -boss.deadZone && boss.lives > 0) {
         if (dx > -boss.dashzone) { PP.physics.set_velocity_x(boss, -boss.speed); }
         else { PP.physics.set_velocity_x(boss, -boss.dashSpeed); }
       boss.direction = -1;
@@ -41,8 +42,21 @@ PP.entities.boss.update = function (scene, boss, player) {
     }
   }
 
+  if(PP.game_state.bossIsDead == true){
+    boss.speed = 50;
+
+    if(boss.geometry.body_x > 80)
+    {
+      PP.physics.set_velocity_x(boss, -boss.speed);
+    }else {
+      boss.speed = 0;
+      PP.game_state.bossIsDead = false;
+      PP.game_state.bossIsFriendly = true;
+    }
+  }
+
   //Se il player è vicino, attacca
-  if (dx < 300 && dx > -300) {
+  if (dx < 300 && dx > -300 && PP.game_state.bossIsDead == false && PP.game_state.bossIsFriendly == false) {
     PP.entities.boss.attack(scene, boss, player);
   }
 };
@@ -52,7 +66,7 @@ PP.entities.boss.update = function (scene, boss, player) {
 PP.entities.boss.attack = function (scene, boss, player) {
 
   //Per evitare bug
-  if (boss.isDashing == true || boss.isAttacking == true) return;
+  if (boss.isDashing == true || boss.isAttacking == true || PP.game_state.bossIsDead == true || PP.game_state.bossIsFriendly == true) return;
 
   boss.isAttacking = true;
 
@@ -80,9 +94,10 @@ PP.entities.boss.attack = function (scene, boss, player) {
 
 // === FUNZIONE DI DANNO
 PP.entities.boss.damage = function (scene, boss, hitbox) {
-  if (boss.isInvincible) return;
+  if (boss.isInvincible || PP.game_state.bossIsDead == true) return;
 
   boss.lives -= 1;
+  console.log("vite boss: " + boss.lives);
   boss.isInvincible = true;
 
   // === LAMPEGGIO ROSSO ===
@@ -122,6 +137,6 @@ PP.entities.boss.damage = function (scene, boss, hitbox) {
   }, false);
 
   if (boss.lives <= 0) {
-    PP.shapes.destroy(boss);
+    PP.game_state.bossIsDead = true;
   }
 }

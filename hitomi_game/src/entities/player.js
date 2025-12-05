@@ -49,7 +49,7 @@ PP.entities.player.update = function (scene, player) {
   config.player_x = player.geometry.body_x;
   // === DASH ===
   if (
-    PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) &&
+    PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) && PP.game_state.bossIsDead == false &&
     !player.isDashing &&
     PP.timers.getTime(scene) - player.lastDash > player.dashCooldown
   ) {
@@ -71,12 +71,12 @@ PP.entities.player.update = function (scene, player) {
 
 
   // === MOVIMENTO ORIZZONTALE ===
-  if (!player.isKnocked) {
+  if (!player.isKnocked && PP.game_state.bossIsDead == false) {
     if (movingLeft && !movingRight) {
       player.lastDirection = -1;
       PP.physics.set_velocity_x(player, -speed);
     }
-    else if (movingRight && !movingLeft) {
+    else if (movingRight && !movingLeft && PP.game_state.bossIsDead == false) {
       player.lastDirection = 1;
       PP.physics.set_velocity_x(player, speed);
     }
@@ -92,13 +92,13 @@ PP.entities.player.update = function (scene, player) {
   }
 
   // === SALTO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.canJump) {
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.canJump && PP.game_state.bossIsDead == false) {
     PP.physics.set_velocity_y(player, player.jumpForce);
     player.jumpPressedTime = PP.timers.getTime(scene);
     player.canJump = false;
   }
 
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime)
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && PP.game_state.bossIsDead == false && PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime)
     PP.physics.set_acceleration_y(player, player.gravityUp);
   else PP.physics.set_acceleration_y(player, player.gravityDown);
 
@@ -108,7 +108,7 @@ PP.entities.player.update = function (scene, player) {
 
 // === FUNZIONE DI ATTACCO ===
 PP.entities.player.attack = function (scene, player, enemies) {
-  if (player.isAttacking) return; // evita spam
+  if (player.isAttacking || PP.game_state.bossIsDead == true) return; // evita spam
   //Per evitare bug
   if (player.isDashing == true || player.isAttacking == true) return;
 
