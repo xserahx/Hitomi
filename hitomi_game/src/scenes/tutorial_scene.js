@@ -36,6 +36,8 @@ function create_tutorial_scene(scene) {
     // === PLAYER ===
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+
+    //Check se sta cambaindo mondo
     if(PP.game_state.changingWorld){
         startX = config.player_x;
         startY = config.player_y;
