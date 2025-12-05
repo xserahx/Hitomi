@@ -37,9 +37,14 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player) {
-  const speed = 400; //200 ORIGINALE
+  let speed = 400; //200 ORIGINALE
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
+  
+  if(PP.game_state.has_baby == true){
+    speed = 200;
+    player.dashSpeed = 400;
+  }
 
   config.player_x = player.geometry.body_x;
   // === DASH ===
@@ -197,8 +202,8 @@ PP.entities.player.damage = function (scene, player, enemy) {
 
 // === RACCOLTA BAMBINO ===
 PP.entities.player.get_baby = function (scene, player) {
-  player.has_baby = true;
-  console.log("Player has baby:", player.has_baby);
+  PP.game_state.has_baby = true;
+  console.log("Player has baby:", PP.game_state.has_baby);
 }
 
 // === CAMBIO MONDO ===

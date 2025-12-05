@@ -72,6 +72,7 @@ function create_house(scene, data) {
     }
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+  console.log("Ha preso il bambino " + PP.game_state.has_baby);
 
   // === COLLIDER PLAYER ===
   PP.physics.add_collider(scene, PP.game_state.player, ground);
