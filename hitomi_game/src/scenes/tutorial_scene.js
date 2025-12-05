@@ -6,6 +6,7 @@ function preload_tutorial_scene(scene) {
 
 // === CREAZIONE SCENA ===
 function create_tutorial_scene(scene) {
+    PP.game_state.otherWorld = "ghostly_tutorial_scene";
 
     // === MURI ===
     const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 0);
@@ -22,8 +23,7 @@ function create_tutorial_scene(scene) {
         { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
         { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
         { x: 1100, y: 650, w: 100, h: 60 }, // muretto
-        { x: 500, y: 500, w: 200, h: 20 }, // piattaforma centrale
-        { x: 350, y: 350, w: 200, h: 20 }, // base del nemico
+        { x: 350, y: 250, w: 200, h: 20 }, // base del nemico
         { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
     ];
 
@@ -34,8 +34,12 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
-    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
-    const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
+    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+    if(PP.game_state.changingWorld){
+        startX = config.player_x;
+        startY = config.player_y;
+    }
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
@@ -80,7 +84,7 @@ function create_tutorial_scene(scene) {
     // === HUD VITE ===
     PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
     // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 200, speed: 80 }];
+    const enemyPositions = [{ x: 400, y: 200, speed: 0 }];
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
@@ -136,6 +140,12 @@ function update_tutorial_scene(scene) {
         if (flake.y > scene.sys.game.config.height) {
             flake.destroy();
         }
+    }
+
+        // === CAMBIO MONDO ===
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
+        console.log("Changing world");
+        PP.entities.player.changeWorld(scene);
     }
 
     if (PP.game_state.player) {
