@@ -10,6 +10,7 @@ function preload_house(scene) {
 }
 
 function create_house(scene, data) {
+  PP.game_state.otherWorld = "ghostly_house_scene";
 
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
@@ -33,7 +34,7 @@ function create_house(scene, data) {
     { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
     { x: 1600, y: 740, w: 150, h: 20 },  // piattaforma piccola dopo muro grande
     { x: 1800, y: 650, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
-    { x: 2300, y: 475, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
+    { x: 2300, y: 375, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
     { x: 2560, y: 425, w: 100, h: 620},  // secondo muro grande
     { x: 2850, y: 675, w: 150, h: 10 },  // cubone 1 dopo secondo muro
     { x: 3100, y: 625, w: 150, h: 250},  // cubone 2 dopo secondo muro
@@ -61,8 +62,14 @@ function create_house(scene, data) {
 
 
   // === PLAYER ===
-  const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
-  const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
+  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+
+  //Check se sta cambaindo mondo
+  if(PP.game_state.changingWorld){
+        startX = config.player_x;
+        startY = config.player_y;
+    }
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
@@ -80,7 +87,7 @@ function create_house(scene, data) {
   // === NEMICI ===
   const enemyPositions = [
     { x: 450, y: 645, speed: 80 },
-    { x: 2300, y: 405, speed: 0 },
+    { x: 1800, y: 405, speed: 0 },
     { x: 4745, y: 375, speed: 0 },
     { x: 5600, y: 100, speed: 80 },
     { x: 6000, y: 100, speed: 80 }
@@ -240,17 +247,11 @@ function update_house(scene) {
     };
   }
 
-  /*if(config.player_x < 1280) {
-      PP.camera.set_follow_offset(scene, config.player_x - 640, 150);
-    }else if (config.player_x < 2560){
-      PP.camera.set_follow_offset(scene, config.player_x - 1920, 150);
-    }else if (config.player_x < 3840){
-      PP.camera.set_follow_offset(scene, config.player_x - 3200, 150);
-    } else if (config.player_x > 6400){
-      PP.camera.set_follow_offset(scene, config.player_x - 7400, 150);
-    }else{
-      PP.camera.start_follow(scene, PP.game_state.player, 0, 150);
-    } */
+  // === CAMBIO MONDO ===
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
+        console.log("Changing world");
+        PP.entities.player.changeWorld(scene);
+    }
 
 }
 

@@ -1,311 +1,243 @@
-// === GHOSTLY HOUSE SCENE ===
+// === ghostly_house SCENE ===
 function preload_ghostly_house(scene) {
-  // Caricamenti opzionali (sprite, audio, ecc.)
+
+  // OGGETTI INTERATTIVI
+  //scene.load.image("key_gold", "assets/sprites/key_gold.png");
+  //scene.load.image("door_locked", "assets/sprites/door_locked.png");
+
+  //preload_player(scene);
+  //preload_enemy(scene);
 }
 
-function create_ghostly_house(scene) {
-  // === SFONDO ===
-  scene.cameras.main.setBackgroundColor(0x1a0000);
+function create_ghostly_house(scene, data) {
+    PP.game_state.otherWorld = "house_scene";
 
-  // === GROUND ===
-   const ground = PP.shapes.rectangle_add(scene, 3840, 895, 7680, 40, "0x000000", 1);
-   PP.physics.add(scene, ground, PP.physics.type.STATIC);
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
+  PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
+
+  const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
+  PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === NEBBIA ROSSA ===
-  //const overlay = scene.add.rectangle(640, 360, 1280, 720, 0x660000);
-  //overlay.setAlpha(0.25);
-  //overlay.setBlendMode(Phaser.BlendModes.ADD);
+  const overlay = scene.add.rectangle(3840, 560, 7700, 720, 0x660000);
+  overlay.setAlpha(0.5);
+  overlay.setBlendMode(Phaser.BlendModes.ADD);
 
-  // === PLATFORMS ===
+  // === GROUND ===
+  const ground = PP.shapes.rectangle_add(scene, 3840, 895, 7700, 40, "0x000000", 1);
+  PP.physics.add(scene, ground, PP.physics.type.STATIC);
+
+  // === PIATTAFORME ===
   const platformPositions = [
-    // ---------------- TUTORIAL ----------------
-    { x: 250, y: 350, w: 50, h: 400 },
-    { x: 850, y: 500, w: 150, h: 20 },
-    { x: 600, y: 400, w: 150, h: 20 },
-    { x: 1100, y: 650, w: 100, h: 60 },
-    { x: 350, y: 300, w: 150, h: 20 },
-    { x: 1280, y: 250, w: 100, h: 620 },
+    { x: 140, y: 810, w: 130, h: 130 },  // rialzino
+    { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
+    { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
+    { x: 1050, y: 810, w: 87, h: 130 },  // vaso
+    { x: 780, y: 785, w: 130, h: 180 },  // armadio
 
-    // ---------------- FIRST ROOM ----------------
-    { x: 1600, y: 600, w: 150, h: 20 },
-    { x: 1800, y: 500, w: 150, h: 20 },
-    /*{ x: 2050, y: 300, w: 150, h: 20 },
-    { x: 2050, y: 550, w: 150, h: 20 },*/
-    { x: 2300, y: 400, w: 150, h: 20 },
-    { x: 2560, y: 250, w: 100, h: 620 },
-
-    // ---------------- SECOND ROOM ----------------
-    { x: 3100, y: 625, w: 150, h: 250 },
-    { x: 3350, y: 350, w: 150, h: 20 },
-    { x: 3350, y: 550, w: 150, h: 20 },
-    { x: 3600, y: 450, w: 150, h: 20 },
-    { x: 3840, y: 250, w: 100, h: 620 },
-
-    // ---------------- EXIT ----------------
-    { x: 4040, y: 250, w: 300, h: 150 },
-    { x: 4265, y: 250, w: 150, h: 40 },
-    { x: 4335, y: 220, w: 40, h: 120 },
-    { x: 4335, y: 150, w: 100, h: 20 },
-
-    { x: 4300, y: 630, w: 150, h: 100 },
+    { x: 350, y: 645, w: 150, h: 20  },  // basetta attaccata al palo
+    { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
+    { x: 1800, y: 650, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
+    { x: 2000, y: 500, w: 150, h: 20 },  // Terza paittaforma dopo il muro grande
+    { x: 2300, y: 375, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
+    { x: 2560, y: 425, w: 100, h: 620},  // secondo muro grande
+    { x: 2850, y: 675, w: 150, h: 10 },  // cubone 1 dopo secondo muro
+    { x: 3100, y: 625, w: 150, h: 250},  // cubone 2 dopo secondo muro
+    { x: 3600, y: 450, w: 150, h: 20 },  // piattaforma dopo i cuboni 
+    { x: 3840, y: 425, w: 100, h: 620},  // terzo muro grande
+    { x: 4040, y: 425, w: 300, h: 15 },  // piattaforma grande attaccata al terzo muro
+    { x: 4265, y: 425, w: 150, h: 40 },
+    { x: 4335, y: 395, w: 40, h: 120 },
+    { x: 4335, y: 325, w: 100, h: 20 },
+    { x: 4300, y: 805, w: 150, h: 100},
+    { x: 4500, y: 470, w: 150, h: 20 },
     { x: 4550, y: 130, w: 150, h: 20 },
     { x: 4650, y: 300, w: 150, h: 20 },
     { x: 4745, y: 375, w: 40, h: 150 },
-
-    { x: 4850, y: 350, w: 150, h: 20 },
-    { x: 5250, y: 300, w: 150, h: 100 },
-    { x: 5650, y: 250, w: 150, h: 100 },
-    { x: 6050, y: 200, w: 150, h: 100 },
-    { x: 6450, y: 300, w: 150, h: 100 },
-
-    { x: 7150, y: 595, w: 150, h: 250 },
-
-    { x: 7650, y: 250, w: 100, h: 620 }
+    { x: 5250, y: 300, w: 150, h: 100},
+    { x: 5650, y: 250, w: 150, h: 100},
+    { x: 6050, y: 200, w: 150, h: 100},
+    { x: 6450, y: 300, w: 150, h: 100},
+    { x: 7000, y: 480, w: 150, h: 20 },
+    { x: 7150, y: 595, w: 150, h: 250},
+    { x: 7650, y: 250, w: 100, h: 620}
   ];
+
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  // === MOVING PLATFORMS ===
-  //const movingPlatformConfigs = [
-  //{ x: 2050, y: 450, w: 150, h: 20, direction: 'y', range: 150, speed: 60 }
-  //];
-  //PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  //scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
   // === PLAYER ===
-    const startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
-    const startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
+  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
 
-    PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+  //Check se sta cambaindo mondo
+  if(PP.game_state.changingWorld){
+        startX = config.player_x;
+        startY = config.player_y;
+    }
 
-     // === COLLIDER PLAYER ===
-    PP.physics.add_collider(scene, PP.game_state.player, ground);
+  PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+
+  // === COLLIDER PLAYER ===
+  PP.physics.add_collider(scene, PP.game_state.player, ground);
+  PP.physics.add_collider(scene, PP.game_state.player, leftWall);
+  PP.physics.add_collider(scene, PP.game_state.player, rightWall);
+  for (let plat of PP.game_state.platforms) {
+    PP.physics.add_collider(scene, PP.game_state.player, plat);
+  }
+
+  // === HUD VITE ===
+  PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
+
+  // === NEMICI ===
+  const enemyPositions = [
+    { x: 450, y: 645, speed: 80 },
+    { x: 1800, y: 405, speed: 0 },
+    { x: 4745, y: 375, speed: 0 },
+    { x: 5600, y: 100, speed: 80 },
+    { x: 6000, y: 100, speed: 80 }
+  ];
+  PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+
+  for (let enemy of PP.game_state.enemies) {
+
+    // collisioni con terreno e piattaforme
+    PP.physics.add_collider(scene, enemy, ground);
+
     for (let plat of PP.game_state.platforms) {
-        PP.physics.add_collider(scene, PP.game_state.player, plat);
-    }
-    
-    // === CAMERA ===
-    /*PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
-    scene.cameras.main.startFollow(PP.game_state.player);
-    scene.cameras.main.setBounds(0, 0, 1280, 900);
-    scene.physics.world.setBounds(0, 0, 1280, 900);
-    scene.cameras.main.fadeIn(800, 0, 0, 0);*/
-
-    // === HUD VITE ===
-    PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
-
-   // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 200, speed: 80 }];
-    PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
-
-    for (let enemy of PP.game_state.enemies) {
-
-        // collisioni con terreno e piattaforme
-        PP.physics.add_collider(scene, enemy, ground);
-
-        for (let plat of PP.game_state.platforms) {
-            PP.physics.add_collider(scene, enemy, plat);
-        }
-
-        // Overlap player-nemico
-        PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            PP.entities.player.damage(scene, PP.game_state.player);
-        });
+      PP.physics.add_collider(scene, enemy, plat);
     }
 
-    // === CAMBIO MONDO ===
-    PP.game_state.changingWorld = false;
+    // Overlap player-nemico
+    PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
+      PP.entities.player.damage(scene, PP.game_state.player, enemy);
+    });
+  }
 
+  // === CHIAVE ===
+  const key = PP.shapes.rectangle_add(scene, 1050, 695, 50, 50, "0x123456", 0);
+  PP.physics.add(scene, key, PP.physics.type.STATIC);
 
-  // === CHIAVE GHOSTLY ===
-//const ghostKey = scene.add.rectangle(1400, 600, 20, 20, 0xff2222);
-//scene.physics.add.existing(ghostKey, true);
+  let keyCollected = false;
 
-//let keyCollected = false;
-//scene.physics.add.overlap(PP.game_state.player, ghostKey, () => {
-    //if (keyCollected) return;
-   // keyCollected = true;
-
-    //PP.game_state.player.hasGhostKey = "bloodKey";
-    //ghostKey.destroy();
-
-    // Achievement stile ghostly
-   // const msg = scene.add.text(scene.cameras.main.centerX, 120,
-    //  "Hai raccolto la chiave insanguinata...",
-    //  { font: "26px Arial", fill: "#ffcccc", backgroundColor: "#440000", padding: { x:12, y:6 } }
-   // ).setOrigin(0.5).setScrollFactor(0);
-
-   // scene.tweens.add({
-    //  targets: msg,
-    //  alpha: 0,
-    //  duration: 400,
-     // delay: 2000,
-     // onComplete: () => msg.destroy()
-    //});
-//});
-
-  /*const door = scene.add.rectangle(7650, 700, 60, 120, 0xaa0000);
-door.setStrokeStyle(4, 0xff4444);
-door.setOrigin(0.5, 1);
-scene.physics.add.existing(door, true);
-
-door.isLocked = true;
-door.keyId = "bloodKey";
-door._opened = false;
-door._popupShown = false;
-door._pendingAsk = false;
-
-scene.physics.add.overlap(PP.game_state.player, door, () => {
-
-    // --- Porta bloccata senza chiave ---
-    if (door.isLocked && PP.game_state.player.hasGhostKey !== door.keyId) {
-        if (!door._msgLocked) {
-            door._msgLocked = true;
-
-            const warn = scene.add.text(PP.game_state.player.x, PP.game_state.player.y - 60,
-              "La porta è bloccata... serve una chiave. Meglio tornare indietro e dare un'occhiata.",
-              { font: "22px Arial", fill: "#ffaaaa", backgroundColor: "#550000", padding:{x:8,y:4}}
-            ).setOrigin(0.5);
-
-            scene.tweens.add({
-              targets: warn,
-              alpha: 0,
-              duration: 400,
-              delay: 2000,
-              onComplete: () => warn.destroy()
-            });
-        }
-        return;
+  // === RACCOLTA CHIAVE ===
+  PP.physics.add_overlap_f(scene, PP.game_state.player, key, () => {
+    if (keyCollected == true) {
+      console.log("Chiave già raccolta!");
+      return;
     }
+    keyCollected = true;
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 1000, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+    console.log("Key collected!");
+    PP.assets.destroy(key);
 
-// --- Porta bloccata ma ho la chiave (popup Sì/No) ---
-if (door.isLocked && PP.game_state.player.hasGhostKey === door.keyId && !door._opened) {
+    PP.timers.add_timer(scene, 1000, (s) => {
+      PP.assets.destroy(PP.game_state.statusKey);
+    }, false);
+  });
 
-    // se è già visibile o programmato → basta
-    if (door._popupShown || door._pendingAsk) return;
+  // === PORTA ===
+  const door = PP.shapes.rectangle_add(scene, 3800, 820, 100, 120, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3800, 820, 120, 130, "0x000000", 0.2);
+  PP.physics.add(scene, door, PP.physics.type.STATIC);
+  PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
-    function showDoorPopup() {
+  PP.physics.add_collider(scene, PP.game_state.player, door);
 
-        door._popupShown = true;   // popup attivo ORA
-        door._pendingAsk = false;  // nessun popup programmato
+  PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame, () => {
+    if (keyCollected == false) {
+      let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "La porta è chiusa a chiave...");
 
-        const px = PP.game_state.player.x;
-        const py = PP.game_state.player.y;
+      PP.timers.add_timer(scene, 300, (s) => {
+        PP.assets.destroy(avvisoPorta);
+      }, false);
 
-        const question = scene.add.text(px, py - 90, "Usare la Chiave Insanguinata?",
-            { font:"26px Arial", fill:"#ffcccc", backgroundColor:"#550000", padding:{x:10,y:6}}
-        ).setOrigin(0.5,1);
-
-        const yesBtn = scene.add.text(px - 50, py - 40, "Sì",
-            { font:"26px Arial", fill:"#00ff00", backgroundColor:"#000000", padding:{x:8,y:4}}
-        ).setOrigin(0.5).setInteractive({useHandCursor:true});
-
-        const noBtn = scene.add.text(px + 50, py - 40, "No",
-            { font:"26px Arial", fill:"#ff0000", backgroundColor:"#000000", padding:{x:8,y:4}}
-        ).setOrigin(0.5).setInteractive({useHandCursor:true});
-
-        function removePopup() {
-            question.destroy();
-            yesBtn.destroy();
-            noBtn.destroy();
-            door._popupShown = false; // popup non più attivo
-        }
-
-        // ---- SÌ: apri porta e mai più popup ----
-        yesBtn.on("pointerdown", () => {
-            removePopup();
-
-            door._opened = true;
-            door.isLocked = false;
-
-            scene.tweens.add({
-                targets: door,
-                x: door.x + 70,
-                duration: 500,
-                ease: "Power2",
-                onComplete: () => {
-                    scene.cameras.main.fadeOut(800, 0, 0, 0);
-                    scene.time.delayedCall(800, () => {
-                        const { x, y } = PP.game_state.player;
-                        PP.game_state.playerPosition = { x, y };
-                        scene.scene.start("ghostly_forest_scene", { x, y });
-                    });
-                }
-            });
-        });
-
-        // ---- NO: programma UNA sola ricomparsa ----
-        noBtn.on("pointerdown", () => {
-            removePopup();
-
-            if (!door._pendingAsk) {
-                door._pendingAsk = true; // una sola possibilità
-
-                scene.time.delayedCall(1500, () => {
-
-                    // ricompare solo 1 volta e solo se il player è vicino
-                    const dist = Phaser.Math.Distance.Between(
-                        PP.game_state.player.x, PP.game_state.player.y,
-                        door.x, door.y
-                    );
-
-                    if (dist < 150 && door.isLocked && !door._opened && !door._popupShown) {
-                        showDoorPopup();
-                    } else {
-                        door._pendingAsk = false; // annulla richiesta
-                    }
-
-                });
-            }
-        });
+      return;
     }
+    let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "Vuoi usare la chiave per aprire la porta?");
 
-    // mostra subito il popup
-    showDoorPopup();
-    return;
-}
+    PP.timers.add_timer(scene, 2000, (s) => {
+        PP.assets.destroy(avvisoPorta);
+      }, false);
 
-    // --- Porta già aperta → cambia scena ---
-    if (!door.isLocked && door._opened) {
+    let button_si = PP.shapes.text_add(scene, 3740, 400, "Si");
+    let button_no = PP.shapes.text_add(scene, 3830, 400, "No");
 
-        scene.cameras.main.fadeOut(800, 0, 0, 0);
-        scene.time.delayedCall(800, () => {
-            const { x, y } = PP.game_state.player;
-            PP.game_state.playerPosition = { x, y };
-            scene.scene.start("ghostly_forest_scene", { x, y });
-        });
-    }
+    PP.timers.add_timer(scene, 2000, (s) => {
+        PP.assets.destroy(button_no);
+        PP.assets.destroy(button_si);
+    }, false);
 
-});
-*/
+    PP.interactive.mouse.add(button_si, "pointerdown", () => {
+      PP.assets.destroy(door);
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(avvisoPorta);
+    });
+    PP.interactive.mouse.add(button_no, "pointerdown", () => {
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(avvisoPorta);
+    });
+  });
 
-   // === CAMBIO MONDO ===
-    PP.game_state.changingWorld = false;
-    //scene.input.keyboard.on("keydown-U", () => switchWorld(scene));
-    //scene.input.keyboard.on("keydown-u", () => switchWorld(scene));
-//}
+  // === CLICK DEL MOUSE PER ATTACCARE ===
+  scene.input.on("pointerdown", () => {
+    PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
+  });
 
+  // === CAMERA ===
+  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+  const worldHeight = ground.geometry.body_y + 40;
+  scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+  PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
-// === CAMBIO MONDO ===
-//function switchWorld(scene) {
-    //if (PP.game_state.changingWorld) return;
+  // === CAMBIO MONDO ===
+  PP.game_state.changingWorld = false;
+  //scene.input.keyboard.on("keydown-U", () => switchWorld(scene));
+  //scene.input.keyboard.on("keydown-u", () => switchWorld(scene));
+  //}
 
-    //PP.game_state.changingWorld = true;
-    //PP.game_state.playerPosition = {
-       // x: PP.game_state.player.x,
-      //  y: PP.game_state.player.y
-    //};
+  // === APERTURA PORTA (ANIMAZIONE SLIDE) ===
+  //function openDoor(door, scene, onComplete) {
+  //  if (door._isTweening) return;
 
-    //const current = scene.scene.key;
-    //const next = current.startsWith("ghostly_")
-       // ? current.replace("ghostly_", "")
-      //  : "ghostly_" + current;
+  //door._isTweening = true;
 
-    //scene.cameras.main.fadeOut(500);
+  //scene.tweens.add({
+  // targets: door,
+  //x: door.x + 80,
+  //duration: 500,
+  //ease: "Power2",
+  //onComplete: () => {
+  //  if (door.body) door.body.enable = false;
+  //door._isTweening = false;
+  //if (onComplete) onComplete();
+  // }
+  //});
+  //}
 
-    //scene.time.delayedCall(500, () => {
-       // scene.scene.start(next, PP.game_state.playerPosition);
-     //   PP.game_state.changingWorld = false;
-   // });
+  // === CAMBIO MONDO ===
+  //function switchWorld(scene) {
+  //if (PP.game_state.changingWorld) return;
+
+  //PP.game_state.changingWorld = true;
+  //PP.game_state.playerPosition = {
+  // x: PP.game_state.player.x,
+  //  y: PP.game_state.player.y
+  //};
+
+  //const current = scene.scene.key;
+  //const next = current.startsWith("ghostly_")
+  // ? current.replace("ghostly_", "")
+  //  : "ghostly_" + current;
+
+  //scene.cameras.main.fadeOut(500);
+
+  //scene.time.delayedCall(500, () => {
+  // scene.scene.start(next, PP.game_state.playerPosition);
+  //   PP.game_state.changingWorld = false;
+  // });
 }
 
 // === UPDATE ===
@@ -315,14 +247,30 @@ function update_ghostly_house(scene) {
 
   if (PP.game_state.player) {
     PP.game_state.playerPosition = {
-      x: PP.game_state.player.x,
-       y: PP.game_state.player.y
-        };
+      x: config.player_x,
+      y: config.player_y
+    };
+  }
+    // === CAMBIO MONDO ===
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
+        PP.entities.player.changeWorld(scene);
     }
+
+  /*if(config.player_x < 1280) {
+      PP.camera.set_follow_offset(scene, config.player_x - 640, 150);
+    }else if (config.player_x < 2560){
+      PP.camera.set_follow_offset(scene, config.player_x - 1920, 150);
+    }else if (config.player_x < 3840){
+      PP.camera.set_follow_offset(scene, config.player_x - 3200, 150);
+    } else if (config.player_x > 6400){
+      PP.camera.set_follow_offset(scene, config.player_x - 7400, 150);
+    }else{
+      PP.camera.start_follow(scene, PP.game_state.player, 0, 150);
+    } */
+
 }
 
-
 // === DESTROY ===
-function destroy_ghostly_house(scene) {}
+function destroy_ghostly_house(scene) { }
 
 PP.scenes.add('ghostly_house_scene', preload_ghostly_house, create_ghostly_house, update_ghostly_house, destroy_ghostly_house);
