@@ -27,35 +27,38 @@ function create_house(scene, data) {
     { x: 140, y: 810, w: 130, h: 130 },  // rialzino
     { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
     { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
+    { x: 780, y: 810, w: 130, h: 180 },  // armadio
     { x: 1050, y: 810, w: 87, h: 130 },  // vaso
-    { x: 780, y: 785, w: 130, h: 180 },  // armadio
 
-    { x: 350, y: 645, w: 150, h: 20  },  // basetta attaccata al palo
+ { x: 350, y: 645, w: 150, h: 20 },  // basetta attaccata al palo
     { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
     { x: 1600, y: 740, w: 150, h: 20 },  // piattaforma piccola dopo muro grande
     { x: 1800, y: 650, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
-    { x: 2300, y: 375, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
+    { x: 2300, y: 475, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
     { x: 2560, y: 425, w: 100, h: 620},  // secondo muro grande
-    { x: 2850, y: 675, w: 150, h: 10 },  // cubone 1 dopo secondo muro
-    { x: 3100, y: 625, w: 150, h: 250},  // cubone 2 dopo secondo muro
-    { x: 3600, y: 450, w: 150, h: 20 },  // piattaforma dopo i cuboni 
-    { x: 3840, y: 425, w: 100, h: 620},  // terzo muro grande
-    { x: 4040, y: 425, w: 300, h: 15 },  // piattaforma grande attaccata al terzo muro
-    { x: 4265, y: 425, w: 150, h: 40 },
-    { x: 4335, y: 395, w: 40, h: 120 },
+    { x: 2850, y: 740, w: 150, h: 20 },  // cubone 1 dopo secondo muro
+    { x: 3100, y: 600, w: 150, h: 20 },  // cubone 2 dopo secondo muro
+    { x: 2850, y: 450, w: 150, h: 20 }, // piattafroma a sinsitra sopra
+    { x: 3100, y: 300, w: 150, h: 20 }, // piattafroma in mezzo sopra
+    { x: 3500, y: 450, w: 150, h: 20 },  // piattaforma a destea 
+    { x: 3840, y: 583, w: 100, h: 335},  // terzo muro grande
+    { x: 4040, y: 425, w: 300, h: 20 },  // piattaforma grande attaccata al terzo muro
+    { x: 4265, y: 425, w: 150, h: 20 },
+    { x: 4320, y: 375, w: 40, h: 80  },
     { x: 4335, y: 325, w: 100, h: 20 },
     { x: 4300, y: 805, w: 150, h: 100},
     { x: 4500, y: 470, w: 150, h: 20 },
-    { x: 4550, y: 130, w: 150, h: 20 },
     { x: 4650, y: 300, w: 150, h: 20 },
-    { x: 4745, y: 375, w: 40, h: 150 },
+    { x: 4745, y: 365, w: 40, h: 150 },
     { x: 5250, y: 300, w: 150, h: 100},
+    { x: 5250, y: 810, w: 87, h: 130 },  // vaso terza parte
     { x: 5650, y: 250, w: 150, h: 100},
     { x: 6050, y: 200, w: 150, h: 100},
+    { x: 6200, y: 810, w: 87, h: 130 },  // vaso terza parte 2
     { x: 6450, y: 300, w: 150, h: 100},
-    { x: 7000, y: 480, w: 150, h: 20 },
-    { x: 7150, y: 595, w: 150, h: 250},
-    { x: 7650, y: 250, w: 100, h: 620}
+    { x: 7000, y: 635, w: 150, h: 20 },
+    { x: 7150, y: 750, w: 150, h: 250},
+    { x: 7650, y: 250, w: 100, h: 1000} 
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -87,10 +90,15 @@ function create_house(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 450, y: 645, speed: 80 },
-    { x: 1800, y: 405, speed: 0 },
-    { x: 4745, y: 375, speed: 0 },
+    { x: 450, y: 645, speed: 80  },
+    { x: 1800, y: 405, speed: 0  },
+    { x: 3100, y: 50, speed: 0   },
+    { x: 3100, y: 900, speed: 0  },
+    { x: 4220, y: 375, speed: 80 },
+    { x: 4745, y: 375, speed: 0  },
     { x: 5600, y: 100, speed: 80 },
+    { x: 5550, y: 800, speed: 80 },
+    { x: 5950, y: 800, speed: 80 },
     { x: 6000, y: 100, speed: 80 }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
@@ -110,13 +118,14 @@ function create_house(scene, data) {
     });
   }
 
-  // === CHIAVE ===
-  const key = PP.shapes.rectangle_add(scene, 1050, 695, 50, 50, "0x123456", 0);
+  // === CHIAVE 1 ===
+  //         { x: 2300, y: 475, w: 150, h: 20 }, 
+  const key = PP.shapes.rectangle_add(scene, 2300, 400, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key, PP.physics.type.STATIC);
 
   let keyCollected = false;
 
-  // === RACCOLTA CHIAVE ===
+  // === RACCOLTA CHIAVE 1 ===
   PP.physics.add_overlap_f(scene, PP.game_state.player, key, () => {
     if (keyCollected == true) {
       console.log("Chiave già raccolta!");
@@ -132,9 +141,9 @@ function create_house(scene, data) {
     }, false);
   });
 
-  // === PORTA ===
-  const door = PP.shapes.rectangle_add(scene, 3800, 820, 100, 120, "0x654321", 1);
-  const doorFrame = PP.shapes.rectangle_add(scene, 3800, 820, 120, 130, "0x000000", 0.2);
+  // === PORTA 1 ===
+  const door = PP.shapes.rectangle_add(scene, 3840, 820, 100, 120, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3840, 820, 120, 130, "0x000000", 0.2);
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
@@ -174,6 +183,74 @@ function create_house(scene, data) {
       PP.assets.destroy(button_no);
       PP.assets.destroy(button_si);
       PP.assets.destroy(avvisoPorta);
+    });
+  });
+
+
+  // === CHIAVE 2 ===
+  const key2 = PP.shapes.rectangle_add(scene, 4220, 375, 50, 50, "0x123456", 0);
+  PP.physics.add(scene, key2, PP.physics.type.STATIC);
+
+  let keyCollected2 = false;
+
+  // === RACCOLTA CHIAVE 2===
+  PP.physics.add_overlap_f(scene, PP.game_state.player, key2, () => {
+    if (keyCollected2 == true) {
+      console.log("Chiave già raccolta!");
+      return;
+    }
+    keyCollected2 = true;
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 4320, 270, "Un'altra chiave? devo trovare la posta a cui appartiene");
+    console.log("Key collected!");
+    PP.assets.destroy(key2);
+
+    PP.timers.add_timer(scene, 1000, (s) => {
+      PP.assets.destroy(PP.game_state.statusKey);
+    }, false);
+  });
+
+  // === PORTA 2 ===
+  const door2 = PP.shapes.rectangle_add(scene, 7650, 820, 100, 120, "0x654321", 1);
+  const doorFrame2 = PP.shapes.rectangle_add(scene, 7650, 820, 120, 130, "0x000000", 0.2);
+  PP.physics.add(scene, door2, PP.physics.type.STATIC);
+  PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
+
+  PP.physics.add_collider(scene, PP.game_state.player, door2);
+
+  PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame2, () => {
+    if (keyCollected2 == false) {
+      let avvisoPorta2 = PP.shapes.text_add(scene, 7180, 300, "La porta è chiusa a chiave...");
+
+      PP.timers.add_timer(scene, 300, (s) => {
+        PP.assets.destroy(avvisoPorta2);
+      }, false);
+
+      return;
+    }
+    let avvisoPorta2 = PP.shapes.text_add(scene, 7180, 300, "Vuoi usare la chiave per aprire la porta?");
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+        PP.assets.destroy(avvisoPorta2);
+      }, false);
+
+    let button_si = PP.shapes.text_add(scene, 7320, 400, "Si");
+    let button_no = PP.shapes.text_add(scene, 7400, 400, "No");
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+        PP.assets.destroy(button_no);
+        PP.assets.destroy(button_si);
+    }, false);
+
+    PP.interactive.mouse.add(button_si, "pointerdown", () => {
+      PP.assets.destroy(door2);
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(avvisoPorta2);
+    });
+    PP.interactive.mouse.add(button_no, "pointerdown", () => {
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(avvisoPorta2);
     });
   });
 
@@ -235,6 +312,7 @@ function create_house(scene, data) {
   //   PP.game_state.changingWorld = false;
   // });
 }
+
 
 // === UPDATE ===
 function update_house(scene) {
