@@ -1,21 +1,38 @@
-// src/scene_objects/platform.js
-// File che gestisce le piattaforme statiche
-
 PP.scene_objects = PP.scene_objects || {};
 PP.scene_objects.platform = {};
 
-// === CREAZIONE DELLE PIATTAFORME STATICHE ===
+// Preload immagini piattaforme
+PP.scene_objects.platform.preload = function(scene) {
+    // carico le immagini e salvo i riferimenti 
+    PP.scene_objects.platform.sprite = {};
+    PP.scene_objects.platform.sprite["vaso"] = PP.assets.image.load(scene, "assets/images/house/vaso.png");
+    PP.scene_objects.platform.sprite["piattaforma"] = PP.assets.image.load(scene, "assets/images/house/piattaforma.png");
+    PP.scene_objects.platform.sprite["armadio"] = PP.assets.image.load(scene, "assets/images/house/armadio.png");
+    PP.scene_objects.platform.sprite["rialzino"] = PP.assets.image.load(scene, "assets/images/house/rialzino.png");
+   // PP.scene_objects.platform.sprite["muro_grande"] = PP.assets.image.load(scene, "assets/images/house/muro_grande.png", 100, 620);
+   // PP.scene_objects.platform.sprite["blocchetto"] = PP.assets.image.load(scene, "assets/images/house/blocchetto.png", 150, 20);
+   // PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
+};
+
+// Creazione piattaforme
 PP.scene_objects.platform.create = function(scene, positions) {
     const platforms = [];
 
     for (let p of positions) {
-        // Creo un rettangolo visivo centrato
-        let plat = PP.shapes.rectangle_add(scene, p.x, p.y, p.w, p.h, "0x000000", 1);
-        // Aggiungo il corpo fisico statico che corrisponde al rettangolo
+        // prendo lo sprite dal preload
+        let sprite = PP.scene_objects.platform.sprite[p.sprite_name];
+        if (!sprite) {
+            console.error("Sprite non trovato: " + p.sprite_name);
+            continue;
+        }
+
+        // aggiungo l'immagine alla scena
+        let plat = PP.assets.image.add(scene, PP.scene_objects.platform.sprite[p.sprite_name], p.x, p.y, 0.5, 0, 0.5);
+
+        // aggiungo fisica e collisioni
         PP.physics.add(scene, plat, PP.physics.type.STATIC);
-        // Assicuro che il corpo fisico corrisponda a dimensione e posizione del rettangolo
         PP.physics.set_collision_rectangle(plat, p.w, p.h, 0, 0);
-        // Aggiungo il rettangolo al gruppo statico per la collisione
+
         platforms.push(plat);
     }
 
