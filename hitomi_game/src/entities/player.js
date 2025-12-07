@@ -1,8 +1,13 @@
 PP.entities = PP.entities || {};
 PP.entities.player = {};
 
+PP.entities.player.preload = function (scene) {
+  PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_player.png", 70, 120);
+}
+
 PP.entities.player.create = function (scene, x, y) {
-  const player = PP.shapes.rectangle_add(scene, x, y, 80, 120, "0xFFFF00", 1);
+  const player = PP.assets.sprite.add(scene, PP.entities.player.img, x, y, 0.5, 0.5);
+  // const player = PP.shapes.rectangle_add(scene, x, y, 80, 120, "0xFFFF00", 1);
   PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
 
   // === STATI VITA ===
@@ -73,10 +78,16 @@ PP.entities.player.update = function (scene, player) {
   // === MOVIMENTO ORIZZONTALE ===
   if (!player.isKnocked && PP.game_state.bossIsDead == false) {
     if (movingLeft && !movingRight) {
+      if (player.lastDirection == 1){
+        player.geometry.flip_x = true;
+      }
       player.lastDirection = -1;
       PP.physics.set_velocity_x(player, -speed);
     }
     else if (movingRight && !movingLeft && PP.game_state.bossIsDead == false) {
+      if (player.lastDirection == -1){
+        player.geometry.flip_x = false;
+      }
       player.lastDirection = 1;
       PP.physics.set_velocity_x(player, speed);
     }

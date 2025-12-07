@@ -1,5 +1,6 @@
 // === TUTORIAL SCENE ===
 function preload_tutorial_scene(scene) {
+    PP.entities.player.preload(scene);
 }
 
 // === CREAZIONE SCENA ===
