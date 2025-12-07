@@ -1,72 +1,65 @@
 // === HOUSE SCENE ===
+let house_bg;
+
 function preload_house(scene) {
+  house_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png",7680,720);
+  PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
-
-  // OGGETTI INTERATTIVI
-  //scene.load.image("key_gold", "assets/sprites/key_gold.png");
-  //scene.load.image("door_locked", "assets/sprites/door_locked.png");
-
-  //preload_player(scene);
-  //preload_enemy(scene);
 }
 
 function create_house(scene, data) {
+  PP.assets.tilesprite.add(scene, house_bg, -20, 160, 7680, 720, 0, 0);
   PP.game_state.otherWorld = "ghostly_house_scene";
 
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0); 
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === GROUND ===
-  const ground = PP.shapes.rectangle_add(scene, 3840, 895, 7700, 40, "0x000000", 1);
+  const ground = PP.shapes.rectangle_add(scene, 3830, 895, 7700, 40, "0x000000", 1);
   PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
   // === PIATTAFORME ===
   const platformPositions = [
-    { x: 140, y: 810, w: 130, h: 130 },  // rialzino
-    { x: 250, y: 739, w: 50, h: 270  },  // palo verticale
-    { x: 540, y: 695, w: 150, h: 42  },  // piattaforma
-    { x: 780, y: 810, w: 130, h: 180 },  // armadio
-    { x: 1050, y: 810, w: 87, h: 130 },  // vaso
+   { x: 140, y: 785, w: 120, h: 90,  sprite_name: "rialzino" }, 
+   { x: 250, y: 699, w: 50, h: 270, sprite_name: "palo" },  // palo verticale       
+   { x: 250, y: 605, w: 150, h: 20, sprite_name: "blocchetto" },  // basetta orizzontale  
+   // { x: 400, y: 810,              },  // tavolo       //  w: 130, h: 180
+   { x: 540, y: 605, w: 150, h: 42, sprite_name: "piattaforma" },
+   { x: 780, y: 629, w: 180, h: 250, sprite_name: "armadio" },
+   { x: 1050, y: 747, w: 87, h: 130, sprite_name: "vaso" },
 
- { x: 350, y: 645, w: 150, h: 20 },  // basetta attaccata al palo
-    { x: 1280, y: 425, w: 100, h: 620},  // muro grande a dx
-    { x: 1600, y: 740, w: 150, h: 20 },  // piattaforma piccola dopo muro grande
-    { x: 1800, y: 650, w: 150, h: 20 },  // seconda piattaforma piccola dopo muro grande
-//    { x: 2000, y: 550, w: 150, h: 20 }, // terza piattaforma
-    { x: 2300, y: 475, w: 150, h: 20 },  // ultima piattaforma piccola prima del secondo muro grande
-    { x: 2560, y: 425, w: 100, h: 620},  // secondo muro grande
-    { x: 2850, y: 740, w: 150, h: 20 },  // cubone 1 dopo secondo muro
-//    { x: 3100, y: 600, w: 150, h: 20 },  // cubone 2 dopo secondo muro
-    { x: 2850, y: 450, w: 150, h: 20 },  // piattafroma a sinsitra sopra
-    { x: 3100, y: 300, w: 150, h: 20 },  // piattafroma in mezzo sopra
-    { x: 3500, y: 450, w: 150, h: 20 },  // piattaforma a destea 
-    { x: 3840, y: 583, w: 100, h: 335},  // terzo muro grande
-    { x: 4040, y: 425, w: 300, h: 20 },  // piattaforma grande attaccata al terzo muro
-    { x: 4265, y: 425, w: 150, h: 20 },
-    { x: 4320, y: 375, w: 40, h: 80  },
-    { x: 4335, y: 325, w: 100, h: 20 },
-    { x: 4300, y: 825, w: 150, h: 100},
-//    { x: 4500, y: 470, w: 150, h: 20 },  // secondo gradino scala
-    { x: 4650, y: 620, w: 150, h: 20 },  // primo gradino scala
-    { x: 4650, y: 300, w: 150, h: 20 },  // terzo gradino scala
-    { x: 4745, y: 365, w: 40, h: 150 },  // collaborate and trust in fate
-    { x: 5250, y: 300, w: 150, h: 100},
-    { x: 5250, y: 810, w: 87, h: 130 },  // vaso terza parte
-
-    { x: 5575, y: 250, w: 150, h: 100},  // aprte 1 piattafroma volante
-    { x: 5725, y: 250, w: 150, h: 100},  // aprte 2 piattafroma volante
-    
-    { x: 5975, y: 200, w: 150, h: 100},  // aprte 1 piattafroma volante
-    { x: 6125, y: 200, w: 150, h: 100},  // aprte 2 piattafroma volante
-
-    { x: 6200, y: 810, w: 87, h: 130 },  // vaso terza parte 2
-    { x: 6450, y: 300, w: 150, h: 100},
-    { x: 7000, y: 635, w: 150, h: 20 },
-    { x: 7150, y: 750, w: 150, h: 250},
-    { x: 7650, y: 250, w: 100, h: 1000} 
+    //{ x: 350, y: 645,              },   // basetta attaccata al palo  w: 150, h: 20
+   // { x: 1280, y: 425,             },  // muro grande a dx  w: 100, h: 620
+   // { x: 1600, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 1800, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 2300, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
+   // { x: 2560, y: 425,             },  // secondo muro grande  w: 100, h: 620
+    { x: 2850, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3100, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 2850, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3100, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3500, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
+   // { x: 3840, y: 583,             },  // terzo muro grande w: 100, h: 335
+   // { x: 4040, y: 425,             },  // piattaforma grande attaccata al terzo muro w: 300, h: 42
+    { x: 4265, y: 425, w: 150, h: 42, sprite_name: "piattaforma" },
+   // { x: 4320, y: 375,             }, // w: 40, h: 80
+  //  { x: 4335, y: 325,             }, // w: 100, h: 20
+  //  { x: 4300, y: 805,             }, // w: 150, h: 100
+    { x: 4500, y: 470, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 4650, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+   // { x: 4745, y: 365,             },    // w: 40, h: 150
+   // { x: 5250, y: 300,             },  // w: 150, h: 100
+    { x: 5250, y: 810, w: 87, h: 130, sprite_name: "vaso" }, 
+  //{ x: 5650, y: 250,             },  // w: 150, h: 100
+   // { x: 6050, y: 200,             },  // w: 150, h: 100
+    { x: 6200, y: 810, w: 87, h: 130, sprite_name: "vaso" }, 
+   // { x: 6450, y: 300,             },  // w: 150, h: 100
+    { x: 7000, y: 635, w: 150, h: 42, sprite_name: "piattaforma" },
+   // { x: 7150, y: 750,             },  // w: 150, h: 250
+    //{ x: 7650, y: 250,             }  // w: 100, h: 1000
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -98,17 +91,16 @@ function create_house(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 500, y: 645, speed: 80 },
-    { x: 1755, y: 610, speed: 0 },
-    { x: 3100, y: 260, speed: 0  },
-    { x: 3100, y: 845, speed: 0  },
-    { x: 4220, y: 385, speed: 80 },
-    { x: 4625, y: 260, speed: 0  },
-    { x: 4745, y: 845, speed: 0  },
-    { x: 5680, y: 170, speed: 80 },
+    { x: 450, y: 645, speed: 80  },
+    { x: 1800, y: 405, speed: 0  },
+    { x: 3100, y: 50, speed: 0   },
+    { x: 3100, y: 900, speed: 0  },
+    { x: 4220, y: 375, speed: 80 },
+    { x: 4745, y: 375, speed: 0  },
+    { x: 5600, y: 100, speed: 80 },
     { x: 5550, y: 800, speed: 80 },
     { x: 5950, y: 800, speed: 80 },
-    { x: 6080, y: 120, speed: 80 }
+    { x: 6000, y: 100, speed: 80 }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
@@ -141,7 +133,7 @@ function create_house(scene, data) {
       return;
     }
     keyCollected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 2100, 300, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 1000, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
     console.log("Key collected!");
     PP.assets.destroy(key);
 
@@ -276,50 +268,6 @@ function create_house(scene, data) {
 
   // === CAMBIO MONDO ===
   PP.game_state.changingWorld = false;
-  //scene.input.keyboard.on("keydown-U", () => switchWorld(scene));
-  //scene.input.keyboard.on("keydown-u", () => switchWorld(scene));
-  //}
-
-  // === APERTURA PORTA (ANIMAZIONE SLIDE) ===
-  //function openDoor(door, scene, onComplete) {
-  //  if (door._isTweening) return;
-
-  //door._isTweening = true;
-
-  //scene.tweens.add({
-  // targets: door,
-  //x: door.x + 80,
-  //duration: 500,
-  //ease: "Power2",
-  //onComplete: () => {
-  //  if (door.body) door.body.enable = false;
-  //door._isTweening = false;
-  //if (onComplete) onComplete();
-  // }
-  //});
-  //}
-
-  // === CAMBIO MONDO ===
-  //function switchWorld(scene) {
-  //if (PP.game_state.changingWorld) return;
-
-  //PP.game_state.changingWorld = true;
-  //PP.game_state.playerPosition = {
-  // x: PP.game_state.player.x,
-  //  y: PP.game_state.player.y
-  //};
-
-  //const current = scene.scene.key;
-  //const next = current.startsWith("ghostly_")
-  // ? current.replace("ghostly_", "")
-  //  : "ghostly_" + current;
-
-  //scene.cameras.main.fadeOut(500);
-
-  //scene.time.delayedCall(500, () => {
-  // scene.scene.start(next, PP.game_state.playerPosition);
-  //   PP.game_state.changingWorld = false;
-  // });
 }
 
 
