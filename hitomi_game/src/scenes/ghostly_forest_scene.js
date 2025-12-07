@@ -1,5 +1,6 @@
 // === ghostly_forest SCENE ===
 function preload_ghostly_forest(scene) {
+  PP.entities.player.preload(scene);
 
   // Carica eventuali risorse future (audio, immagini, ecc.)
 }

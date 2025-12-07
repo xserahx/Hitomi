@@ -1,6 +1,6 @@
 // === ghostly_tutorial SCENE ===
 function preload_ghostly_tutorial_scene(scene) {
-       
+       PP.entities.player.preload(scene);
 }
 
 // === CREAZIONE SCENA ===

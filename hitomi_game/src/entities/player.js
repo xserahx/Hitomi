@@ -2,12 +2,11 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.preload = function (scene) {
-  PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_player.png", 70, 120);
+  PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/s_bimbo/spritesheet.png", 70, 120);
 }
 
 PP.entities.player.create = function (scene, x, y) {
   const player = PP.assets.sprite.add(scene, PP.entities.player.img, x, y, 0.5, 0.5);
-  // const player = PP.shapes.rectangle_add(scene, x, y, 80, 120, "0xFFFF00", 1);
   PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
 
   // === STATI VITA ===
@@ -34,15 +33,18 @@ PP.entities.player.create = function (scene, x, y) {
 
   // === ATTACCO ===
   player.isAttacking = false;
-  player.lastDirection = 1;
 
   PP.physics.set_acceleration_y(player, player.gravityDown);
+
+  // === ANIMAZIONI ===
+  PP.assets.sprite.animation_add(player, "camminata", 0, 7, 7, -1);
+  player.isWalkingAnim = false;
 
   return player;
 };
 
 PP.entities.player.update = function (scene, player) {
-  let speed = 400; //200 ORIGINALE
+  let speed = 100; //200 ORIGINALE
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
   
@@ -62,8 +64,8 @@ PP.entities.player.update = function (scene, player) {
     player.lastDash = PP.timers.getTime(scene);
 
     PP.physics.change_gravity(scene, 200);
-
-    PP.physics.set_velocity_x(player, player.lastDirection * player.dashSpeed);
+    let dir = player.geometry.flip_x ? -1 : 1;
+    PP.physics.set_velocity_x(player, dir * player.dashSpeed);
   }
 
   if (player.isDashing) {
@@ -78,20 +80,28 @@ PP.entities.player.update = function (scene, player) {
   // === MOVIMENTO ORIZZONTALE ===
   if (!player.isKnocked && PP.game_state.bossIsDead == false) {
     if (movingLeft && !movingRight) {
-      if (player.lastDirection == 1){
-        player.geometry.flip_x = true;
-      }
-      player.lastDirection = -1;
+      player.geometry.flip_x = true;
       PP.physics.set_velocity_x(player, -speed);
+      if (!player.isWalkingAnim) {
+        PP.assets.sprite.animation_play(player, "camminata");
+        player.isWalkingAnim = true;
+      }
     }
     else if (movingRight && !movingLeft && PP.game_state.bossIsDead == false) {
-      if (player.lastDirection == -1){
-        player.geometry.flip_x = false;
-      }
-      player.lastDirection = 1;
+      player.geometry.flip_x = false;
       PP.physics.set_velocity_x(player, speed);
+      if (!player.isWalkingAnim) {
+        PP.assets.sprite.animation_play(player, "camminata");
+        player.isWalkingAnim = true;
+      }
     }
-    else PP.physics.set_velocity_x(player, 0);
+    else {
+      PP.physics.set_velocity_x(player, 0);
+      if (player.isWalkingAnim) {
+        PP.assets.sprite.animation_stop(player, "camminata");
+        player.isWalkingAnim = false;
+      }
+    }
   }
 
   // === COYOTE TIME SALTO===
@@ -126,8 +136,9 @@ PP.entities.player.attack = function (scene, player, enemies) {
   player.isAttacking = true;
 
   let hitboxX;
-  if (player.lastDirection == -1) {
-    hitboxX = player.geometry.body_x + 50 * player.lastDirection;
+  if (player.geometry.flip_x) {
+    let dir = player.geometry.flip_x ? -1 : 1; 
+    hitboxX = player.geometry.body_x + 50 * dir;
   }else{
     hitboxX = player.geometry.body_x + 80 /*player.width*/ + 50;
   }

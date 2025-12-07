@@ -1,5 +1,6 @@
 // === HOUSE SCENE ===
 function preload_house(scene) {
+  PP.entities.player.preload(scene);
 
   // OGGETTI INTERATTIVI
   //scene.load.image("key_gold", "assets/sprites/key_gold.png");
