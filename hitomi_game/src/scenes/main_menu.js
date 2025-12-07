@@ -12,7 +12,7 @@ function create(s) {
 
   // === TITOLO PRINCIPALE ===
   s.add.text(centerX, centerY - 120, "Hitomi", {
-    fontFamily: "Helvetica",
+    fontFamily: "Gotham",
     fontSize: "120px",
     color: "#FFFFFF",
     fontStyle: "bold",
@@ -21,7 +21,7 @@ function create(s) {
 
   // === SOTTOTITOLO ===
   s.add.text(centerX, centerY - 20, "Through The Other Side", {
-    fontFamily: "Helvetica",
+    fontFamily: "Baskerville",
     fontSize: "50px",
     color: "#FFFFFF",
     align: "center"
@@ -29,7 +29,9 @@ function create(s) {
 
   // === MENU OPZIONI ===
   const menuItems = [
-    { label: "Start", y: centerY + 100, action: () => PP.scenes.start("tutorial_scene") },
+    //{ label: "Storia", y: centerY + 100, action: () => PP.scenes.start("") },
+    { label: "Gioca", y: centerY + 100, action: () => PP.scenes.start("tutorial_scene") },
+    //{ label: "Crediti", y: centerY + 100, action: () => PP.scenes.start("") },
     { label: "House Scene (DEVELOPMENT REASONS)", y: centerY + 180, action: () => PP.scenes.start("house_scene") },
     { label: "Forest Scene (DEVELOPMENT REASONS)", y: centerY + 260, action: () => PP.scenes.start("forest_scene") },
     { label: "Boss Scene (DEVELOPMENT REASONS)", y: centerY + 340, action: () => PP.scenes.start("bossfight_scene") }
@@ -37,7 +39,7 @@ function create(s) {
 
   menuItems.forEach(item => {
     const text = s.add.text(centerX, item.y, item.label, {
-      fontFamily: "Helvetica",
+      fontFamily: "Gotham",
       fontSize: "45px",
       color: "#FFFFFF",
       align: "center"
@@ -45,7 +47,7 @@ function create(s) {
 
     // === Effetti interattivi ===
     text.setInteractive({ useHandCursor: true });
-    text.on("pointerover", () => text.setColor("#ff4444"));
+    text.on("pointerover", () => text.setColor("#6b60e6ff"));
     text.on("pointerout", () => text.setColor("#FFFFFF"));
     text.on("pointerdown", item.action);
   });
