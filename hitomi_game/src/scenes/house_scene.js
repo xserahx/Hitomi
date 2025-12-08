@@ -2,13 +2,13 @@
 let house_bg;
 
 function preload_house(scene) {
-  house_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png",7680,720);
+  house_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png",7680, 720);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
 }
 
 function create_house(scene, data) {
-  PP.assets.tilesprite.add(scene, house_bg, -20, 160, 7680, 720, 0, 0);
+  PP.assets.tilesprite.add(scene, house_bg, -20, 155, 7680, 720, 0, 0);
   PP.game_state.otherWorld = "ghostly_house_scene";
 
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
@@ -23,27 +23,27 @@ function create_house(scene, data) {
 
   // === PIATTAFORME ===
   const platformPositions = [
-   { x: 140, y: 785, w: 120, h: 90,  sprite_name: "rialzino" }, 
-   { x: 370, y: 479, w: 40, h: 395, sprite_name: "palo" },  // palo verticale       
-   { x: 390, y: 550, w: 150, h: 20, sprite_name: "basetta" },  // basetta orizzontale  
-   // { x: 400, y: 810,              },  // tavolo       //  w: 130, h: 180
-   { x: 540, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
-   { x: 780, y: 629, w: 180, h: 250, sprite_name: "armadio" },
-   { x: 1050, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 140, y: 785, w: 110, h: 90,  sprite_name: "rialzino" }, 
+    { x: 370, y: 479, w: 40, h: 395, sprite_name: "palo" },     
+    { x: 390, y: 550, w: 150, h: 20, sprite_name: "basetta" },  
+    { x: 400, y: 810, w: 130, h: 180, sprite_name: "tavolo" },  
+    { x: 540, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 780, y: 629, w: 180, h: 250, sprite_name: "armadio" },
+    { x: 1050, y: 747, w: 87, h: 130, sprite_name: "vaso" },
 
-    //{ x: 350, y: 645,              },   // basetta attaccata al palo  w: 150, h: 20
-   // { x: 1280, y: 425,             },  // muro grande a dx  w: 100, h: 620
-   // { x: 1600, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    //{ x: 350, y: 645, w: 150, h: 20, sprite_name : "basetta" },  
+    { x: 1280, y: 425, w: 100, h: 620, sprite_name: "muro" }, 
+    { x: 1600, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 1800, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2300, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
-   // { x: 2560, y: 425,             },  // secondo muro grande  w: 100, h: 620
+    { x: 2560, y: 425, w: 100, h: 620, sprite_name: "secondo_muro" }, 
     { x: 2850, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3100, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2850, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3100, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3500, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-   // { x: 3840, y: 583,             },  // terzo muro grande w: 100, h: 335
-   // { x: 4040, y: 425,             },  // piattaforma grande attaccata al terzo muro w: 300, h: 42
+    { x: 3840, y: 583, w: 100, h: 335, sprite_name: "terzo_muro" },  
+    { x: 4040, y: 425, w: 300, h: 42, sprite_name: "piattaforma_grande" },  // piattaforma grande attaccata al terzo muro
     { x: 4265, y: 425, w: 150, h: 42, sprite_name: "piattaforma" },
    // { x: 4320, y: 375,             }, // w: 40, h: 80
   //  { x: 4335, y: 325,             }, // w: 100, h: 20
@@ -52,10 +52,10 @@ function create_house(scene, data) {
     { x: 4650, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
    // { x: 4745, y: 365,             },    // w: 40, h: 150
    // { x: 5250, y: 300,             },  // w: 150, h: 100
-    { x: 5250, y: 810, w: 87, h: 130, sprite_name: "vaso" }, 
+    { x: 5250, y: 747, w: 87, h: 130, sprite_name: "vaso" }, 
   //{ x: 5650, y: 250,             },  // w: 150, h: 100
    // { x: 6050, y: 200,             },  // w: 150, h: 100
-    { x: 6200, y: 810, w: 87, h: 130, sprite_name: "vaso" }, 
+    { x: 6200, y: 747, w: 87, h: 130, sprite_name: "vaso" }, 
    // { x: 6450, y: 300,             },  // w: 150, h: 100
     { x: 7000, y: 635, w: 150, h: 42, sprite_name: "piattaforma" },
    // { x: 7150, y: 750,             },  // w: 150, h: 250
@@ -293,7 +293,5 @@ function update_house(scene) {
 
 // === DESTROY ===
 function destroy_house(scene) { }
-
-PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
 
 PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_house);
