@@ -8,7 +8,7 @@ function preload_house(scene) {
 }
 
 function create_house(scene, data) {
-  PP.assets.tilesprite.add(scene, house_bg, -20, 155, 7680, 720, 0, 0);
+  PP.assets.tilesprite.add(scene, house_bg, -20, 180, 7680, 720, 0, 0);
   PP.game_state.otherWorld = "ghostly_house_scene";
 
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
