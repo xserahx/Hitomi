@@ -1,8 +1,14 @@
 // === TUTORIAL SCENE ===
+let red_heart;
+let black_heart;
+
 function preload_tutorial_scene(scene) {
     PP.entities.player.preload(scene);
-}
+    PP.scene_objects.platform.preload(scene);
+    red_heart = PP.assets.image.load(scene, "assets/images/cuore_rosso.png",120,50);
+    black_heart = PP.assets.image.load(scene, "assets/images/cuore_nero.png",120,50);
 
+}
 // === CREAZIONE SCENA ===
 function create_tutorial_scene(scene) {
     PP.game_state.otherWorld = "ghostly_tutorial_scene";
@@ -15,15 +21,15 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
+    const ground = PP.shapes.rectangle_add(scene, 620, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
     // === PIATTAFORME ===
     const platformPositions = [ 
-        { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
-        { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
-        { x: 1100, y: 650, w: 100, h: 60 }, // muretto
-        { x: 350, y: 250, w: 200, h: 20 }, // base del nemico
-        { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
+        { x: 450, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+        { x: 890, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 1100, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+        { x: 470, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+        { x: 70, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -82,8 +88,23 @@ function create_tutorial_scene(scene) {
 
     });
 
-    // === HUD VITE ===
-    PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
+    // === HUD VITE (CUORI) ===
+    PP.game_state.maxLives = 3;
+    PP.game_state.currentLives = 3;
+    PP.game_state.hearts = [];
+
+    for (let i = 0; i < PP.game_state.maxLives; i++) {
+    const heart = scene.add.image(40 + (i * 40), 40, "red_heart");
+    heart.setScrollFactor(0); // rimane sullo schermo
+    PP.game_state.hearts.push(heart);
+}
+    for (let i = 0; i < PP.game_state.maxLives; i++) {
+    if (i < PP.game_state.currentLives) {
+        PP.game_state.hearts[i].setTexture("red_heart");
+    } else {
+        PP.game_state.hearts[i].setTexture("black_heart");
+    }
+}
     
     // === NEMICI ===
     const enemyPositions = [{ x: 400, y: 200, speed: 0 }];
@@ -136,6 +157,5 @@ function update_tutorial_scene(scene) {
 }
 
 function destroy_tutorial_scene(scene) {}
-
 
 PP.scenes.add("tutorial_scene", preload_tutorial_scene, create_tutorial_scene, update_tutorial_scene, destroy_tutorial_scene);
