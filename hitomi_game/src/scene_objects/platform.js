@@ -10,8 +10,8 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["armadio"] = PP.assets.image.load(scene, "assets/images/house/armadio.png");
     PP.scene_objects.platform.sprite["rialzino"] = PP.assets.image.load(scene, "assets/images/house/rialzino.png");
    // PP.scene_objects.platform.sprite["muro_grande"] = PP.assets.image.load(scene, "assets/images/house/muro_grande.png", 100, 620);
-   // PP.scene_objects.platform.sprite["blocchetto"] = PP.assets.image.load(scene, "assets/images/house/blocchetto.png", 150, 20);
-   // PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
+    PP.scene_objects.platform.sprite["basetta"] = PP.assets.image.load(scene, "assets/images/house/basetta.png", 150, 20);
+    PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
 };
 
 // Creazione piattaforme
