@@ -213,8 +213,8 @@ PP.entities.player.get_baby = function (scene, player) {
 // === CAMBIO MONDO ===
 PP.entities.player.changeWorld = function (scene) {
   console.log("World changing to:", PP.game_state.otherWorld);
-  config.player_x = 40 + PP.game_state.player.geometry.body_x;
-  config.player_y = 60 + PP.game_state.player.geometry.body_y;
+  config.player_x = PP.game_state.player.geometry.x;
+  config.player_y = PP.game_state.player.geometry.y;
   PP.scenes.start(PP.game_state.otherWorld);
   PP.game_state.changingWorld = true;
 }
