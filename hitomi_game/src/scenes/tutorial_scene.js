@@ -1,13 +1,9 @@
 // === TUTORIAL SCENE ===
-let red_heart;
-let black_heart;
 
 function preload_tutorial_scene(scene) {
     PP.entities.player.preload(scene);
     PP.scene_objects.platform.preload(scene);
-    red_heart = PP.assets.image.load(scene, "assets/images/cuore_rosso.png",120,50);
-    black_heart = PP.assets.image.load(scene, "assets/images/cuore_nero.png",120,50);
-
+    PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/Heart.png", 120, 50);
 }
 // === CREAZIONE SCENA ===
 function create_tutorial_scene(scene) {
@@ -89,22 +85,16 @@ function create_tutorial_scene(scene) {
     });
 
     // === HUD VITE (CUORI) ===
-    PP.game_state.maxLives = 3;
-    PP.game_state.currentLives = 3;
     PP.game_state.hearts = [];
 
-    for (let i = 0; i < PP.game_state.maxLives; i++) {
-    const heart = scene.add.image(40 + (i * 40), 40, "red_heart");
-    heart.setScrollFactor(0); // rimane sullo schermo
-    PP.game_state.hearts.push(heart);
-}
-    for (let i = 0; i < PP.game_state.maxLives; i++) {
-    if (i < PP.game_state.currentLives) {
-        PP.game_state.hearts[i].setTexture("red_heart");
-    } else {
-        PP.game_state.hearts[i].setTexture("black_heart");
+    for (let i = 0; i < PP.game_state.player.maxLives; i++) {
+        let x = 60 + (i * 80);
+        let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+        PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
+        heart.tile_geometry.scroll_factor_x = 0;
+        heart.tile_geometry.scroll_factor_y = 0;
+        PP.game_state.hearts.push(heart);
     }
-}
     
     // === NEMICI ===
     const enemyPositions = [{ x: 400, y: 200, speed: 0 }];
@@ -121,6 +111,11 @@ function create_tutorial_scene(scene) {
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
+            if (!(PP.game_state.player.lives <= 0)) {
+                // HUD DANNO
+                let currentIndex = PP.game_state.player.lives - 1;
+                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+            }
             PP.entities.player.damage(scene, PP.game_state.player, enemy);
         });
     }

@@ -44,7 +44,8 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player) {
-  let speed = 100; //200 ORIGINALE
+  if (player.lives == 0) return;
+  let speed = 200; //200 ORIGINALE
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
   
@@ -174,25 +175,7 @@ PP.entities.player.damage = function (scene, player, enemy) {
   player.lives -= 1;
   player.isInvincible = true;
 
-  // === LAMPEGGIO ROSSO ===
-  player.isFlashing = true;
-  let flashCount = 0;
-  const originalColor = player.ph_obj.fillColor; //Non esiste una funzione di poliphazer per zambiare colore
-
-  PP.timers.add_timer(scene, 100, (s) => {
-    if (!player.isFlashing) return;
-
-    player.ph_obj.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor; //Non esiste una funzione di poliphazer per zambiare colore
-    flashCount++;
-
-    if (flashCount >= player.maxLives) {
-      player.isFlashing = false;
-      player.ph_obj.fillColor = originalColor; //Non esiste una funzione di poliphazer per zambiare colore
-      flashCount = 0;
-    }
-  }, true);
-
-  /*// === KNOCKBACK ===
+  // === KNOCKBACK ===
   player.isKnocked = true;
   const knockbackX = 600;
   const knockbackY = -300;
@@ -203,19 +186,18 @@ PP.entities.player.damage = function (scene, player, enemy) {
 
   PP.timers.add_timer(scene, 200, (s) => {
     player.isKnocked = false;
-  }, false);*/
+  }, false);
 
   // === INVINCIBILITÀ TEMPORANEA ===
   PP.timers.add_timer(scene, 1500, (s) => {
     player.isInvincible = false;
-    player.fillColor = originalColor;
   }, false);
 
 
   // === GAME OVER ===
   if (player.lives <= 0) {
-    scene.cameras.main.shake(300, 0.01);
-    scene.time.delayedCall(300, () => {
+    scene.cameras.main.shake(2000, 0.01);
+    scene.time.delayedCall(2000, () => {
       scene.scene.restart();
       player.lives = player.maxLives;
     });
