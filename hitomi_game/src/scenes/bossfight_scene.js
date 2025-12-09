@@ -1,5 +1,6 @@
 // === bossfight SCENE ===
 function preload_bossfight_scene(scene) {
+    PP.scene_objects.platform.preload(scene);
     PP.entities.player.preload(scene);
     scene.load.image('snowflake', 'assets/images/forest/neve.png');
 }
