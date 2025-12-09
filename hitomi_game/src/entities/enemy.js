@@ -21,8 +21,8 @@ PP.entities.enemy.create = function (scene, positions) {
     enemy.patrolInterval = 2000;
 
     // === VITA ===
-    enemy.maxLives = 2;
-    enemy.lives = 2;
+    enemy.maxLives = 1;
+    enemy.lives = 1;
     enemy.isInvincible = false;
     enemy.isFlashing = false;
     enemy.isKnocked = false;
