@@ -155,7 +155,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
     }
   } else {
     PP.physics.add_overlap_f(scene, hitbox, enemies, () => {
-      PP.entities.boss.damage(scene, enemies, hitbox);
+      if(PP.game_state.bossIsFriendly == false){PP.entities.boss.damage(scene, enemies, hitbox);}
     });
   }
 
