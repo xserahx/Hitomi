@@ -25,11 +25,11 @@ function create_house(scene, data) {
   // === PIATTAFORME ===
   const platformPositions = [
     { x: 140, y: 785, w: 110, h: 90,  sprite_name: "rialzino" }, 
-    { x: 370, y: 479, w: 40, h: 395, sprite_name: "palo" },     
-    { x: 390, y: 550, w: 150, h: 20, sprite_name: "basetta" },  
+    //{ x: 370, y: 479, w: 40, h: 395, sprite_name: "palo" },     
+    //{ x: 390, y: 550, w: 150, h: 20, sprite_name: "basetta" },  
     { x: 400, y: 810, w: 130, h: 180, sprite_name: "tavolo" },  
     { x: 540, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 780, y: 629, w: 180, h: 250, sprite_name: "armadio" },
+    //{ x: 780, y: 629, w: 180, h: 250, sprite_name: "armadio" },
     { x: 1050, y: 747, w: 87, h: 130, sprite_name: "vaso" },
 
     //{ x: 350, y: 645, w: 150, h: 20, sprite_name : "basetta" },  
@@ -70,12 +70,6 @@ function create_house(scene, data) {
   let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
 
-  //Check se sta cambaindo mondo
-  if(PP.game_state.changingWorld){
-        startX = config.player_x;
-        startY = config.player_y;
-    }
-
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
   console.log("Ha preso il bambino " + PP.game_state.has_baby);
 
@@ -86,6 +80,12 @@ function create_house(scene, data) {
   for (let plat of PP.game_state.platforms) {
     PP.physics.add_collider(scene, PP.game_state.player, plat);
   }
+
+  //Check se sta cambiando mondo
+    if(PP.game_state.changingWorld){
+        PP.game_state.player.geometry.x = config.player_x;
+        PP.game_state.player.geometry.y = config.player_y;
+    }
 
    // === HUD VITE (CUORI) ===
     PP.game_state.hearts = [];

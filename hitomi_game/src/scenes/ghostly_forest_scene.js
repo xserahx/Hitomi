@@ -88,12 +88,6 @@ function create_ghostly_forest(scene, data) {
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
 
-    //Check se sta cambaindo mondo
-    if(PP.game_state.changingWorld){
-        startX = config.player_x;
-        startY = config.player_y;
-    }
-
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
     // === COLLIDER PLAYER ===
@@ -101,6 +95,12 @@ function create_ghostly_forest(scene, data) {
 
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
+    }
+
+    //Check se sta cambiando mondo
+    if(PP.game_state.changingWorld){
+        PP.game_state.player.geometry.x = config.player_x;
+        PP.game_state.player.geometry.y = config.player_y;
     }
 
     // === HUD VITE (CUORI) ===

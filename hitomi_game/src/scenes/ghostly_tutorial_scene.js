@@ -10,24 +10,24 @@ function create_ghostly_tutorial_scene(scene) {
     PP.game_state.otherWorld = "tutorial_scene";
 
     // === MURI ===
-    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 0);
+    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 1);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-    const rightWall = PP.shapes.rectangle_add(scene, 1280, 360, 40, 720, "0x000000", 0);
+    const rightWall = PP.shapes.rectangle_add(scene, 1240, 360, 40, 720, "0x000000", 1);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
+    const ground = PP.shapes.rectangle_add(scene, 620, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
     // === PIATTAFORME ===
     const platformPositions = [ 
-       // { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
-       // { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
-      //  { x: 1100, y: 650, w: 100, h: 60 }, // muretto
-       { x: 610, y: 350, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
-       // { x: 350, y: 250, w: 200, h: 20 }, // base del nemico
-       // { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
+       { x: 655, y: 400, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
+        { x: 430, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+        { x: 870, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 1080, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+        { x: 450, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+        { x: 50, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -39,12 +39,6 @@ function create_ghostly_tutorial_scene(scene) {
     // === PLAYER ===
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
-    
-    //Check se sta cambiando mondo
-    if(PP.game_state.changingWorld){
-        startX = config.player_x;
-        startY = config.player_y;
-    }
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
@@ -55,6 +49,12 @@ function create_ghostly_tutorial_scene(scene) {
 
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
+    }
+
+    //Check se sta cambiando mondo
+    if(PP.game_state.changingWorld){
+        PP.game_state.player.geometry.x = config.player_x;
+        PP.game_state.player.geometry.y = config.player_y;
     }
 
     // === COLLDIER BAMBINO ===
