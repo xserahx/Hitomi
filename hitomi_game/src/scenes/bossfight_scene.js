@@ -74,7 +74,8 @@ function create_bossfight_scene(scene) {
                 PP.assets.destroy(PP.game_state.askSamurai);
                 PP.assets.destroy(button_si);
                 PP.assets.destroy(button_no);
-                let victory = PP.shapes.text_add(scene, 580, 400, "Good ending is currently a work in progress, but thanks for playing!");
+                if(PP.game_state.has_baby == true){PP.scenes.start("musubi_scene");}
+                else{PP.scenes.start("kakurebi_scene");}
             });
             PP.interactive.mouse.add(button_no, "pointerdown", () => {
                 PP.assets.destroy(PP.game_state.askSamurai);
@@ -128,6 +129,10 @@ function update_bossfight_scene(scene) {
 
     if(PP.game_state.bossIsFriendly == true){
         let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
+    }
+
+    if(PP.game_state.bossIsFriendly == true && PP.game_state.player.geometry.x >= 1250){
+        PP.scenes.start("teitai_scene");
     }
 }
 
