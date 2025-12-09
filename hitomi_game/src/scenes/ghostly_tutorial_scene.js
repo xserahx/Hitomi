@@ -1,6 +1,8 @@
 // === ghostly_tutorial SCENE ===
 function preload_ghostly_tutorial_scene(scene) {
-       PP.entities.player.preload(scene);
+  PP.scene_objects.platform.preload(scene);
+  PP.entities.player.preload(scene);
+  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 }
 
 // === CREAZIONE SCENA ===
@@ -17,14 +19,15 @@ function create_ghostly_tutorial_scene(scene) {
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
+
     // === PIATTAFORME ===
     const platformPositions = [ 
-        { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
-        { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
-        { x: 1100, y: 650, w: 100, h: 60 }, // muretto
-        { x: 610, y: 350, w: 200, h: 20 }, // piattaforma centrale
-        { x: 350, y: 250, w: 200, h: 20 }, // base del nemico
-        { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
+       // { x: 250, y: 370, w: 50, h: 400 },  // colonna di sinistra
+       // { x: 890, y: 480, w: 200, h: 20 },  // piattaforma iniziale
+      //  { x: 1100, y: 650, w: 100, h: 60 }, // muretto
+       { x: 610, y: 350, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
+       // { x: 350, y: 250, w: 200, h: 20 }, // base del nemico
+       // { x: 70, y: 650, w: 100, h: 60 }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -37,7 +40,7 @@ function create_ghostly_tutorial_scene(scene) {
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1200;
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
     
-    //Check se sta cambaindo mondo
+    //Check se sta cambiando mondo
     if(PP.game_state.changingWorld){
         startX = config.player_x;
         startY = config.player_y;
@@ -83,8 +86,18 @@ function create_ghostly_tutorial_scene(scene) {
 
     });
 
-    // === HUD VITE ===
-    PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
+   // === HUD VITE (CUORI) ===
+    PP.game_state.hearts = [];
+
+    for (let i = 0; i < PP.game_state.player.maxLives; i++) {
+        let x = 60 + (i * 80);
+        let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+        PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
+        heart.tile_geometry.scroll_factor_x = 0;
+        heart.tile_geometry.scroll_factor_y = 0;
+        PP.game_state.hearts.push(heart);
+    }
+    
     // === NEMICI ===
     const enemyPositions = [{ x: 400, y: 200, speed: 0}];
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
@@ -99,10 +112,16 @@ function create_ghostly_tutorial_scene(scene) {
         }
 
         // Overlap player-nemico
-        PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            PP.entities.player.damage(scene, PP.game_state.player, enemy);
-        });
-    }
+    PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
+      if (!(PP.game_state.player.lives <= 0)) {
+
+      // HUD DANNO
+      let currentIndex = PP.game_state.player.lives - 1;
+      PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+      }
+      PP.entities.player.damage(scene, PP.game_state.player, enemy);
+   });
+      }
     // === CLICK DEL MOUSE PER ATTACCARE ===
     scene.input.on("pointerdown", () => {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);

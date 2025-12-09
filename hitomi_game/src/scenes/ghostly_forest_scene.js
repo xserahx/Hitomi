@@ -1,9 +1,11 @@
 // === ghostly_forest SCENE ===
 function preload_ghostly_forest(scene) {
+  scene.load.image('snowflake', 'assets/images/forest/neve.png');
+  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
-
-  // Carica eventuali risorse future (audio, immagini, ecc.)
 }
+
 
 function create_ghostly_forest(scene, data) {
   // Setta la scena del mondo spettrale
@@ -101,8 +103,17 @@ function create_ghostly_forest(scene, data) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
 
-    // === HUD VITE ===
-    PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
+    // === HUD VITE (CUORI) ===
+    PP.game_state.hearts = [];
+
+    for (let i = 0; i < PP.game_state.player.maxLives; i++) {
+        let x = 60 + (i * 80);
+        let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+        PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
+        heart.tile_geometry.scroll_factor_x = 0;
+        heart.tile_geometry.scroll_factor_y = 0;
+        PP.game_state.hearts.push(heart);
+    }
     
     // === NEMICI ===
     const enemyPositions = [{ x: 400, y: 200, speed: 80 }];
@@ -117,11 +128,17 @@ function create_ghostly_forest(scene, data) {
             PP.physics.add_collider(scene, enemy, plat);
         }
 
-        // Overlap player-nemico
-        PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            PP.entities.player.damage(scene, PP.game_state.player,enemy);
-        });
-    }
+    // Overlap player-nemico
+    PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
+      if (!(PP.game_state.player.lives <= 0)) {
+
+      // HUD DANNO
+      let currentIndex = PP.game_state.player.lives - 1;
+      PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+      }
+      PP.entities.player.damage(scene, PP.game_state.player, enemy);
+   });
+      }
 
   // === CAMERA ===
   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;

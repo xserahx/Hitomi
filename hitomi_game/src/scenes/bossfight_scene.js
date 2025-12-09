@@ -3,6 +3,7 @@ function preload_bossfight_scene(scene) {
     PP.scene_objects.platform.preload(scene);
     PP.entities.player.preload(scene);
     scene.load.image('snowflake', 'assets/images/forest/neve.png');
+    PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 }
 
 // === CREAZIONE SCENA ===
@@ -32,8 +33,17 @@ function create_bossfight_scene(scene) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
 
-    // === HUD VITE ===
-    PP.game_state.playerLivesText = PP.shapes.text_add(scene, 20, 20, "Lives:");
+    // === HUD VITE (CUORI) ===
+    PP.game_state.hearts = [];
+
+    for (let i = 0; i < PP.game_state.player.maxLives; i++) {
+        let x = 60 + (i * 80);
+        let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+        PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
+        heart.tile_geometry.scroll_factor_x = 0;
+        heart.tile_geometry.scroll_factor_y = 0;
+        PP.game_state.hearts.push(heart);
+    }
     
     // === BOSS ===
     PP.game_state.boss = PP.entities.boss.create(scene);
@@ -45,7 +55,14 @@ function create_bossfight_scene(scene) {
     }
     PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
         console.log("Boss overlap");
-        if (PP.game_state.bossIsDead == false && PP.game_state.bossIsFriendly == false) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
+        if (!(PP.game_state.player.lives <= 0)) {
+            
+                // HUD DANNO
+                let currentIndex = PP.game_state.player.lives - 1;
+                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+            }
+            
+        if (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
         else if (PP.game_state.bossIsFriendly == true) {
 
             PP.game_state.askSamurai = PP.shapes.text_add(scene, 200, 360, "Haruki is defeated, i could ask him what is going on.");
@@ -107,12 +124,6 @@ function update_bossfight_scene(scene) {
         if (flake.y > scene.sys.game.config.height) {
             flake.destroy();
         }
-    }
-
-    if (config.player_is_hit == true) {
-        console.log("Player hit!");
-        PP.entities.player.damage(scene, PP.game_state.player);
-        config.player_is_hit = false;
     }
 
     if(PP.game_state.bossIsFriendly == true){

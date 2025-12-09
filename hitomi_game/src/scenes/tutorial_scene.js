@@ -3,7 +3,7 @@
 function preload_tutorial_scene(scene) {
     PP.entities.player.preload(scene);
     PP.scene_objects.platform.preload(scene);
-    PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/Heart.png", 120, 50);
+    PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 }
 // === CREAZIONE SCENA ===
 function create_tutorial_scene(scene) {
@@ -19,6 +19,7 @@ function create_tutorial_scene(scene) {
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 620, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
+
     // === PIATTAFORME ===
     const platformPositions = [ 
         { x: 450, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
@@ -55,7 +56,7 @@ function create_tutorial_scene(scene) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
 
-    // === COLLDIER BAMBINO ===
+    // === COLLIDER BAMBINO ===
      PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
         /*PP.timers.add_timer(scene, 300, (s) => {
              PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
@@ -112,6 +113,7 @@ function create_tutorial_scene(scene) {
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
             if (!(PP.game_state.player.lives <= 0)) {
+
                 // HUD DANNO
                 let currentIndex = PP.game_state.player.lives - 1;
                 PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");

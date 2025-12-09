@@ -5,7 +5,6 @@ PP.entities.boss = {};
 PP.entities.boss.create = function (scene, positions) {
   const boss = PP.shapes.rectangle_add(scene, 1230, 500, 80, 120, "0xff0000", 1);
   PP.physics.add(scene, boss, PP.physics.type.DYNAMIC);
-  PP.physics.set_collide_world_bounds(boss, true);
 
   boss.speed = 0;
   boss.detectionRange = 1280;
@@ -80,7 +79,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
 
 
   PP.physics.add_overlap_f(scene, hitbox, player, (scene, player) => {
-    config.player_is_hit = true;
+    PP.entities.player.damage(scene, PP.game_state.player, hitbox);
   });
 
   PP.timers.add_timer(scene, 100, (s) => {
