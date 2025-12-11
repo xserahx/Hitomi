@@ -8,6 +8,7 @@ function preload_tutorial_scene(scene) {
 // === CREAZIONE SCENA ===
 function create_tutorial_scene(scene) {
     PP.game_state.otherWorld = "ghostly_tutorial_scene";
+    PP.game_state.currentScene = "tutorial_scene";
 
     // === MURI ===
     const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 1);

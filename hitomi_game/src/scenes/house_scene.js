@@ -10,6 +10,7 @@ function preload_house(scene) {
 
 function create_house(scene, data) {
   PP.assets.tilesprite.add(scene, house_bg, -20, 180, 7680, 720, 0, 0);
+  PP.game_state.currentScene = "house_scene";
   PP.game_state.otherWorld = "ghostly_house_scene";
 
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
@@ -67,10 +68,10 @@ function create_house(scene, data) {
 
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
-  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
+    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
 
-  PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+    PP.game_state.player = PP.entities.player.create(scene, startX, startY);
   console.log("Ha preso il bambino " + PP.game_state.has_baby);
 
   // === COLLIDER PLAYER ===
@@ -82,7 +83,7 @@ function create_house(scene, data) {
   }
 
   //Check se sta cambiando mondo
-    if(PP.game_state.changingWorld){
+    if(PP.game_state.changingWorld == true){
         PP.game_state.player.geometry.x = config.player_x;
         PP.game_state.player.geometry.y = config.player_y;
     }
@@ -291,13 +292,6 @@ function create_house(scene, data) {
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
-
-  if (PP.game_state.player) {
-    PP.game_state.playerPosition = {
-      x: config.player_x,
-      y: config.player_y
-    };
-  }
 
   // === CAMBIO MONDO ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {

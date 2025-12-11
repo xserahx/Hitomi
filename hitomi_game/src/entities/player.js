@@ -198,8 +198,8 @@ PP.entities.player.damage = function (scene, player, enemy) {
   if (player.lives <= 0) {
     scene.cameras.main.shake(2000, 0.01);
     scene.time.delayedCall(2000, () => {
-      scene.scene.restart();
       player.lives = player.maxLives;
+      PP.scenes.start("game_over");
     });
   }
 }

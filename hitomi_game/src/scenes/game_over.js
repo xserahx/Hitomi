@@ -26,10 +26,8 @@ function create_game_over(scene, data) {
   restartButton.setOrigin(0.5);
   restartButton.setInteractive({ useHandCursor: true });
   restartButton.on("pointerdown", () => {
-    // Forza la posizione iniziale del player all’inizio della casa
-    PP.game_state.playerPosition = { x: 200, y: 500 };
-    scene.scene.start("ghostly_house_scene", { x: 200, y: 500 });
-  });
+    PP.scenes.start(PP.game_state.currentScene);
+    });
 
   // Fade in della scena
   scene.cameras.main.fadeIn(500, 0, 0, 0);

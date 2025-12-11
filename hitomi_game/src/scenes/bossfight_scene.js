@@ -8,6 +8,7 @@ function preload_bossfight_scene(scene) {
 
 // === CREAZIONE SCENA ===
 function create_bossfight_scene(scene) {
+    PP.game_state.currentScene = "bossfight_scene";
 
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);

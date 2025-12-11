@@ -11,6 +11,7 @@ function preload_forest(scene) {
 function create_forest(scene, data) {
   PP.assets.tilesprite.add(scene, forest_bg, -20, 160, 6400, 720, 0, 0);
   // Setta la scena del mondo spettrale
+  PP.game_state.currentScene = "forest_scene";
     PP.game_state.otherWorld = "ghostly_forest_scene";
 
     const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
