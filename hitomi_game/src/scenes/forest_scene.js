@@ -188,6 +188,11 @@ function update_forest(scene) {
             flake.destroy();
         }
     }
+
+    // === FINE LIVELLO ===
+    if(PP.game_state.player.geometry.x >= 6325){
+        PP.scenes.start("bossfight_scene");
+    }
 }
 
 

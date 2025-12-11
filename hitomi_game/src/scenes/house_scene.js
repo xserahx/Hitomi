@@ -206,7 +206,7 @@ function create_house(scene, data) {
 
 
   // === CHIAVE 2 ===
-  const key2 = PP.shapes.rectangle_add(scene, 4220, 375, 50, 50, "0x123456", 0);
+  const key2 = PP.shapes.rectangle_add(scene, 5000, 500, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key2, PP.physics.type.STATIC);
 
   let keyCollected2 = false;
@@ -297,6 +297,11 @@ function update_house(scene) {
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
         console.log("Changing world");
         PP.entities.player.changeWorld(scene);
+    }
+
+  // === FINE LIVELLO ===
+  if(PP.game_state.player.geometry.x >= 7675){
+        PP.scenes.start("forest_scene");
     }
 
 }
