@@ -133,6 +133,49 @@ function create_ghostly_tutorial_scene(scene) {
     scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
     PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
+    // === CARTELLO ===
+
+    const sign1 = PP.shapes.rectangle_add(scene, 1200, 600, 40, 40, "0x00ff00", 1);
+    PP.physics.add(scene, sign1, PP.physics.type.STATIC);
+    const sign2 = PP.shapes.rectangle_add(scene, 1050, 500, 40, 40, "0x00ff00", 1);
+    PP.physics.add(scene, sign2, PP.physics.type.STATIC);
+    const sign3 = PP.shapes.rectangle_add(scene, 850, 450, 40, 40, "0x00ff00", 1);
+    PP.physics.add(scene, sign3, PP.physics.type.STATIC);
+    const sign4 = PP.shapes.rectangle_add(scene, 625, 250, 40, 40, "0x00ff00", 1);
+    PP.physics.add(scene, sign4, PP.physics.type.STATIC);
+
+    PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around.  Press SPACE to jump.");
+
+        PP.timers.add_timer(scene, 250, (s) => {
+            PP.assets.destroy(tutorial);
+        }, false);
+    });
+
+    PP.physics.add_overlap_f(scene, PP.game_state.player, sign2, () => {
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press SHIFT to dash.");
+
+        PP.timers.add_timer(scene, 250, (s) => {
+            PP.assets.destroy(tutorial);
+        }, false);
+    });
+
+    PP.physics.add_overlap_f(scene, PP.game_state.player, sign3, () => {
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press U to change world.");
+
+        PP.timers.add_timer(scene, 250, (s) => {
+             PP.assets.destroy(tutorial);
+        }, false);
+    });
+
+    PP.physics.add_overlap_f(scene, PP.game_state.player, sign4, () => {
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press Boh to attack.");
+
+        PP.timers.add_timer(scene, 250, (s) => {
+            PP.assets.destroy(tutorial);
+        }, false);
+    });
+
     PP.game_state.changingWorld = false;
 }
 
