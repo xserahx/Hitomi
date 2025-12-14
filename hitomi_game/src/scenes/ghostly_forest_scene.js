@@ -20,14 +20,6 @@ function create_ghostly_forest(scene, data) {
   // === SFONDO ===
   scene.cameras.main.setBackgroundColor(0x0b3d0b);
 
-  // === LUCE / NEBBIA SOFT ===
- //  const overlay = scene.add.rectangle(1000, 300, 2000, 600, 0x00ff00); da cambiare con quello sotto
- // const overlay = scene.add.rectangle(1000, 300, 2000, 6000, 0x00ff00);
- // overlay.setAlpha(0.05);
- // overlay.setBlendMode(Phaser.BlendModes.ADD);
-
-// == NEVE ==
-
 // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 3200, 2000, 6400, 40, "0x4a3b2a", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
@@ -76,13 +68,6 @@ function create_ghostly_forest(scene, data) {
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
-
-  // === MOVING PLATFORMS ===
-  //const movingPlatformConfigs = [
-  //  { x: 3600, y: 1600, w: 100, h: 20, direction: 'y', range: 100, speed: 60 }
-  //];
-  //PP.game_state.movingPlatforms = PP.scene_objects.moving_platform.create(scene, movingPlatformConfigs);
-  //scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
    // === PLAYER ===
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
@@ -140,42 +125,34 @@ function create_ghostly_forest(scene, data) {
    });
       }
 
-  // === CAMERA ===
+   // === CAMERA ===
   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
   const worldHeight = ground.geometry.body_y + 40;
   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
-  // === CAMBIO MONDO (U / u) ===
-  PP.game_state.changingWorld = false;
-  //scene.input.keyboard.on('keydown-U', () => switchWorld(scene));
-  //scene.input.keyboard.on('keydown-u', () => switchWorld(scene));
-//}
+  // === CLICK DEL MOUSE PER ATTACCARE ===
+    scene.input.on("pointerdown", () => {
+        PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.boss);
+    });
 
-// === FUNZIONE CAMBIO MONDO ===
-//function switchWorld(scene) {
-  //if (PP.game_state.changingWorld) return;
-  PP.game_state.changingWorld = true;
+  // --- NEVE ---
+    // array per i fiocchi
+    scene.snowflakes = [];
 
-  // Salva posizione globale
-  //PP.game_state.playerPosition = {
-  //  x: PP.game_state.player.x,
-  //  y: PP.game_state.player.y
-  //};
+    // timer che crea fiocchi
+    scene.time.addEvent({
+        delay: 200,
+        callback: () => {
+            const x = Phaser.Math.Between(0, scene.sys.game.config.width);
+            const flake = scene.add.image(x, 0, 'snowflake').setScale(0.2);
+            scene.snowflakes.push(flake);
+        },
+        loop: true
+    });
 
-  //const currentScene = scene.scene.key;
-  //const nextScene = currentScene.startsWith('ghostly_')
-   // ? currentScene.replace('ghostly_', '')
-   // : 'ghostly_' + currentScene;
-
-  //scene.cameras.main.fadeOut(500, 0, 0, 0);
-  //scene.time.delayedCall(500, () => {
-   // const { x, y } = PP.game_state.playerPosition;
-   // scene.scene.start(nextScene, { x, y });
-   // PP.game_state.changingWorld = false;
-  //});
+    PP.game_state.changingWorld = false;
 }
-
 function update_ghostly_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
@@ -192,6 +169,24 @@ function update_ghostly_forest(scene) {
        y: PP.game_state.player.y
     };
   }
+
+const groundTopY = 2000 - (40 / 2);
+
+// muovi i fiocchi verso il basso
+for (let flake of scene.snowflakes) {
+    flake.y += 2; // velocità caduta
+
+    // fermali prima di toccare il terreno
+    if (flake.y >= groundTopY - 5) { // -5 = margine
+        flake.destroy(); // oppure flake.y = groundTopY - 5;
+    }
+}
+
+
+    // === FINE LIVELLO ===
+    if(PP.game_state.player.geometry.x >= 6325){
+        PP.scenes.start("bossfight_scene");
+    }
 }
 
 
@@ -201,7 +196,4 @@ function destroy_ghostly_forest(scene) {
 
 // === AGGIUNGI LA SCENA ===
 PP.scenes.add('ghostly_forest_scene', preload_ghostly_forest, create_ghostly_forest, update_ghostly_forest, destroy_ghostly_forest);
-
-
-
 

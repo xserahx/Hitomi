@@ -181,13 +181,18 @@ function update_forest(scene) {
     };
   }
 
-   // muovi i fiocchi verso il basso
-    for (let flake of scene.snowflakes) {
-        flake.y += 2; // velocità caduta
-        if (flake.y > scene.sys.game.config.height) {
-            flake.destroy();
-        }
+    const groundTopY = 895 - (40 / 2);
+
+// muovi i fiocchi verso il basso
+for (let flake of scene.snowflakes) {
+    flake.y += 2; // velocità caduta
+
+    // fermali prima di toccare il terreno
+    if (flake.y >= groundTopY - 5) { // -5 = margine
+        flake.destroy(); // oppure flake.y = groundTopY - 5;
     }
+}
+
 
     // === FINE LIVELLO ===
     if(PP.game_state.player.geometry.x >= 6325){

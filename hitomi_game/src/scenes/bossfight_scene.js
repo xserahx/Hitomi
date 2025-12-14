@@ -13,6 +13,7 @@ function create_bossfight_scene(scene) {
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
+    
     // === PIATTAFORME ===
     const platformPositions = [
         { x: -5, y: 360, w: 10, h: 720 },
@@ -120,13 +121,17 @@ function update_bossfight_scene(scene) {
         };
     }
 
-    // muovi i fiocchi verso il basso
-    for (let flake of scene.snowflakes) {
-        flake.y += 2; // velocità caduta
-        if (flake.y > scene.sys.game.config.height) {
-            flake.destroy();
-        }
+    const groundTopY = 700 - (40 / 2);
+
+// muovi i fiocchi verso il basso
+for (let flake of scene.snowflakes) {
+    flake.y += 2; // velocità caduta
+
+    // fermali prima di toccare il terreno
+    if (flake.y >= groundTopY - 5) { // -5 = margine
+        flake.destroy(); // oppure flake.y = groundTopY - 5;
     }
+}
 
     if(PP.game_state.bossIsFriendly == true){
         let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
