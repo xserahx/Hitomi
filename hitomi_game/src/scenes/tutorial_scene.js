@@ -59,10 +59,6 @@ function create_tutorial_scene(scene) {
 
     // === COLLIDER BAMBINO ===
      PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
-        /*PP.timers.add_timer(scene, 300, (s) => {
-             PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
-        }, true);*/
-
         let layer_domanda = PP.layers.create(scene);
         PP.layers.set_z_index(layer_domanda, 10);
 

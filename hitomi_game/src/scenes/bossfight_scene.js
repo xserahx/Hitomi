@@ -10,6 +10,16 @@ function preload_bossfight_scene(scene) {
 function create_bossfight_scene(scene) {
     PP.game_state.currentScene = "bossfight_scene";
 
+  // === PULSANTE HELP ===
+  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+  helpButton.tile_geometry.scroll_factor_x = 0;
+  helpButton.tile_geometry.scroll_factor_y = 0;
+
+  // lo rendo cliccabile
+  PP.interactive.mouse.add(helpButton, "pointerdown", () => {
+  showControlsPopup(scene);
+});
+
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
@@ -146,3 +156,40 @@ function destroy_bossfight_scene(scene) { }
 
 
 PP.scenes.add("bossfight_scene", preload_bossfight_scene, create_bossfight_scene, update_bossfight_scene, destroy_bossfight_scene);
+
+// === FUNZIONE POP UP CONTROLLI ===
+function showControlsPopup(scene) {
+    const popupLayer = PP.layers.create(scene);
+    PP.layers.set_z_index(popupLayer, 20);
+
+    // sfondo scuro
+    const bg = PP.shapes.rectangle_add(scene,640, 360,700, 420,"0x000000",0.8);
+    
+    // testo controlli
+    const text = PP.shapes.text_add(scene, 340, 300,
+      "COMANDI DEL PLATFORM\n\n" +
+      "A/D oppure ← / → : Muovi il personaggio\n" +
+      "SPAZIO : Salta\n" +
+      "SHIFT : Scatto \n" +
+      "CLICK SINISTRO DEL MOUSE : Attacca\n" +
+      "U : Cambia mondo\n"
+    );
+
+    // bottone per chiudere il pop up dei comandi
+    const closeBtn = PP.shapes.text_add(scene, 400, 440, "CHIUDI");
+
+    // aggiungo tutto al layer
+    PP.layers.add_to_layer(popupLayer, bg);
+    PP.layers.add_to_layer(popupLayer, text);
+    PP.layers.add_to_layer(popupLayer, closeBtn);
+
+    // click su chiudi
+    PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
+      PP.assets.destroy(bg);
+      PP.assets.destroy(text);
+      PP.assets.destroy(closeBtn);
+    });
+}
+
+
+

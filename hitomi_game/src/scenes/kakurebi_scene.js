@@ -1,4 +1,4 @@
-// === GAME OVER SCENE ===
+// === FINALE KAKUREBI ===
 function preload_kakurebi(scene) {
   // Eventuali assets se vuoi (immagini, suoni)
 }
@@ -7,7 +7,6 @@ function create_kakurebi(scene, data) {
   // Sfondo nero
   scene.cameras.main.setBackgroundColor(0x000000);
 
-  // Testo Game Over
   const gameOverText = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY - 100,
@@ -16,11 +15,11 @@ function create_kakurebi(scene, data) {
   );
   gameOverText.setOrigin(0.5);
 
-  // Pulsante Restart Level
+
   const restartButton = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY,
-    "Goody has recognized, but not truly accepted, thee other side. Maybe something was missing?",
+    "Goody has recognized, but not truly accepted, the other side. Maybe something was missing?",
     { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
   );
   restartButton.setOrigin(0.5);

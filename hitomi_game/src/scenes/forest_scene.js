@@ -14,7 +14,17 @@ function create_forest(scene, data) {
   PP.game_state.currentScene = "forest_scene";
     PP.game_state.otherWorld = "ghostly_forest_scene";
 
-    const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
+  // === PULSANTE HELP ===
+  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+  helpButton.tile_geometry.scroll_factor_x = 0;
+  helpButton.tile_geometry.scroll_factor_y = 0;
+
+  // lo rendo cliccabile
+  PP.interactive.mouse.add(helpButton, "pointerdown", () => {
+  showControlsPopup(scene);
+});
+
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
   const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
@@ -80,8 +90,8 @@ function create_forest(scene, data) {
   //scene.physics.add.collider(PP.game_state.movingPlatforms, PP.game_state.platforms);
 
    // === PLAYER ===
-    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
-    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 100;
+    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
@@ -143,7 +153,7 @@ function create_forest(scene, data) {
 
   // === CLICK DEL MOUSE PER ATTACCARE ===
     scene.input.on("pointerdown", () => {
-        PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.boss);
+      PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
     });
 
   // --- NEVE ---
@@ -181,7 +191,7 @@ function update_forest(scene) {
     };
   }
 
-    const groundTopY = 895 - (40 / 2);
+const groundTopY = 895 - (40 / 2);
 
 // muovi i fiocchi verso il basso
 for (let flake of scene.snowflakes) {
@@ -208,6 +218,39 @@ function destroy_forest(scene) {
 // === AGGIUNGI LA SCENA ===
 PP.scenes.add('forest_scene', preload_forest, create_forest, update_forest, destroy_forest);
 
+// === FUNZIONE POP UP CONTROLLI ===
+function showControlsPopup(scene) {
+    const popupLayer = PP.layers.create(scene);
+    PP.layers.set_z_index(popupLayer, 20);
+
+    // sfondo scuro
+    const bg = PP.shapes.rectangle_add(scene,640, 360,700, 420,"0x000000",0.8);
+
+    // testo controlli
+    const text = PP.shapes.text_add(scene, 340, 300,
+      "COMANDI DEL PLATFORM\n\n" +
+      "A/D oppure ← / → : Muovi il personaggio\n" +
+      "SPAZIO : Salta\n" +
+      "SHIFT : Scatto \n" +
+      "CLICK SINISTRO DEL MOUSE : Attacca\n" +
+      "U : Cambia mondo\n"
+    );
+
+    // bottone per chiudere il pop up dei comandi
+    const closeBtn = PP.shapes.text_add(scene, 400, 440, "CHIUDI");
+
+    // aggiungo tutto al layer
+    PP.layers.add_to_layer(popupLayer, bg);
+    PP.layers.add_to_layer(popupLayer, text);
+    PP.layers.add_to_layer(popupLayer, closeBtn);
+
+    // click su chiudi
+    PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
+      PP.assets.destroy(bg);
+      PP.assets.destroy(text);
+      PP.assets.destroy(closeBtn);
+    });
+}
 
 
 

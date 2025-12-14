@@ -1,13 +1,13 @@
-// === GAME OVER SCENE ===
+// === FINALE MUSUBI ===
 function preload_musubi(scene) {
   // Eventuali assets se vuoi (immagini, suoni)
 }
 
 function create_musubi(scene, data) {
-  // Sfondo nero
+
   scene.cameras.main.setBackgroundColor(0x000000);
 
-  // Testo Game Over
+
   const gameOverText = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY - 100,
@@ -16,7 +16,7 @@ function create_musubi(scene, data) {
   );
   gameOverText.setOrigin(0.5);
 
-  // Pulsante Restart Level
+
   const restartButton = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY,
