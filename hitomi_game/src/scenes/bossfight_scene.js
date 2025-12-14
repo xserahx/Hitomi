@@ -66,13 +66,12 @@ function create_bossfight_scene(scene) {
         PP.physics.add_collider(scene, PP.game_state.boss, plat);
     }
     PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
-        console.log("Boss overlap");
-        if (!(PP.game_state.player.lives <= 0)) {
+        if (!(PP.game_state.player.lives <= 0 && (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly))) {
             
-                // HUD DANNO
-                let currentIndex = PP.game_state.player.lives - 1;
-                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-            }
+            // HUD DANNO
+            let currentIndex = PP.game_state.player.lives - 1;
+            PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+        }
             
         if (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
         else if (PP.game_state.bossIsFriendly == true) {
@@ -133,15 +132,15 @@ function update_bossfight_scene(scene) {
 
     const groundTopY = 700 - (40 / 2);
 
-// muovi i fiocchi verso il basso
-for (let flake of scene.snowflakes) {
-    flake.y += 2; // velocità caduta
+    // muovi i fiocchi verso il basso
+    for (let flake of scene.snowflakes) {
+        flake.y += 2; // velocità caduta
 
-    // fermali prima di toccare il terreno
-    if (flake.y >= groundTopY - 5) { // -5 = margine
-        flake.destroy(); // oppure flake.y = groundTopY - 5;
+        // fermali prima di toccare il terreno
+        if (flake.y >= groundTopY - 5) { // -5 = margine
+            flake.destroy(); // oppure flake.y = groundTopY - 5;
+        }
     }
-}
 
     if(PP.game_state.bossIsFriendly == true){
         let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");

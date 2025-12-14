@@ -47,7 +47,11 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player) {
-  if (player.lives == 0) return;
+  if (player.lives == 0 || PP.game_state.bossIsDead == true) {
+    player.isInvincible == true;
+    PP.physics.set_velocity_x(player, 0);
+    return;
+  }
   let speed = 200; //200 ORIGINALE
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
@@ -90,7 +94,7 @@ PP.entities.player.update = function (scene, player) {
 
 
   // === MOVIMENTO ORIZZONTALE ===
-  if (!player.isKnocked && PP.game_state.bossIsDead == false) {
+  if (!player.isKnocked) {
     if (movingLeft && !movingRight) {
       player.geometry.flip_x = true;
       PP.physics.set_velocity_x(player, -speed);
@@ -201,8 +205,8 @@ PP.entities.player.damage = function (scene, player, enemy) {
 
   // === INVINCIBILITÀ TEMPORANEA ===
   PP.timers.add_timer(scene, 1500, (s) => {
-    player.isInvincible = false;
-  }, false);
+      if (PP.game_state.bossIsDead == false) player.isInvincible = false;
+    }, false);
 
 
   // === GAME OVER ===
