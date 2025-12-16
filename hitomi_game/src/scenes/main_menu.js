@@ -1,13 +1,16 @@
+let menu_bg;
+
 function preload(s) {
-  // Caricamenti futuri (font, immagini, ecc.)
+  menu_bg = PP.assets.image.load(s, "assets/images/homepage.png");
 }
 
 function create(s) {
   const centerX = PP.game.config.canvas_width / 2;
   const centerY = PP.game.config.canvas_height / 2;
   PP.game_state.DevMode = false;
-
   
+  PP.assets.image.add(s, menu_bg, centerX, centerY, 0.5, 0.5);
+
   PP.game_state.bossIsDead = false;
   PP.game_state.bossIsFriendly = false;
 
@@ -30,12 +33,10 @@ function create(s) {
 
   // === MENU OPZIONI ===
   const menuItems = [
-    //{ label: "Storia", y: centerY + 100, action: () => PP.scenes.start("") },
     { label: "Gioca", y: centerY + 100, action: () => PP.scenes.start("tutorial_scene") },
-    //{ label: "Crediti", y: centerY + 100, action: () => PP.scenes.start("") },
-    { label: "House Scene (DEVELOPMENT REASONS)", y: centerY + 180, action: () => PP.scenes.start("house_scene") },
-    { label: "Forest Scene (DEVELOPMENT REASONS)", y: centerY + 260, action: () => PP.scenes.start("forest_scene") },
-    { label: "Boss Scene (DEVELOPMENT REASONS)", y: centerY + 340, action: () => PP.scenes.start("bossfight_scene") }
+    { label: "House Scene (DEV)", y: centerY + 180, action: () => PP.scenes.start("house_scene") },
+    { label: "Forest Scene (DEV)", y: centerY + 260, action: () => PP.scenes.start("forest_scene") },
+    { label: "Boss Scene (DEV)", y: centerY + 340, action: () => PP.scenes.start("bossfight_scene") }
   ];
 
   menuItems.forEach(item => {
@@ -55,7 +56,7 @@ function create(s) {
 }
 
 function update(s) {
-  // Nessun input da tastiera necessario
+  // Nessun aggiornamento necessario
 }
 
 function destroy(s) {

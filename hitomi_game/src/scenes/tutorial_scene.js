@@ -2,6 +2,7 @@
 
 function preload_tutorial_scene(scene) {
     PP.entities.player.preload(scene);
+    PP.entities.enemy.preload(scene);
     PP.scene_objects.platform.preload(scene);
     PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 }
@@ -51,7 +52,7 @@ function create_tutorial_scene(scene) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
 
-    //Check se sta cambiando mondo
+    // Check se sta cambiando mondo
     if(PP.game_state.changingWorld){
         PP.game_state.player.geometry.x = config.player_x;
         PP.game_state.player.geometry.y = config.player_y;
@@ -95,7 +96,9 @@ function create_tutorial_scene(scene) {
     }
     
     // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 200, speed: 0 }];
+    const enemyPositions = [
+    { x: 400, y: 200, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
+  ] ;
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
