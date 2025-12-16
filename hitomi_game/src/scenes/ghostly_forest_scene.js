@@ -4,6 +4,7 @@ function preload_ghostly_forest(scene) {
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
+  PP.entities.enemy.preload(scene);
 }
 
 
@@ -114,14 +115,14 @@ function create_ghostly_forest(scene, data) {
     }
     
        // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 825, speed: 80 }, //pterodattilo
-      { x: 1200, y: 825, speed: 80 }, //slug
-      { x: 2250, y: 825, speed: 80 }, //lanterna
-      { x: 2050, y: 155, speed: 80 }, // pterodattilo
-      { x: 3150, y: 825, speed: 80 }, //lanterna
-      { x: 3350, y: 825, speed: 80 }, //pterodattilo
-        { x: 3550, y: 825, speed: 80 }, //slug
-
+    const enemyPositions = [
+      { x: 400, y: 700, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+      { x: 1200, y: 700, w: 170, h: 170, speed: 80, sprite_name: "slug" },
+      { x: 2250, y: 700, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+      { x: 2050, y: 155, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+      { x: 3150, y: 700, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+      { x: 3350, y: 700, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+      { x: 3550, y: 700, w: 170, h: 170, speed: 80, sprite_name: "slug" }
     ];
 
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
@@ -250,6 +251,5 @@ function showControlsPopup(scene) {
       PP.assets.destroy(closeBtn);
     });
 }
-
 
 
