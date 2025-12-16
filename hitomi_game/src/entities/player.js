@@ -43,6 +43,12 @@ PP.entities.player.create = function (scene, x, y) {
   PP.assets.sprite.animation_add(player, "camminata", 0, 7, 7, -1);
   player.isWalkingAnim = false;
 
+  PP.assets.sprite.animation_add(player, "idle", 8, 12, 12, -1);
+  player.isIdleAnim = false;
+
+  PP.assets.sprite.animation_add(player, "attacco", 16, 19, 19, 0);
+  player.isAttackingAnim = false;
+
   return player;
 };
 
@@ -52,7 +58,8 @@ PP.entities.player.update = function (scene, player) {
     PP.physics.set_velocity_x(player, 0);
     return;
   }
-  let speed = 200; //200 ORIGINALE
+
+  let speed = 200; 
   let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
   let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
   
@@ -94,7 +101,7 @@ PP.entities.player.update = function (scene, player) {
 
 
   // === MOVIMENTO ORIZZONTALE ===
-  if (!player.isKnocked) {
+  if (!player.isKnocked && !player.isAttacking) {
     if (movingLeft && !movingRight) {
       player.geometry.flip_x = true;
       PP.physics.set_velocity_x(player, -speed);
@@ -114,14 +121,15 @@ PP.entities.player.update = function (scene, player) {
     else {
       PP.physics.set_velocity_x(player, 0);
       if (player.isWalkingAnim) {
-        PP.assets.sprite.animation_stop(player, "camminata");
+        PP.assets.sprite.animation_play(player, "idle");
         player.isWalkingAnim = false;
       }
     }
   }
 
   // === COYOTE TIME SALTO===
-  if (player.ph_obj.body.blocked.down) { //uso player.ph_obj perché la proprietà body.blocked.donw non appartiene a Poliphazer e dunque per farla leggere a Phazer occorre aggiungerlo in quanto è come se player è wrappato in Poliphazer
+  if (player.ph_obj.body.blocked.down) { 
+  //uso player.ph_obj perché la proprietà body.blocked.donw non appartiene a Poliphaser e dunque per farla leggere a Phaser occorre aggiungerlo in quanto è come se player è wrappato in Poliphaser
     player.canJump = true;
     player.lastGrounded = PP.timers.getTime(scene);
   } else if (scene.time.now - player.lastGrounded > player.coyoteTime) {
@@ -145,43 +153,51 @@ PP.entities.player.update = function (scene, player) {
 
 // === FUNZIONE DI ATTACCO ===
 PP.entities.player.attack = function (scene, player, enemies) {
-  if (player.isAttacking || PP.game_state.bossIsDead == true) return; // evita spam
-  //Per evitare bug
-  if (player.isDashing == true || player.isAttacking == true) return;
+  if (player.isAttacking || PP.game_state.bossIsDead) return;
+  if (player.isDashing) return;
 
   player.isAttacking = true;
+  player.isAttackingAnim = true;
 
-  let hitboxX;
-  if (player.geometry.flip_x) {
-    let dir = player.geometry.flip_x ? -1 : 1; 
-    hitboxX = player.geometry.body_x + 50 * dir;
-  }else{
-    hitboxX = player.geometry.body_x + 80 /*player.width*/ + 50;
-  }
-  let hitboxY = player.geometry.body_y +70;
+  // --- BLOCCA MOVIMENTO ---
+  PP.physics.set_velocity_x(player, 0);
+
+  // --- AVVIA ANIMAZIONE DI ATTACCO ---
+  PP.assets.sprite.animation_play(player, "attacco");
+
+  // --- HITBOX ---
+  let dir = player.geometry.flip_x ? -1 : 1;
+  let hitboxX = player.geometry.body_x + (dir === -1 ? -50 : 80);
+  let hitboxY = player.geometry.body_y + 70;
+
   const hitbox = PP.shapes.rectangle_add(scene, hitboxX, hitboxY, 100, 100, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
   if (Array.isArray(enemies)) {
-    for (let enemy of enemies) {
+    enemies.forEach(enemy => {
       PP.physics.add_overlap_f(scene, hitbox, enemy, () => {
         PP.entities.enemy.damage(scene, enemy, hitbox);
       });
-    }
+    });
   } else {
     PP.physics.add_overlap_f(scene, hitbox, enemies, () => {
-      if(PP.game_state.bossIsFriendly == false){PP.entities.boss.damage(scene, enemies, hitbox);}
+      if (!PP.game_state.bossIsFriendly)
+        PP.entities.boss.damage(scene, enemies, hitbox);
     });
   }
 
-  PP.timers.add_timer(scene, 100, (s) => {
+  // distrugge hitbox
+  PP.timers.add_timer(scene, 100, () => {
     PP.shapes.destroy(hitbox);
   }, false);
 
-  PP.timers.add_timer(scene, 400, (s) => {
+  // fine attacco
+  PP.timers.add_timer(scene, 400, () => {
     player.isAttacking = false;
+    player.isAttackingAnim = false;
+    PP.assets.sprite.animation_play(player, "idle");
   }, false);
-}
+};
 
 // === FUNZIONE DI DANNO ===
 PP.entities.player.damage = function (scene, player, enemy) {
