@@ -141,7 +141,7 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around.  Press SPACE to jump.");
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around. Press SPACE to jump.");
 
         PP.timers.add_timer(scene, 250, (s) => {
             PP.assets.destroy(tutorial);
@@ -165,7 +165,7 @@ function create_tutorial_scene(scene) {
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign4, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press Boh to attack.");
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Click the left mouse button to attack");
 
         PP.timers.add_timer(scene, 250, (s) => {
             PP.assets.destroy(tutorial);
