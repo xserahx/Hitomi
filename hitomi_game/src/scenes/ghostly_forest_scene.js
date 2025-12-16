@@ -38,43 +38,46 @@ function create_ghostly_forest(scene, data) {
   const platformPositions = [
 
     // -- PRIMA CHAMBER --
-    { x: 320, y: 1850, w: 200, h: 20  },
-    { x: 740, y: 1850, w: 200, h: 20  },
-    { x: 970, y: 1720, w: 150, h: 20  },
-    // { x: 1270, y: 1740, w: 150, h: 20 },
+    { x: 320, y: 725, w: 200, h: 20, sprite_name: "piattaforma"  },
+    //{ x: 740, y: 1850, w: 200, h: 20  },
+    { x: 970, y: 595, w: 150, h: 20, sprite_name: "piattaforma"  },
+    { x: 1270, y: 615, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // MASSI
-    { x: 1600, y: 1885, w: 150, h: 190},
-    { x: 1732, y: 1955, w: 100, h: 50 },
+    { x: 1600, y: 760, w: 150, h: 190, sprite_name: "piattaforma"},
+    { x: 1732, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
 
     // SCALA
-    { x: 2080, y: 1850, w: 100, h: 20 },
-    { x: 2250, y: 1740, w: 100, h: 20 },
+    //{ x: 2080, y: 1850, w: 100, h: 20 },  One
+    { x: 2250, y: 615, w: 100, h: 20, sprite_name: "piattaforma" }, // Two
+    { x: 2250, y: 475, w: 100, h: 20, sprite_name: "piattaforma" }, //Three
+  //  { x: 2250, y: 1460, w: 100, h: 20 }, //FOUR
+
 
     // BLOCCO A SINISTRA DELLA SCALA
-   //   { x: 2050, y: 20 + 1300, w: 300, h: 20 },
+    { x: 2050, y: 20 + 175, w: 300, h: 20, sprite_name: "piattaforma" },
 
     // SECONDA RAMPA DI SCALE 
-    { x: 2450, y: 1150, w: 100, h: 20 },
-    { x: 2675, y: 1070, w: 150, h: 20 },
-    { x: 3000, y: 1000, w: 150, h: 20 },  // apice
+    { x: 2450, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
+  //  { x: 2675, y: 1070, w: 150, h: 20 },
+    { x: 3000, y: -125, w: 150, h: 20, sprite_name: "piattaforma" },  // apice
 
     // MASSI
-    { x: 2890, y: 1905, w: 200, h: 150},
+    { x: 2890, y: 780, w: 200, h: 150, sprite_name: "piattaforma"},
 
     // PIATTAFROME FRA I DUE MASSI
-    { x: 3190, y: 1750, w: 100, h: 20 },
+    { x: 3190, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
 
     //PIATTAFROME ADIACENTE ALL'ASCENSORE
-    { x: 3500, y: 1700, w: 100, h: 20 },
+    { x: 3500, y: 575, w: 100, h: 20, sprite_name: "piattaforma" },
 
     //PIATTAFORMA SOPRA L'ASCENSORE
-    { x: 3450, y: 1500, w: 200, h: 20 },
+  //  { x: 3450, y: 1550, w: 200, h: 20 },
 
     // SPAZIO PER MOVING PLATFORM
 
     // MASSI finale
-    { x: 3850, y: 1943, w: 160, h: 75 },
+    { x: 3850, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -110,8 +113,17 @@ function create_ghostly_forest(scene, data) {
         PP.game_state.hearts.push(heart);
     }
     
-    // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 200, speed: 80 }];
+       // === NEMICI ===
+    const enemyPositions = [{ x: 400, y: 825, speed: 80 }, //pterodattilo
+      { x: 1200, y: 825, speed: 80 }, //slug
+      { x: 2250, y: 825, speed: 80 }, //lanterna
+      { x: 2050, y: 155, speed: 80 }, // pterodattilo
+      { x: 3150, y: 825, speed: 80 }, //lanterna
+      { x: 3350, y: 825, speed: 80 }, //pterodattilo
+        { x: 3550, y: 825, speed: 80 }, //slug
+
+    ];
+
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
