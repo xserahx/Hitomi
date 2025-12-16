@@ -34,9 +34,6 @@ PP.entities.player.create = function (scene, x, y) {
   // === ATTACCO ===
   player.isAttacking = false;
 
-  // === DEV MODE ===
-  player.isDevMode = false;
-
   PP.physics.set_acceleration_y(player, player.gravityDown);
 
   // === ANIMAZIONI ===
@@ -72,9 +69,12 @@ PP.entities.player.update = function (scene, player) {
   config.player_y = player.geometry.body_y;
 
   // === DEV MODE ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && player.isDevMode == false) {
-    let Advertisment = PP.shapes.text_add(scene, 150, 400, "PLAYER IS NOW IN DEV MODE");
-    player.isDevMode = true;
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && PP.game_state.DevMode == false) {
+    let Advertisment = PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
+    PP.game_state.DevMode = true;
+  }else if (PP.interactive.kb.is_key_down(scene, PP.key_codes.O) && PP.game_state.DevMode == true) {
+    let Advertisment = PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOT IN DEV MODE ANYMORE");
+    PP.game_state.DevMode = false;
   }
 
   // === DASH ===
@@ -201,7 +201,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
 
 // === FUNZIONE DI DANNO ===
 PP.entities.player.damage = function (scene, player, enemy) {
-  if (player.isInvincible || player.isDevMode) return;
+  if (player.isInvincible || PP.game_state.DevMode) return;
 
   player.lives -= 1;
   player.isInvincible = true;
