@@ -55,7 +55,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 2850, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3100, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3500, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3850, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro 
+    { x: 3870, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro 
     { x: 4040, y: 425, w: 300, h: 42, sprite_name: "piattaforma_grande" },  // piattaforma grande attaccata al terzo muro
     { x: 4265, y: 425, w: 150, h: 42, sprite_name: "piattaforma" },
    // { x: 4320, y: 375,             }, // w: 40, h: 80
@@ -113,16 +113,16 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 450, y: 645, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
-    { x: 1800, y: 405, w: 75, h:75, speed: 0, sprite_name: "lanterna"  },
-    { x: 3100, y: 50, w: 75, h:75, speed: 0, sprite_name: "lanterna"  },
-    { x: 3100, y: 900, w: 75, h:75, speed: 0 , sprite_name: "lanterna" },
-    { x: 4220, y: 375, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
-    { x: 4745, y: 375, w: 75, h:75, speed: 0, sprite_name: "lanterna"  },
-    { x: 5600, y: 100, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
-    { x: 5550, y: 800, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
-    { x: 5950, y: 800, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
-    { x: 6000, y: 100,w: 75, h:75,  speed: 80, sprite_name: "lanterna" }
+    { x: 450, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },  
+    { x: 1800, y: 405, w: 50, h: 70, speed: 80, sprite_name: "ombrello"  },
+    { x: 3100, y: 50, w: 75, h: 75, speed: 100, sprite_name: "bambino" }, 
+    { x: 3100, y: 700, w: 75, h: 75, speed: 70, sprite_name: "slug" }, 
+    { x: 4220, y: 375, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" }, 
+    { x: 4745, y: 375, w: 75, h: 75, speed: 80, sprite_name: "lanterna"  }, 
+    { x: 5600, y: 100, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
+    { x: 5550, y: 700, w: 75, h: 75, speed: 100, sprite_name: "bambino" }, 
+    { x: 5750, y: 700, w: 75, h: 75, speed: 80, sprite_name: "ombrello"  },
+    { x: 6700, y: 100, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 

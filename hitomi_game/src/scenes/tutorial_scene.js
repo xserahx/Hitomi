@@ -12,10 +12,10 @@ function create_tutorial_scene(scene) {
     PP.game_state.currentScene = "tutorial_scene";
 
     // === MURI ===
-    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 1);
+    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 0);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-    const rightWall = PP.shapes.rectangle_add(scene, 1240, 360, 40, 720, "0x000000", 1);
+    const rightWall = PP.shapes.rectangle_add(scene, 1240, 360, 40, 720, "0x000000", 0);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
@@ -39,7 +39,7 @@ function create_tutorial_scene(scene) {
 
     // === PLAYER ===
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1180;
-    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
