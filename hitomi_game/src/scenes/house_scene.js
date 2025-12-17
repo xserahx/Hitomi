@@ -6,6 +6,7 @@ function preload_house(scene) {
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
+  PP.entities.enemy.preload(scene);
 }
 
 function create_house(scene, data) {
@@ -54,7 +55,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 2850, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3100, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3500, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3840, y: 583, w: 100, h: 335, sprite_name: "terzo_muro" },  
+    { x: 3850, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro 
     { x: 4040, y: 425, w: 300, h: 42, sprite_name: "piattaforma_grande" },  // piattaforma grande attaccata al terzo muro
     { x: 4265, y: 425, w: 150, h: 42, sprite_name: "piattaforma" },
    // { x: 4320, y: 375,             }, // w: 40, h: 80
@@ -112,16 +113,16 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 450, y: 645, speed: 80  },
-    { x: 1800, y: 405, speed: 0  },
-    { x: 3100, y: 50, speed: 0   },
-    { x: 3100, y: 900, speed: 0  },
-    { x: 4220, y: 375, speed: 80 },
-    { x: 4745, y: 375, speed: 0  },
-    { x: 5600, y: 100, speed: 80 },
-    { x: 5550, y: 800, speed: 80 },
-    { x: 5950, y: 800, speed: 80 },
-    { x: 6000, y: 100, speed: 80 }
+    { x: 450, y: 645, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
+    { x: 1800, y: 405, w: 75, h:75, speed: 0, sprite_name: "lanterna"  },
+    { x: 3100, y: 50, w: 75, h:75, speed: 0, sprite_name: "lanterna"  },
+    { x: 3100, y: 900, w: 75, h:75, speed: 0 , sprite_name: "lanterna" },
+    { x: 4220, y: 375, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
+    { x: 4745, y: 375, w: 75, h:75, speed: 0, sprite_name: "lanterna"  },
+    { x: 5600, y: 100, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
+    { x: 5550, y: 800, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
+    { x: 5950, y: 800, w: 75, h:75, speed: 80, sprite_name: "lanterna" },
+    { x: 6000, y: 100,w: 75, h:75,  speed: 80, sprite_name: "lanterna" }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
@@ -147,7 +148,6 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       }
 
   // === CHIAVE 1 ===
-  //         { x: 2300, y: 475, w: 150, h: 20 }, 
   const key = PP.shapes.rectangle_add(scene, 2300, 400, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key, PP.physics.type.STATIC);
 
@@ -170,8 +170,8 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 1 ===
-  const door = PP.shapes.rectangle_add(scene, 3840, 820, 100, 120, "0x654321", 1);
-  const doorFrame = PP.shapes.rectangle_add(scene, 3840, 820, 120, 130, "0x000000", 0.2);
+  const door = PP.shapes.rectangle_add(scene, 3840, 815, 100, 120, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3840, 815, 120, 120, "0x000000", 0.2);
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
