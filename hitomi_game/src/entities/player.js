@@ -46,6 +46,8 @@ PP.entities.player.create = function (scene, x, y) {
   PP.assets.sprite.animation_add(player, "attacco", 16, 19, 19, 0);
   player.isAttackingAnim = false;
 
+  if (PP.game_state.isPLayerFlipped == true){player.geometry.flip_x = true;}
+
   return player;
 };
 
@@ -104,6 +106,7 @@ PP.entities.player.update = function (scene, player) {
   if (!player.isKnocked && !player.isAttacking) {
     if (movingLeft && !movingRight) {
       player.geometry.flip_x = true;
+      PP.game_state.isPLayerFlipped = true;
       PP.physics.set_velocity_x(player, -speed);
       if (!player.isWalkingAnim) {
         PP.assets.sprite.animation_play(player, "camminata");
@@ -112,6 +115,7 @@ PP.entities.player.update = function (scene, player) {
     }
     else if (movingRight && !movingLeft && PP.game_state.bossIsDead == false) {
       player.geometry.flip_x = false;
+      PP.game_state.isPLayerFlipped = false;
       PP.physics.set_velocity_x(player, speed);
       if (!player.isWalkingAnim) {
         PP.assets.sprite.animation_play(player, "camminata");
