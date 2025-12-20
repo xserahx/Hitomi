@@ -160,6 +160,8 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === RACCOLTA CHIAVE 1 ===
   PP.physics.add_overlap_f(scene, PP.game_state.player, key, () => {
+    console.log("Stai toccando la porta, hai la chiave? " + PP.game_state.houseKey1Collected);
+    
     if (PP.game_state.houseKey1Collected == true) {
       console.log("Chiave già raccolta!");
       return;
@@ -369,6 +371,9 @@ function update_ghostly_house(scene) {
 
     // === FINE LIVELLO ===
   if(PP.game_state.player.geometry.x >= 7675){
+    
+         PP.game_state.playerPosition.x = 30;
+        PP.game_state.playerPosition.x = 800;
         PP.scenes.start("forest_scene");
     }
 

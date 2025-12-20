@@ -13,6 +13,8 @@ function create_house(scene, data) {
   PP.assets.tilesprite.add(scene, house_bg, -20, 180, 7680, 720, 0, 0);
   PP.game_state.currentScene = "house_scene";
   PP.game_state.otherWorld = "ghostly_house_scene";
+  PP.game_state.houseKey1Collected = false;
+  PP.game_state.houseKey2Collected = false;
 
 // === PULSANTE HELP ===
 const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
@@ -180,6 +182,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   PP.physics.add_collider(scene, PP.game_state.player, door);
 
   PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame, () => {
+    console.log("Stai toccando la porta, hai la chiave? " + PP.game_state.houseKey1Collected);
     if (PP.game_state.houseKey1Collected == false) {
       let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "La porta è chiusa a chiave...");
 
@@ -317,6 +320,8 @@ function update_house(scene) {
 
   // === FINE LIVELLO ===
   if(PP.game_state.player.geometry.x >= 7675){
+        PP.game_state.playerPosition.x = 30;
+        PP.game_state.playerPosition.x = 800;
         PP.scenes.start("forest_scene");
     }
 
