@@ -2,7 +2,7 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.preload = function (scene) {
-  PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/s_bimbo/spritesheet.png", 70, 120);
+  PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/s_bimbo/spritesheet.png", 90, 120);
 }
 
 PP.entities.player.create = function (scene, x, y) {
@@ -37,13 +37,13 @@ PP.entities.player.create = function (scene, x, y) {
   PP.physics.set_acceleration_y(player, player.gravityDown);
 
   // === ANIMAZIONI ===
-  PP.assets.sprite.animation_add(player, "camminata", 0, 7, 7, -1);
+  PP.assets.sprite.animation_add(player, "camminata", 0, 7, 10, -1);
   player.isWalkingAnim = false;
 
-  PP.assets.sprite.animation_add(player, "idle", 8, 12, 12, -1);
+  PP.assets.sprite.animation_add(player, "idle", 8, 12, 10, -1);
   player.isIdleAnim = false;
 
-  PP.assets.sprite.animation_add(player, "attacco", 16, 19, 19, 0);
+  PP.assets.sprite.animation_add(player, "attacco", 16, 21, 10, 0);
   player.isAttackingAnim = false;
 
   if (PP.game_state.isPLayerFlipped == true){player.geometry.flip_x = true;}
