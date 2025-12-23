@@ -22,18 +22,19 @@ function create_ghostly_forest(scene, data) {
   showControlsPopup(scene);
 });
 
-  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
+ // === BORDI ===
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 6400, 460, 40, 720, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
+
+  // === GROUND ===
+  const ground = PP.shapes.rectangle_add(scene, 3200, 1010, 6400, 40, "0x4a3b2a", 0);
+  PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
   // === SFONDO ===
   scene.cameras.main.setBackgroundColor(0x0b3d0b);
-
-// === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 3100, 895, 6400, 40, "0x4a3b2a", 1);
-    PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
   // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
@@ -84,19 +85,21 @@ function create_ghostly_forest(scene, data) {
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
    // === PLAYER ===
-    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 100;
-    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 100;
+  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;
 
-    PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+  PP.game_state.player = PP.entities.player.create(scene, startX, startY)
+  
+  // Collider player
+  PP.physics.add_collider(scene, PP.game_state.player, ground);
+  PP.physics.add_collider(scene, PP.game_state.player, leftWall);
+  PP.physics.add_collider(scene, PP.game_state.player, rightWall);
+  
+  for (let plat of PP.game_state.platforms) {
+    PP.physics.add_collider(scene, PP.game_state.player, plat);
+  }
 
-    // === COLLIDER PLAYER ===
-    PP.physics.add_collider(scene, PP.game_state.player, ground);
-
-    for (let plat of PP.game_state.platforms) {
-        PP.physics.add_collider(scene, PP.game_state.player, plat);
-    }
-
-    //Check se sta cambiando mondo
+    // Check se sta cambiando mondo
     if(PP.game_state.changingWorld){
         PP.game_state.player.geometry.x = config.player_x;
         PP.game_state.player.geometry.y = config.player_y;
@@ -116,13 +119,13 @@ function create_ghostly_forest(scene, data) {
     
        // === NEMICI ===
     const enemyPositions = [
-      { x: 400, y: 700, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-      { x: 1200, y: 700, w: 170, h: 170, speed: 80, sprite_name: "slug" },
-      { x: 2250, y: 700, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+      { x: 400,  y: 800, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+      { x: 1200, y: 800, w: 170, h: 170, speed: 80, sprite_name: "slug" },
+      { x: 2250, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
       { x: 2050, y: 155, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-      { x: 3150, y: 700, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-      { x: 3350, y: 700, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-      { x: 3550, y: 700, w: 170, h: 170, speed: 80, sprite_name: "slug" }
+      { x: 3150, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+      { x: 3350, y: 800, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+      { x: 3550, y: 800, w: 170, h: 170, speed: 80, sprite_name: "slug" }
     ];
 
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
@@ -148,10 +151,8 @@ function create_ghostly_forest(scene, data) {
    });
       }
 
-   // === CAMERA ===
-  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
-  const worldHeight = ground.geometry.body_y + 40;
-  scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+  // === CAMERA ===
+  scene.cameras.main.setBounds(0, 0, 6400, 1000);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
   // === CLICK DEL MOUSE PER ATTACCARE ===
@@ -193,7 +194,7 @@ function update_ghostly_forest(scene) {
     };
   }
 
-const groundTopY = 895 - (40 / 2);
+const groundTopY = 1010 - (40 / 2);
 
 // muovi i fiocchi verso il basso
 for (let flake of scene.snowflakes) {

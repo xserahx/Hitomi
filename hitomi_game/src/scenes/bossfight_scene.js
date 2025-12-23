@@ -20,9 +20,13 @@ function create_bossfight_scene(scene) {
   showControlsPopup(scene);
 });
 
-    // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
-    PP.physics.add(scene, ground, PP.physics.type.STATIC);
+  // === BORDI ===
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 950, "0x000000", 0);
+  PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
+
+  // === GROUND ===
+  const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
+  PP.physics.add(scene, ground, PP.physics.type.STATIC);
     
     // === PIATTAFORME ===
     const platformPositions = [
@@ -40,6 +44,7 @@ function create_bossfight_scene(scene) {
 
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
+    PP.physics.add_collider(scene, PP.game_state.player, leftWall);
 
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
@@ -114,6 +119,13 @@ function create_bossfight_scene(scene) {
             scene.snowflakes.push(flake);
         },
         loop: true
+
+        /* numero casuale tra 5 e 11
+        let a = Math.random();
+        5+a*6
+       valore minimo + numero casuale a che moltiplica valore massimo - valore minimo
+       */
+
     });
 
     PP.game_state.changingWorld = false;
@@ -189,6 +201,3 @@ function showControlsPopup(scene) {
       PP.assets.destroy(closeBtn);
     });
 }
-
-
-
