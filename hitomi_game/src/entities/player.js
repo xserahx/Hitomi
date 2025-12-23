@@ -2,7 +2,7 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.preload = function (scene) {
-  PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/s_bimbo/spritesheet.png", 90, 120);
+    PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/s_bimbo/spritesheet.png", 90, 120);
 }
 
 PP.entities.player.create = function (scene, x, y) {
@@ -34,6 +34,9 @@ PP.entities.player.create = function (scene, x, y) {
   // === ATTACCO ===
   player.isAttacking = false;
 
+  // === CUTSCENES ===
+    player.inCutscene = false;
+
   PP.physics.set_acceleration_y(player, player.gravityDown);
 
   // === ANIMAZIONI ===
@@ -52,7 +55,11 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player) {
-  if (player.lives == 0 || PP.game_state.bossIsDead == true) {
+  if(PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true){
+    player.inCutscene = true;
+  }else{player.inCutscene = false;}
+  
+  if (player.lives == 0 || player.inCutscene == true) {
     player.isInvincible == true;
     PP.physics.set_velocity_x(player, 0);
     return;
@@ -81,7 +88,7 @@ PP.entities.player.update = function (scene, player) {
 
   // === DASH ===
   if (
-    PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) && PP.game_state.bossIsDead == false &&
+    PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) && player.inCutscene == false &&
     !player.isDashing &&
     PP.timers.getTime(scene) - player.lastDash > player.dashCooldown
   ) {
@@ -113,7 +120,7 @@ PP.entities.player.update = function (scene, player) {
         player.isWalkingAnim = true;
       }
     }
-    else if (movingRight && !movingLeft && PP.game_state.bossIsDead == false) {
+    else if (movingRight && !movingLeft && player.inCutscene == false) {
       player.geometry.flip_x = false;
       PP.game_state.isPLayerFlipped = false;
       PP.physics.set_velocity_x(player, speed);
@@ -141,13 +148,13 @@ PP.entities.player.update = function (scene, player) {
   }
 
   // === SALTO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.canJump && PP.game_state.bossIsDead == false) {
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.canJump && player.inCutscene == false) {
     PP.physics.set_velocity_y(player, player.jumpForce);
     player.jumpPressedTime = PP.timers.getTime(scene);
     player.canJump = false;
   }
 
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && PP.game_state.bossIsDead == false && PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime)
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.inCutscene == false && PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime)
     PP.physics.set_acceleration_y(player, player.gravityUp);
   else PP.physics.set_acceleration_y(player, player.gravityDown);
 
@@ -157,7 +164,7 @@ PP.entities.player.update = function (scene, player) {
 
 // === FUNZIONE DI ATTACCO ===
 PP.entities.player.attack = function (scene, player, enemies) {
-  if (player.isAttacking || PP.game_state.bossIsDead) return;
+  if (player.isAttacking || player.inCutscene) return;
   if (player.isDashing) return;
 
   player.isAttacking = true;
@@ -225,7 +232,7 @@ PP.entities.player.damage = function (scene, player, enemy) {
 
   // === INVINCIBILITÀ TEMPORANEA ===
   PP.timers.add_timer(scene, 1500, (s) => {
-      if (PP.game_state.bossIsDead == false) player.isInvincible = false;
+      if (player.inCutscene == false) player.isInvincible = false;
     }, false);
 
 

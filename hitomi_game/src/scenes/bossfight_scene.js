@@ -9,25 +9,27 @@ function preload_bossfight_scene(scene) {
 // === CREAZIONE SCENA ===
 function create_bossfight_scene(scene) {
     PP.game_state.currentScene = "bossfight_scene";
+    PP.game_state.bossCutsceneDone = false;
+    PP.game_state.duringBossCutscene = true;
 
-  // === PULSANTE HELP ===
-  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
-  helpButton.tile_geometry.scroll_factor_x = 0;
-  helpButton.tile_geometry.scroll_factor_y = 0;
+    // === PULSANTE HELP ===
+    const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+    helpButton.tile_geometry.scroll_factor_x = 0;
+    helpButton.tile_geometry.scroll_factor_y = 0;
 
-  // lo rendo cliccabile
-  PP.interactive.mouse.add(helpButton, "pointerdown", () => {
-  showControlsPopup(scene);
-});
+    // lo rendo cliccabile
+    PP.interactive.mouse.add(helpButton, "pointerdown", () => {
+        showControlsPopup(scene);
+    });
 
-  // === BORDI ===
-  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 950, "0x000000", 0);
-  PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
+    // === BORDI ===
+  	const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 950, "0x000000", 0);
+  	PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  // === GROUND ===
-  const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
-  PP.physics.add(scene, ground, PP.physics.type.STATIC);
-    
+    // === GROUND ===
+    const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
+    PP.physics.add(scene, ground, PP.physics.type.STATIC);
+
     // === PIATTAFORME ===
     const platformPositions = [
         { x: -5, y: 360, w: 10, h: 720 },
@@ -61,7 +63,7 @@ function create_bossfight_scene(scene) {
         heart.tile_geometry.scroll_factor_y = 0;
         PP.game_state.hearts.push(heart);
     }
-    
+
     // === BOSS ===
     PP.game_state.boss = PP.entities.boss.create(scene);
 
@@ -72,12 +74,12 @@ function create_bossfight_scene(scene) {
     }
     PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
         if (!(PP.game_state.player.lives <= 0 && (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly))) {
-            
+
             // HUD DANNO
             let currentIndex = PP.game_state.player.lives - 1;
             PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
         }
-            
+
         if (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
         else if (PP.game_state.bossIsFriendly == true) {
 
@@ -90,8 +92,8 @@ function create_bossfight_scene(scene) {
                 PP.assets.destroy(PP.game_state.askSamurai);
                 PP.assets.destroy(button_si);
                 PP.assets.destroy(button_no);
-                if(PP.game_state.has_baby == true){PP.scenes.start("musubi_scene");}
-                else{PP.scenes.start("kakurebi_scene");}
+                if (PP.game_state.has_baby == true) { PP.scenes.start("musubi_scene"); }
+                else { PP.scenes.start("kakurebi_scene"); }
             });
             PP.interactive.mouse.add(button_no, "pointerdown", () => {
                 PP.assets.destroy(PP.game_state.askSamurai);
@@ -106,7 +108,33 @@ function create_bossfight_scene(scene) {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.boss);
     });
 
-        // --- NEVE ---
+    // === TRIGGER CUTSCENE ===
+    const trigger = PP.shapes.rectangle_add(scene, 70, 450, 50, 50, "0x123456", 0);
+    PP.physics.add(scene, trigger, PP.physics.type.STATIC);
+
+    PP.physics.add_overlap_f(scene, PP.game_state.player, trigger, () => {
+        let talk = PP.shapes.text_add(scene, 210, 320, "Goody stop! We can still talk about this.");
+
+        PP.assets.destroy(trigger);
+
+        PP.timers.add_timer(scene, 2000, (scene) => {
+            PP.shapes.text_change(talk, "Get away from me, monster!");
+        }, false);
+
+        PP.timers.add_timer(scene, 4000, (scene) => {
+            PP.shapes.text_change(talk, "I can't let you go away like this.");
+        }, false);
+
+        PP.timers.add_timer(scene, 6000, (scene) => {
+            PP.assets.destroy(talk);
+
+            PP.game_state.duringBossCutscene = false;
+            PP.game_state.bossCutsceneDone = true;
+        }, false);
+
+    });
+
+    // --- NEVE ---
     // array per i fiocchi
     scene.snowflakes = [];
 
@@ -154,11 +182,11 @@ function update_bossfight_scene(scene) {
         }
     }
 
-    if(PP.game_state.bossIsFriendly == true){
+    if (PP.game_state.bossIsFriendly == true) {
         let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
     }
 
-    if(PP.game_state.bossIsFriendly == true && PP.game_state.player.geometry.x >= 1250){
+    if (PP.game_state.bossIsFriendly == true && PP.game_state.player.geometry.x >= 1250) {
         PP.scenes.start("teitai_scene");
     }
 }
@@ -174,16 +202,16 @@ function showControlsPopup(scene) {
     PP.layers.set_z_index(popupLayer, 20);
 
     // sfondo scuro
-    const bg = PP.shapes.rectangle_add(scene,640, 360,700, 420,"0x000000",0.8);
-    
+    const bg = PP.shapes.rectangle_add(scene, 640, 360, 700, 420, "0x000000", 0.8);
+
     // testo controlli
     const text = PP.shapes.text_add(scene, 340, 300,
-      "COMANDI DEL PLATFORM\n\n" +
-      "A/D oppure ← / → : Muovi il personaggio\n" +
-      "SPAZIO : Salta\n" +
-      "SHIFT : Scatto \n" +
-      "CLICK SINISTRO DEL MOUSE : Attacca\n" +
-      "U : Cambia mondo\n"
+        "COMANDI DEL PLATFORM\n\n" +
+        "A/D oppure ← / → : Muovi il personaggio\n" +
+        "SPAZIO : Salta\n" +
+        "SHIFT : Scatto \n" +
+        "CLICK SINISTRO DEL MOUSE : Attacca\n" +
+        "U : Cambia mondo\n"
     );
 
     // bottone per chiudere il pop up dei comandi
@@ -196,8 +224,8 @@ function showControlsPopup(scene) {
 
     // click su chiudi
     PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
-      PP.assets.destroy(bg);
-      PP.assets.destroy(text);
-      PP.assets.destroy(closeBtn);
+        PP.assets.destroy(bg);
+        PP.assets.destroy(text);
+        PP.assets.destroy(closeBtn);
     });
 }

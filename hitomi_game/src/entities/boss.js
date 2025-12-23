@@ -17,37 +17,43 @@ PP.entities.boss.create = function (scene, positions) {
 
   boss.isAttacking = false;
 
+  boss.inCutscene = false;
+
+
   return boss;
 };
 
 // === UPDATE BOSS ===
 PP.entities.boss.update = function (scene, boss, player) {
 
+  if (PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true) {
+    boss.inCutscene = true;
+  } else { boss.inCutscene = false; }
+
   const dx = player.geometry.x - boss.geometry.x;
   const distance = Math.abs(dx);
 
-  if (distance < boss.detectionRange && PP.game_state.bossIsDead == false && PP.game_state.bossIsFriendly == false) {
+  if (distance < boss.detectionRange && boss.inCutscene == false && PP.game_state.bossIsFriendly == false) {
 
     if (dx > boss.deadZone && boss.lives > 0) {
       if (dx < boss.dashzone) { PP.physics.set_velocity_x(boss, boss.speed); }
       else { PP.physics.set_velocity_x(boss, boss.dashSpeed); }
       boss.direction = 1;
     } else if (dx < -boss.deadZone && boss.lives > 0) {
-        if (dx > -boss.dashzone) { PP.physics.set_velocity_x(boss, -boss.speed); }
-        else { PP.physics.set_velocity_x(boss, -boss.dashSpeed); }
+      if (dx > -boss.dashzone) { PP.physics.set_velocity_x(boss, -boss.speed); }
+      else { PP.physics.set_velocity_x(boss, -boss.dashSpeed); }
       boss.direction = -1;
     } else {
       PP.physics.set_velocity_x(boss, 0);
     }
   }
 
-  if(PP.game_state.bossIsDead == true){
+  if (PP.game_state.bossIsDead == true) {
     boss.speed = 50;
 
-    if(boss.geometry.body_x > 120)
-    {
+    if (boss.geometry.body_x > 120) {
       PP.physics.set_velocity_x(boss, -boss.speed);
-    }else {
+    } else {
       boss.speed = 0;
       PP.physics.set_velocity_x(boss, 0);
       PP.game_state.bossIsDead = false;
@@ -56,7 +62,7 @@ PP.entities.boss.update = function (scene, boss, player) {
   }
 
   //Se il player è vicino, attacca
-  if (dx < 300 && dx > -300 && PP.game_state.bossIsDead == false && PP.game_state.bossIsFriendly == false) {
+  if (dx < 300 && dx > -300 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false) {
     PP.entities.boss.attack(scene, boss, player);
   }
 };
@@ -66,7 +72,7 @@ PP.entities.boss.update = function (scene, boss, player) {
 PP.entities.boss.attack = function (scene, boss, player) {
 
   //Per evitare bug
-  if (boss.isDashing == true || boss.isAttacking == true || PP.game_state.bossIsDead == true || PP.game_state.bossIsFriendly == true) return;
+  if (boss.isDashing == true || boss.isAttacking == true || boss.inCutscene == true || PP.game_state.bossIsFriendly == true) return;
 
   boss.isAttacking = true;
 
@@ -94,7 +100,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
 
 // === FUNZIONE DI DANNO
 PP.entities.boss.damage = function (scene, boss, hitbox) {
-  if (boss.isInvincible || PP.game_state.bossIsDead == true) return;
+  if (boss.isInvincible || boss.inCutscene == true) return;
 
   boss.lives -= 1;
   console.log("vite boss: " + boss.lives);
@@ -125,7 +131,7 @@ PP.entities.boss.damage = function (scene, boss, hitbox) {
   const dirX = (boss.geometry.x < hitbox.geometry.x) ? -1 : 1; //Non c'è modo di avere la x del player
 
   PP.physics.set_velocity_x(boss, knockbackX * dirX);
-  PP.physics.set_velocity_y(boss, knockbackY);boss
+  PP.physics.set_velocity_y(boss, knockbackY); boss
   PP.timers.add_timer(scene, 200, (s) => {
     boss.isKnocked = false;
   }, false);
@@ -137,6 +143,6 @@ PP.entities.boss.damage = function (scene, boss, hitbox) {
   }, false);
 
   if (boss.lives <= 0) {
-    PP.game_state.bossIsDead = true;
+    PP.game_state.bossIsDead= true;
   }
 }
