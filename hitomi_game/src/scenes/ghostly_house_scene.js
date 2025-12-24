@@ -167,7 +167,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       return;
     }
     PP.game_state.houseKey1Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 1000, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 2300, 250, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
     console.log("Key collected!");
     PP.assets.destroy(key);
 
@@ -238,7 +238,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       return;
     }
     PP.game_state.houseKey2Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 4320, 270, "Un'altra chiave? devo trovare la posta a cui appartiene");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 5000, 250, "Un'altra chiave? devo trovare la posta a cui appartiene");
     console.log("Key collected!");
     PP.assets.destroy(key2);
 

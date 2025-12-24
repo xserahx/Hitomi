@@ -13,8 +13,11 @@ function create_house(scene, data) {
   PP.assets.tilesprite.add(scene, house_bg, -20, 180, 7680, 720, 0, 0);
   PP.game_state.currentScene = "house_scene";
   PP.game_state.otherWorld = "ghostly_house_scene";
+
+  if(PP.game_state.changingWorld == false){
   PP.game_state.houseKey1Collected = false;
   PP.game_state.houseKey2Collected = false;
+  }
 
 // === PULSANTE HELP ===
 const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
@@ -164,7 +167,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       return;
     }
     PP.game_state.houseKey1Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 1000, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 2300, 250, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
     console.log("Key collected!");
     PP.assets.destroy(key);
 
@@ -236,7 +239,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       return;
     }
     PP.game_state.houseKey2Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 4320, 270, "Un'altra chiave? devo trovare la posta a cui appartiene");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 5000, 250, "Un'altra chiave? devo trovare la porta a cui appartiene");
     console.log("Key collected!");
     PP.assets.destroy(key2);
 
