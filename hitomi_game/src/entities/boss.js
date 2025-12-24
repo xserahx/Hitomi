@@ -6,7 +6,7 @@ PP.entities.boss.create = function (scene, positions) {
   const boss = PP.shapes.rectangle_add(scene, 1230, 500, 80, 120, "0xff0000", 1);
   PP.physics.add(scene, boss, PP.physics.type.DYNAMIC);
 
-  boss.speed = 0;
+  boss.speed = 500;
   boss.detectionRange = 1280;
   boss.deadZone = 5;
   boss.dashzone = 400;
