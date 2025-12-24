@@ -8,6 +8,7 @@ function create(s) {
   const centerX = PP.game.config.canvas_width / 2;
   const centerY = PP.game.config.canvas_height / 2;
   PP.game_state.DevMode = false;
+  PP.game_state.changingWorld = false;
   
   PP.assets.image.add(s, menu_bg, centerX, centerY, 0.5, 0.5);
 

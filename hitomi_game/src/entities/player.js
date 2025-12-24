@@ -11,7 +11,13 @@ PP.entities.player.create = function (scene, x, y) {
 
   // === STATI VITA ===
   player.maxLives = 3;
-  player.lives = 3;
+  if(PP.game_state.changingWorld==false) {
+    player.lives = 3;
+    PP.game_state.actualLives = 3;
+  }else {
+    player.lives = PP.game_state.actualLives;
+  }
+  console.log("VITE INIZIALI " + player.lives);
   player.isInvincible = false;
   player.isKnocked = false;
 
@@ -215,6 +221,8 @@ PP.entities.player.damage = function (scene, player, enemy) {
   if (player.isInvincible || PP.game_state.DevMode) return;
 
   player.lives -= 1;
+  PP.game_state.actualLives = player.lives;
+  console.log("vite attuali " + player.lives);
   player.isInvincible = true;
 
   // === KNOCKBACK ===
