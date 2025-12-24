@@ -22,12 +22,12 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === PIATTAFORME ===
     const platformPositions = [ 
-       { x: 655, y: 400, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
-        { x: 430, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
-        { x: 870, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-        { x: 1080, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-        { x: 450, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-        { x: 50, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
+       { x: 605, y: 400, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
+        { x: 380, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+        { x: 820, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 1030, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+        { x: 400, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+        { x: 60, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -135,13 +135,13 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === CARTELLO ===
 
-    const sign1 = PP.shapes.rectangle_add(scene, 1200, 600, 40, 40, "0x00ff00", 1);
+    const sign1 = PP.shapes.rectangle_add(scene, 1175, 650, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
-    const sign2 = PP.shapes.rectangle_add(scene, 1050, 500, 40, 40, "0x00ff00", 1);
+    const sign2 = PP.shapes.rectangle_add(scene, 1025, 550, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
-    const sign3 = PP.shapes.rectangle_add(scene, 850, 450, 40, 40, "0x00ff00", 1);
+    const sign3 = PP.shapes.rectangle_add(scene, 825, 450, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign3, PP.physics.type.STATIC);
-    const sign4 = PP.shapes.rectangle_add(scene, 625, 250, 40, 40, "0x00ff00", 1);
+    const sign4 = PP.shapes.rectangle_add(scene, 600, 375, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {

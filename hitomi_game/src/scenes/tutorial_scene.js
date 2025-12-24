@@ -10,6 +10,7 @@ function preload_tutorial_scene(scene) {
 function create_tutorial_scene(scene) {
     PP.game_state.otherWorld = "ghostly_tutorial_scene";
     PP.game_state.currentScene = "tutorial_scene";
+    if(PP.game_state.changingWorld==false){PP.game_state.isPLayerFlipped = true;}
 
     // === MURI ===
     const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 0);
@@ -24,11 +25,11 @@ function create_tutorial_scene(scene) {
 
     // === PIATTAFORME ===
     const platformPositions = [ 
-        { x: 430, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
-        { x: 870, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-        { x: 1080, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-        { x: 450, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-        { x: 50, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
+        { x: 380, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+        { x: 820, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 1030, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+        { x: 400, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+        { x: 60, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -38,7 +39,7 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
-    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1180;
+    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1175;
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -134,14 +135,12 @@ function create_tutorial_scene(scene) {
 
     // === CARTELLO ===
 
-    const sign1 = PP.shapes.rectangle_add(scene, 1200, 600, 40, 40, "0x00ff00", 1);
+    const sign1 = PP.shapes.rectangle_add(scene, 1175, 650, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
-    const sign2 = PP.shapes.rectangle_add(scene, 1050, 500, 40, 40, "0x00ff00", 1);
+    const sign2 = PP.shapes.rectangle_add(scene, 1025, 550, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
-    const sign3 = PP.shapes.rectangle_add(scene, 850, 450, 40, 40, "0x00ff00", 1);
+    const sign3 = PP.shapes.rectangle_add(scene, 825, 450, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign3, PP.physics.type.STATIC);
-    const sign4 = PP.shapes.rectangle_add(scene, 625, 250, 40, 40, "0x00ff00", 1);
-    PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
         let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around. Press SPACE to jump.");
@@ -164,14 +163,6 @@ function create_tutorial_scene(scene) {
 
         PP.timers.add_timer(scene, 250, (s) => {
              PP.assets.destroy(tutorial);
-        }, false);
-    });
-
-    PP.physics.add_overlap_f(scene, PP.game_state.player, sign4, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Click the left mouse button to attack");
-
-        PP.timers.add_timer(scene, 250, (s) => {
-            PP.assets.destroy(tutorial);
         }, false);
     });
 
