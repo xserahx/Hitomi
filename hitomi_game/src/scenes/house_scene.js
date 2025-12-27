@@ -17,6 +17,7 @@ function create_house(scene, data) {
   if (PP.game_state.changingWorld == false) {
     PP.game_state.houseKey1Collected = false;
     PP.game_state.houseKey2Collected = false;
+    PP.game_state.houseKey3Collected = false;
   }
 
   // === PULSANTE HELP ===
@@ -77,7 +78,7 @@ function create_house(scene, data) {
     //=========PARTE FINALE============
 
     { x: 5410, y: 775, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello
-    { x: 5350, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
+    { x: 5150, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
     { x: 5595, y: 590, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 5830, y: 470, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 5980, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -391,6 +392,13 @@ function create_house(scene, data) {
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
+
+  // === SE DEVO MODE ATTIVA NON SERVONO CHIAVI ===
+  if(PP.game_state.DevMode == true){
+    PP.game_state.houseKey1Collected = true;
+    PP.game_state.houseKey2Collected = true;
+    PP.game_state.houseKey3Collected = true;
+  }
 
   // === CAMBIO MONDO ===
   if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
