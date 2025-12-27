@@ -75,17 +75,28 @@ function create_house(scene, data) {
     { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 5200, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro
 
-    //=========PARTE FINALE============
+    // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
+    { x: 5860, y: 780, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
+    { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
+    { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
+    { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, //Parete orizzontale alla fine di quella verticale
 
-    { x: 5410, y: 775, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello
-    { x: 5150, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
-    { x: 5595, y: 590, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5830, y: 470, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5980, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 6058, y: 135, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma orizzontale a angolo retto dopo l'accrocchio
+    { x: 6166, y: 175, w: 42, h: 100, sprite_name: "piattaforma" }, //Piattaforma verticale a angolo retto dopo l'accrocchio
+
+    { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
+    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
+
+    //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
+    { x: 6500, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
+    { x: 7100, y: 220, w: 250, h: 100, sprite_name: "piattaforma" },
+    { x: 7400, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
+
+    // === VASI SOTTO ALLE PIATTADFORME GRANDI PER FERMARE I NEMICI ===
     { x: 6580, y: 747, w: 87, h: 130, sprite_name: "vaso" },
     { x: 7000, y: 747, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: 175, w: 100, h: 580, sprite_name: "piattaforma" } //MURO CON PORTA SOTTO
+    { x: 7645, y: 175, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
 
   ];
 
@@ -93,7 +104,7 @@ function create_house(scene, data) {
 
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 5500;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -408,8 +419,8 @@ function update_house(scene) {
 
   // === FINE LIVELLO ===
   if (PP.game_state.player.geometry.x >= 7675) {
-    PP.game_state.playerPosition.x = 30;
-    PP.game_state.playerPosition.x = 800;
+    /*PP.game_state.playerPosition.x = 30;
+    PP.game_state.playerPosition.y = 800;*/
     PP.scenes.start("forest_scene");
   }
 
