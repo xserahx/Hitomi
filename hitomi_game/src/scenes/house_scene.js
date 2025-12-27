@@ -61,15 +61,12 @@ function create_house(scene, data) {
 
     { x: 2730, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3005, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3205, y: 560, w: 150, h: 42, sprite_name: "piattaforma" }, //DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
     { x: 3880, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },//MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
 
-    { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 4430, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -85,16 +82,15 @@ function create_house(scene, data) {
     { x: 6166, y: 175, w: 42, h: 100, sprite_name: "piattaforma" }, //Piattaforma verticale a angolo retto dopo l'accrocchio
 
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
-    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
 
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
     { x: 6500, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
-    { x: 7100, y: 220, w: 250, h: 100, sprite_name: "piattaforma" },
-    { x: 7400, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
+    { x: 6900, y: 220, w: 250, h: 100, sprite_name: "piattaforma" },
+    { x: 7200, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTADFORME GRANDI PER FERMARE I NEMICI ===
-    { x: 6580, y: 747, w: 87, h: 130, sprite_name: "vaso" },
-    { x: 7000, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 6380, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 6800, y: 747, w: 87, h: 130, sprite_name: "vaso" },
 
     { x: 7645, y: 175, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
 
@@ -104,7 +100,7 @@ function create_house(scene, data) {
 
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 5500;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 500;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -314,7 +310,7 @@ function create_house(scene, data) {
   });
 
   // === CHIAVE 3 ===
-  const key3 = PP.shapes.rectangle_add(scene, 6000, 670, 50, 50, "0x123456", 0);
+  const key3 = PP.shapes.rectangle_add(scene, 7200, 300, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key3, PP.physics.type.STATIC);
 
   if (PP.game_state.houseKey2Collected == true) {

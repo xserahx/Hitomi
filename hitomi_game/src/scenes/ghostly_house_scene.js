@@ -43,44 +43,57 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === PIATTAFORME ===
   const platformPositions = [
-    { x: 140, y: 785, w: 110, h: 90,  sprite_name: "rialzino" }, 
-    //{ x: 370, y: 479, w: 40, h: 395, sprite_name: "palo" },     
-    //{ x: 390, y: 550, w: 150, h: 20, sprite_name: "basetta" },  
-    { x: 400, y: 810, w: 130, h: 180, sprite_name: "tavolo" },  
-    { x: 540, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
-    //{ x: 780, y: 629, w: 180, h: 250, sprite_name: "armadio" },
-    { x: 1050, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    //======TUTORIAL======
+    //{ x: 380, y: 480, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra, DA MODIFICARE PER FAR PASSARE IL PLAYER
+    { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+    { x: 1030, y: 785, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 400, y: 575, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+    { x: 60, y: 755, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
+    { x: 1270, y: 175, w: 100, h: 580, sprite_name: "piattaforma" }, //Muro prima che abbia inizio il livello della casa
 
-    //{ x: 350, y: 645, w: 150, h: 20, sprite_name : "basetta" },  
-    { x: 1280, y: 425, w: 100, h: 620, sprite_name: "piattaforma" }, //Muro
-    { x: 1600, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 1800, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2025, y: 530, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2300, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2560, y: 425, w: 100, h: 620, sprite_name: "secondo_muro" }, 
-    { x: 2850, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3100, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2850, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3100, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3500, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3870, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro 
-    { x: 4040, y: 425, w: 300, h: 42, sprite_name: "piattaforma_grande" },  // piattaforma grande attaccata al terzo muro
-    { x: 4265, y: 425, w: 150, h: 42, sprite_name: "piattaforma" },
-   // { x: 4320, y: 375,             }, // w: 40, h: 80
-  //  { x: 4335, y: 325,             }, // w: 100, h: 20
-  //  { x: 4300, y: 805,             }, // w: 150, h: 100
-    { x: 4500, y: 470, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 4650, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
-   // { x: 4745, y: 365,             },    // w: 40, h: 150
-   // { x: 5250, y: 300,             },  // w: 150, h: 100
-    { x: 5250, y: 747, w: 87, h: 130, sprite_name: "vaso" }, 
-  //{ x: 5650, y: 250,             },  // w: 150, h: 100
-   // { x: 6050, y: 200,             },  // w: 150, h: 100
-    { x: 6200, y: 747, w: 87, h: 130, sprite_name: "vaso" }, 
-   // { x: 6450, y: 300,             },  // w: 150, h: 100
-    { x: 7000, y: 635, w: 150, h: 42, sprite_name: "piattaforma" },
-   // { x: 7150, y: 750,             },  // w: 150, h: 250
-    //{ x: 7650, y: 250,             }  // w: 100, h: 1000
+    //=======CASA======
+
+    { x: 1470, y: 785, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
+    { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 2270, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+
+
+    //=======PIATTAFORME PER LA PRIMA CHIAVE=========
+
+    { x: 2730, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3005, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3205, y: 560, w: 150, h: 42, sprite_name: "piattaforma" }, //DA METTERE SOLO NEL MONDO SPETTRALE
+    { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
+
+    { x: 3880, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },//MURO CON PORTA SOTTO
+
+    //=======PIATTAFORME PER LA SECONDA CHIAVE=========
+    { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 4430, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 5200, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro
+
+    // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
+    { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
+    { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
+    { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, //Parete orizzontale alla fine di quella verticale
+
+    { x: 6058, y: 135, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma orizzontale a angolo retto dopo l'accrocchio
+    { x: 6166, y: 175, w: 42, h: 100, sprite_name: "piattaforma" }, //Piattaforma verticale a angolo retto dopo l'accrocchio
+
+    { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
+    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
+
+    //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
+    { x: 6500, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
+    { x: 7100, y: 220, w: 250, h: 100, sprite_name: "piattaforma" },
+    { x: 7400, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
+
+    // === VASI SOTTO ALLE PIATTADFORME GRANDI PER FERMARE I NEMICI ===
+    { x: 6580, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 7000, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+
+    { x: 7645, y: 175, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
 
 
