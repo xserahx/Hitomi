@@ -13,6 +13,7 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["basetta"] = PP.assets.image.load(scene, "assets/images/house/basetta.png", 150, 20);
     PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
     PP.scene_objects.platform.sprite["culla"] = PP.assets.image.load(scene, "assets/images/culla.png", 100, 60);
+    PP.scene_objects.platform.sprite["nuvoletta_1"] = PP.assets.image.load(scene, "assets/images/house/nuvoletta_1.png", 100, 60);
 };
 
 // Creazione piattaforme

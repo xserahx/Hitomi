@@ -59,8 +59,8 @@ function create_house(scene, data) {
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
 
-    { x: 2730, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3005, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 2630, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 2905, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
     { x: 3880, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },//MURO CON PORTA SOTTO
@@ -98,9 +98,20 @@ function create_house(scene, data) {
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+  // === PIATTAFORME NEL MONDO SPETTRALE ===
+  const ghostlyPlatformPositions = [
+    { x: 605, y: 595, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
+    { x: 3105, y: 560, w: 150, h: 42, sprite_name: "nuvoletta_1" },
+    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "nuvoletta_1" }, //Piattaforma per salire sull'accrocchio
+    { x: 4180, y: 740, w: 150, h: 42, sprite_name: "nuvoletta_1" },
+    { x: 4430, y: 600, w: 150, h: 42, sprite_name: "nuvoletta_1" }
+  ];
+
+  PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
+
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 500;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 60;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -310,7 +321,7 @@ function create_house(scene, data) {
   });
 
   // === CHIAVE 3 ===
-  const key3 = PP.shapes.rectangle_add(scene, 7200, 300, 50, 50, "0x123456", 0);
+  const key3 = PP.shapes.rectangle_add(scene, 5400, 300, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key3, PP.physics.type.STATIC);
 
   if (PP.game_state.houseKey2Collected == true) {
