@@ -83,26 +83,38 @@ function create_forest(scene) {
 
   // === PIATTAFORME ===
   const platformPositions = [
-    { x: 320, y: 725, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 740, y: 725, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 970, y: 595, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 1600, y: 760, w: 150, h: 190, sprite_name: "piattaforma" },
+    // === PRIME PIATTAFORME ===
+    { x: 400, y: 790, w: 200, h: 20, sprite_name: "piattaforma" },
+    //{ x: 820, y: 785, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
+    { x: 1060, y: 680, w: 150, h: 20, sprite_name: "piattaforma" },
+
+    // === MASSO (?) DA SCAVALCARE ===
+    { x: 1600, y: 690, w: 150, h: 350, sprite_name: "piattaforma" },
     { x: 1732, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
-    { x: 2080, y: 725, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2250, y: 615, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2250, y: 335, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2450, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2675, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 2890, y: 780, w: 200, h: 150, sprite_name: "piattaforma" },
-    { x: 3190, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3450, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 3850, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
+
+    // === PIATTAFORME PRIMA DELLA SCALA ===
+    { x: 1980, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 2170, y: 715, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+    //{ x: 2440, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
+    { x: 2710, y: 550, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+
+    // === ALBERO DA SCALARE ===
+    { x: 3080, y: 725, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 615, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 335, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3450, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3675, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
+
+    // PIATTTAFORME FINALI
+    { x: 4190, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 4450, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
+    { x: 4750, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 100;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 25;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;
 
 
@@ -158,7 +170,9 @@ function create_forest(scene) {
   }
 
   // === CAMERA ===
-  scene.cameras.main.setBounds(0, 0, 6400, 1000);
+  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+  const worldHeight = ground.geometry.body_y + 10;
+  scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
   // === ATTACCO ===

@@ -386,7 +386,7 @@ function create_house(scene, data) {
 
   // === CAMERA ===
   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
-  const worldHeight = ground.geometry.body_y + 40;
+  const worldHeight = ground.geometry.body_y + 10;
   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
