@@ -8,7 +8,8 @@ PP.entities.player.preload = function (scene) {
 PP.entities.player.create = function (scene, x, y) {
   const player = PP.assets.sprite.add(scene, PP.entities.player.img, x, y, 0.5, 0.5);
   PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
-
+  player.ph_obj.body.setSize(40, 120);
+  
   // === STATI VITA ===
   player.maxLives = 3;
   if(PP.game_state.changingWorld==false) {
@@ -146,7 +147,7 @@ PP.entities.player.update = function (scene, player) {
 
   // === COYOTE TIME SALTO===
   if (player.ph_obj.body.blocked.down) { 
-  //uso player.ph_obj perché la proprietà body.blocked.donw non appartiene a Poliphaser e dunque per farla leggere a Phaser occorre aggiungerlo in quanto è come se player è wrappato in Poliphaser
+  // uso player.ph_obj perché la proprietà body.blocked.down non appartiene a Poliphaser e dunque per farla leggere a Phaser occorre aggiungerlo in quanto è come se player è wrappato in Poliphaser
     player.canJump = true;
     player.lastGrounded = PP.timers.getTime(scene);
   } else if (scene.time.now - player.lastGrounded > player.coyoteTime) {
@@ -185,7 +186,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
   // --- HITBOX ---
   let dir = player.geometry.flip_x ? -1 : 1;
   let hitboxX = player.geometry.body_x + (dir === -1 ? -50 : 80);
-  let hitboxY = player.geometry.body_y + 70;
+  let hitboxY = player.geometry.body_y + 40;
 
   const hitbox = PP.shapes.rectangle_add(scene, hitboxX, hitboxY, 100, 100, "0xABCDEF", 1);
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
