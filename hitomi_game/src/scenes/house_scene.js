@@ -10,7 +10,7 @@ function preload_house(scene) {
 }
 
 function create_house(scene, data) {
-  PP.assets.tilesprite.add(scene, house_bg, -20, 180, 7680, 720, 0, 0);
+  PP.assets.tilesprite.add(scene, house_bg, -20, 160, 7680, 720, 0, 0);
   PP.game_state.currentScene = "house_scene";
   PP.game_state.otherWorld = "ghostly_house_scene";
 
@@ -100,7 +100,7 @@ function create_house(scene, data) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    { x: 605, y: 595, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
+    { x: 605,  y: 595, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
     { x: 3105, y: 560, w: 150, h: 42, sprite_name: "nuvoletta_1" },
     { x: 5908, y: 437, w: 150, h: 42, sprite_name: "nuvoletta_1" }, //Piattaforma per salire sull'accrocchio
     { x: 4180, y: 740, w: 150, h: 42, sprite_name: "nuvoletta_1" },
@@ -111,7 +111,7 @@ function create_house(scene, data) {
 
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 60;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
@@ -424,12 +424,13 @@ function update_house(scene) {
     PP.entities.player.changeWorld(scene);
   }
 
-  // === FINE LIVELLO ===
-  if (PP.game_state.player.geometry.x >= 7675) {
-    /*PP.game_state.playerPosition.x = 30;
-    PP.game_state.playerPosition.y = 800;*/
+   // === FINE LIVELLO ===
+  if(PP.game_state.player.geometry.x >= 7675){
+    
+    PP.game_state.playerPosition.x = 30;
+    PP.game_state.playerPosition.y = 800;
     PP.scenes.start("forest_scene");
-  }
+    }
 
 }
 

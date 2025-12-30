@@ -9,12 +9,6 @@ function preload_ghostly_house(scene) {
   ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png",7680, 720);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 
-  // OGGETTI INTERATTIVI
-  //scene.load.image("key_gold", "assets/sprites/key_gold.png");
-  //scene.load.image("door_locked", "assets/sprites/door_locked.png");
-
-  //preload_player(scene);
-  //preload_enemy(scene);
 }
 
 function create_ghostly_house(scene, data) {
@@ -117,8 +111,8 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   //Check se sta cambiando mondo
     if(PP.game_state.changingWorld){
-        PP.game_state.player.geometry.x = config.player_x;
-        PP.game_state.player.geometry.y = config.player_y;
+      PP.game_state.player.geometry.x = config.player_x;
+      PP.game_state.player.geometry.y = config.player_y;
     }
 
   // === HUD VITE (CUORI) ===
@@ -390,50 +384,6 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === CAMBIO MONDO ===
   PP.game_state.changingWorld = false;
-  //scene.input.keyboard.on("keydown-U", () => switchWorld(scene));
-  //scene.input.keyboard.on("keydown-u", () => switchWorld(scene));
-  //}
-
-  // === APERTURA PORTA (ANIMAZIONE SLIDE) ===
-  //function openDoor(door, scene, onComplete) {
-  //  if (door._isTweening) return;
-
-  //door._isTweening = true;
-
-  //scene.tweens.add({
-  // targets: door,
-  //x: door.x + 80,
-  //duration: 500,
-  //ease: "Power2",
-  //onComplete: () => {
-  //  if (door.body) door.body.enable = false;
-  //door._isTweening = false;
-  //if (onComplete) onComplete();
-  // }
-  //});
-  //}
-
-  // === CAMBIO MONDO ===
-  //function switchWorld(scene) {
-  //if (PP.game_state.changingWorld) return;
-
-  //PP.game_state.changingWorld = true;
-  //PP.game_state.playerPosition = {
-  // x: PP.game_state.player.x,
-  //  y: PP.game_state.player.y
-  //};
-
-  //const current = scene.scene.key;
-  //const next = current.startsWith("ghostly_")
-  // ? current.replace("ghostly_", "")
-  //  : "ghostly_" + current;
-
-  //scene.cameras.main.fadeOut(500);
-
-  //scene.time.delayedCall(500, () => {
-  // scene.scene.start(next, PP.game_state.playerPosition);
-  //   PP.game_state.changingWorld = false;
-  // });
 }
 
 // === UPDATE ===
@@ -455,23 +405,10 @@ function update_ghostly_house(scene) {
     // === FINE LIVELLO ===
   if(PP.game_state.player.geometry.x >= 7675){
     
-         PP.game_state.playerPosition.x = 30;
-        PP.game_state.playerPosition.x = 800;
-        PP.scenes.start("forest_scene");
+    PP.game_state.playerPosition.x = 30;
+    PP.game_state.playerPosition.y = 800;
+    PP.scenes.start("forest_scene");
     }
-
-  /*if(config.player_x < 1280) {
-      PP.camera.set_follow_offset(scene, config.player_x - 640, 150);
-    }else if (config.player_x < 2560){
-      PP.camera.set_follow_offset(scene, config.player_x - 1920, 150);
-    }else if (config.player_x < 3840){
-      PP.camera.set_follow_offset(scene, config.player_x - 3200, 150);
-    } else if (config.player_x > 6400){
-      PP.camera.set_follow_offset(scene, config.player_x - 7400, 150);
-    }else{
-      PP.camera.start_follow(scene, PP.game_state.player, 0, 150);
-    } */
-
 }
 
 // === DESTROY ===

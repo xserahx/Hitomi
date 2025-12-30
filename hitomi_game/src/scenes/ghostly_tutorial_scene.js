@@ -10,10 +10,10 @@ function create_ghostly_tutorial_scene(scene) {
     PP.game_state.otherWorld = "tutorial_scene";
 
     // === MURI ===
-    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 1);
+    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 0);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-    const rightWall = PP.shapes.rectangle_add(scene, 1240, 360, 40, 720, "0x000000", 1);
+    const rightWall = PP.shapes.rectangle_add(scene, 1240, 360, 40, 720, "0x000000", 0);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
@@ -145,7 +145,7 @@ function create_ghostly_tutorial_scene(scene) {
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around.  Press SPACE to jump.");
+        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around. Press SPACE to jump.");
 
         PP.timers.add_timer(scene, 250, (s) => {
             PP.assets.destroy(tutorial);
