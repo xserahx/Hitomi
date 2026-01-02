@@ -8,7 +8,7 @@ PP.entities.player.preload = function (scene) {
 PP.entities.player.create = function (scene, x, y) {
   const player = PP.assets.sprite.add(scene, PP.entities.player.img, x, y, 0.5, 0.5);
   PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
-  player.ph_obj.body.setSize(40, 120);
+  PP.physics.set_collision_rectangle(player,40,120,22.5,0);
   
   // === STATI VITA ===
   player.maxLives = 3;
