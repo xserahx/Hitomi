@@ -4,26 +4,27 @@ PP.entities.enemy = {};
 // === PRELOAD ===
 PP.entities.enemy.preload = function (scene) {
   PP.entities.enemy.sprite = {};
-  PP.entities.enemy.sprite.ombrello = PP.assets.image.load(scene,"assets/images/mob/ombrello.png");
-  PP.entities.enemy.sprite.slug = PP.assets.image.load(scene,"assets/images/mob/slug.png");
-  PP.entities.enemy.sprite.lanterna = PP.assets.image.load(scene,"assets/images/mob/lanterna.png");
+  PP.entities.enemy.sprite.ombrello = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_ombrello.png", 52, 62);
+  //PP.entities.enemy.sprite.slug = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_slug.png", 70, 70);
+  PP.entities.enemy.sprite.lanterna = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_lanterna.png", 58, 57);
 };
 
-// === CREAZIONE NEMICI ===
 PP.entities.enemy.create = function (scene, positions) {
   const enemies = [];
 
   for (let pos of positions) {
-    const sprite = PP.entities.enemy.sprite[pos.sprite_name];
-    if (!sprite) {
-      console.error("Sprite non trovato:", pos.sprite_name);
+    const sheet = PP.entities.enemy.sprite[pos.sprite_name];
+    if (!sheet) {
+      console.error("Spritesheet non trovato:", pos.sprite_name);
       continue;
     }
 
-    const enemy = PP.assets.image.add(scene,sprite,pos.x,pos.y,0.5,0,0.5);
+    const enemy = PP.assets.sprite.add(scene,sheet,pos.x,pos.y,0.5,0.5);
+
     PP.physics.add(scene, enemy, PP.physics.type.DYNAMIC);
 
-    // === PARAMETRI ===
+    // === PARAMETRI BASE ===
+    enemy.type = pos.sprite_name;
     enemy.speed = pos.speed ?? 80;
     enemy.detectionRange = 250;
 
@@ -36,38 +37,65 @@ PP.entities.enemy.create = function (scene, positions) {
     enemy.isInvincible = false;
     enemy.isKnocked = false;
 
+    // === STATO ANIMAZIONI ===
+    enemy.isWalkingAnim = false;
+
+    // === ANIMAZIONI YOKAI ===
+    switch (enemy.type) {
+
+      case "ombrello":
+        PP.assets.sprite.animation_add(enemy, "walk", 0, 13, 10, -1);
+        break;
+
+      //case "slug":
+        //PP.assets.sprite.animation_add(enemy, "walk", 0, 3, 10, -1);
+        //break;
+
+      case "lanterna":
+        PP.assets.sprite.animation_add(enemy, "walk", 0, 9, 10, -1);
+        break;
+    }
+
     enemies.push(enemy);
   }
 
   return enemies;
 };
 
-// === UPDATE ===
+
 PP.entities.enemy.update = function (scene, enemies, player) {
   for (let enemy of enemies) {
     if (!enemy?.ph_obj?.body) continue;
 
     const dx = player.geometry.body_x - enemy.geometry.body_x;
     const distance = Math.abs(dx);
+    let moving = false;
 
     if (distance < enemy.detectionRange) {
       const dir = dx < 0 ? -1 : 1;
       PP.physics.set_velocity_x(enemy, dir * enemy.speed);
-      
-      // Flip in base alla direzione
-      enemy.geometry.flip_x = dir > 0; // true = destra, false = sinistra
+      enemy.geometry.flip_x = dir > 0;
+      moving = true;
     } else {
       if (scene.time.now - enemy.lastPatrolSwitch > enemy.patrolInterval) {
         enemy.patrolDir *= -1;
         enemy.lastPatrolSwitch = scene.time.now;
       }
-      PP.physics.set_velocity_x(enemy, enemy.patrolDir * enemy.speed * 0.5);
 
-      // Flip durante la pattuglia
+      PP.physics.set_velocity_x(enemy, enemy.patrolDir * enemy.speed * 0.5);
       enemy.geometry.flip_x = enemy.patrolDir > 0;
+      moving = true;
     }
-  }
-};
+
+    // === ANIMAZIONE YOKAI ===
+    if (moving) {
+      if (enemy.currentAnim !== "walk") {
+        PP.assets.sprite.animation_play(enemy, "walk");
+        enemy.currentAnim = "walk";
+        }
+      } 
+    }
+  };
 
 // === DANNO ===
 PP.entities.enemy.damage = function (scene, enemy, hitbox) {
