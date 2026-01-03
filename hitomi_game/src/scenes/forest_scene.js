@@ -18,7 +18,6 @@ function preload_forest(scene) {
   forest_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,720);
   mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna1.png",1280,720);
   mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna2.png",1280,720);
-  //clouds_bg = PP.assets.image.load(scene,"assets/images/forest/nuvola1.png",436,210);
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
   bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/recinzione.png",1096,250);
   bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png",150,114);
@@ -32,6 +31,7 @@ function preload_forest(scene) {
 }
 
 function create_forest(scene) {
+  
   // === STATO SCENA ===
   PP.game_state.currentScene = "forest_scene";
   PP.game_state.otherWorld = "ghostly_forest_scene";
@@ -65,9 +65,19 @@ function create_forest(scene) {
   bg_trees = PP.assets.image.add(scene, small_tree, 1800, 550, 0.5, 0.5);
 
   // recinzione in bamboo
-  bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, 0, 750, 6400, 250, 0, 0);
+  bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
   
   let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
+  
+  // === PULSANTE HELP ===
+  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+  helpButton.tile_geometry.scroll_factor_x = 0;
+  helpButton.tile_geometry.scroll_factor_y = 0;
+
+  // lo rendo cliccabile
+  PP.interactive.mouse.add(helpButton, "pointerdown", () => {
+  showControlsPopup(scene);
+});
 
   // === BORDI ===
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
@@ -83,6 +93,7 @@ function create_forest(scene) {
 
   // === PIATTAFORME ===
   const platformPositions = [
+    
     // === PRIME PIATTAFORME ===
     { x: 400, y: 790, w: 200, h: 20, sprite_name: "piattaforma" },
     //{ x: 820, y: 785, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
@@ -105,7 +116,7 @@ function create_forest(scene) {
     { x: 3450, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 3675, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
 
-    // PIATTTAFORME FINALI
+    // PIATTAFORME FINALI
     { x: 4190, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 4450, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
     { x: 4750, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }

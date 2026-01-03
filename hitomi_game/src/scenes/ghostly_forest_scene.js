@@ -1,6 +1,5 @@
 // === ghostly_forest SCENE ===
 function preload_ghostly_forest(scene) {
-  scene.load.image('snowflake', 'assets/images/forest/neve.png');
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -50,12 +49,12 @@ function create_ghostly_forest(scene, data) {
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
     { x: 1980, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2440, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO SPETTRALE
+    { x: 2440, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
 
     // SCALA
     //{ x: 3080, y: 1850, w: 100, h: 20 },  One
     { x: 3250, y: 615, w: 100, h: 20, sprite_name: "piattaforma" }, // Two
-    { x: 3250, y: 475, w: 100, h: 20, sprite_name: "piattaforma" }, //Three
+    { x: 3250, y: 475, w: 100, h: 20, sprite_name: "piattaforma" }, // Three
   //  { x: 3250, y: 1460, w: 100, h: 20 }, //FOUR
 
     // BLOCCO A SINISTRA DELLA SCALA
@@ -142,27 +141,15 @@ function create_ghostly_forest(scene, data) {
       }
 
   // === CAMERA ===
-  scene.cameras.main.setBounds(0, 0, 6400, 1000);
+  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+  const worldHeight = ground.geometry.body_y + 10;
+  scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+
 
   // === CLICK DEL MOUSE PER ATTACCARE ===
     scene.input.on("pointerdown", () => {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
-    });
-
-  // --- NEVE ---
-    // array per i fiocchi
-    scene.snowflakes = [];
-
-    // timer che crea fiocchi
-    scene.time.addEvent({
-        delay: 200,
-        callback: () => {
-            const x = Phaser.Math.Between(0, scene.sys.game.config.width);
-            const flake = scene.add.image(x, 0, 'snowflake').setScale(0.2);
-            scene.snowflakes.push(flake);
-        },
-        loop: true
     });
 
     PP.game_state.changingWorld = false;
@@ -183,24 +170,11 @@ function update_ghostly_forest(scene) {
        y: PP.game_state.player.y
     };
   }
-
-const groundTopY = 1010 - (40 / 2);
-
-// muovi i fiocchi verso il basso
-for (let flake of scene.snowflakes) {
-    flake.y += 2; // velocità caduta
-
-    // fermali prima di toccare il terreno
-    if (flake.y >= groundTopY - 5) { // -5 = margine
-        flake.destroy(); // oppure flake.y = groundTopY - 5;
-    }
-}
     // === FINE LIVELLO ===
     if(PP.game_state.player.geometry.x >= 6325){
         PP.scenes.start("bossfight_scene");
     }
 }
-
 
 function destroy_ghostly_forest(scene) {
   // Pulizia risorse se necessaria

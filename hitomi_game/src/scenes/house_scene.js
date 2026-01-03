@@ -37,24 +37,25 @@ function create_house(scene, data) {
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === GROUND ===
-  const ground = PP.shapes.rectangle_add(scene, 3830, 895, 7700, 40, "0x000000", 1);
+  const ground = PP.shapes.rectangle_add(scene, 3830, 870, 7700, 25, "0x000000", 0);
   PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
   // === PIATTAFORME ===
   const platformPositions = [
+    
     //======TUTORIAL======
     //{ x: 380, y: 480, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra, DA MODIFICARE PER FAR PASSARE IL PLAYER
     { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 785, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
     { x: 400, y: 575, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-    { x: 60, y: 755, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
-    { x: 1270, y: 175, w: 100, h: 580, sprite_name: "piattaforma" }, //Muro prima che abbia inizio il livello della casa
+    { x: 60, y: 738, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
+    { x: 1270, y: 145, w: 100, h: 580, sprite_name: "piattaforma" }, // Muro prima che abbia inizio il livello della casa
 
     //=======CASA======
 
-    { x: 1470, y: 785, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
+    { x: 1470, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
     { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2270, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 2270, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
@@ -63,17 +64,17 @@ function create_house(scene, data) {
     { x: 2905, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
-    { x: 3880, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },//MURO CON PORTA SOTTO
+    { x: 3880, y: 145, w: 100, h: 580, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
 
     { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5200, y: 175, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 5200, y: 145, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
-    { x: 5860, y: 780, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
+    { x: 5860, y: 738, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
     { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
     { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
     { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, //Parete orizzontale alla fine di quella verticale
@@ -89,10 +90,10 @@ function create_house(scene, data) {
     { x: 7200, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTADFORME GRANDI PER FERMARE I NEMICI ===
-    { x: 6380, y: 747, w: 87, h: 130, sprite_name: "vaso" },
-    { x: 6800, y: 747, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 6380, y: 728, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 6800, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: 175, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7645, y: 145, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
 
   ];
 
@@ -204,8 +205,8 @@ function create_house(scene, data) {
   });
 
   // === PORTA 1 ===
-  const door = PP.shapes.rectangle_add(scene, 3855, 815, 100, 120, "0x654321", 1);
-  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 815, 120, 120, "0x000000", 0.2);
+  const door = PP.shapes.rectangle_add(scene, 3855, 798, 100, 120, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 798, 120, 120, "0x000000", 0.2);
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
@@ -275,8 +276,8 @@ function create_house(scene, data) {
   });
 
   // === PORTA 2 ===
-  const door2 = PP.shapes.rectangle_add(scene, 5175, 815, 100, 120, "0x654321", 1);
-  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 815, 120, 120, "0x000000", 0.2);
+  const door2 = PP.shapes.rectangle_add(scene, 5175, 798, 100, 120, "0x654321", 1);
+  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 798, 120, 120, "0x000000", 0.2);
   PP.physics.add(scene, door2, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
 
@@ -345,8 +346,8 @@ function create_house(scene, data) {
   });
 
   // === PORTA 3 ===
-  const door3 = PP.shapes.rectangle_add(scene, 7620, 815, 100, 120, "0x654321", 1);
-  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 815, 120, 120, "0x000000", 0.2);
+  const door3 = PP.shapes.rectangle_add(scene, 7620, 798, 100, 120, "0x654321", 1);
+  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 798, 120, 120, "0x000000", 0.2);
   PP.physics.add(scene, door3, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame3, PP.physics.type.STATIC);
 
@@ -396,8 +397,8 @@ function create_house(scene, data) {
   });
 
   // === CAMERA ===
-  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
-  const worldHeight = ground.geometry.body_y + 10;
+  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
+  const worldHeight = ground.geometry.body_y + 20;
   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
@@ -411,7 +412,7 @@ function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
-  // === SE DEVO MODE ATTIVA NON SERVONO CHIAVI ===
+  // === SE DEV MODE ATTIVA NON SERVONO CHIAVI ===
   if(PP.game_state.DevMode == true){
     PP.game_state.houseKey1Collected = true;
     PP.game_state.houseKey2Collected = true;
