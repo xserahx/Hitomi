@@ -20,7 +20,7 @@ function create_game_over(scene, data) {
   const restartButton = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY,
-    "Restart Level",
+    "Ricomincia il livello",
     { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
   );
   restartButton.setOrigin(0.5);
@@ -29,6 +29,19 @@ function create_game_over(scene, data) {
     PP.scenes.start(PP.game_state.currentScene);
     });
 
+    // Pulsante Exit Game
+  const exitButton = scene.add.text(
+    scene.cameras.main.centerX,
+    scene.cameras.main.centerY + 50,
+    "Ritorna al menu principale",
+    { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
+  );
+  exitButton.setOrigin(0.5);
+  exitButton.setInteractive({ useHandCursor: true });
+  exitButton.on("pointerdown", () => {
+    PP.scenes.start("main_menu");
+    });
+  
   // Fade in della scena
   scene.cameras.main.fadeIn(500, 0, 0, 0);
 }
@@ -43,3 +56,4 @@ function destroy_game_over(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add("game_over",preload_game_over,create_game_over,update_game_over,destroy_game_over);
+
