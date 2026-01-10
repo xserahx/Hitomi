@@ -1,7 +1,7 @@
 let menu_bg;
 
 function preload(s) {
-  menu_bg = PP.assets.image.load(s, "assets/images/homepage.png");
+  menu_bg = PP.assets.image.load(s, "assets/images/homepage.png", 2500, 1400);
 }
 
 function create(s) {
@@ -35,9 +35,11 @@ function create(s) {
   // === MENU OPZIONI ===
   const menuItems = [
     { label: "Gioca", y: centerY + 100, action: () => PP.scenes.start("tutorial_scene") },
-    { label: "House Scene (DEV)", y: centerY + 180, action: () => PP.scenes.start("house_scene") },
-    { label: "Forest Scene (DEV)", y: centerY + 260, action: () => PP.scenes.start("forest_scene") },
-    { label: "Boss Scene (DEV)", y: centerY + 340, action: () => PP.scenes.start("bossfight_scene") }
+    { label: "Storia", y: centerY + 150, action: () => PP.scenes.start("tutorial_scene") },
+    { label: "Crediti", y: centerY + 200, action: () => PP.scenes.start("credits") },
+    { label: "House Scene (DEV)", y: centerY + 250, action: () => PP.scenes.start("house_scene") },
+    { label: "Forest Scene (DEV)", y: centerY + 300, action: () => PP.scenes.start("forest_scene") },
+    { label: "Boss Scene (DEV)", y: centerY + 350, action: () => PP.scenes.start("bossfight_scene") }
   ];
 
   menuItems.forEach(item => {
