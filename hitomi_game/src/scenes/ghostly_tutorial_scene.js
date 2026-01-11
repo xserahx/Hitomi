@@ -1,8 +1,8 @@
 // === ghostly_tutorial SCENE ===
-let tutorial_bg;
+let ghostly_tutorial_bg;
 
 function preload_ghostly_tutorial_scene(scene) {
-  tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background.png", 1280, 920);
+  ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background.png", 1280, 920);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -10,7 +10,7 @@ function preload_ghostly_tutorial_scene(scene) {
 
 // === CREAZIONE SCENA ===
 function create_ghostly_tutorial_scene(scene) {
-    PP.assets.tilesprite.add(scene, tutorial_bg, -20, -30, 1280, 920, 0, 0);
+    PP.assets.tilesprite.add(scene, ghostly_tutorial_bg, -20, -30, 1280, 920, 0, 0);
     PP.game_state.otherWorld = "tutorial_scene";
 
     // === MURI ===
