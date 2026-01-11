@@ -59,10 +59,6 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === COLLDIER BAMBINO ===
      PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
-        /*PP.timers.add_timer(scene, 300, (s) => {
-             PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
-        }, true);*/
-
         let layer_domanda = PP.layers.create(scene);
         PP.layers.set_z_index(layer_domanda, 10);
 
@@ -196,47 +192,7 @@ function update_ghostly_tutorial_scene(scene) {
     }
 }
 
-function destroy_ghostly_tutorial_scene(scene) {}
-
+function destroy_ghostly_tutorial_scene(scene) {  
+}
 
 PP.scenes.add("ghostly_tutorial_scene", preload_ghostly_tutorial_scene, create_ghostly_tutorial_scene, update_ghostly_tutorial_scene, destroy_ghostly_tutorial_scene);
-/*/ === FUNZIONE DI DANNO PLAYER ===
-PP.entities.player.damage = function(scene) {
-  const player = PP.game_state.player;
-  if (player.isInvincible) return;
-
-  player.lives -= 1;
-  player.isInvincible = true;
-
-  const originalColor = player.fillColor;
-  let flashCount = 0;
-
-  // === Lampeggio rosso ===
-  scene.time.addEvent({
-    delay: 100,
-    repeat: 5,
-    callback: () => {
-      player.fillColor = flashCount % 2 === 0 ? 0xff0000 : originalColor;
-      flashCount++;
-    }
-  });
-
-  // === Knockback ===
-  const knockback = 250;
-  const direction = player.body.velocity.x >= 0 ? -1 : 1;
-  player.body.setVelocity(knockback * direction, -200);
-
-  // === Ritorna hittabile dopo 2 sec ===
-  scene.time.delayedCall(2000, () => {
-    player.isInvincible = false;
-    player.fillColor = originalColor;
-  });
-
-  // === GAME OVER ALL’ULTIMA VITA ===
-  if (player.lives <= 0) {
-    scene.cameras.main.shake(400, 0.02);
-    scene.time.delayedCall(400, () => {
-      scene.scene.start("game_over", { restartScene: scene.scene.key });
-    });
-  }
-};*/

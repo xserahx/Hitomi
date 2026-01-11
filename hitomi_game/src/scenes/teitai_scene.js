@@ -1,6 +1,6 @@
 // === FINALE TEITAI ===
 function preload_teitai(scene) {
-  // Eventuali assets se vuoi (immagini, suoni)
+
 }
 
 function create_teitai(scene, data) {

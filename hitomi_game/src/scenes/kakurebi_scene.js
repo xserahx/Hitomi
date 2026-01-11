@@ -1,6 +1,5 @@
 // === FINALE KAKUREBI ===
 function preload_kakurebi(scene) {
-  // Eventuali assets se vuoi (immagini, suoni)
 }
 
 function create_kakurebi(scene, data) {

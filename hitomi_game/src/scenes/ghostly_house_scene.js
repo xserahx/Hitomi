@@ -6,13 +6,13 @@ function preload_ghostly_house(scene) {
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
 
-  ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png",7680, 720);
+  ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png",7680, 920);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 
 }
 
 function create_ghostly_house(scene, data) {
-    PP.assets.tilesprite.add(scene, ghostly_house_bg, -20, 160, 7680, 920, 0, 0);
+    PP.assets.tilesprite.add(scene, ghostly_house_bg, -20, -30, 7680, 920, 0, 0);
     PP.game_state.otherWorld = "house_scene";
 
 // === PULSANTE HELP ===

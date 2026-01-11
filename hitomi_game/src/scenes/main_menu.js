@@ -1,7 +1,7 @@
 let menu_bg;
 
 function preload(s) {
-  menu_bg = PP.assets.image.load(s, "assets/images/homepage.png", 2500, 1400);
+  menu_bg = PP.assets.image.load(s, "assets/images/homepage.png", 280, 720);
 }
 
 function create(s) {

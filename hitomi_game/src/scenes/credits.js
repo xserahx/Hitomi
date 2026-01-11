@@ -2,7 +2,7 @@ let crediti_bg;
 let back_arrow;
 
 function preload(s) {
-  crediti_bg = PP.assets.image.load(s, "assets/images/crediti.png", 2500, 1423);
+  crediti_bg = PP.assets.image.load(s, "assets/images/crediti.png", 1280, 720);
   back_arrow = PP.assets.image.load(s, "assets/images/arrow.png", 30, 30);
 }
 
@@ -22,7 +22,7 @@ function create(s) {
 
   // area cliccabile
   PP.interactive.mouse.add(backHitbox, "pointerdown", () => {
-    PP.scenes.start("menu_scene"); 
+    PP.scenes.start("main_menu"); 
   });
   
   PP.game_state.bossIsDead = false;
@@ -38,5 +38,4 @@ function destroy(s) {
 }
 
 PP.scenes.add("credits", preload, create, update, destroy);
-
 _

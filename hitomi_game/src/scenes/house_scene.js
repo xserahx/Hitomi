@@ -2,7 +2,7 @@
 let house_bg;
 
 function preload_house(scene) {
-  house_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png", 7680, 720);
+  house_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png", 7680, 920);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -10,7 +10,7 @@ function preload_house(scene) {
 }
 
 function create_house(scene, data) {
-  PP.assets.tilesprite.add(scene, house_bg, -20, 160, 7680, 720, 0, 0);
+  PP.assets.tilesprite.add(scene, house_bg, -20, -30, 7680, 920, 0, 0);
   PP.game_state.currentScene = "house_scene";
   PP.game_state.otherWorld = "ghostly_house_scene";
 

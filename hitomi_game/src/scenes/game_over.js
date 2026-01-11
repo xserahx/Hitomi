@@ -56,4 +56,3 @@ function destroy_game_over(scene) {
 
 // === REGISTRA LA SCENA ===
 PP.scenes.add("game_over",preload_game_over,create_game_over,update_game_over,destroy_game_over);
-

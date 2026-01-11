@@ -1,6 +1,7 @@
 // === FINALE MUSUBI ===
 function preload_musubi(scene) {
-  // Eventuali assets se vuoi (immagini, suoni)
+
+  
 }
 
 function create_musubi(scene, data) {
