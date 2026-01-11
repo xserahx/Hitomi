@@ -1,5 +1,8 @@
 // === ghostly_tutorial SCENE ===
+let tutorial_bg;
+
 function preload_ghostly_tutorial_scene(scene) {
+  tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background.png", 1280, 920);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -7,33 +10,34 @@ function preload_ghostly_tutorial_scene(scene) {
 
 // === CREAZIONE SCENA ===
 function create_ghostly_tutorial_scene(scene) {
+    PP.assets.tilesprite.add(scene, tutorial_bg, -20, -30, 1280, 920, 0, 0);
     PP.game_state.otherWorld = "tutorial_scene";
 
     // === MURI ===
-    const leftWall = PP.shapes.rectangle_add(scene, 0, 360, 40, 720, "0x000000", 0);
+    const leftWall = PP.shapes.rectangle_add(scene, 0, 500, 40, 720, "0x000000", 0);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-    const rightWall = PP.shapes.rectangle_add(scene, 1240, 360, 40, 720, "0x000000", 0);
+    const rightWall = PP.shapes.rectangle_add(scene, 1240, 500, 40, 720, "0x000000", 0);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
-
+    
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 620, 700, 1280, 40, "0x000000", 1);
+    const ground = PP.shapes.rectangle_add(scene, 3830, 870, 7700, 25, "0x000000", 0);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
     // === PIATTAFORME ===
     const platformPositions = [ 
-       { x: 605, y: 400, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
-        { x: 380, y: 285, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
-        { x: 820, y: 480, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-        { x: 1030, y: 590, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-        { x: 400, y: 380, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-        { x: 60, y: 650, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
+        { x: 605, y: 600, w: 150, h: 40, sprite_name: "piattaforma" }, // piattaforma centrale
+        { x: 380, y: 465, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+        { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+        { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+        { x: 60, y: 797, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
     // === BAMBINO ===
-    const baby = PP.shapes.rectangle_add(scene, 70, 600, 40, 40, "0x00ff00", 1);
+    const baby = PP.shapes.rectangle_add(scene, 95, 777, 40, 40, "0xffffff", 1);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
@@ -57,7 +61,7 @@ function create_ghostly_tutorial_scene(scene) {
         PP.game_state.player.geometry.y = config.player_y;
     }
 
-    // === COLLDIER BAMBINO ===
+    // === COLLIDER BAMBINO ===
      PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
         let layer_domanda = PP.layers.create(scene);
         PP.layers.set_z_index(layer_domanda, 10);
@@ -68,7 +72,6 @@ function create_ghostly_tutorial_scene(scene) {
         let button_si = PP.shapes.text_add(scene, 580, 400, "Si");
         let button_no = PP.shapes.text_add(scene, 780, 400, "No");
 
-        //PP.layers.add_to_layer(layer_domanda, game_state.askChild);
         PP.layers.add_to_layer(layer_domanda, button_no);
         PP.layers.add_to_layer(layer_domanda, button_si);
 
@@ -124,20 +127,19 @@ function create_ghostly_tutorial_scene(scene) {
     });
 
     // === CAMERA ===
-    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
-    const worldHeight = ground.geometry.body_y + 40;
-    scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
-    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
+   const worldHeight = ground.geometry.body_y + 20;
+   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
     // === CARTELLO ===
-
-    const sign1 = PP.shapes.rectangle_add(scene, 1175, 650, 40, 40, "0x00ff00", 1);
+    const sign1 = PP.shapes.rectangle_add(scene, 1175, 800, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
-    const sign2 = PP.shapes.rectangle_add(scene, 1025, 550, 40, 40, "0x00ff00", 1);
+    const sign2 = PP.shapes.rectangle_add(scene, 1030, 730, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
-    const sign3 = PP.shapes.rectangle_add(scene, 825, 450, 40, 40, "0x00ff00", 1);
-    PP.physics.add(scene, sign3, PP.physics.type.STATIC);
-    const sign4 = PP.shapes.rectangle_add(scene, 600, 375, 40, 40, "0x00ff00", 1);
+    const sign3 = PP.shapes.rectangle_add(scene, 820, 640, 40, 40, "0x00ff00", 1);
+    PP.physics.add(scene, sign3, PP.physics.type.STATIC); 
+    const sign4 = PP.shapes.rectangle_add(scene, 605, 565, 40, 40, "0x00ff00", 1);
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {

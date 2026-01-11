@@ -12,8 +12,8 @@ function preload_ghostly_house(scene) {
 }
 
 function create_ghostly_house(scene, data) {
-    PP.assets.tilesprite.add(scene, ghostly_house_bg, -20, -30, 7680, 920, 0, 0);
-    PP.game_state.otherWorld = "house_scene";
+  PP.assets.tilesprite.add(scene, ghostly_house_bg, -20, -30, 7680, 920, 0, 0);
+  PP.game_state.otherWorld = "house_scene";
 
 // === PULSANTE HELP ===
 const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
