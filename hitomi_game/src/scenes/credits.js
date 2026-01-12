@@ -16,7 +16,7 @@ function create(s) {
   const backBtn = PP.assets.image.add(s, back_arrow, 60, 40, 0.5, 0.5);
 
   // HITBOX
-  const backHitbox = PP.shapes.rectangle_add(s, 50, 40, 40, 40, "0xff0000", 0);
+  const backHitbox = PP.shapes.rectangle_add(s, 50, 30, 50, 28, "0xff0000", 0);
   backHitbox.tile_geometry.scroll_factor_x = 0;
   backHitbox.tile_geometry.scroll_factor_y = 0;
 
@@ -38,4 +38,3 @@ function destroy(s) {
 }
 
 PP.scenes.add("credits", preload, create, update, destroy);
-_
