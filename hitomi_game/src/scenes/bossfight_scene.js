@@ -24,7 +24,9 @@ function create_bossfight_scene(scene) {
 
     // === BORDI ===
   	const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 950, "0x000000", 0);
+    const rightWall = PP.shapes.rectangle_add(scene, 1280, 460, 40, 950, "0x000000", 0);
   	PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
+    PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
     const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
@@ -47,6 +49,11 @@ function create_bossfight_scene(scene) {
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
     PP.physics.add_collider(scene, PP.game_state.player, leftWall);
+    PP.physics.add_collider_f(scene, PP.game_state.player, rightWall, () => {
+        if (PP.game_state.bossIsFriendly == true) {
+            PP.scenes.start("teitai_scene", { x: 50, y: 500 });
+        }
+    });
 
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);

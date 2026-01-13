@@ -95,31 +95,31 @@ function create_forest(scene) {
   const platformPositions = [
     
     // === PRIME PIATTAFORME ===
-    { x: 400, y: 790, w: 200, h: 20, sprite_name: "piattaforma" },
+    { x: 400, y: 810, w: 200, h: 20, sprite_name: "piattaforma" },
     //{ x: 820, y: 785, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
     { x: 1060, y: 680, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // === MASSO (?) DA SCAVALCARE ===
-    { x: 1600, y: 690, w: 150, h: 350, sprite_name: "piattaforma" },
-    { x: 1732, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
+    { x: 1400, y: 690, w: 150, h: 350, sprite_name: "piattaforma" },
+    { x: 1532, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
-    { x: 1980, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2170, y: 715, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+    { x: 1780, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 1970, y: 715, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
     //{ x: 2440, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
-    { x: 2710, y: 550, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+    { x: 2510, y: 550, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
-    { x: 3080, y: 725, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3250, y: 615, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3250, y: 335, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3450, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3675, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
+    { x: 2880, y: 725, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3050, y: 615, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3050, y: 335, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3475, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // PIATTAFORME FINALI
-    { x: 4190, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4450, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 4750, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
+    { x: 3990, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 4250, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
+    { x: 4550, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);

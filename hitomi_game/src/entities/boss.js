@@ -6,11 +6,11 @@ PP.entities.boss.create = function (scene, positions) {
   const boss = PP.shapes.rectangle_add(scene, 1230, 500, 80, 120, "0xff0000", 1);
   PP.physics.add(scene, boss, PP.physics.type.DYNAMIC);
 
-  boss.speed = 100;
+  boss.speed = 200;
   boss.detectionRange = 1280;
   boss.deadZone = 5;
   boss.dashzone = 400;
-  boss.dashSpeed = 700;
+  boss.dashSpeed = 500;
   boss.direction = 1;
   boss.maxLives = 10;
   boss.lives = 3;
@@ -29,6 +29,11 @@ PP.entities.boss.update = function (scene, boss, player) {
   if (PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true) {
     boss.inCutscene = true;
   } else { boss.inCutscene = false; }
+
+  if(PP.game_state.bossReset == true) {
+    boss.lives = boss.maxLives;
+    PP.game_state.bossReset = false;
+  }
 
   const dx = player.geometry.x - boss.geometry.x;
   const distance = Math.abs(dx);

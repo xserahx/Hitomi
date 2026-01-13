@@ -39,36 +39,36 @@ function create_ghostly_forest(scene, data) {
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
-    { x: 400, y: 790, w: 200, h: 20, sprite_name: "piattaforma" },
+    { x: 400, y: 810, w: 200, h: 20, sprite_name: "piattaforma" },
     { x: 820, y: 785, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
     { x: 1060, y: 680, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // === MASSO (?) DA SCAVALCARE ===
-    { x: 1600, y: 690, w: 150, h: 350, sprite_name: "piattaforma" },
-    { x: 1732, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
+    { x: 1400, y: 690, w: 150, h: 350, sprite_name: "piattaforma" },
+    { x: 1532, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
-    { x: 1980, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2440, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
+    { x: 1780, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 2240, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
 
     // SCALA
     //{ x: 3080, y: 1850, w: 100, h: 20 },  One
-    { x: 3250, y: 615, w: 100, h: 20, sprite_name: "piattaforma" }, // Two
-    { x: 3250, y: 475, w: 100, h: 20, sprite_name: "piattaforma" }, // Three
+    { x: 3050, y: 615, w: 100, h: 20, sprite_name: "piattaforma" }, // Two
+    { x: 3050, y: 475, w: 100, h: 20, sprite_name: "piattaforma" }, // Three
   //  { x: 3250, y: 1460, w: 100, h: 20 }, //FOUR
 
     // BLOCCO A SINISTRA DELLA SCALA
-    { x: 3050, y: 20 + 175, w: 300, h: 20, sprite_name: "piattaforma" },
+    { x: 2850, y: 20 + 175, w: 300, h: 20, sprite_name: "piattaforma" },
 
     // SECONDA RAMPA DI SCALE 
-    { x: 3450, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
   //  { x: 2675, y: 1070, w: 150, h: 20 },
-    { x: 4000, y: -125, w: 150, h: 20, sprite_name: "piattaforma" },  // apice
+    { x: 3990, y: -125, w: 150, h: 20, sprite_name: "piattaforma" },  // apice
 
     // PIATTAFORME FINALI
-    { x: 4190, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4450, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 4750, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
+    { x: 3990, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 4250, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
+    { x: 4550, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
