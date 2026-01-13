@@ -26,10 +26,6 @@ function create(scene) {
 
   {
     name: "crediti", x: 570, y: 500, w: 80, h: 35, action: () => PP.scenes.start("credits")
-  },
-
-  {
-    name: "foresta", x: 570, y: 500, w: 80, h: 35, action: () => PP.scenes.start("bossfight_scene")
   }
 ];
 
