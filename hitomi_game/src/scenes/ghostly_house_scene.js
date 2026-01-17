@@ -257,7 +257,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === PORTA 2 ===
   const door2 = PP.shapes.rectangle_add(scene, 5175, 798, 100, 120, "0x654321", 1);
-  const doorFrame2 = PP.shapes.rectangle_add(scene, 7650, 798, 120, 130, "0x000000", 0.2);
+  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 798, 120, 120, "0x000000", 0.2);
   PP.physics.add(scene, door2, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
 
