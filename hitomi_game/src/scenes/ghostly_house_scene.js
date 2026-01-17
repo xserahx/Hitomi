@@ -392,6 +392,13 @@ function update_ghostly_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
+  // === SE DEV MODE ATTIVA NON SERVONO CHIAVI ===
+  if(PP.game_state.DevMode == true){
+    PP.game_state.houseKey1Collected = true;
+    PP.game_state.houseKey2Collected = true;
+    PP.game_state.houseKey3Collected = true;
+  }
+
   if (PP.game_state.player) {
     PP.game_state.playerPosition = {
       x: config.player_x,
