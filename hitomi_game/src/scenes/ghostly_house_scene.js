@@ -303,10 +303,10 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === CHIAVE 3 ===
-  const key3 = PP.shapes.rectangle_add(scene, 5300, 200, 50, 50, "0x123456", 0);
+  const key3 = PP.shapes.rectangle_add(scene, 5400, 300, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key3, PP.physics.type.STATIC);
 
-  if (PP.game_state.houseKey2Collected == true) {
+  if (PP.game_state.houseKey3Collected == true) {
     PP.assets.destroy(key3);
   }
 
