@@ -44,7 +44,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
     { x: 400, y: 575, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
     { x: 60, y: 738, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
-    { x: 1270, y: 145, w: 100, h: 580, sprite_name: "piattaforma" }, // Muro prima che abbia inizio il livello della casa
+    { x: 1270, y: -180, w: 100, h: 900, sprite_name: "palo" }, // Muro prima che abbia inizio il livello della casa
 
     //=======CASA======
 
@@ -60,13 +60,13 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 3105, y: 560, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
-    { x: 3880, y: 145, w: 100, h: 580, sprite_name: "piattaforma" },// MURO CON PORTA SOTTO
+    { x: 3880, y: -180, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5200, y: 145, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 5200, y: -180, w: 100, h: 900, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, // Piattaforma larga attaccata al muro
@@ -88,7 +88,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 6580, y: 728, w: 87, h: 130, sprite_name: "vaso" },
     { x: 7000, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: 175, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7645, y: -180, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
 
 
@@ -185,8 +185,8 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 1 ===
-  const door = PP.shapes.rectangle_add(scene, 3855, 798, 100, 120, "0x654321", 1);
-  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 798, 120, 120, "0x000000", 0.2);
+  const door = PP.shapes.rectangle_add(scene, 3855, 788, 100, 140, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
@@ -256,8 +256,8 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 2 ===
-  const door2 = PP.shapes.rectangle_add(scene, 5175, 798, 100, 120, "0x654321", 1);
-  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 798, 120, 120, "0x000000", 0.2);
+  const door2 = PP.shapes.rectangle_add(scene, 5175, 788, 100, 140, "0x654321", 1);
+  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door2, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
 
@@ -265,7 +265,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame2, () => {
     if (PP.game_state.houseKey2Collected == false) {
-      let avvisoPorta2 = PP.shapes.text_add(scene, 7180, 300, "La porta è chiusa a chiave...");
+      let avvisoPorta2 = PP.shapes.text_add(scene, 5080, 300, "La porta è chiusa a chiave...");
 
       PP.timers.add_timer(scene, 300, (s) => {
         PP.assets.destroy(avvisoPorta2);
@@ -273,14 +273,15 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
       return;
     }
-    let avvisoPorta2 = PP.shapes.text_add(scene, 7180, 300, "Vuoi usare la chiave per aprire la porta?");
+    console.log("happenning");
+    let avvisoPorta2 = PP.shapes.text_add(scene, 5080, 300, "Vuoi usare la chiave per aprire la porta?");
 
     PP.timers.add_timer(scene, 2000, (s) => {
         PP.assets.destroy(avvisoPorta2);
       }, false);
 
-    let button_si = PP.shapes.text_add(scene, 7320, 400, "Si");
-    let button_no = PP.shapes.text_add(scene, 7400, 400, "No");
+    let button_si = PP.shapes.text_add(scene, 5020, 400, "Si");
+    let button_no = PP.shapes.text_add(scene, 5120, 400, "No");
 
     PP.timers.add_timer(scene, 2000, (s) => {
         PP.assets.destroy(button_no);
@@ -326,8 +327,8 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 3 ===
-  const door3 = PP.shapes.rectangle_add(scene, 7620, 798, 100, 120, "0x654321", 1);
-  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 798, 120, 120, "0x000000", 0.2);
+  const door3 = PP.shapes.rectangle_add(scene, 7620, 788, 100, 140, "0x654321", 1);
+  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door3, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame3, PP.physics.type.STATIC);
 

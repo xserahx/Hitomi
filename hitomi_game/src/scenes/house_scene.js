@@ -49,7 +49,7 @@ function create_house(scene, data) {
     { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
     { x: 400, y: 575, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
     { x: 60, y: 738, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
-    { x: 1270, y: 145, w: 100, h: 580, sprite_name: "piattaforma" }, // Muro prima che abbia inizio il livello della casa
+    { x: 1270, y: -180, w: 100, h: 900, sprite_name: "palo" }, // Muro prima che abbia inizio il livello della casa
 
     //=======CASA======
 
@@ -64,14 +64,14 @@ function create_house(scene, data) {
     { x: 2905, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
-    { x: 3880, y: 145, w: 100, h: 580, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
+    { x: 3880, y: -180, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
 
     { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5200, y: 145, w: 100, h: 580, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 5200, y: -180, w: 100, h: 900, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5860, y: 738, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
@@ -93,7 +93,7 @@ function create_house(scene, data) {
     { x: 6380, y: 728, w: 87, h: 130, sprite_name: "vaso" },
     { x: 6800, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: 145, w: 100, h: 580, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7645, y: -180, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
 
   ];
 
@@ -205,8 +205,8 @@ function create_house(scene, data) {
   });
 
   // === PORTA 1 ===
-  const door = PP.shapes.rectangle_add(scene, 3855, 798, 100, 120, "0x654321", 1);
-  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 798, 120, 120, "0x000000", 0.2);
+  const door = PP.shapes.rectangle_add(scene, 3855, 788, 100, 140, "0x654321", 1);
+  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
@@ -276,8 +276,8 @@ function create_house(scene, data) {
   });
 
   // === PORTA 2 ===
-  const door2 = PP.shapes.rectangle_add(scene, 5175, 798, 100, 120, "0x654321", 1);
-  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 798, 120, 120, "0x000000", 0.2);
+  const door2 = PP.shapes.rectangle_add(scene, 5175, 788, 100, 140, "0x654321", 1);
+  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door2, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
 
@@ -346,8 +346,8 @@ function create_house(scene, data) {
   });
 
   // === PORTA 3 ===
-  const door3 = PP.shapes.rectangle_add(scene, 7620, 798, 100, 120, "0x654321", 1);
-  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 798, 120, 120, "0x000000", 0.2);
+  const door3 = PP.shapes.rectangle_add(scene, 7620, 788, 100, 140, "0x654321", 1);
+  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door3, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame3, PP.physics.type.STATIC);
 
