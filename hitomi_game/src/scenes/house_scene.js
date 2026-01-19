@@ -204,6 +204,7 @@ function create_house(scene, data) {
   // === PORTA 1 ===
   const door = PP.shapes.rectangle_add(scene, 3855, 796, 100, 140, "0x654321", 1);
   const doorFrame = PP.shapes.rectangle_add(scene, 3855, 788, 120, 140, "0x000000", 0.2);
+  let nope=false;
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
 
@@ -220,6 +221,14 @@ function create_house(scene, data) {
 
       return;
     }
+
+    if(nope==true){
+      PP.timers.add_timer(scene, 10000, (s) => {
+        nope=false;
+      }, false);
+      return;
+    }
+    
     let avvisoPorta = PP.shapes.text_add(scene, 3755, 300, "Vuoi usare la chiave per aprire la porta?");
 
     PP.timers.add_timer(scene, 2000, (s) => {
@@ -245,6 +254,7 @@ function create_house(scene, data) {
       PP.assets.destroy(button_no);
       PP.assets.destroy(button_si);
       PP.assets.destroy(avvisoPorta);
+      nope=true;
     });
   });
 
