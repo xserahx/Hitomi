@@ -82,7 +82,7 @@ function create_ghostly_forest(scene, data) {
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
    // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 100;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 40;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY)
@@ -224,5 +224,3 @@ function showControlsPopup(scene) {
       PP.assets.destroy(closeBtn);
     });
 }
-
-

@@ -12,6 +12,31 @@ let bg_main;
 let bg_trees;
 let bg_front;
 
+function createForest(scene, treeSprite, treePositionArray) {
+  for (let position of treePositionArray) {
+    PP.assets.image.add(scene,treeSprite,position.x,position.y,position.pivot_x,position.pivot_y);
+  }
+}
+
+const forestTrees = [
+
+  { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+ 
+ 
+  { x: 700, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 900, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1100, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1300, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+
+  { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+];
+
 function preload_forest(scene) {
   forest_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,920);
   mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna1.png",1280,720);
@@ -34,12 +59,10 @@ function create_forest(scene) {
   PP.game_state.currentScene = "forest_scene";
   PP.game_state.otherWorld = "ghostly_forest_scene";
 
-  scene.cameras.main.setBackgroundColor(0x0b3d0b);
-
   // === PARALLASSE ===
 
   // sfondo lontano
-  bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 200, 6400, 920, 0, 0);
+  bg_far = PP.assets.tilesprite.add(scene, forest_bg, -20, -30, 6400, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.15;
 
   // montagne lontane
@@ -50,20 +73,13 @@ function create_forest(scene) {
   bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6400, 920, 0, 0);
   bg_main.tile_geometry.scroll_factor_x = 0.45;
 
-  // alberelli
-  bg_trees = PP.assets.image.add(scene, small_tree, 200, 650, 0.5, 0.5);
-  bg_trees = PP.assets.image.add(scene, small_tree, 100, 750, 0.5, 0.5);
-  bg_trees = PP.assets.image.add(scene, small_tree, 300, 550, 0.5, 0.5);
-
-  bg_trees = PP.assets.image.add(scene, small_tree, 1600, 650, 0.5, 0.5);
-  bg_trees = PP.assets.image.add(scene, small_tree, 2000, 750, 0.5, 0.5);
-  bg_trees = PP.assets.image.add(scene, small_tree, 1800, 550, 0.5, 0.5);
+  createForest(scene, small_tree, forestTrees);
 
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
   
   let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
-  
+
   // === PULSANTE HELP ===
   const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
   helpButton.tile_geometry.scroll_factor_x = 0;
@@ -95,7 +111,7 @@ function create_forest(scene) {
     { x: 1060, y: 680, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // === MASSO (?) DA SCAVALCARE ===
-    { x: 1400, y: 690, w: 150, h: 350, sprite_name: "piattaforma" },
+    { x: 1400, y: 690, w: 150, h: 35, sprite_name: "piattaforma" },
     { x: 1532, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
@@ -128,7 +144,7 @@ function create_forest(scene) {
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 25;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 40;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;
 
 
