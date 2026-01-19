@@ -28,11 +28,11 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 7780, 460, 40, 720, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 7640, 380, 40, 720, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === GROUND ===
-  const ground = PP.shapes.rectangle_add(scene, 3830, 870, 7700, 25, "0x000000", 0);
+  const ground = PP.shapes.rectangle_add(scene, 3830, 870, 7700, 10, "0x000000", 0);
   PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
   // === PIATTAFORME ===
@@ -41,14 +41,14 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     //======TUTORIAL======
     //{ x: 380, y: 480, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra, DA MODIFICARE PER FAR PASSARE IL PLAYER
     { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 1030, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
     { x: 400, y: 575, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-    { x: 60, y: 738, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
-    { x: 1270, y: -180, w: 100, h: 900, sprite_name: "palo" }, // Muro prima che abbia inizio il livello della casa
+    { x: 60, y: 746, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
+    { x: 1270, y: -171, w: 100, h: 900, sprite_name: "palo" }, // Muro prima che abbia inizio il livello della casa
 
     //=======CASA======
 
-    { x: 1470, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
+    { x: 1470, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
     { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2270, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
@@ -60,13 +60,13 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 3105, y: 560, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
-    { x: 3880, y: -180, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
+    { x: 3880, y: -171, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5200, y: -180, w: 100, h: 900, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 5200, y: -171, w: 100, h: 900, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, // Piattaforma larga attaccata al muro
@@ -85,10 +85,10 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 7400, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTADFORME GRANDI PER FERMARE I NEMICI ===
-    { x: 6580, y: 728, w: 87, h: 130, sprite_name: "vaso" },
-    { x: 7000, y: 728, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 6580, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 7000, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: -180, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7645, y: -171, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
 
 
@@ -185,7 +185,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 1 ===
-  const door = PP.shapes.rectangle_add(scene, 3855, 788, 100, 140, "0x654321", 1);
+  const door = PP.shapes.rectangle_add(scene, 3855, 796, 100, 140, "0x654321", 1);
   const doorFrame = PP.shapes.rectangle_add(scene, 3855, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
@@ -256,7 +256,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 2 ===
-  const door2 = PP.shapes.rectangle_add(scene, 5175, 788, 100, 140, "0x654321", 1);
+  const door2 = PP.shapes.rectangle_add(scene, 5175, 796, 100, 140, "0x654321", 1);
   const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door2, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
@@ -327,7 +327,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === PORTA 3 ===
-  const door3 = PP.shapes.rectangle_add(scene, 7620, 788, 100, 140, "0x654321", 1);
+  const door3 = PP.shapes.rectangle_add(scene, 7620, 796, 100, 140, "0x654321", 1);
   const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 788, 120, 140, "0x000000", 0.2);
   PP.physics.add(scene, door3, PP.physics.type.STATIC);
   PP.physics.add(scene, doorFrame3, PP.physics.type.STATIC);
@@ -380,7 +380,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   // === CAMERA ===
   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
-  const worldHeight = ground.geometry.body_y + 20;
+  const worldHeight = ground.geometry.body_y + 15;
   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
@@ -408,16 +408,17 @@ function update_ghostly_house(scene) {
   }
     // === CAMBIO MONDO ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
-        PP.entities.player.changeWorld(scene);
+      PP.entities.player.changeWorld(scene);
     }
 
-    // === FINE LIVELLO ===
-  if(PP.game_state.player.geometry.x >= 7675){
+// === FINE LIVELLO ===
+  if(PP.game_state.player.geometry.x >= 7635){
     
     PP.game_state.playerPosition.x = 30;
     PP.game_state.playerPosition.y = 800;
-    PP.scenes.start("forest_scene");
+    PP.scenes.start("ghostly_forest_scene");
     }
+
 }
 
 // === DESTROY ===
