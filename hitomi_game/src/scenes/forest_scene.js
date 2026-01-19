@@ -119,6 +119,14 @@ function create_forest(scene) {
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+  // === PIATTAFORME NEL MONDO SPETTRALE ===
+  const ghostlyPlatformPositions = [
+    { x: 820, y: 785, w: 200, h: 20, sprite_name: "nuvoletta_1" },  
+    { x: 2240, y: 625, w: 100, h: 20, sprite_name: "nuvoletta_1" }
+  ];
+
+  PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
+
   // === PLAYER ===
   let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 25;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 800;

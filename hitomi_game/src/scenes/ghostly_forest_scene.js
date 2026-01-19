@@ -72,6 +72,14 @@ function create_ghostly_forest(scene, data) {
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
+  
+  // === PIATTAFORME NEL MONDO REALE ===
+  const ghostlyPlatformPositions = [
+    {  x: 1970, y: 715, w: 100, h: 20, sprite_name: "nuvoletta_1" },  
+    { x: 2510, y: 550, w: 100, h: 20, sprite_name: "nuvoletta_1" }
+  ];
+
+  PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
    // === PLAYER ===
   let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 100;
