@@ -2,7 +2,7 @@
 let ghostly_tutorial_bg;
 
 function preload_ghostly_tutorial_scene(scene) {
-  ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background.png", 1280, 920);
+  ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png", 1280, 920);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
