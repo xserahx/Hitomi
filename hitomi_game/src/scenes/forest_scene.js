@@ -2,7 +2,6 @@
 let forest_bg;
 let mountains_bg;
 let mountains_2_bg;
-//let clouds_bg;
 let small_tree;
 let bamboo_bg;
 let bush;
@@ -10,12 +9,11 @@ let bush;
 let bg_far;
 let bg_mid;
 let bg_main;
-//let bg_clouds;
 let bg_trees;
 let bg_front;
 
 function preload_forest(scene) {
-  forest_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,720);
+  forest_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,920);
   mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna1.png",1280,720);
   mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna2.png",1280,720);
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
@@ -41,21 +39,18 @@ function create_forest(scene) {
   // === PARALLASSE ===
 
   // sfondo lontano
-  bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 200, 6400, 720, 0, 0);
+  bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 200, 6400, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.15;
 
   // montagne lontane
-  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6400, 720, 0, 0);
+  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6400, 920, 0, 0);
   bg_mid.tile_geometry.scroll_factor_x = 0.3;
 
   // montagne vicine
-  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6400, 720, 0, 0);
+  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6400, 920, 0, 0);
   bg_main.tile_geometry.scroll_factor_x = 0.45;
 
-  // nuvole 
-  //bg_clouds = PP.assets.tilesprite.add(scene, clouds_bg, 0, 350, 6400, 250, 0, 0);
-  //bg_clouds.tile_geometry.scroll_factor_x = 1; 
-
+  // alberelli
   bg_trees = PP.assets.image.add(scene, small_tree, 200, 650, 0.5, 0.5);
   bg_trees = PP.assets.image.add(scene, small_tree, 100, 750, 0.5, 0.5);
   bg_trees = PP.assets.image.add(scene, small_tree, 300, 550, 0.5, 0.5);
@@ -83,7 +78,7 @@ function create_forest(scene) {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 6400, 460, 40, 720, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 6400, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
 
@@ -226,18 +221,22 @@ function update_forest(scene) {
         };
     }
 
-  const groundTopY = 900 - (40 / 2);
+const snowTopY = 900 - (40 / 2);
+const snowTopX = 7680;
 
 // muovi i fiocchi verso il basso
 for (let flake of scene.snowflakes) {
-    flake.y += 2; // velocità caduta
 
-    // fermali prima di toccare il terreno
-    if (flake.y >= groundTopY - 5) { // -5 = margine
-        flake.destroy(); // oppure flake.y = groundTopY - 5;
-    }
+  // caduta fiocchi verso y
+  flake.y += flake.speedY ?? 2;
+
+  // quando arriva al terreno → respawn in alto
+  if (flake.y >= snowTopY - 5) {
+
+    flake.y = -10;                          
+    flake.x = Math.random() * snowTopX; 
+  }
 }
-
   if (PP.game_state.player.geometry.x > 6325) {
     PP.scenes.start("bossfight_scene");
   }
@@ -253,7 +252,7 @@ function showControlsPopup(scene) {
     PP.layers.set_z_index(popupLayer, 20);
 
     // sfondo scuro
-    const bg = PP.shapes.rectangle_add(scene,640, 360,700, 420,"0x000000",0.8);
+    const bg = PP.shapes.rectangle_add(scene, 640, 360, 700, 420,"0x000000",0.8);
 
     // testo controlli
     const text = PP.shapes.text_add(scene, 340, 300,
