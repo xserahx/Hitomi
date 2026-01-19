@@ -170,10 +170,17 @@ function create_forest(scene) {
       PP.physics.add_collider(scene, enemy, plat);
     }
 
+ // Overlap player-nemico
     PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-      PP.entities.player.damage(scene, PP.game_state.player, enemy);
-    });
-  }
+      if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
+
+       // HUD DANNO
+       let currentIndex = PP.game_state.player.lives - 1;
+       PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+       }
+         PP.entities.player.damage(scene, PP.game_state.player, enemy);
+       });
+      }
 
   // === CAMERA ===
   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;

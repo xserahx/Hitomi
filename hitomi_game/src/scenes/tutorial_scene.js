@@ -116,7 +116,7 @@ function create_tutorial_scene(scene) {
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            if (!(PP.game_state.player.lives <= 0)) {
+            if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
                 // HUD DANNO
                 let currentIndex = PP.game_state.player.lives - 1;
