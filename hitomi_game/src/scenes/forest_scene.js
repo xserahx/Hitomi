@@ -233,6 +233,8 @@ function create_forest(scene) {
       scene.snowflakes.push(flake);
     }
   });
+
+  PP.game_state.changingWorld = false;
 }
 
 function update_forest(scene) {

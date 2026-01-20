@@ -27,7 +27,7 @@ function create_game_over(scene, data) {
   restartButton.setInteractive({ useHandCursor: true });
   restartButton.on("pointerdown", () => {
     PP.game_state.bossIsDead = false;
-    PP.game_state.bossReset = true;
+    PP.game_state.reset = true;
     PP.scenes.start(PP.game_state.currentScene);
     });
 

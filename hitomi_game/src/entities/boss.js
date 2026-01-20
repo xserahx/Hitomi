@@ -30,9 +30,9 @@ PP.entities.boss.update = function (scene, boss, player) {
     boss.inCutscene = true;
   } else { boss.inCutscene = false; }
 
-  if(PP.game_state.bossReset == true) {
+  if(PP.game_state.reset == true) {
     boss.lives = boss.maxLives;
-    PP.game_state.bossReset = false;
+    PP.game_state.reset = false;
   }
 
   const dx = player.geometry.x - boss.geometry.x;
