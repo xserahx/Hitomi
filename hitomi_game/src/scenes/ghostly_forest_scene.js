@@ -61,7 +61,7 @@ function create_ghostly_forest(scene, data) {
     { x: 2850, y: 20 + 175, w: 300, h: 20, sprite_name: "piattaforma" },
 
     // SECONDA RAMPA DI SCALE 
-    { x: 3250, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 125, w: 100, h: 20, sprite_name: "piattaforma" },
   //  { x: 2675, y: 1070, w: 150, h: 20 },
     { x: 3990, y: -125, w: 150, h: 20, sprite_name: "piattaforma" },  // apice
 
@@ -160,7 +160,7 @@ function create_ghostly_forest(scene, data) {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
     });
 
-    PP.game_state.changingWorld = false;
+  PP.game_state.changingWorld = false;
 }
 function update_ghostly_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player);

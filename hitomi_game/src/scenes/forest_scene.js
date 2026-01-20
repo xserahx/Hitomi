@@ -124,7 +124,7 @@ function create_forest(scene) {
     { x: 2880, y: 725, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 3050, y: 615, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 3050, y: 335, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3250, y: 25, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 125, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 3475, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // PIATTAFORME FINALI
