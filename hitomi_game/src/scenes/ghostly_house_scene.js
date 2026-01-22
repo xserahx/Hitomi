@@ -39,12 +39,14 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   const platformPositions = [
 
     //======TUTORIAL======
-    //{ x: 380, y: 480, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra, DA MODIFICARE PER FAR PASSARE IL PLAYER
-    { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-    { x: 400, y: 575, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-    { x: 60, y: 746, w: 100, h: 120, sprite_name: "culla" },   // culla del bimbo
-    { x: 1270, y: -171, w: 100, h: 900, sprite_name: "palo" }, // Muro prima che abbia inizio il livello della casa
+   { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+        { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
+        { x: 232, y: 640, w: 150, h: 20, sprite_name: "basetta"}, // base sopra culla
+        // /DA FLIPPARE
+        { x: 150, y: 797, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
+        { x: 378, y: 465, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
 
     //=======CASA======
 
@@ -66,27 +68,27 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 5200, y: -171, w: 100, h: 900, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
-    { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, // Piattaforma larga attaccata al muro
-    { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, // Parete verticale del coso
+
+    { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
+    { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
+    { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
     { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
-
-    { x: 6058, y: 135, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
-    { x: 6166, y: 175, w: 42, h: 100, sprite_name: "piattaforma" }, // Piattaforma verticale a angolo retto dopo l'accrocchio
-
-    { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio
     { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
 
-    //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
-    { x: 6500, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
-    { x: 7100, y: 220, w: 250, h: 100, sprite_name: "piattaforma" },
-    { x: 7400, y: 340, w: 150, h: 100, sprite_name: "piattaforma" },
+    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
+    { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
 
-    // === VASI SOTTO ALLE PIATTADFORME GRANDI PER FERMARE I NEMICI ===
-    { x: 6580, y: 737, w: 87, h: 130, sprite_name: "vaso" },
-    { x: 7000, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
+    { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
+    { x: 7100, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
+
+    // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===
+    { x: 6380, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 7120, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     { x: 7645, y: -171, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
@@ -242,7 +244,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
 
   // === CHIAVE 2 ===
-  const key2 = PP.shapes.rectangle_add(scene, 4830, 350, 50, 50, "0x123456", 0);
+  const key2 = PP.shapes.rectangle_add(scene, 4180, 350, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key2, PP.physics.type.STATIC);
 
    if (PP.game_state.houseKey2Collected == true) {
@@ -256,7 +258,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       return;
     }
     PP.game_state.houseKey2Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 5000, 250, "Un'altra chiave? devo trovare la posta a cui appartiene");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 4180, 250, "Un'altra chiave? devo trovare la posta a cui appartiene");
     console.log("Key collected!");
     PP.assets.destroy(key2);
 
@@ -313,7 +315,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   });
 
   // === CHIAVE 3 ===
-  const key3 = PP.shapes.rectangle_add(scene, 5400, 300, 50, 50, "0x123456", 0);
+  const key3 = PP.shapes.rectangle_add(scene, 5880, 710, 50, 50, "0x123456", 0);
   PP.physics.add(scene, key3, PP.physics.type.STATIC);
 
   if (PP.game_state.houseKey3Collected == true) {
@@ -327,7 +329,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
       return;
     }
     PP.game_state.houseKey3Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 6000, 300, "Un'altra chiave? devo trovare la porta a cui appartiene");
+    PP.game_state.statusKey = PP.shapes.text_add(scene, 5880, 300, "Un'altra chiave? devo trovare la porta a cui appartiene");
     console.log("Key collected!");
     PP.assets.destroy(key3);
 
