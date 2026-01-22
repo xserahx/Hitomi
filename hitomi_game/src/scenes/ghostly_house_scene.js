@@ -1,11 +1,12 @@
 // === ghostly_house SCENE ===
 let ghostly_house_bg;
+let textOn=false;
 
 function preload_ghostly_house(scene) {
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
-
+  PP.scene_objects.key.preload(scene);
   ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png",7680, 920);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 
@@ -38,7 +39,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   // === PIATTAFORME ===
   const platformPositions = [
 
-    //======TUTORIAL======
+        //======TUTORIAL======
    { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
@@ -92,6 +93,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
     { x: 7645, y: -171, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
+
 
 
 
@@ -160,230 +162,42 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
          PP.entities.player.damage(scene, PP.game_state.player, enemy);
        });
       }
-      // === CHIAVE 1 ===
-  const key = PP.shapes.rectangle_add(scene, 3530, 400, 50, 50, "0x123456", 0);
-  PP.physics.add(scene, key, PP.physics.type.STATIC);
+      
+  // ==== ESPERIMENTO CHIAVI ====
+  const keys=
+  [
+    { x: 3530, y: 400,  collected: false, id: 1,sprite_name: "chiave" },
+    { x: 4180, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
+    { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
+  ];
 
-   if (PP.game_state.houseKey1Collected == true) {
-      PP.assets.destroy(key);
+  PP.game_state.keys = PP.scene_objects.key.create(scene, keys);
+
+  const doors=
+  [
+    { x: 3805, y: 726, sprite_name: "door", collected: false, id: 1 },
+    { x: 5125, y: 726, sprite_name: "door", collected: false, id: 2 },
+    { x: 7570, y: 726, sprite_name: "door", collected: false, id: 3 }
+  ];
+
+  PP.game_state.doors = PP.scene_objects.key.create(scene, doors);
+
+  for(let i=0; i<3; i++){
+    if(PP.game_state.doorsOpened[i]==true){
+      PP.assets.destroy(PP.game_state.doors[i]);
     }
-
-  // === RACCOLTA CHIAVE 1 ===
-  PP.physics.add_overlap_f(scene, PP.game_state.player, key, () => {
-    console.log("Stai toccando la porta, hai la chiave? " + PP.game_state.houseKey1Collected);
-    
-    if (PP.game_state.houseKey1Collected == true) {
-      console.log("Chiave già raccolta!");
-      return;
+    if(PP.game_state.houseKeyCollected[i]==true){
+      PP.assets.destroy(PP.game_state.keys[i]);
     }
-    PP.game_state.houseKey1Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 2300, 250, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
-    console.log("Key collected!");
-    PP.assets.destroy(key);
-
-    PP.timers.add_timer(scene, 1000, (s) => {
-      PP.assets.destroy(PP.game_state.statusKey);
-    }, false);
-  });
-
-  // === PORTA 1 ===
-  const door = PP.shapes.rectangle_add(scene, 3855, 796, 100, 140, "0x654321", 1);
-  const doorFrame = PP.shapes.rectangle_add(scene, 3855, 788, 120, 140, "0x000000", 0.2);
-  let nope=false;
-  PP.physics.add(scene, door, PP.physics.type.STATIC);
-  PP.physics.add(scene, doorFrame, PP.physics.type.STATIC);
-
-  PP.physics.add_collider(scene, PP.game_state.player, door);
-
-  PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame, () => {
-    if (PP.game_state.houseKey1Collected == false) {
-      let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "La porta è chiusa a chiave...");
-
-      PP.timers.add_timer(scene, 300, (s) => {
-        PP.assets.destroy(avvisoPorta);
-      }, false);
-
-      return;
-    }
-
-    if(nope==true){
-      PP.timers.add_timer(scene, 10000, (s) => {
-        nope=false;
-      }, false);
-      return;
-    }
-
-    let avvisoPorta = PP.shapes.text_add(scene, 3800, 300, "Vuoi usare la chiave per aprire la porta?");
-
-    PP.timers.add_timer(scene, 2000, (s) => {
-        PP.assets.destroy(avvisoPorta);
-      }, false);
-
-    let button_si = PP.shapes.text_add(scene, 3740, 400, "Si");
-    let button_no = PP.shapes.text_add(scene, 3830, 400, "No");
-
-    PP.timers.add_timer(scene, 2000, (s) => {
-        PP.assets.destroy(button_no);
-        PP.assets.destroy(button_si);
-    }, false);
-
-    PP.interactive.mouse.add(button_si, "pointerdown", () => {
-      PP.assets.destroy(door);
-      PP.assets.destroy(doorFrame);
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-      PP.assets.destroy(avvisoPorta);
-    });
-    PP.interactive.mouse.add(button_no, "pointerdown", () => {
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-      PP.assets.destroy(avvisoPorta);
-      nope=true;
-    });
-  });
-
-
-  // === CHIAVE 2 ===
-  const key2 = PP.shapes.rectangle_add(scene, 4180, 350, 50, 50, "0x123456", 0);
-  PP.physics.add(scene, key2, PP.physics.type.STATIC);
-
-   if (PP.game_state.houseKey2Collected == true) {
-      PP.assets.destroy(key2);
-    }
-
-  // === RACCOLTA CHIAVE 2===
-  PP.physics.add_overlap_f(scene, PP.game_state.player, key2, () => {
-    if (PP.game_state.houseKey2Collected == true) {
-      console.log("Chiave già raccolta!");
-      return;
-    }
-    PP.game_state.houseKey2Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 4180, 250, "Un'altra chiave? devo trovare la posta a cui appartiene");
-    console.log("Key collected!");
-    PP.assets.destroy(key2);
-
-    PP.timers.add_timer(scene, 1000, (s) => {
-      PP.assets.destroy(PP.game_state.statusKey);
-    }, false);
-  });
-
-  // === PORTA 2 ===
-  const door2 = PP.shapes.rectangle_add(scene, 5175, 796, 100, 140, "0x654321", 1);
-  const doorFrame2 = PP.shapes.rectangle_add(scene, 5175, 788, 120, 140, "0x000000", 0.2);
-  PP.physics.add(scene, door2, PP.physics.type.STATIC);
-  PP.physics.add(scene, doorFrame2, PP.physics.type.STATIC);
-
-  PP.physics.add_collider(scene, PP.game_state.player, door2);
-
-  PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame2, () => {
-    if (PP.game_state.houseKey2Collected == false) {
-      let avvisoPorta2 = PP.shapes.text_add(scene, 5080, 300, "La porta è chiusa a chiave...");
-
-      PP.timers.add_timer(scene, 300, (s) => {
-        PP.assets.destroy(avvisoPorta2);
-      }, false);
-
-      return;
-    }
-    console.log("happenning");
-    let avvisoPorta2 = PP.shapes.text_add(scene, 5080, 300, "Vuoi usare la chiave per aprire la porta?");
-
-    PP.timers.add_timer(scene, 2000, (s) => {
-        PP.assets.destroy(avvisoPorta2);
-      }, false);
-
-    let button_si = PP.shapes.text_add(scene, 5020, 400, "Si");
-    let button_no = PP.shapes.text_add(scene, 5120, 400, "No");
-
-    PP.timers.add_timer(scene, 2000, (s) => {
-        PP.assets.destroy(button_no);
-        PP.assets.destroy(button_si);
-    }, false);
-
-    PP.interactive.mouse.add(button_si, "pointerdown", () => {
-      PP.assets.destroy(door2);
-      PP.assets.destroy(doorFrame2);
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-      PP.assets.destroy(avvisoPorta2);
-    });
-    PP.interactive.mouse.add(button_no, "pointerdown", () => {
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-      PP.assets.destroy(avvisoPorta2);
-    });
-  });
-
-  // === CHIAVE 3 ===
-  const key3 = PP.shapes.rectangle_add(scene, 5880, 710, 50, 50, "0x123456", 0);
-  PP.physics.add(scene, key3, PP.physics.type.STATIC);
-
-  if (PP.game_state.houseKey3Collected == true) {
-    PP.assets.destroy(key3);
   }
 
-  // === RACCOLTA CHIAVE 3===
-  PP.physics.add_overlap_f(scene, PP.game_state.player, key3, () => {
-    if (PP.game_state.houseKey3Collected == true) {
-      console.log("Chiave già raccolta!");
-      return;
-    }
-    PP.game_state.houseKey3Collected = true;
-    PP.game_state.statusKey = PP.shapes.text_add(scene, 5880, 300, "Un'altra chiave? devo trovare la porta a cui appartiene");
-    console.log("Key collected!");
-    PP.assets.destroy(key3);
+  for(let key of PP.game_state.keys){
+    PP.physics.add_overlap_f(scene, PP.game_state.player, key, collectKey);
+  }
 
-    PP.timers.add_timer(scene, 1000, (s) => {
-      PP.assets.destroy(PP.game_state.statusKey);
-    }, false);
-  });
-
-  // === PORTA 3 ===
-  const door3 = PP.shapes.rectangle_add(scene, 7620, 796, 100, 140, "0x654321", 1);
-  const doorFrame3 = PP.shapes.rectangle_add(scene, 7620, 788, 120, 140, "0x000000", 0.2);
-  PP.physics.add(scene, door3, PP.physics.type.STATIC);
-  PP.physics.add(scene, doorFrame3, PP.physics.type.STATIC);
-
-  PP.physics.add_collider(scene, PP.game_state.player, door3);
-
-  PP.physics.add_overlap_f(scene, PP.game_state.player, doorFrame3, () => {
-    if (PP.game_state.houseKey3Collected == false) {
-      let avvisoPorta3 = PP.shapes.text_add(scene, 7400, 300, "La porta è chiusa a chiave...");
-
-      PP.timers.add_timer(scene, 300, (s) => {
-        PP.assets.destroy(avvisoPorta3);
-      }, false);
-
-      return;
-    }
-    let avvisoPorta3 = PP.shapes.text_add(scene, 7300, 300, "Vuoi usare la chiave per aprire la porta?");
-
-    PP.timers.add_timer(scene, 2000, (s) => {
-      PP.assets.destroy(avvisoPorta3);
-    }, false);
-
-    let button_si = PP.shapes.text_add(scene, 7200, 400, "Si");
-    let button_no = PP.shapes.text_add(scene, 7400, 400, "No");
-
-    PP.timers.add_timer(scene, 2000, (s) => {
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-    }, false);
-
-    PP.interactive.mouse.add(button_si, "pointerdown", () => {
-      PP.assets.destroy(door3);
-      PP.assets.destroy(doorFrame3);
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-      PP.assets.destroy(avvisoPorta3);
-    });
-    PP.interactive.mouse.add(button_no, "pointerdown", () => {
-      PP.assets.destroy(button_no);
-      PP.assets.destroy(button_si);
-      PP.assets.destroy(avvisoPorta3);
-    });
-  });
-
+  for(let door of PP.game_state.doors){
+    PP.physics.add_collider_f(scene, PP.game_state.player, door, doorDialogue);
+  }
 
   // === CLICK DEL MOUSE PER ATTACCARE ===
   scene.input.on("pointerdown", () => {
@@ -471,3 +285,66 @@ function showControlsPopup(scene) {
       PP.assets.destroy(closeBtn);
     });
 }
+
+// === RACCOLTA CHIAVE ===
+function collectKey(scene, player, key) {
+    if (key.collected == true) {
+      console.log("Chiave già raccolta!");
+      return;
+    }
+    PP.game_state.houseKeyCollected[key.id-1] = true;
+    PP.game_state.statusKey = PP.shapes.text_add(scene, player.geometry.x - 150, 250, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+    PP.assets.destroy(key);
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+      PP.assets.destroy(PP.game_state.statusKey);
+    }, false);
+    console.log("E ora? " + PP.game_state.houseKeyCollected[key.id-1]);
+  }
+
+// === FUNZIONE APERTURE PORTA ===
+function doorDialogue(scene, player, door) {
+    if (PP.game_state.houseKeyCollected[door.id-1] == false) {
+      let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 150, 300, "La porta è chiusa a chiave...");
+
+      PP.timers.add_timer(scene, 300, (s) => {
+        PP.assets.destroy(avvisoPorta);
+      }, false);
+
+      return;
+    }
+
+    if(textOn==true){
+      return;
+    }
+    
+    let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 150, 300, "Vuoi usare la chiave per aprire la porta?");
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+      PP.assets.destroy(avvisoPorta);
+    }, false);
+
+    let button_si = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 250, 400, "Si");
+    let button_no = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 50, 400, "No");
+    textOn=true;
+
+    PP.timers.add_timer(scene, 2000, (s) => {
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      textOn=false;
+    }, false);
+
+    PP.interactive.mouse.add(button_si, "pointerdown", () => {
+      PP.assets.destroy(door);
+      PP.game_state.doorsOpened[door.id-1] = true;
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(avvisoPorta);
+      textOn=false;
+    });
+    PP.interactive.mouse.add(button_no, "pointerdown", () => {
+      PP.assets.destroy(button_no);
+      PP.assets.destroy(button_si);
+      PP.assets.destroy(avvisoPorta);
+    });
+  }s
