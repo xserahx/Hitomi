@@ -62,7 +62,7 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player) {
-  if(PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true){
+  if(PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true || PP.game_state.pause == true){
     player.inCutscene = true;
   }else{player.inCutscene = false;}
   
@@ -136,7 +136,7 @@ PP.entities.player.update = function (scene, player) {
         player.isWalkingAnim = true;
       }
     }
-    else {
+    else{
       PP.physics.set_velocity_x(player, 0);
       if (player.isWalkingAnim) {
         PP.assets.sprite.animation_play(player, "idle");
@@ -144,6 +144,12 @@ PP.entities.player.update = function (scene, player) {
       }
     }
   }
+
+  if(PP.game_state.pause == true){ 
+    console.log("Pausing player movement and animation");
+      PP.physics.set_velocity_x(player, 0);
+      PP.assets.sprite.animation_stop(player);
+    }
 
   // === COYOTE TIME SALTO===
   if (player.ph_obj.body.blocked.down) { 
@@ -166,7 +172,7 @@ PP.entities.player.update = function (scene, player) {
   else PP.physics.set_acceleration_y(player, player.gravityDown);
 
   if (PP.interactive.kb.is_key_up(scene, PP.key_codes.SPACE) && PP.physics.get_velocity_y(player) < 0)
-    PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);
+    {PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);}
 };
 
 // === FUNZIONE DI ATTACCO ===

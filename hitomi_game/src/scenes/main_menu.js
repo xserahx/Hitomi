@@ -9,6 +9,7 @@ function create(scene) {
   const centerY = PP.game.config.canvas_height / 2;
   PP.game_state.DevMode = false;
   PP.game_state.changingWorld = false;
+  PP.game_state.pause = false;
 
   PP.assets.image.add(scene, menu_bg, centerX, centerY, 0.5, 0.5);
 

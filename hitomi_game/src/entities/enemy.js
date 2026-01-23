@@ -71,10 +71,11 @@ PP.entities.enemy.update = function (scene, enemies, player) {
     const distance = Math.abs(dx);
     let moving = false;
 
-    if (distance < enemy.detectionRange) {
+    if (distance < enemy.detectionRange && PP.game_state.pause == false) {
       const dir = dx < 0 ? -1 : 1;
-      PP.physics.set_velocity_x(enemy, dir * enemy.speed);
-      enemy.geometry.flip_x = dir > 0;
+      if (!PP.game_state.pause) {PP.physics.set_velocity_x(enemy, dir * enemy.speed);}
+      else{PP.physics.set_velocity_x(enemy, 0);}
+      if (!PP.game_state.pause){enemy.geometry.flip_x = dir > 0;}
       moving = true;
     } else {
       if (scene.time.now - enemy.lastPatrolSwitch > enemy.patrolInterval) {
@@ -82,8 +83,9 @@ PP.entities.enemy.update = function (scene, enemies, player) {
         enemy.lastPatrolSwitch = scene.time.now;
       }
 
-      PP.physics.set_velocity_x(enemy, enemy.patrolDir * enemy.speed * 0.5);
-      enemy.geometry.flip_x = enemy.patrolDir > 0;
+      if (!PP.game_state.pause){PP.physics.set_velocity_x(enemy, enemy.patrolDir * enemy.speed * 0.5);}
+      else{PP.physics.set_velocity_x(enemy, 0);}
+      if (!PP.game_state.pause){enemy.geometry.flip_x = enemy.patrolDir > 0;}
       moving = true;
     }
 
@@ -93,9 +95,12 @@ PP.entities.enemy.update = function (scene, enemies, player) {
         PP.assets.sprite.animation_play(enemy, "walk");
         enemy.currentAnim = "walk";
         }
-      } 
     }
-  };
+    if(PP.game_state.pause==true){
+        console.log("Stopping animation");
+        PP.assets.sprite.animation_stop(enemy);
+      }
+  }};
 
 // === DANNO ===
 PP.entities.enemy.damage = function (scene, enemy, hitbox) {

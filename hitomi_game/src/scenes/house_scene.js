@@ -290,14 +290,15 @@ PP.scenes.add('house_scene', preload_house, create_house, update_house, destroy_
 
 // === FUNZIONE POP UP CONTROLLI ===
 function showControlsPopup(scene) {
+  PP.game_state.pause = true;
   const popupLayer = PP.layers.create(scene);
-  PP.layers.set_z_index(popupLayer, 20);
+  PP.layers.set_z_index(popupLayer, 100);
 
   // sfondo scuro
-  const bg = PP.shapes.rectangle_add(scene, 640, 360, 700, 420, "0x000000", 0.8);
+  const bg = PP.shapes.rectangle_add(scene, 3830, 460, 7700, 920, "0x000000", 0.8);
 
   // testo controlli
-  const text = PP.shapes.text_add(scene, 340, 300,
+  const text = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 300, 600,
     "COMANDI DEL PLATFORM\n\n" +
     "A/D oppure ← / → : Muovi il personaggio\n" +
     "SPAZIO : Salta\n" +
@@ -307,7 +308,7 @@ function showControlsPopup(scene) {
   );
 
   // bottone per chiudere il pop up dei comandi
-  const closeBtn = PP.shapes.text_add(scene, 400, 440, "CHIUDI");
+  const closeBtn = PP.shapes.text_add(scene, PP.game_state.player.geometry.x -220, 740, "CHIUDI");
 
   // aggiungo tutto al layer
   PP.layers.add_to_layer(popupLayer, bg);
@@ -319,6 +320,7 @@ function showControlsPopup(scene) {
     PP.assets.destroy(bg);
     PP.assets.destroy(text);
     PP.assets.destroy(closeBtn);
+    PP.game_state.pause = false;
   });
 }
 
