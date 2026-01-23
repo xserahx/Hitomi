@@ -73,10 +73,24 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
 { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
+
+   /* RIFERIMENTO
+    { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
+    { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
+    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// standard
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// standard                RIMANE
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+    */
+
+
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
-    { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 4430, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+{ x: 3490, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
+{ x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// standard
+
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// standard                RIMANE
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
     { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
@@ -175,7 +189,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   const keys=
   [
     { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
-    { x: 4180, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
+    { x: 3240, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
     { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
   ];
 

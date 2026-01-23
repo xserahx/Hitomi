@@ -78,9 +78,13 @@ function create_house(scene, data) {
 
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
-    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
+
+    { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
+    { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
+    { x: 3730, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// NEW 
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// standard                RIMANE
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+    { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     RIMANE
     { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
@@ -113,8 +117,9 @@ function create_house(scene, data) {
     { x: 605,  y: 595, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
     { x: 2065, y: 520, w: 150, h: 42, sprite_name: "nuvoletta_1" },
     { x: 5908, y: 437, w: 150, h: 42, sprite_name: "nuvoletta_1" }, //Piattaforma per salire sull'accrocchio
-    { x: 4180, y: 740, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 4430, y: 600, w: 150, h: 42, sprite_name: "nuvoletta_1" }
+    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "nuvoletta_1" },
+    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "nuvoletta_1" },
+    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "nuvoletta_1" }
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
@@ -193,7 +198,7 @@ function create_house(scene, data) {
   const keys=
   [
     { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
-    { x: 4180, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
+    { x: 3240, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
     { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
   ];
 
