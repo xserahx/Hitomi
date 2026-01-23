@@ -205,34 +205,45 @@ PP.scenes.add("bossfight_scene", preload_bossfight_scene, create_bossfight_scene
 
 // === FUNZIONE POP UP CONTROLLI ===
 function showControlsPopup(scene) {
-    const popupLayer = PP.layers.create(scene);
-    PP.layers.set_z_index(popupLayer, 20);
+  PP.game_state.pause = true;
+  const popupLayer = PP.layers.create(scene);
+  PP.layers.set_z_index(popupLayer, 100);
 
-    // sfondo scuro
-    const bg = PP.shapes.rectangle_add(scene, 640, 360, 700, 420, "0x000000", 0.8);
+  // sfondo scuro
+  const bg = PP.shapes.rectangle_add(scene, 3830, 460, 7700, 920, "0x000000", 0.8);
 
-    // testo controlli
-    const text = PP.shapes.text_add(scene, 340, 300,
-        "COMANDI DEL PLATFORM\n\n" +
-        "A/D oppure ← / → : Muovi il personaggio\n" +
-        "SPAZIO : Salta\n" +
-        "SHIFT : Scatto \n" +
-        "CLICK SINISTRO DEL MOUSE : Attacca\n" +
-        "U : Cambia mondo\n"
-    );
+  // testo controlli
+  const text = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 300, 600,
+    "COMANDI DEL PLATFORM\n\n" +
+    "A/D oppure ← / → : Muovi il personaggio\n" +
+    "SPAZIO : Salta\n" +
+    "SHIFT : Scatto \n" +
+    "CLICK SINISTRO DEL MOUSE : Attacca\n" +
+    "U : Cambia mondo\n"
+  );
 
-    // bottone per chiudere il pop up dei comandi
-    const closeBtn = PP.shapes.text_add(scene, 400, 440, "CHIUDI");
+  // bottone per chiudere il pop up dei comandi
+  const closeBtn = PP.shapes.text_add(scene, PP.game_state.player.geometry.x -220, 740, "CHIUDI");
 
-    // aggiungo tutto al layer
-    PP.layers.add_to_layer(popupLayer, bg);
-    PP.layers.add_to_layer(popupLayer, text);
-    PP.layers.add_to_layer(popupLayer, closeBtn);
+  //modifico le posizioni per evitaare che escano dallo schermo
+  if(PP.game_state.player.geometry.x < 1280){
+    text.geometry.x = 400;
+    closeBtn.geometry.x = 520;
+  }else if(PP.game_state.player.geometry.x > 6400){
+    text.geometry.x = 6860;
+    closeBtn.geometry.x = 6980;
+  }
 
-    // click su chiudi
-    PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
-        PP.assets.destroy(bg);
-        PP.assets.destroy(text);
-        PP.assets.destroy(closeBtn);
-    });
+  // aggiungo tutto al layer
+  PP.layers.add_to_layer(popupLayer, bg);
+  PP.layers.add_to_layer(popupLayer, text);
+  PP.layers.add_to_layer(popupLayer, closeBtn);
+
+  // click su chiudi
+  PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
+    PP.assets.destroy(bg);
+    PP.assets.destroy(text);
+    PP.assets.destroy(closeBtn);
+    PP.game_state.pause = false;
+  });
 }

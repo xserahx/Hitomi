@@ -310,6 +310,15 @@ function showControlsPopup(scene) {
   // bottone per chiudere il pop up dei comandi
   const closeBtn = PP.shapes.text_add(scene, PP.game_state.player.geometry.x -220, 740, "CHIUDI");
 
+  //modifico le posizioni per evitaare che escano dallo schermo
+  if(PP.game_state.player.geometry.x < 1280){
+    text.geometry.x = 400;
+    closeBtn.geometry.x = 520;
+  }else if(PP.game_state.player.geometry.x > 6400){
+    text.geometry.x = 6860;
+    closeBtn.geometry.x = 6980;
+  }
+
   // aggiungo tutto al layer
   PP.layers.add_to_layer(popupLayer, bg);
   PP.layers.add_to_layer(popupLayer, text);
