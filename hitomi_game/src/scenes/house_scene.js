@@ -63,17 +63,19 @@ function create_house(scene, data) {
         { x: 378, y: 465, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
 
     //=======CASA======
-    { x: 1470, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
-    { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+//    { x: 1470, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
+//   { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
+
+{ x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
+{ x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
+//{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // SOLO NEL MONDO SPETTRALE
+{ x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
+
+    { x: 2270, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
 
-    //=======PIATTAFORME PER LA PRIMA CHIAVE=========
-    { x: 2630, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2905, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
+{ x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
-    { x: 3880, y: -171, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 4180, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -109,7 +111,7 @@ function create_house(scene, data) {
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
     { x: 605,  y: 595, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
-    { x: 3105, y: 560, w: 150, h: 42, sprite_name: "nuvoletta_1" },
+    { x: 2065, y: 520, w: 150, h: 42, sprite_name: "nuvoletta_1" },
     { x: 5908, y: 437, w: 150, h: 42, sprite_name: "nuvoletta_1" }, //Piattaforma per salire sull'accrocchio
     { x: 4180, y: 740, w: 150, h: 42, sprite_name: "nuvoletta_1" },
     { x: 4430, y: 600, w: 150, h: 42, sprite_name: "nuvoletta_1" }
@@ -154,7 +156,7 @@ function create_house(scene, data) {
   // === NEMICI ===
   const enemyPositions = [
     { x: 1730, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 3080, y: 405, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
+    { x: 2040, y: 405, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
     { x: 4380, y: 50, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 4380, y: 700, w: 75, h: 75, speed: 70, sprite_name: "slug" },
     { x: 5500, y: 375, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
@@ -190,7 +192,7 @@ function create_house(scene, data) {
   // ==== ESPERIMENTO CHIAVI ====
   const keys=
   [
-    { x: 3530, y: 400,  collected: false, id: 1,sprite_name: "chiave" },
+    { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
     { x: 4180, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
     { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
   ];
@@ -199,7 +201,7 @@ function create_house(scene, data) {
 
    const doors=
   [
-    { x: 3805, y: 726, sprite_name: "door", collected: false, id: 1 },
+    { x: 2765, y: 726, sprite_name: "door", collected: false, id: 1 },
     { x: 5125, y: 726, sprite_name: "door", collected: false, id: 2 },
     { x: 7570, y: 726, sprite_name: "door", collected: false, id: 3 }
   ];

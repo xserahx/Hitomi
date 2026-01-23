@@ -51,19 +51,27 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
     //=======CASA======
 
-    { x: 1470, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
-    { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
+//    { x: 1470, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
+//    { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2270, y: 728, w: 87, h: 130, sprite_name: "vaso" },
 
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
 
-    { x: 2630, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+/*    { x: 2630, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2905, y: 650, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3105, y: 560, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 3530, y: 475, w: 150, h: 42, sprite_name: "piattaforma" },
 
     { x: 3880, y: -171, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
+*/
+
+{ x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
+{ x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
+{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
+{ x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
+
+{ x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 4180, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -166,7 +174,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   // ==== ESPERIMENTO CHIAVI ====
   const keys=
   [
-    { x: 3530, y: 400,  collected: false, id: 1,sprite_name: "chiave" },
+    { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
     { x: 4180, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
     { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
   ];
@@ -175,7 +183,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
   const doors=
   [
-    { x: 3805, y: 726, sprite_name: "door", collected: false, id: 1 },
+    { x: 2765, y: 726, sprite_name: "door", collected: false, id: 1 },
     { x: 5125, y: 726, sprite_name: "door", collected: false, id: 2 },
     { x: 7570, y: 726, sprite_name: "door", collected: false, id: 3 }
   ];
