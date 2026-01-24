@@ -23,7 +23,7 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 3830, 870, 7700, 25, "0x000000", 0);
+    const ground = PP.shapes.rectangle_add(scene, 3830, 870, 7700, 10, "0x000000", 0);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
     // === PIATTAFORME ===
@@ -133,8 +133,8 @@ function create_tutorial_scene(scene) {
     });
 
     // === CAMERA ===
-   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
-   const worldHeight = ground.geometry.body_y + 20;
+   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+   const worldHeight = ground.geometry.body_y + 15;
    scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
