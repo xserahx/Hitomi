@@ -94,7 +94,7 @@ function create_forest(scene) {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 6400, 460, 40, 920, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
 
@@ -105,41 +105,44 @@ function create_forest(scene) {
   // === PIATTAFORME ===
   const platformPositions = [
     
-    // === PRIME PIATTAFORME ===
-    { x: 400, y: 810, w: 200, h: 20, sprite_name: "piattaforma" },
-    //{ x: 820, y: 785, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
-    { x: 1060, y: 680, w: 150, h: 20, sprite_name: "piattaforma" },
+ // === PRIME PIATTAFORME ===
+{ x: 400, y: 850, w: 200, h: 20, sprite_name: "piattaforma" },
+//{ x: 820, y: 825, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
+{ x: 1060, y: 720, w: 150, h: 20, sprite_name: "piattaforma" },
 
-    // === MASSO (?) DA SCAVALCARE ===
-    { x: 1400, y: 690, w: 150, h: 35, sprite_name: "piattaforma" },
-    { x: 1532, y: 830, w: 100, h: 50, sprite_name: "piattaforma" },
+// === MASSO (?) DA SCAVALCARE ===
+{ x: 1400, y: 730, w: 150, h: 350, sprite_name: "piattaforma" },
+{ x: 1532, y: 870, w: 100, h: 50, sprite_name: "piattaforma" },
 
-    // === PIATTAFORME PRIMA DELLA SCALA ===
-    { x: 1780, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 1970, y: 715, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
-    //{ x: 2440, y: 625, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
-    { x: 2510, y: 550, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+// === PIATTAFORME PRIMA DELLA SCALA ===
+{ x: 1780, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 1970, y: 755, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+//{ x: 2440, y: 665, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
+{ x: 2510, y: 590, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
 
-    // === ALBERO DA SCALARE ===
-    { x: 2880, y: 725, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3050, y: 615, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3050, y: 335, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3250, y: 125, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3475, y: -55, w: 150, h: 20, sprite_name: "piattaforma" },
+// === ALBERO DA SCALARE ===
+{ x: 2880, y: 765, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3050, y: 655, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3050, y: 375, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3250, y: 250, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
+//{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
 
-    // PIATTAFORME FINALI
-    { x: 3990, y: 625, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4250, y: 425, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 4550, y: 818, w: 160, h: 75, sprite_name: "piattaforma" }
-  ];
+{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
+// PIATTAFORME FINALI
+//{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 4250, y: 665, w: 200, h: 20, sprite_name: "piattaforma" },
+{ x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
+
+];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  // === PIATTAFORME NEL MONDO SPETTRALE ===
-  const ghostlyPlatformPositions = [
-    { x: 820, y: 785, w: 200, h: 20, sprite_name: "nuvoletta_1" },  
-    { x: 2240, y: 625, w: 100, h: 20, sprite_name: "nuvoletta_1" }
-  ];
+// === PIATTAFORME NEL MONDO SPETTRALE ===
+const ghostlyPlatformPositions = [
+  { x: 820, y: 825, w: 200, h: 20, sprite_name: "nuvoletta_1" },  
+  { x: 2240, y: 665, w: 100, h: 20, sprite_name: "nuvoletta_1" }
+];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
