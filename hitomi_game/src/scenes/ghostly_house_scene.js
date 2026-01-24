@@ -43,11 +43,11 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
    { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-        { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta" }, // base del nemico
-        { x: 232, y: 640, w: 150, h: 20, sprite_name: "basetta"}, // base sopra culla
-        // /DA FLIPPARE
-        { x: 150, y: 797, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
         { x: 378, y: 465, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+        { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
+        { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2"}, // base sopra culla
+        // /DA FLIPPARE
+        { x: 100, y: 797, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
 
