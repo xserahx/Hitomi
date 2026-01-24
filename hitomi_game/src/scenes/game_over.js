@@ -1,51 +1,35 @@
 // === GAME OVER SCENE ===
+let gameover_bg;
 function preload_game_over(scene) {
-  // Eventuali assets se vuoi (immagini, suoni)
+  gameover_bg = PP.assets.image.load(scene, "assets/images/game_over.png", 1280, 720);
 }
 
 function create_game_over(scene, data) {
-  // Sfondo nero
-  scene.cameras.main.setBackgroundColor(0x000000);
+  const centerX = PP.game.config.canvas_width / 2;
+  const centerY = PP.game.config.canvas_height / 2;
 
-  // Testo Game Over
-  const gameOverText = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY - 100,
-    "GAME OVER",
-    { font: "64px Arial", fill: "#ff0000" }
-  );
-  gameOverText.setOrigin(0.5);
+  PP.assets.image.add(scene, gameover_bg, centerX, centerY, 0.5, 0.5);
 
-  // Pulsante Restart Level
-  const restartButton = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY,
-    "Ricomincia il livello",
-    { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
-  );
-  restartButton.setOrigin(0.5);
-  restartButton.setInteractive({ useHandCursor: true });
-  restartButton.on("pointerdown", () => {
-    PP.game_state.bossIsDead = false;
-    PP.game_state.reset = true;
-    PP.scenes.start(PP.game_state.currentScene);
-    });
+  const MENU_AREAS = [
+  {
+   name: "retry", x: 440, y: 590, w: 150, h: 35, action: () => PP.scenes.start(PP.game_state.currentScene)
+  },
 
-    // Pulsante Exit Game
-  const exitButton = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY + 50,
-    "Ritorna al menu principale",
-    { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
-  );
-  exitButton.setOrigin(0.5);
-  exitButton.setInteractive({ useHandCursor: true });
-  exitButton.on("pointerdown", () => {
-    PP.scenes.start("main_menu");
-    });
-  
-  // Fade in della scena
-  scene.cameras.main.fadeIn(500, 0, 0, 0);
+  {
+    name: "quit", x: 830, y: 600, w: 150, h: 35, action: () => PP.scenes.start("main_menu")
+  }
+];
+
+MENU_AREAS.forEach(item => {
+
+  // HITBOX INVISIBILE
+  const hitbox = PP.shapes.rectangle_add(scene, item.x, item.y, item.w, item.h, "0x000000", 0);
+
+  hitbox.tile_geometry.scroll_factor_x = 0;
+  hitbox.tile_geometry.scroll_factor_y = 0;
+
+  PP.interactive.mouse.add(hitbox, "pointerdown", item.action);
+});
 }
 
 function update_game_over(scene) {
