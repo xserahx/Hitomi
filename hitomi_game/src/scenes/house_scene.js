@@ -238,7 +238,7 @@ function create_house(scene, data) {
   });
 
   // === CAMERA ===
-  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
+  const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
   const worldHeight = ground.geometry.body_y + 15;
   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
@@ -255,9 +255,7 @@ function update_house(scene) {
 
   // === SE DEV MODE ATTIVA NON SERVONO CHIAVI ===
   if(PP.game_state.DevMode == true){
-    PP.game_state.houseKey1Collected = true;
-    PP.game_state.houseKey2Collected = true;
-    PP.game_state.houseKey3Collected = true;
+    PP.game_state.houseKeyCollected = [true, true, true];
   }
 
    if (PP.game_state.player) {

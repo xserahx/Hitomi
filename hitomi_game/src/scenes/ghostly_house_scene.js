@@ -243,9 +243,7 @@ function update_ghostly_house(scene) {
 
   // === SE DEV MODE ATTIVA NON SERVONO CHIAVI ===
   if(PP.game_state.DevMode == true){
-    PP.game_state.houseKey1Collected = true;
-    PP.game_state.houseKey2Collected = true;
-    PP.game_state.houseKey3Collected = true;
+    PP.game_state.houseKeyCollected = [true, true, true];
   }
 
   if (PP.game_state.player) {
