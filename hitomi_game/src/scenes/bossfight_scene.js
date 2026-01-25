@@ -1,5 +1,4 @@
 // === bossfight SCENE ===
-// === FOREST SCENE ===
 let bossfight_bg;
 let mountains_bg;
 let mountains_2_bg;
@@ -45,7 +44,6 @@ function preload_bossfight_scene(scene) {
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
   bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/recinzione.png",1096,250);
   bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png",150,114);
-  scene.load.image("snowflake", "assets/images/forest/neve.png");
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene,"assets/images/heart.png",120,50);
 
@@ -60,8 +58,7 @@ function create_bossfight_scene(scene) {
     PP.game_state.bossCutsceneDone = false;
     PP.game_state.duringBossCutscene = true;
 
-    // === PARALLASSE ===
-
+ // === PARALLASSE ===
   // sfondo lontano
   bg_far = PP.assets.tilesprite.add(scene, bossfight_bg, -20, -30, 6400, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.15;
@@ -98,7 +95,7 @@ function create_bossfight_scene(scene) {
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 640, 870, 1280, 40, "0x000000", 1);
+    const ground = PP.shapes.rectangle_add(scene, 640, 1010, 1280, 40, "0x000000", 0);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
     // === PIATTAFORME ===
@@ -159,10 +156,10 @@ function create_bossfight_scene(scene) {
         if (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
         else if (PP.game_state.bossIsFriendly == true) {
 
-            PP.game_state.askSamurai = PP.shapes.text_add(scene, 200, 360, "Haruki is defeated, i could ask him what is going on.");
+            PP.game_state.askSamurai = PP.shapes.text_add(scene, 200, 830, "Haruki è sconfitto, dovrei chiedergli cosa sta succedendo?");
 
-            let button_si = PP.shapes.text_add(scene, 150, 400, "Stay");
-            let button_no = PP.shapes.text_add(scene, 250, 400, "Don't stay");
+            let button_si = PP.shapes.text_add(scene, 230, 860, "Resta");
+            let button_no = PP.shapes.text_add(scene, 580, 860, "Vai via");
 
             PP.interactive.mouse.add(button_si, "pointerdown", () => {
                 PP.assets.destroy(PP.game_state.askSamurai);
@@ -178,11 +175,13 @@ function create_bossfight_scene(scene) {
             });
         }
     });
-      // === CAMERA ===
-    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
-   const worldHeight = ground.geometry.body_y + 20;
-   scene.cameras.main.setBounds(leftWall.geometry.body_x+20, 0, worldWidth-20, worldHeight);
-   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+
+     // === CAMERA ===
+    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
+    const worldHeight = ground.geometry.body_y + 10;
+    scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+
 
     // === CLICK DEL MOUSE PER ATTACCARE ===
     scene.input.on("pointerdown", () => {
@@ -194,16 +193,16 @@ function create_bossfight_scene(scene) {
     PP.physics.add(scene, trigger, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, trigger, () => {
-        let talk = PP.shapes.text_add(scene, 210, 320, "Goody stop! We can still talk about this.");
+        let talk = PP.shapes.text_add(scene, 150, 830, "Goody fermati! Possiamo ancora parlarne!");
 
         PP.assets.destroy(trigger);
 
         PP.timers.add_timer(scene, 2000, (scene) => {
-            PP.shapes.text_change(talk, "Get away from me, monster!");
+            PP.shapes.text_change(talk, "Lasciami stare, yokai!");
         }, false);
 
         PP.timers.add_timer(scene, 4000, (scene) => {
-            PP.shapes.text_change(talk, "I can't let you go away like this.");
+            PP.shapes.text_change(talk, "Non posso farti andare via così...");
         }, false);
 
         PP.timers.add_timer(scene, 6000, (scene) => {
@@ -212,28 +211,6 @@ function create_bossfight_scene(scene) {
             PP.game_state.duringBossCutscene = false;
             PP.game_state.bossCutsceneDone = true;
         }, false);
-
-    });
-
-    // --- NEVE ---
-    // array per i fiocchi
-    scene.snowflakes = [];
-
-    // timer che crea fiocchi
-    scene.time.addEvent({
-        delay: 200,
-        callback: () => {
-            const x = Phaser.Math.Between(0, scene.sys.game.config.width);
-            const flake = scene.add.image(x, 0, 'snowflake').setScale(0.2);
-            scene.snowflakes.push(flake);
-        },
-        loop: true
-
-        /* numero casuale tra 5 e 11
-        let a = Math.random();
-        5+a*6
-       valore minimo + numero casuale a che moltiplica valore massimo - valore minimo
-       */
 
     });
 
@@ -251,21 +228,9 @@ function update_bossfight_scene(scene) {
         };
     }
 
-    const groundTopY = 700 - (40 / 2);
-
-    // muovi i fiocchi verso il basso
-    for (let flake of scene.snowflakes) {
-        flake.y += 2; // velocità caduta
-
-        // fermali prima di toccare il terreno
-        if (flake.y >= groundTopY - 5) { // -5 = margine
-            flake.destroy(); // oppure flake.y = groundTopY - 5;
-        }
-    }
-
-    if (PP.game_state.bossIsFriendly == true) {
-        let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
-    }
+    //if (PP.game_state.bossIsFriendly == true) {
+    //    let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
+    //}
 
     if (PP.game_state.bossIsFriendly == true && PP.game_state.player.geometry.x >= 1250) {
         PP.scenes.start("teitai_scene");
