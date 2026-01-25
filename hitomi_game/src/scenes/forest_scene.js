@@ -5,6 +5,7 @@ let mountains_2_bg;
 let small_tree;
 let bamboo_bg;
 let bush;
+let snowflakeImg;
 
 let bg_far;
 let bg_mid;
@@ -44,7 +45,7 @@ function preload_forest(scene) {
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
   bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/recinzione.png",1096,250);
   bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png",150,114);
-  scene.load.image("snowflake", "assets/images/forest/neve.png");
+  snowflakeImg = PP.assets.image.load(scene, "assets/images/forest/neve.png");
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene,"assets/images/heart.png",120,50);
 
@@ -222,20 +223,20 @@ const ghostlyPlatformPositions = [
 
   // === NEVE ===
   scene.snowflakes = [];
-  scene.time.addEvent({
-    delay: 200,
-    loop: true,
-    callback: () => {
-      const flake = scene.add.image(
-        Phaser.Math.Between(0, scene.scale.width),
-        0,
-        "snowflake"
-      ).setScale(0.2);
 
-      flake.setScrollFactor(0.6);
-      scene.snowflakes.push(flake);
-    }
-  });
+  PP.timers.add_timer(scene, 200, (s) => {
+    const flake = PP.assets.image.add(s, snowflakeImg, Math.random() * s.scale.width, 0, 0.5, 0.5);
+    flake.geometry.scale_x = 0.2;
+    flake.geometry.scale_y = 0.2;
+
+    flake.tile_geometry.scroll_factor_x = 0.6;
+    flake.tile_geometry.scroll_factor_y = 0.6;
+
+    flake.speedY = 2;
+
+    s.snowflakes.push(flake);
+
+  }, true);
 
   PP.game_state.changingWorld = false;
 }
@@ -257,25 +258,21 @@ function update_forest(scene) {
         };
     }
 
-const snowTopY = 900 - (40 / 2);
-const snowTopX = 7680;
+  const snowTopY = 900 - (40 / 2);
+  const snowTopX = 7680;
 
-// muovi i fiocchi verso il basso
-for (let flake of scene.snowflakes) {
+  // muovi i fiocchi verso il basso
+  for (let flake of scene.snowflakes) {
 
-  // caduta fiocchi verso y
-  flake.y += flake.speedY ?? 2;
+    flake.geometry.y += flake.speedY ?? 2;
 
-  // quando arriva al terreno → respawn in alto
-  if (flake.y >= snowTopY - 5) {
+    if (flake.geometry.y >= snowTopY - 5) {
 
-    flake.y = -10;                          
-    flake.x = Math.random() * snowTopX; 
+      flake.geometry.y = -10;
+      flake.geometry.x = Math.random() * snowTopX;
+    }
   }
-}
-  if (PP.game_state.player.geometry.x > 5005) {
-    PP.scenes.start("bossfight_scene");
-  }
+
 }
 
 function destroy_forest(scene) {}
