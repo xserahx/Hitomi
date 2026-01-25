@@ -62,7 +62,7 @@ PP.entities.player.create = function (scene, x, y) {
 };
 
 PP.entities.player.update = function (scene, player) {
-  if(PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true || PP.game_state.pause == true){
+  if(PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true || PP.game_state.pause == true || PP.game_state.tutorialCutscene == true){
     player.inCutscene = true;
   }else{player.inCutscene = false;}
   
