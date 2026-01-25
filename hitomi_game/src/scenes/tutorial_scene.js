@@ -2,7 +2,7 @@
 let tutorial_bg;
 
 function preload_tutorial_scene(scene) {
-    tutorial_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png", 1800, 920);
+    tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background_long.png", 1800, 920);
     PP.entities.player.preload(scene);
     PP.entities.enemy.preload(scene);
     PP.scene_objects.platform.preload(scene);
