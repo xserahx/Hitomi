@@ -378,4 +378,4 @@ function doorDialogue(scene, player, door) {
       PP.assets.destroy(button_si);
       PP.assets.destroy(avvisoPorta);
     });
-  }s
+  }
