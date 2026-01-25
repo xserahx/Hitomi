@@ -273,7 +273,7 @@ for (let flake of scene.snowflakes) {
     flake.x = Math.random() * snowTopX; 
   }
 }
-  if (PP.game_state.player.geometry.x > 6325) {
+  if (PP.game_state.player.geometry.x > 5005) {
     PP.scenes.start("bossfight_scene");
   }
 }
