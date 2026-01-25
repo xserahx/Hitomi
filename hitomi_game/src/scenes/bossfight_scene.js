@@ -1,9 +1,57 @@
 // === bossfight SCENE ===
+// === FOREST SCENE ===
+let bossfight_bg;
+let mountains_bg;
+let mountains_2_bg;
+let small_tree;
+let bamboo_bg;
+let bush;
+
+let bg_far;
+let bg_mid;
+let bg_main;
+let bg_trees;
+let bg_front;
+
+function createbossfight(scene, treeSprite, treePositionArray) {
+  for (let position of treePositionArray) {
+    PP.assets.image.add(scene,treeSprite,position.x,position.y,position.pivot_x,position.pivot_y);
+  }
+}
+
+const bossfightTrees = [
+
+  { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+ 
+ 
+  { x: 700, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 900, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1100, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1300, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+
+  { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+];
+
 function preload_bossfight_scene(scene) {
-    PP.scene_objects.platform.preload(scene);
-    PP.entities.player.preload(scene);
-    scene.load.image('snowflake', 'assets/images/forest/neve.png');
-    PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  bossfight_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,920);
+  mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna1.png",1280,720);
+  mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna2.png",1280,720);
+  small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
+  bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/recinzione.png",1096,250);
+  bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png",150,114);
+  scene.load.image("snowflake", "assets/images/forest/neve.png");
+
+  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene,"assets/images/heart.png",120,50);
+
+  PP.scene_objects.platform.preload(scene);
+  PP.entities.player.preload(scene);
+  PP.entities.enemy.preload(scene);
 }
 
 // === CREAZIONE SCENA ===
@@ -11,6 +59,27 @@ function create_bossfight_scene(scene) {
     PP.game_state.currentScene = "bossfight_scene";
     PP.game_state.bossCutsceneDone = false;
     PP.game_state.duringBossCutscene = true;
+
+    // === PARALLASSE ===
+
+  // sfondo lontano
+  bg_far = PP.assets.tilesprite.add(scene, bossfight_bg, -20, -30, 6400, 920, 0, 0);
+  bg_far.tile_geometry.scroll_factor_x = 0.15;
+
+  // montagne lontane
+  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6400, 920, 0, 0);
+  bg_mid.tile_geometry.scroll_factor_x = 0.3;
+
+  // montagne vicine
+  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6400, 920, 0, 0);
+  bg_main.tile_geometry.scroll_factor_x = 0.45;
+
+  createbossfight(scene, small_tree, bossfightTrees);
+
+  // recinzione in bamboo
+  bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
+  
+  let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
 
     // === PULSANTE HELP ===
     const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
@@ -23,13 +92,13 @@ function create_bossfight_scene(scene) {
     });
 
     // === BORDI ===
-  	const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 950, "0x000000", 0);
-    const rightWall = PP.shapes.rectangle_add(scene, 1280, 460, 40, 950, "0x000000", 0);
+  	const leftWall = PP.shapes.rectangle_add(scene, 0, 630, 40, 950, "0x000000", 0);
+    const rightWall = PP.shapes.rectangle_add(scene, 1280, 630, 40, 950, "0x000000", 0);
   	PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND ===
-    const ground = PP.shapes.rectangle_add(scene, 640, 700, 1280, 40, "0x000000", 1);
+    const ground = PP.shapes.rectangle_add(scene, 640, 870, 1280, 40, "0x000000", 1);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
     // === PIATTAFORME ===
@@ -109,6 +178,11 @@ function create_bossfight_scene(scene) {
             });
         }
     });
+      // === CAMERA ===
+    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
+   const worldHeight = ground.geometry.body_y + 20;
+   scene.cameras.main.setBounds(leftWall.geometry.body_x+20, 0, worldWidth-20, worldHeight);
+   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
     // === CLICK DEL MOUSE PER ATTACCARE ===
     scene.input.on("pointerdown", () => {
