@@ -194,11 +194,11 @@ function create_house(scene, data) {
     });
   }
 
-  // ==== ESPERIMENTO CHIAVI ====
+    // ==== ESPERIMENTO CHIAVI ====
   const keys=
   [
     { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
-    { x: 3240, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
+    { x: 3740, y: 785,  collected: false, id: 2, sprite_name: "chiave" },
     { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
   ];
 

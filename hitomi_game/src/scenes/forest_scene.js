@@ -95,7 +95,7 @@ function create_forest(scene) {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 720, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
 
@@ -106,7 +106,7 @@ function create_forest(scene) {
   // === PIATTAFORME ===
   const platformPositions = [
     
- // === PRIME PIATTAFORME ===
+  // === PRIME PIATTAFORME ===
 { x: 400, y: 850, w: 200, h: 20, sprite_name: "piattaforma" },
 //{ x: 820, y: 825, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
 { x: 1060, y: 720, w: 150, h: 20, sprite_name: "piattaforma" },
@@ -125,15 +125,17 @@ function create_forest(scene) {
 { x: 2880, y: 765, w: 100, h: 20, sprite_name: "piattaforma" },
 { x: 3050, y: 655, w: 100, h: 20, sprite_name: "piattaforma" },
 { x: 3050, y: 375, w: 100, h: 20, sprite_name: "piattaforma" },
-{ x: 3250, y: 250, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3250, y: 165, w: 100, h: 20, sprite_name: "piattaforma" },
 { x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
 //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
+
 
 { x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
 // PIATTAFORME FINALI
 //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
 { x: 4250, y: 665, w: 200, h: 20, sprite_name: "piattaforma" },
 { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
+
 
 ];
 

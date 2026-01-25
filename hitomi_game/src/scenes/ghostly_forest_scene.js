@@ -65,10 +65,18 @@ function create_ghostly_forest(scene, data) {
 //  { x: 2675, y: 1110, w: 150, h: 20 },
 { x: 3990, y: -85, w: 150, h: 20, sprite_name: "piattaforma" },  // apice
 
+
+{ x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
+//{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
+
+
+{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
 // PIATTAFORME FINALI
-{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-{ x: 4250, y: 465, w: 200, h: 20, sprite_name: "piattaforma" },
-{ x: 4550, y: 858, w: 160, h: 75, sprite_name: "piattaforma" }
+//{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 4250, y: 665, w: 200, h: 20, sprite_name: "piattaforma" },
+{ x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
+
+
 ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);

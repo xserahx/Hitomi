@@ -39,7 +39,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   // === PIATTAFORME ===
   const platformPositions = [
 
-        //======TUTORIAL======
+       //======TUTORIAL======
    { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
@@ -73,7 +73,6 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
 { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
-
    /* RIFERIMENTO
     { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
     { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
@@ -83,7 +82,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
     */
 
 
-    //=======PIATTAFORME PER LA SECONDA CHIAVE=========
+     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 3240, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
 { x: 3490, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
 { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -115,6 +114,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
 
     { x: 7645, y: -171, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
+
 
 
 
@@ -189,7 +189,7 @@ PP.interactive.mouse.add(helpButton, "pointerdown", () => {
   const keys=
   [
     { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
-    { x: 3240, y: 250,  collected: false, id: 2, sprite_name: "chiave" },
+    { x: 3740, y: 785,  collected: false, id: 2, sprite_name: "chiave" },
     { x: 5880, y: 710,  collected: false, id: 3, sprite_name: "chiave" }
   ];
 
