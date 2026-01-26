@@ -82,7 +82,6 @@ function create_house(scene, data) {
     { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
     { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
     { x: 3730, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// NEW 
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// standard                RIMANE
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
     { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     RIMANE
     { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
@@ -94,12 +93,12 @@ function create_house(scene, data) {
     
     { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
 
-    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
+//    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
 
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
     { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
+//    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
     { x: 7100, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===

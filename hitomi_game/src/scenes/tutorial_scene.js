@@ -49,6 +49,16 @@ function create_tutorial_scene(scene) {
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+    // === PIATTAFORME NEL MONDO SPETTRALE ===
+    const ghostlyPlatformPositions = [
+        { x: 1060, y: 600, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
+
+    ];
+
+    PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
+
+
+
     // === BAMBINO (+500 X) ===
     const baby = PP.shapes.rectangle_add(scene, 180, 777, 40, 40, "0xffffff", 1);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
@@ -87,27 +97,27 @@ function create_tutorial_scene(scene) {
             let woa = PP.shapes.text_add(scene, 640, 360, "What is happening? The child looks like a monster too!");
             PP.game_state.woaed = true;
 
-            
 
-        PP.timers.add_timer(scene, 2000, () => {
-            PP.assets.destroy(woa);
 
-            PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
-            let button_si = PP.shapes.text_add(scene, 580, 400, "Si");
-            let button_no = PP.shapes.text_add(scene, 780, 400, "No");
+            PP.timers.add_timer(scene, 2000, () => {
+                PP.assets.destroy(woa);
 
-            PP.layers.add_to_layer(layer_domanda, button_no);
-            PP.layers.add_to_layer(layer_domanda, button_si);
+                PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
+                let button_si = PP.shapes.text_add(scene, 580, 400, "Si");
+                let button_no = PP.shapes.text_add(scene, 780, 400, "No");
 
-            PP.interactive.mouse.add(button_si, "pointerdown", () => {
-                PP.entities.player.get_baby(scene, PP.game_state.player);
-                PP.scenes.start("house_scene");
-            });
+                PP.layers.add_to_layer(layer_domanda, button_no);
+                PP.layers.add_to_layer(layer_domanda, button_si);
 
-            PP.interactive.mouse.add(button_no, "pointerdown", () => {
-                PP.scenes.start("house_scene");
-            });
-        }, false);
+                PP.interactive.mouse.add(button_si, "pointerdown", () => {
+                    PP.entities.player.get_baby(scene, PP.game_state.player);
+                    PP.scenes.start("house_scene");
+                });
+
+                PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                    PP.scenes.start("house_scene");
+                });
+            }, false);
         }
     });
 
