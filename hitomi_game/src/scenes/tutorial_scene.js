@@ -30,7 +30,7 @@ function create_tutorial_scene(scene) {
     const behindWall = PP.shapes.rectangle_add(scene, 0, 380, 20, 720, "0x000000", 0);
     PP.physics.add(scene, behindWall, PP.physics.type.STATIC);
 
-    const rightWall = PP.shapes.rectangle_add(scene, 1760, 380, 20, 720, "0x000000", 0);
+    const rightWall = PP.shapes.rectangle_add(scene, 1760, 505, 20, 720, "0x000000", 0);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND (espanso) ===
@@ -40,27 +40,17 @@ function create_tutorial_scene(scene) {
     // === PIATTAFORME (+500 X) ===
     const platformPositions = [
         { x: 1270, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },
-        { x: 1480, y: 767, w: 110, h: 90, sprite_name: "rialzino" },
-        { x: 828, y: 465, w: 40, h: 395, sprite_name: "palo" },
+        { x: 1480, y: 773, w: 110, h: 90, sprite_name: "rialzino" },
+        { x: 828, y: 470, w: 40, h: 395, sprite_name: "palo" },
         { x: 850, y: 550, w: 150, h: 20, sprite_name: "basetta_1" },
         { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" },
-        { x: 150, y: 797, w: 100, h: 60, sprite_name: "culla" }
+        { x: 150, y: 805, w: 100, h: 60, sprite_name: "culla" }
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-    // === PIATTAFORME NEL MONDO SPETTRALE ===
-    const ghostlyPlatformPositions = [
-        { x: 1060, y: 600, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
-
-    ];
-
-    PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
-
-
-
     // === BAMBINO (+500 X) ===
-    const baby = PP.shapes.rectangle_add(scene, 180, 777, 40, 40, "0xffffff", 1);
+    const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
@@ -94,30 +84,30 @@ function create_tutorial_scene(scene) {
         PP.layers.set_z_index(layer_domanda, 10);
 
         if (!PP.game_state.woaed) {
-            let woa = PP.shapes.text_add(scene, 640, 360, "What is happening? The child looks like a monster too!");
+            let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra essere un mostro!");
             PP.game_state.woaed = true;
 
+            
 
+        PP.timers.add_timer(scene, 2000, () => {
+            PP.assets.destroy(woa);
 
-            PP.timers.add_timer(scene, 2000, () => {
-                PP.assets.destroy(woa);
+            PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi raccogliere Nanashi?");
+            let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
+            let button_no = PP.shapes.text_add(scene, 330, 580, "No");
 
-                PP.game_state.askChild = PP.shapes.text_add(scene, 640, 360, "Vuoi raccogliere il bambino?");
-                let button_si = PP.shapes.text_add(scene, 580, 400, "Si");
-                let button_no = PP.shapes.text_add(scene, 780, 400, "No");
+            PP.layers.add_to_layer(layer_domanda, button_no);
+            PP.layers.add_to_layer(layer_domanda, button_si);
 
-                PP.layers.add_to_layer(layer_domanda, button_no);
-                PP.layers.add_to_layer(layer_domanda, button_si);
+            PP.interactive.mouse.add(button_si, "pointerdown", () => {
+                PP.entities.player.get_baby(scene, PP.game_state.player);
+                PP.scenes.start("house_scene");
+            });
 
-                PP.interactive.mouse.add(button_si, "pointerdown", () => {
-                    PP.entities.player.get_baby(scene, PP.game_state.player);
-                    PP.scenes.start("house_scene");
-                });
-
-                PP.interactive.mouse.add(button_no, "pointerdown", () => {
-                    PP.scenes.start("house_scene");
-                });
-            }, false);
+            PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                PP.scenes.start("house_scene");
+            });
+        }, false);
         }
     });
 
@@ -135,7 +125,7 @@ function create_tutorial_scene(scene) {
 
     // === NEMICI (+500 X) ===
     const enemyPositions = [
-        { x: 900, y: 840, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
+        { x: 900, y: 200, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
     ];
 
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
@@ -190,17 +180,17 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, sign3, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press A, D to move around. Press SPACE to jump.");
+        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi A, per muoverti in giro. Premi SPAZIO per saltare.");
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign2, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press SHIFT to dash.");
+        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi SHIFT per fare uno scatto.");
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign3, () => {
-        let tutorial = PP.shapes.text_add(scene, 600, 200, "Press U to change world.");
+        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi U per cambiare mondo.");
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
@@ -229,7 +219,7 @@ PP.scenes.add("tutorial_scene", preload_tutorial_scene, create_tutorial_scene, u
 
 function cutscene(scene, player, trigger) {
     PP.assets.destroy(trigger);
-    let talk = PP.shapes.text_add(scene, 900, 400, "I need to save Nanashi, i can't leave him here alone...");
+    let talk = PP.shapes.text_add(scene, 900, 400, "Devo salvare Nanashi, non posso lasciarlo qui da solo...");
 
     PP.timers.add_timer(scene, 2000, () => {
         PP.assets.destroy(talk);
