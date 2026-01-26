@@ -122,14 +122,20 @@ function create_ghostly_tutorial_scene(scene) {
             PP.physics.add_collider(scene, enemy, plat);
         }
 
+        // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
-                let currentIndex = PP.game_state.player.lives - 1;
-                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-            }
-            PP.entities.player.damage(scene, PP.game_state.player, enemy);
-        });
+
+        if (PP.game_state.player.isInvincible) return;
+
+          let currentIndex = PP.game_state.player.lives - 1;
+          if (currentIndex >= 0) {
+            PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+          }
+
+        PP.entities.player.damage(scene, PP.game_state.player, enemy);
+       });
     }
+
 
     // === ATTACCO ===
     scene.input.on("pointerdown", () => {
@@ -194,6 +200,7 @@ function create_ghostly_tutorial_scene(scene) {
 }
 
 function update_ghostly_tutorial_scene(scene) {
+    if (PP.game_state.tutorialCutscene) return;
     PP.entities.player.update(scene, PP.game_state.player);
     PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
     

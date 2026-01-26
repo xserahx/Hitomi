@@ -141,14 +141,16 @@ function create_tutorial_scene(scene) {
 
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-        if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
-            // HUD DANNO
-            let currentIndex = PP.game_state.player.lives - 1;
+        if (PP.game_state.player.isInvincible) return;
+
+          let currentIndex = PP.game_state.player.lives - 1;
+          if (currentIndex >= 0) {
             PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-        }
+          }
+
         PP.entities.player.damage(scene, PP.game_state.player, enemy);
-        });
+       });
     }
 
     // === ATTACCO ===
@@ -204,6 +206,7 @@ function create_tutorial_scene(scene) {
 }
 
 function update_tutorial_scene(scene) {
+    if (PP.game_state.tutorialCutscene) return;
     PP.entities.player.update(scene, PP.game_state.player);
     PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
