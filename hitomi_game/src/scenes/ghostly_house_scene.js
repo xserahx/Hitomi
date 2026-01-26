@@ -42,26 +42,21 @@ function create_ghostly_house(scene, data) {
     //======TUTORIAL======
     { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
     { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-    { x: 378, y: 465, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+    { x: 1030, y: 773, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 378, y: 470, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
     { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }, // base sopra culla
     // /DA FLIPPARE
-    { x: 100, y: 797, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
+    { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
-
-    //    { x: 1470, y: 774, w: 110, h: 90, sprite_name: "rialzino" }, //rialzino
-    //    { x: 1870, y: 625, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2270, y: 728, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
-
     { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
-
     { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
@@ -75,13 +70,11 @@ function create_ghostly_house(scene, data) {
     { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
-
     { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
     { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
     { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
     { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
     { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
-
     // { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
 
@@ -109,7 +102,6 @@ function create_ghostly_house(scene, data) {
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
-
 
   // === PLAYER ===
   let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
@@ -318,7 +310,7 @@ function collectKey(scene, player, key) {
     return;
   }
   PP.game_state.houseKeyCollected[key.id - 1] = true;
-  PP.game_state.statusKey = PP.shapes.text_add(scene, player.geometry.x - 150, 250, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+  PP.game_state.statusKey = PP.shapes.text_add(scene, player.geometry.x - 400, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
   PP.assets.destroy(key);
 
   PP.timers.add_timer(scene, 2000, (s) => {
@@ -330,7 +322,7 @@ function collectKey(scene, player, key) {
 // === FUNZIONE APERTURE PORTA ===
 function doorDialogue(scene, player, door) {
   if (PP.game_state.houseKeyCollected[door.id - 1] == false) {
-    let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 150, 300, "La porta è chiusa a chiave...");
+    let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 400, 600, "La porta è chiusa a chiave...");
 
     PP.timers.add_timer(scene, 300, (s) => {
       PP.assets.destroy(avvisoPorta);
@@ -343,14 +335,14 @@ function doorDialogue(scene, player, door) {
     return;
   }
 
-  let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 150, 300, "Vuoi usare la chiave per aprire la porta?");
+  let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 400, 600, "Vuoi usare la chiave per aprire la porta?");
 
   PP.timers.add_timer(scene, 2000, (s) => {
     PP.assets.destroy(avvisoPorta);
   }, false);
 
-  let button_si = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 250, 400, "Si");
-  let button_no = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 50, 400, "No");
+  let button_si = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 360, 650, "Si");
+  let button_no = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 100, 650, "No");
   textOn = true;
 
   PP.timers.add_timer(scene, 2000, (s) => {
