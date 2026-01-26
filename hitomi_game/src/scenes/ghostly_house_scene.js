@@ -26,7 +26,7 @@ function create_ghostly_house(scene, data) {
     showControlsPopup(scene);
   });
 
-  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 720, "0x000000", 0);
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
   const rightWall = PP.shapes.rectangle_add(scene, 7640, 380, 40, 720, "0x000000", 0);
@@ -106,7 +106,7 @@ function create_ghostly_house(scene, data) {
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 150;
+  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 50;
   let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
