@@ -2,13 +2,13 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.preload = function (scene) {
-    PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_bambino.png", 90, 120);
+    PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_bambino.png", 120, 120);
 }
 
 PP.entities.player.create = function (scene, x, y) {
   const player = PP.assets.sprite.add(scene, PP.entities.player.img, x, y, 0.5, 0.5);
   PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
-  PP.physics.set_collision_rectangle(player,40,120,22.5,0);
+  PP.physics.set_collision_rectangle(player,40,120,40,0);
   
   // === STATI VITA ===
   player.maxLives = 3;
@@ -241,7 +241,7 @@ PP.entities.player.update = function (scene, player) {
 
       player.jumpState = "ground";
 
-      if (!movingLeft && !movingRight) {
+      if (!movingLeft && !movingRight && !player.isAttacking) {
           PP.assets.sprite.animation_play(player, "idle");
           player.isWalkingAnim = false;
       }
@@ -290,7 +290,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
   }, false);
 
   // fine attacco
-  PP.timers.add_timer(scene, 400, () => {
+  PP.timers.add_timer(scene, 500, () => {
     player.isAttacking = false;
     player.isAttackingAnim = false;
     PP.assets.sprite.animation_play(player, "idle");
