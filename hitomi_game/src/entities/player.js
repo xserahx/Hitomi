@@ -2,7 +2,7 @@ PP.entities = PP.entities || {};
 PP.entities.player = {};
 
 PP.entities.player.preload = function (scene) {
-    PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/s_bimbo/spritesheet.png", 90, 120);
+    PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_bambino.png", 90, 120);
 }
 
 PP.entities.player.create = function (scene, x, y) {
@@ -33,7 +33,7 @@ PP.entities.player.create = function (scene, x, y) {
   player.jumpCutMultiplier = 2.5;
   player.lastGrounded = 0;
   player.isDashing = false;
-  player.dashSpeed = 900; //600 ORIGINALE
+  player.dashSpeed = 600; //600 ORIGINALE
   player.dashTime = 200;
   player.dashCooldown = 400;
   player.lastDash = 0;
