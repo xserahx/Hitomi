@@ -68,6 +68,7 @@ function create_tutorial_scene(scene) {
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
     PP.physics.add_collider(scene, PP.game_state.player, leftWall);
+    PP.physics.add_collider(scene, PP.game_state.player, behindWall);
     PP.physics.add_collider(scene, PP.game_state.player, rightWall);
 
     for (let plat of PP.game_state.platforms) {
