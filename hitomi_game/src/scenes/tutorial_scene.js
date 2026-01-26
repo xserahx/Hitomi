@@ -135,7 +135,7 @@ function create_tutorial_scene(scene) {
 
     // === NEMICI (+500 X) ===
     const enemyPositions = [
-        { x: 900, y: 200, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
+        { x: 900, y: 840, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
     ];
 
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);

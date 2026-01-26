@@ -93,12 +93,12 @@ function create_house(scene, data) {
     
     { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
 
-//    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
+    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
 
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
     { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
-//    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
+    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
     { x: 7100, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===
@@ -159,16 +159,16 @@ function create_house(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 1730, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 2040, y: 405, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
-    { x: 4380, y: 50, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 4380, y: 700, w: 75, h: 75, speed: 70, sprite_name: "slug" },
-    { x: 5500, y: 375, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
-    { x: 6025, y: 375, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 6880, y: 100, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
-    { x: 6830, y: 700, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 7030, y: 700, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
-    { x: 7980, y: 100, w: 170, h: 170, speed: 70, sprite_name: "slug" }
+    { x: 1730, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { x: 2040, y: 830, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
+    { x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { x: 4380, y: 840, w: 75, h: 75, speed: 70, sprite_name: "slug" },
+    { x: 5500, y: 840, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
+    { x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { x: 6900, y: 840, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
+    { x: 7030, y: 840, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
+    { x: 7980, y: 840, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 

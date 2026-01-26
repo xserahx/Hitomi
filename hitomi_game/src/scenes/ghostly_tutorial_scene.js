@@ -100,7 +100,7 @@ function create_ghostly_tutorial_scene(scene) {
     }
     
     // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 200, speed: 100, sprite_name: "lanterna" }];
+    const enemyPositions = [{ x: 400, y: 840, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }];
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {

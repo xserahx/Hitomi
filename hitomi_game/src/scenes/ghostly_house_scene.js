@@ -146,11 +146,16 @@ function create_ghostly_house(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 450, y: 645, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 1800, y: 405, w: 75, h: 75, speed: 80, sprite_name: "ciabatta" },
-    { x: 4745, y: 375, w: 75, h: 75, speed: 70, sprite_name: "ombrello" },
-    { x: 5600, y: 100, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 6500, y: 100, w: 170, h: 170, speed: 80, sprite_name: "pterodatillo" }
+    { x: 1730, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { x: 2040, y: 830, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
+    { x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { x: 4380, y: 840, w: 75, h: 75, speed: 70, sprite_name: "slug" },
+    { x: 5500, y: 840, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
+    { x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { x: 6900, y: 840, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
+    { x: 7030, y: 840, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
+    { x: 7980, y: 840, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 

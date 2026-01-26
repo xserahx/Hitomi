@@ -130,13 +130,15 @@ function create_ghostly_forest(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 400, y: 800, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-    { x: 1200, y: 800, w: 170, h: 170, speed: 80, sprite_name: "slug" },
-    { x: 2250, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { x: 600, y: 840, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+    { x: 1200, y: 840, w: 170, h: 170, speed: 80, sprite_name: "slug" },
+    { x: 2250, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
     { x: 2050, y: 155, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-    { x: 3150, y: 800, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 3350, y: 800, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-    { x: 3550, y: 800, w: 170, h: 170, speed: 80, sprite_name: "slug" }
+    { x: 3150, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { x: 3460, y: 840, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
+    { x: 3770, y: 840, w: 170, h: 170, speed: 80, sprite_name: "slug" },
+    { x: 4200, y: 840, w: 170, h: 170, speed: 80, sprite_name: "lanterna" }
+
   ];
 
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
