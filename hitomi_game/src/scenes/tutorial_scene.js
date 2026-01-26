@@ -131,17 +131,23 @@ function create_tutorial_scene(scene) {
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
+
+        // collisioni con terreno e piattaforme
         PP.physics.add_collider(scene, enemy, ground);
+
         for (let plat of PP.game_state.platforms) {
             PP.physics.add_collider(scene, enemy, plat);
         }
 
+        // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-            if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
-                let currentIndex = PP.game_state.player.lives - 1;
-                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-            }
-            PP.entities.player.damage(scene, PP.game_state.player, enemy);
+        if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
+
+            // HUD DANNO
+            let currentIndex = PP.game_state.player.lives - 1;
+            PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+        }
+        PP.entities.player.damage(scene, PP.game_state.player, enemy);
         });
     }
 
