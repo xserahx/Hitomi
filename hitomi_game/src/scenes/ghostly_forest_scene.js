@@ -1,15 +1,85 @@
 // === ghostly_forest SCENE ===
+let ghostly_forest_bg;
+let ghostly_mountains_bg;
+let ghostly_mountains_2_bg;
+let ghostly_small_tree;
+let ghostly_bamboo_bg;
+let ghostly_bush;
+
+let ghostly_bg_far;
+let ghostly_bg_mid;
+let ghostly_bg_main;
+let ghostly_bg_trees;
+let ghostly_bg_front;
+
+function createGhostlyForest(scene, treeSprite, treePositionArray) {
+  for (let position of treePositionArray) {
+    PP.assets.image.add(scene, treeSprite, position.x, position.y, position.pivot_x, position.pivot_y);
+  }
+}
+
+const ghostly_forestTrees = [
+
+  { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+
+
+  { x: 700, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 900, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1100, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1300, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+
+  { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 2200, y: 790, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 2500, y: 830, pivot_x: 0.5, pivot_y: 0.5 }
+];
+
 function preload_ghostly_forest(scene) {
+  ghostly_forest_bg = PP.assets.image.load(scene, "assets/images/forest/ghostly_forest_background.png", 1280, 920);
+  ghostly_mountains_2_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/montagna1_spettrale.png", 1280, 720);
+  ghostly_mountains_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/montagna2_spettrale.png", 1280, 720);
+  ghostly_small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/alberello_spettrale.png", 550, 684);
+  ghostly_bamboo_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/recinzione_spettrale.png", 1096, 250);
+  ghostly_bush = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/arbusto_spettrale.png", 150, 114);
+
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
 }
 
-
 function create_ghostly_forest(scene, data) {
-  // Setta la scena del mondo spettrale
+
+  // === STATO SCENA ===
+  PP.game_state.currentScene = "ghostly_forest_scene";
   PP.game_state.otherWorld = "forest_scene";
+
+  // === PARALLASSE ===
+
+  // sfondo lontano
+  ghostly_bg_far = PP.assets.tilesprite.add(scene, ghostly_forest_bg, 0, 0, 6402, 920, 0, 0);
+  ghostly_bg_far.tile_geometry.scroll_factor_x = 0.15;
+
+  // montagne lontane
+  ghostly_bg_mid = PP.assets.tilesprite.add(scene, ghostly_mountains_bg, 0, 200, 6402, 920, 0, 0);
+  ghostly_bg_mid.tile_geometry.scroll_factor_x = 0.3;
+
+  // montagne vicine
+  ghostly_bg_main = PP.assets.tilesprite.add(scene, ghostly_mountains_2_bg, 0, 200, 6402, 920, 0, 0);
+  ghostly_bg_main.tile_geometry.scroll_factor_x = 0.45;
+
+  createGhostlyForest(scene, ghostly_small_tree, ghostly_forestTrees);
+
+  // recinzione in bamboo
+  ghostly_bg_front = PP.assets.tilesprite.add(scene, ghostly_bamboo_bg, -20, 750, 6400, 250, 0, 0);
+
+  let ghostly_img_bush = PP.assets.image.add(scene, ghostly_bush, 750, 940, 0.5, 0.5);
 
   // === PULSANTE HELP ===
   const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
@@ -25,15 +95,12 @@ function create_ghostly_forest(scene, data) {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 5, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 720, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === GROUND ===
   const ground = PP.shapes.rectangle_add(scene, 3200, 1010, 6400, 40, "0x4a3b2a", 0);
   PP.physics.add(scene, ground, PP.physics.type.STATIC);
-
-  // === SFONDO ===
-  scene.cameras.main.setBackgroundColor(0x0b3d0b);
 
   // === PIATTAFORME "TRONCHI" ===
   const platformPositions = [
