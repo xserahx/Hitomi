@@ -22,7 +22,7 @@ function create_ghostly_forest(scene, data) {
   });
 
   // === BORDI ===
-  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 5, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
   const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 720, "0x000000", 0);

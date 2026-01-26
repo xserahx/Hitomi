@@ -2,7 +2,7 @@
 let ghostly_tutorial_bg;
 
 function preload_ghostly_tutorial_scene(scene) {
-  ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png", 1280, 920);
+  ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background_long.png", 1280, 920);
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -27,7 +27,7 @@ function create_ghostly_tutorial_scene(scene) {
     // === PIATTAFORME ===
     const platformPositions = [ 
         { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-        { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+        { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma 
         { x: 1030, y: 767, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
         { x: 378, y: 465, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
         { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
@@ -100,7 +100,7 @@ function create_ghostly_tutorial_scene(scene) {
     }
     
     // === NEMICI ===
-    const enemyPositions = [{ x: 400, y: 840, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }];
+    const enemyPositions = [{ x: 400, y: 200, speed: 100, sprite_name: "lanterna" }];
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {

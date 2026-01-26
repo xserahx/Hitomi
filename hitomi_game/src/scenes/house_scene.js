@@ -106,12 +106,12 @@ function create_house(scene, data) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    { x: 605,  y: 595, w: 150, h: 40, sprite_name: "nuvoletta_1" }, // piattaforma centrale 
-    { x: 2065, y: 520, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "nuvoletta_1" }, //Piattaforma per salire sull'accrocchio
-    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "nuvoletta_1" }
+    { x: 605,  y: 595, w: 150, h: 40, sprite_name: "particelle" }, // piattaforma centrale 
+    { x: 2065, y: 520, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "particelle" }, //Piattaforma per salire sull'accrocchio
+    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "particelle" }
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);

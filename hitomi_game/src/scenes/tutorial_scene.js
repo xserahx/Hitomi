@@ -49,6 +49,12 @@ function create_tutorial_scene(scene) {
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+    const ghostlyPlatformPositions = [
+    { x: 1040,  y: 600, w: 150, h: 40, sprite_name: "particelle" } // piattaforma MONDO SPETTRALE
+     ];
+
+    PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
+
     // === BAMBINO (+500 X) ===
     const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
@@ -225,5 +231,4 @@ function cutscene(scene, player, trigger) {
         PP.assets.destroy(talk);
         PP.game_state.tutorialCutscene = false;
     }, false);
-
 }

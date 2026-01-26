@@ -92,11 +92,11 @@ function create_ghostly_house(scene, data) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    { x: 3240, y: 450, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 3730, y: 450, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 4830, y: 450, w: 150, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "nuvoletta_1" },
-    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "nuvoletta_1" }
+    { x: 3240, y: 450, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 3730, y: 450, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 4830, y: 450, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "particelle" },
+    { x: 6058, y: 155, w: 150, h: 42, sprite_name: "particelle" }
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);

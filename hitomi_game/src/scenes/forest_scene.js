@@ -5,7 +5,6 @@ let mountains_2_bg;
 let small_tree;
 let bamboo_bg;
 let bush;
-let snowflakeImg;
 
 let bg_far;
 let bg_mid;
@@ -15,7 +14,7 @@ let bg_front;
 
 function createForest(scene, treeSprite, treePositionArray) {
   for (let position of treePositionArray) {
-    PP.assets.image.add(scene, treeSprite, position.x, position.y, position.pivot_x, position.pivot_y);
+    PP.assets.image.add(scene,treeSprite,position.x,position.y,position.pivot_x,position.pivot_y);
   }
 }
 
@@ -25,8 +24,8 @@ const forestTrees = [
   { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
-
-
+ 
+ 
   { x: 700, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 900, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 1100, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
@@ -39,15 +38,15 @@ const forestTrees = [
 ];
 
 function preload_forest(scene) {
-  forest_bg = PP.assets.image.load(scene, "assets/images/forest/forest_background.png", 1280, 920);
-  mountains_2_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/montagna1.png", 1280, 720);
-  mountains_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/montagna2.png", 1280, 720);
-  small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png", 550, 684);
-  bamboo_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/recinzione.png", 1096, 250);
-  bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png", 150, 114);
-  snowflakeImg = PP.assets.image.load(scene, "assets/images/forest/neve.png");
+  forest_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,920);
+  mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna1.png",1280,720);
+  mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna2.png",1280,720);
+  small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
+  bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/recinzione.png",1096,250);
+  bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png",150,114);
+  scene.load.image("snowflake", "assets/images/forest/neve.png");
 
-  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene,"assets/images/heart.png",120,50);
 
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -55,7 +54,7 @@ function preload_forest(scene) {
 }
 
 function create_forest(scene) {
-
+  
   // === STATO SCENA ===
   PP.game_state.currentScene = "forest_scene";
   PP.game_state.otherWorld = "ghostly_forest_scene";
@@ -78,7 +77,7 @@ function create_forest(scene) {
 
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
-
+  
   let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
 
   // === PULSANTE HELP ===
@@ -88,14 +87,14 @@ function create_forest(scene) {
 
   // lo rendo cliccabile
   PP.interactive.mouse.add(helpButton, "pointerdown", () => {
-    showControlsPopup(scene);
-  });
+  showControlsPopup(scene);
+});
 
   // === BORDI ===
-  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 40, 1060, "0x000000", 0);
+  const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 5, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 720, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
 
@@ -105,52 +104,45 @@ function create_forest(scene) {
 
   // === PIATTAFORME ===
   const platformPositions = [
+    
+ // === PRIME PIATTAFORME ===
+{ x: 400, y: 850, w: 200, h: 20, sprite_name: "piattaforma" },
+//{ x: 820, y: 825, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
+{ x: 1060, y: 720, w: 150, h: 20, sprite_name: "piattaforma" },
 
-    // === PRIME PIATTAFORME ===
-    { x: 400, y: 850, w: 200, h: 20, sprite_name: "piattaforma" },
-    //{ x: 820, y: 825, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
-    { x: 1060, y: 720, w: 150, h: 20, sprite_name: "piattaforma" },
+// === MASSO (?) DA SCAVALCARE ===
+{ x: 1400, y: 730, w: 150, h: 350, sprite_name: "piattaforma" },
+{ x: 1532, y: 870, w: 100, h: 50, sprite_name: "piattaforma" },
 
-    // === MASSO (?) DA SCAVALCARE ===
-    { x: 1400, y: 730, w: 150, h: 350, sprite_name: "piattaforma" },
-    { x: 1532, y: 870, w: 100, h: 50, sprite_name: "piattaforma" },
+// === PIATTAFORME PRIMA DELLA SCALA ===
+{ x: 1780, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 1970, y: 755, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+//{ x: 2440, y: 665, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
+{ x: 2510, y: 590, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
 
-    // === PIATTAFORME PRIMA DELLA SCALA ===
-    { x: 1780, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 1970, y: 755, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
-    //{ x: 2440, y: 665, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
-    { x: 2510, y: 590, w: 100, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+// === ALBERO DA SCALARE ===
+{ x: 2880, y: 765, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3050, y: 655, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3050, y: 375, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3250, y: 250, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
+//{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
 
-    // === ALBERO DA SCALARE ===
-    { x: 2880, y: 765, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3050, y: 655, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3050, y: 375, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3250, y: 165, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
-    //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
+// PIATTAFORME FINALI
+//{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
+{ x: 4250, y: 665, w: 200, h: 20, sprite_name: "piattaforma" },
+{ x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
 
-
-//    { x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
-    // PIATTAFORME FINALI
-    //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4250, y: 665, w: 200, h: 20, sprite_name: "piattaforma" },
-//    { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
-
-
-  ];
+];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
-  // === PIATTAFORME NEL MONDO SPETTRALE ===
-  const ghostlyPlatformPositions = [
-    { x: 820, y: 825, w: 200, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 2240, y: 665, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 3050, y: 515, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 3050, y: 215, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 3900, y: 500, w: 100, h: 20, sprite_name: "nuvoletta_1" }, //penultimo
-    { x: 4550, y: 850, w: 200, h: 20, sprite_name: "nuvoletta_1" } //ultimo
-
-  ];
+// === PIATTAFORME NEL MONDO SPETTRALE ===
+const ghostlyPlatformPositions = [
+  { x: 820, y: 825, w: 200, h: 20, sprite_name: "particelle" },  
+  { x: 2240, y: 665, w: 100, h: 20, sprite_name: "particelle" }
+];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
@@ -160,21 +152,21 @@ function create_forest(scene) {
 
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY)
-
+  
   // Collider player
   PP.physics.add_collider(scene, PP.game_state.player, ground);
   PP.physics.add_collider(scene, PP.game_state.player, leftWall);
   PP.physics.add_collider(scene, PP.game_state.player, rightWall);
-
+  
   for (let plat of PP.game_state.platforms) {
     PP.physics.add_collider(scene, PP.game_state.player, plat);
   }
 
   // Check se sta cambiando mondo
-  if (PP.game_state.changingWorld) {
-    PP.game_state.player.geometry.x = config.player_x;
-    PP.game_state.player.geometry.y = config.player_y;
-  }
+    if(PP.game_state.changingWorld){
+      PP.game_state.player.geometry.x = config.player_x;
+      PP.game_state.player.geometry.y = config.player_y;
+    }
 
   // === HUD CUORI ===
   PP.game_state.hearts = [];
@@ -188,14 +180,13 @@ function create_forest(scene) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 600, y: 840, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-    { x: 1200, y: 840, w: 170, h: 170, speed: 80, sprite_name: "slug" },
-    { x: 2250, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 2050, y: 155, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-    { x: 3150, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 3460, y: 840, w: 170, h: 170, speed: 80, sprite_name: "pterodattilo" },
-    { x: 3770, y: 840, w: 170, h: 170, speed: 80, sprite_name: "slug" },
-    { x: 4200, y: 840, w: 170, h: 170, speed: 80, sprite_name: "lanterna" }
+    { x: 400,  y: 800, sprite_name: "pterodattilo" },
+    { x: 1200, y: 800, sprite_name: "slug" },
+    { x: 2250, y: 800, sprite_name: "lanterna" },
+    { x: 2050, y: 155, sprite_name: "pterodattilo" },
+    { x: 3150, y: 800, sprite_name: "lanterna" },
+    { x: 3350, y: 800, sprite_name: "pterodattilo" },
+    { x: 3550, y: 800, sprite_name: "slug" }
   ];
 
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
@@ -206,17 +197,17 @@ function create_forest(scene) {
       PP.physics.add_collider(scene, enemy, plat);
     }
 
-    // Overlap player-nemico
+ // Overlap player-nemico
     PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
-        // HUD DANNO
-        let currentIndex = PP.game_state.player.lives - 1;
-        PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+       // HUD DANNO
+       let currentIndex = PP.game_state.player.lives - 1;
+       PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+       }
+         PP.entities.player.damage(scene, PP.game_state.player, enemy);
+       });
       }
-      PP.entities.player.damage(scene, PP.game_state.player, enemy);
-    });
-  }
 
   // === CAMERA ===
   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
@@ -231,59 +222,63 @@ function create_forest(scene) {
 
   // === NEVE ===
   scene.snowflakes = [];
+  scene.time.addEvent({
+    delay: 200,
+    loop: true,
+    callback: () => {
+      const flake = scene.add.image(
+        Phaser.Math.Between(0, scene.scale.width),
+        0,
+        "snowflake"
+      ).setScale(0.2);
 
-  PP.timers.add_timer(scene, 200, (s) => {
-    const flake = PP.assets.image.add(s, snowflakeImg, Math.random() * s.scale.width, 0, 0.5, 0.5);
-    flake.geometry.scale_x = 0.2;
-    flake.geometry.scale_y = 0.2;
-
-    flake.tile_geometry.scroll_factor_x = 0.6;
-    flake.tile_geometry.scroll_factor_y = 0.6;
-
-    flake.speedY = 2;
-
-    s.snowflakes.push(flake);
-
-  }, true);
+      flake.setScrollFactor(0.6);
+      scene.snowflakes.push(flake);
+    }
+  });
 
   PP.game_state.changingWorld = false;
 }
 
 function update_forest(scene) {
-  PP.entities.player.update(scene, PP.game_state.player);
-  PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
+     PP.entities.player.update(scene, PP.game_state.player);
+    PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
-  // === CAMBIO MONDO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
-    console.log("Changing world");
-    PP.entities.player.changeWorld(scene);
-  }
-
-  if (PP.game_state.player) {
-    PP.game_state.playerPosition = {
-      x: PP.game_state.player.x,
-      y: PP.game_state.player.y
-    };
-  }
-
-  const snowTopY = 900 - (40 / 2);
-  const snowTopX = 7680;
-
-  // muovi i fiocchi verso il basso
-  for (let flake of scene.snowflakes) {
-
-    flake.geometry.y += flake.speedY ?? 2;
-
-    if (flake.geometry.y >= snowTopY - 5) {
-
-      flake.geometry.y = -10;
-      flake.geometry.x = Math.random() * snowTopX;
+        // === CAMBIO MONDO ===
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
+      console.log("Changing world");
+       PP.entities.player.changeWorld(scene);
     }
-  }
 
+    if (PP.game_state.player) {
+      PP.game_state.playerPosition = {
+         x: PP.game_state.player.x,
+         y: PP.game_state.player.y
+        };
+    }
+
+const snowTopY = 900 - (40 / 2);
+const snowTopX = 7680;
+
+// muovi i fiocchi verso il basso
+for (let flake of scene.snowflakes) {
+
+  // caduta fiocchi verso y
+  flake.y += flake.speedY ?? 2;
+
+  // quando arriva al terreno → respawn in alto
+  if (flake.y >= snowTopY - 5) {
+
+    flake.y = -10;                          
+    flake.x = Math.random() * snowTopX; 
+  }
+}
+  if (PP.game_state.player.geometry.x > 5005) {
+    PP.scenes.start("bossfight_scene");
+  }
 }
 
-function destroy_forest(scene) { }
+function destroy_forest(scene) {}
 
 PP.scenes.add("forest_scene", preload_forest, create_forest, update_forest, destroy_forest);
 
@@ -307,13 +302,13 @@ function showControlsPopup(scene) {
   );
 
   // bottone per chiudere il pop up dei comandi
-  const closeBtn = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 220, 740, "CHIUDI");
+  const closeBtn = PP.shapes.text_add(scene, PP.game_state.player.geometry.x -220, 740, "CHIUDI");
 
   //modifico le posizioni per evitaare che escano dallo schermo
-  if (PP.game_state.player.geometry.x < 1280) {
+  if(PP.game_state.player.geometry.x < 1280){
     text.geometry.x = 400;
     closeBtn.geometry.x = 520;
-  } else if (PP.game_state.player.geometry.x > 6400) {
+  }else if(PP.game_state.player.geometry.x > 6400){
     text.geometry.x = 6860;
     closeBtn.geometry.x = 6980;
   }
