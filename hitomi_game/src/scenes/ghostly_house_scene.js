@@ -67,16 +67,18 @@ function create_ghostly_house(scene, data) {
 
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// standard                RIMANE
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
-    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
+//    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 4180, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
     { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
     { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
     { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
-    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
+//    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
     // { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
-    { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
+{ x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
 
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
     { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -140,9 +142,10 @@ function create_ghostly_house(scene, data) {
   const enemyPositions = [
     { x: 1730, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
     { x: 2040, y: 830, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
+    { x: 3900, y: 840, w: 75, h: 75, speed: 70, sprite_name: "bambino" },
     { x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 4380, y: 840, w: 75, h: 75, speed: 70, sprite_name: "slug" },
-    { x: 5500, y: 840, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
+    { x: 5200, y: 840, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
     { x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
     { x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 6900, y: 840, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
@@ -175,8 +178,7 @@ function create_ghostly_house(scene, data) {
   const keys =
     [
       { x: 2470, y: 358, collected: false, id: 1, sprite_name: "chiave" },
-      { x: 3740, y: 785, collected: false, id: 2, sprite_name: "chiave" },
-      { x: 5880, y: 710, collected: false, id: 3, sprite_name: "chiave" }
+    { x: 3740, y: 785,  collected: false, id: 2, sprite_name: "chiave" }
     ];
 
   PP.game_state.keys = PP.scene_objects.key.create(scene, keys);
@@ -184,9 +186,7 @@ function create_ghostly_house(scene, data) {
   const doors =
     [
       { x: 2765, y: 726, sprite_name: "door", collected: false, id: 1 },
-      { x: 5125, y: 726, sprite_name: "door", collected: false, id: 2 },
-      { x: 7570, y: 726, sprite_name: "door", collected: false, id: 3 }
-    ];
+    { x: 7570, y: 726, sprite_name: "door", collected: false, id: 2 }    ];
 
   PP.game_state.doors = PP.scene_objects.key.create(scene, doors);
 
