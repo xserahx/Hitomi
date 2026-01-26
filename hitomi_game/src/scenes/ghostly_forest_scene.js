@@ -39,58 +39,56 @@ function create_ghostly_forest(scene, data) {
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
-    { x: 400, y: 850, w: 200, h: 20, sprite_name: "piattaforma" },
-    { x: 820, y: 825, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
+    { x: 400, y: 850, w: 150, h: 20, sprite_name: "piattaforma" },
+    { x: 820, y: 825, w: 150, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
     { x: 1060, y: 720, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // === MASSO (?) DA SCAVALCARE ===
     { x: 1400, y: 730, w: 150, h: 350, sprite_name: "piattaforma" },
-    { x: 1532, y: 870, w: 100, h: 50, sprite_name: "piattaforma" },
+    { x: 1532, y: 870, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
-    { x: 1780, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 2240, y: 665, w: 100, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
+    { x: 1780, y: 665, w: 150, h: 20, sprite_name: "piattaforma" },
+    { x: 2240, y: 665, w: 150, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
 
     // SCALA
     //{ x: 3080, y: 1890, w: 100, h: 20 },  One
-    { x: 3050, y: 655, w: 100, h: 20, sprite_name: "piattaforma" }, // Two
-    { x: 3050, y: 515, w: 100, h: 20, sprite_name: "piattaforma" }, // Three
+    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma" }, // Two
+    { x: 3050, y: 515, w: 150, h: 20, sprite_name: "piattaforma" }, // Three
     //  { x: 3250, y: 1500, w: 100, h: 20 }, //FOUR
 
     // BLOCCO A SINISTRA DELLA SCALA
-    { x: 3050, y: 215, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3050, y: 215, w: 150, h: 20, sprite_name: "piattaforma" },
 
     // SECONDA RAMPA DI SCALE 
-    { x: 3250, y: 165, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma" },
     //  { x: 2675, y: 1110, w: 150, h: 20 },
     { x: 3990, y: -85, w: 150, h: 20, sprite_name: "piattaforma" },  // apice
 
 
-//    { x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
+    //    { x: 3550, y: 325, w: 100, h: 20, sprite_name: "piattaforma" },
     //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
 
 
-    { x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
+    { x: 3900, y: 500, w: 150, h: 20, sprite_name: "piattaforma" },
     // PIATTAFORME FINALI
     //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
+    { x: 4550, y: 850, w: 150, h: 20, sprite_name: "piattaforma" }
 
 
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+
   // === PIATTAFORME NEL MONDO REALE ===
   const ghostlyPlatformPositions = [
-    { x: 1970, y: 755, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 2510, y: 590, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 2880, y: 765, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-    { x: 3050, y: 375, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-        { x: 3550, y: 325, w: 100, h: 20, sprite_name: "nuvoletta_1" },
-              { x: 4250, y: 665, w: 200, h: 20, sprite_name: "nuvoletta_1" }
-
-
-
+    { x: 1970, y: 755, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 2510, y: 590, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3050, y: 375, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3550, y: 325, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 4250, y: 665, w: 150, h: 20, sprite_name: "particelle" }
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
