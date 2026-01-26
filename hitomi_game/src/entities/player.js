@@ -26,14 +26,16 @@ PP.entities.player.create = function (scene, x, y) {
   player.jumpPressedTime = 0;
   player.canJump = false;
   player.coyoteTime = 150;
+  player.jumpAnticTime = 100;
   player.jumpHoldTime = 400;
   player.jumpForce = -650;
   player.gravityUp = 600;
   player.gravityDown = 1200;
   player.jumpCutMultiplier = 2.5;
+  player.jumpState = "ground";   // ground | anticipation | up | down
   player.lastGrounded = 0;
   player.isDashing = false;
-  player.dashSpeed = 600; //600 ORIGINALE
+  player.dashSpeed = 600;
   player.dashTime = 200;
   player.dashCooldown = 400;
   player.lastDash = 0;
@@ -56,6 +58,11 @@ PP.entities.player.create = function (scene, x, y) {
   PP.assets.sprite.animation_add(player, "attacco", 16, 21, 10, 0);
   player.isAttackingAnim = false;
 
+  PP.assets.sprite.animation_add(player, "salto_pre", 24, 24, 12, 0);
+
+  PP.assets.sprite.animation_add(player, "salto1", 25, 26, 7, 0);
+
+  PP.assets.sprite.animation_add(player, "salto2", 27, 29, 7, 0);
   if (PP.game_state.isPLayerFlipped == true){player.geometry.flip_x = true;}
 
   return player;
@@ -151,28 +158,95 @@ PP.entities.player.update = function (scene, player) {
       PP.assets.sprite.animation_stop(player);
     }
 
-  // === COYOTE TIME SALTO===
-  if (player.ph_obj.body.blocked.down) { 
-  // uso player.ph_obj perché la proprietà body.blocked.down non appartiene a Poliphaser e dunque per farla leggere a Phaser occorre aggiungerlo in quanto è come se player è wrappato in Poliphaser
+  // === COYOTE TIME ===
+  if (player.ph_obj.body.blocked.down) {
     player.canJump = true;
     player.lastGrounded = PP.timers.getTime(scene);
-  } else if (scene.time.now - player.lastGrounded > player.coyoteTime) {
+
+    if (player.jumpState !== "anticipation") {
+      player.jumpState = "ground";
+    }
+
+  } else if (PP.timers.getTime(scene) - player.lastGrounded > player.coyoteTime) {
     player.canJump = false;
   }
 
-  // === SALTO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.canJump && player.inCutscene == false) {
-    PP.physics.set_velocity_y(player, player.jumpForce);
-    player.jumpPressedTime = PP.timers.getTime(scene);
-    player.canJump = false;
+  // === INPUT → ANTICIPAZIONE ===
+  if (
+    PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) &&
+    player.canJump &&
+    !player.inCutscene &&
+    player.jumpState === "ground"
+  ) {
+    player.jumpState = "anticipation";
+    player.jumpAnticStart = PP.timers.getTime(scene);
   }
 
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) && player.inCutscene == false && PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime)
+  // === ANTICIPAZIONE → SALTO ===
+  if (player.jumpState === "anticipation") {
+    if (PP.timers.getTime(scene) - player.jumpAnticStart > player.jumpAnticTime) {
+      PP.physics.set_velocity_y(player, player.jumpForce);
+      player.jumpPressedTime = PP.timers.getTime(scene);
+      player.canJump = false;
+      player.jumpState = "up";
+    }
+  }
+
+  // === JUMP HOLD ===
+  if (
+    player.jumpState === "up" &&
+    PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) &&
+    PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime
+  ) {
     PP.physics.set_acceleration_y(player, player.gravityUp);
-  else PP.physics.set_acceleration_y(player, player.gravityDown);
+  } else {
+    PP.physics.set_acceleration_y(player, player.gravityDown);
+  }
 
-  if (PP.interactive.kb.is_key_up(scene, PP.key_codes.SPACE) && PP.physics.get_velocity_y(player) < 0)
-    {PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);}
+  // === JUMP CUT ===
+  if (
+    PP.interactive.kb.is_key_up(scene, PP.key_codes.SPACE) &&
+    PP.physics.get_velocity_y(player) < 0
+  ) {
+    PP.physics.set_velocity_y(
+      player,
+      PP.physics.get_velocity_y(player) / player.jumpCutMultiplier
+    );
+  }
+
+  // === TRANSIZIONE UP → DOWN ===
+  if (
+    player.jumpState === "up" &&
+    PP.physics.get_velocity_y(player) > 0
+  ) {
+    player.jumpState = "down";
+  }
+
+  if (player.jumpState === "anticipation") {
+    PP.assets.sprite.animation_play(player, "salto_pre");
+  }
+  else if (player.jumpState === "up") {
+    PP.assets.sprite.animation_play(player, "salto1");
+  }
+  else if (player.jumpState === "down") {
+    PP.assets.sprite.animation_play(player, "salto2");
+    
+  }
+
+  // === ATTERRAGGIO → IDLE ===
+  if (player.ph_obj.body.blocked.down && 
+      player.jumpState !== "anticipation" && 
+      player.jumpState !== "up" && 
+      player.jumpState !== "down") {
+
+      player.jumpState = "ground";
+
+      if (!movingLeft && !movingRight) {
+          PP.assets.sprite.animation_play(player, "idle");
+          player.isWalkingAnim = false;
+      }
+  }
+
 };
 
 // === FUNZIONE DI ATTACCO ===
