@@ -10,7 +10,7 @@ function preload_ghostly_tutorial_scene(scene) {
 
 // === CREAZIONE SCENA ===
 function create_ghostly_tutorial_scene(scene) {
-    PP.assets.tilesprite.add(scene, ghostly_tutorial_bg, -20, -30, 1800, 920, 0, 0);
+    PP.assets.tilesprite.add(scene, ghostly_tutorial_bg, 0, -30, 1800, 920, 0, 0);
     PP.game_state.otherWorld = "tutorial_scene";
 
     // === MURI ===
