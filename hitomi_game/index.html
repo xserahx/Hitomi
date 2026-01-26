@@ -1,45 +1,57 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
- <title> Hitomi - Through The Other Side</title>
- <link rel="icon" href="assets/images/hitomi.png" />
- <script src="lib/phaser.min.js"> </script>
- <script src="lib/poliphaser.js"> </script>
- <style>
-body {
-  background-image: url('assets/images/index_bg.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
-</style>
+  <head>
+  <title> Hitomi - Through The Other Side</title>
+  <link rel="icon" href="assets/images/hitomi.png" />
+  <script src="lib/phaser.min.js"> </script>
+  <script src="lib/poliphaser.js"> </script>
+  <style>
+  body {
+    background-image: url('assets/images/index_bg.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    margin:0;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  </style>
 
-<!-- ------------MODULI----------- -->
- <script src="src/scenes/main_menu.js" type="module"> </script>
- <script src="src/scenes/credits.js" type="module"> </script>
- <script src="src/scenes/story_scene.js" type="module"> </script>
- <script src="src/scenes/tutorial_scene.js" type="module"> </script>
- <script src="src/scenes/ghostly_tutorial_scene.js" type="module"> </script>
- <script src="src/scenes/house_scene.js" type="module"> </script>
- <script src="src/scenes/ghostly_house_scene.js" type="module"> </script>
- <script src="src/scenes/forest_scene.js" type="module"> </script>
- <script src="src/scenes/ghostly_forest_scene.js" type="module"> </script>
- <script src="src/scenes/bossfight_scene.js" type="module"> </script>
- <script src="src/scenes/game_over.js" type="module"> </script>
- <script src="src/scenes/kakurebi_scene.js" type="module"> </script>
- <script src="src/scenes/teitai_scene.js" type="module"> </script>
- <script src="src/scenes/musubi_scene.js" type="module"> </script>
+  <!-- ------------MODULI----------- -->
+  <script src="src/scenes/main_menu.js" type="module"> </script>
+  <script src="src/scenes/credits.js" type="module"> </script>
+  <script src="src/scenes/story_scene.js" type="module"> </script>
+  <script src="src/scenes/tutorial_scene.js" type="module"> </script>
+  <script src="src/scenes/ghostly_tutorial_scene.js" type="module"> </script>
+  <script src="src/scenes/house_scene.js" type="module"> </script>
+  <script src="src/scenes/ghostly_house_scene.js" type="module"> </script>
+  <script src="src/scenes/forest_scene.js" type="module"> </script>
+  <script src="src/scenes/ghostly_forest_scene.js" type="module"> </script>
+  <script src="src/scenes/bossfight_scene.js" type="module"> </script>
+  <script src="src/scenes/game_over.js" type="module"> </script>
+  <script src="src/scenes/kakurebi_scene.js" type="module"> </script>
+  <script src="src/scenes/teitai_scene.js" type="module"> </script>
+  <script src="src/scenes/musubi_scene.js" type="module"> </script>
 
- <!-- ------------MAIN----------- -->
- <script defer src="src/main.js"> </script>
- <script src="src/entities/player.js"> </script>
- <script src="src/entities/enemy.js"></script>
-  <script src="src/entities/boss.js"></script>
- <script src="src/scene_objects/platform.js"></script>
- <script src="src/scene_objects/moving_platform.js"></script>
- <script src="src/scene_objects/keys.js"></script>
-</head>
-<body>
-    <div id="game" style="text-align:center;"></div>
-</body>
+  <!-- ------------MAIN----------- -->
+  <script defer src="src/main.js"> </script>
+  <script src="src/entities/player.js"> </script>
+  <script src="src/entities/enemy.js"></script>
+    <script src="src/entities/boss.js"></script>
+  <script src="src/scene_objects/platform.js"></script>
+  <script src="src/scene_objects/moving_platform.js"></script>
+  <script src="src/scene_objects/keys.js"></script>
+  </head>
+  <body>
+    <div id="game"
+    style="
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    ">
+    </div>
+  </body>
 </html>
