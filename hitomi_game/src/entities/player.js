@@ -49,204 +49,173 @@ PP.entities.player.create = function (scene, x, y) {
   PP.physics.set_acceleration_y(player, player.gravityDown);
 
   // === ANIMAZIONI ===
-  PP.assets.sprite.animation_add(player, "camminata", 0, 7, 10, -1);
+  PP.assets.sprite.animation_add(player, "camminata", 0, 7, 16, -1);
   player.isWalkingAnim = false;
 
-  PP.assets.sprite.animation_add(player, "idle", 8, 12, 10, -1);
+  PP.assets.sprite.animation_add(player, "idle", 8, 12, 5, -1);
   player.isIdleAnim = false;
 
-  PP.assets.sprite.animation_add(player, "attacco", 16, 21, 10, 0);
+  PP.assets.sprite.animation_add(player, "attacco", 16, 21, 20, 0);
   player.isAttackingAnim = false;
 
-  PP.assets.sprite.animation_add(player, "salto_pre", 24, 24, 12, 0);
+  PP.assets.sprite.animation_add(player, "salto_pre", 24, 24, 1, 0);
 
-  PP.assets.sprite.animation_add(player, "salto1", 25, 26, 7, 0);
+  PP.assets.sprite.animation_add(player, "salto1", 25, 26, 10, 0);
 
-  PP.assets.sprite.animation_add(player, "salto2", 27, 29, 7, 0);
+  PP.assets.sprite.animation_add(player, "salto2", 27, 29, 12, 0);
   if (PP.game_state.isPLayerFlipped == true){player.geometry.flip_x = true;}
 
   return player;
 };
 
 PP.entities.player.update = function (scene, player) {
-  if(PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true || PP.game_state.pause == true || PP.game_state.tutorialCutscene == true){
-    player.inCutscene = true;
-  }else{player.inCutscene = false;}
-  
-  if (player.lives == 0 || player.inCutscene == true) {
-    player.isInvincible == true;
+  // === STATO CUTSCENE / PAUSA / MORTE ===
+  player.inCutscene = PP.game_state.bossIsDead || 
+                      PP.game_state.duringBossCutscene || 
+                      PP.game_state.pause || 
+                      PP.game_state.tutorialCutscene;
+
+  if (player.lives === 0 || player.inCutscene) {
+    player.isInvincible = true;
     PP.physics.set_velocity_x(player, 0);
     return;
   }
 
-  let speed = 200; 
-  let movingLeft = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
-  let movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
-  
-  if(PP.game_state.has_baby == true){
-    speed = 200;
-    player.dashSpeed = 400;
-  }
-
-  config.player_x = player.geometry.body_x;
-  config.player_y = player.geometry.body_y;
+  // === INPUT ===
+  const movingLeft  = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
+  const movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
+  let speed = 200;
+  if (PP.game_state.has_baby) player.dashSpeed = 400;
 
   // === DEV MODE ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && PP.game_state.DevMode == false) {
-    let Advertisment = PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && !PP.game_state.DevMode) {
+    PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
     PP.game_state.DevMode = true;
-  }else if (PP.interactive.kb.is_key_down(scene, PP.key_codes.O) && PP.game_state.DevMode == true) {
-    let Advertisment = PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOT IN DEV MODE ANYMORE");
+  } else if (PP.interactive.kb.is_key_down(scene, PP.key_codes.O) && PP.game_state.DevMode) {
+    PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOT IN DEV MODE ANYMORE");
     PP.game_state.DevMode = false;
   }
 
   // === DASH ===
-  if (
-    PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) && player.inCutscene == false &&
-    !player.isDashing &&
-    PP.timers.getTime(scene) - player.lastDash > player.dashCooldown
-  ) {
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) && !player.inCutscene &&
+      !player.isDashing && PP.timers.getTime(scene) - player.lastDash > player.dashCooldown) {
     player.isDashing = true;
     player.lastDash = PP.timers.getTime(scene);
-
     PP.physics.change_gravity(scene, 200);
-    let dir = player.geometry.flip_x ? -1 : 1;
-    PP.physics.set_velocity_x(player, dir * player.dashSpeed);
+    PP.physics.set_velocity_x(player, (player.geometry.flip_x ? -1 : 1) * player.dashSpeed);
   }
 
   if (player.isDashing) {
     if (PP.timers.getTime(scene) - player.lastDash > player.dashTime) {
       player.isDashing = false;
-    } else {
-      return;
-    }
+    } else return;
   }
-
 
   // === MOVIMENTO ORIZZONTALE ===
   if (!player.isKnocked && !player.isAttacking) {
-    if (movingLeft && !movingRight) {
-      player.geometry.flip_x = true;
-      PP.game_state.isPLayerFlipped = true;
-      PP.physics.set_velocity_x(player, -speed);
-      if (!player.isWalkingAnim) {
-        PP.assets.sprite.animation_play(player, "camminata");
-        player.isWalkingAnim = true;
-      }
-    }
-    else if (movingRight && !movingLeft && player.inCutscene == false) {
-      player.geometry.flip_x = false;
-      PP.game_state.isPLayerFlipped = false;
-      PP.physics.set_velocity_x(player, speed);
-      if (!player.isWalkingAnim) {
-        PP.assets.sprite.animation_play(player, "camminata");
-        player.isWalkingAnim = true;
-      }
-    }
-    else{
-      PP.physics.set_velocity_x(player, 0);
-      if (player.isWalkingAnim) {
+    let velocityX = 0;
+    if (movingLeft && !movingRight) velocityX = -speed;
+    else if (movingRight && !movingLeft) velocityX = speed;
+
+    PP.physics.set_velocity_x(player, velocityX);
+
+    // flip del player solo se si muove
+    if (velocityX < 0) player.geometry.flip_x = true;
+    else if (velocityX > 0) player.geometry.flip_x = false;
+    PP.game_state.isPLayerFlipped = player.geometry.flip_x;
+
+    if (player.ph_obj.body.blocked.down && !player.isAttacking) {
+      if (velocityX === 0) {
         PP.assets.sprite.animation_play(player, "idle");
         player.isWalkingAnim = false;
+      } else if (!player.isWalkingAnim) {
+        PP.assets.sprite.animation_play(player, "camminata");
+        player.isWalkingAnim = true;
       }
     }
   }
 
-  if(PP.game_state.pause == true){ 
-    console.log("Pausing player movement and animation");
-      PP.physics.set_velocity_x(player, 0);
-      PP.assets.sprite.animation_stop(player);
-    }
-
-  // === COYOTE TIME ===
-  if (player.ph_obj.body.blocked.down) {
-    player.canJump = true;
-    player.lastGrounded = PP.timers.getTime(scene);
-
-    if (player.jumpState !== "anticipation") {
-      player.jumpState = "ground";
-    }
-
-  } else if (PP.timers.getTime(scene) - player.lastGrounded > player.coyoteTime) {
-    player.canJump = false;
+  // === PAUSA ===
+  if (PP.game_state.pause) {
+    PP.physics.set_velocity_x(player, 0);
+    PP.assets.sprite.animation_stop(player);
+    return;
   }
 
-  // === INPUT → ANTICIPAZIONE ===
-  if (
-    PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) &&
-    player.canJump &&
-    !player.inCutscene &&
-    player.jumpState === "ground"
-  ) {
+  // === COYOTE TIME / ATTERAGGIO ===
+  if (player.ph_obj.body.blocked.down) {
+      player.canJump = true;
+      player.lastGrounded = PP.timers.getTime(scene);
+
+      // Resettiamo jumpState se non siamo in anticipazione
+      if (player.jumpState !== "anticipation") {
+          player.jumpState = "ground"; // <--- questa linea è cruciale
+      }
+  } else if (PP.timers.getTime(scene) - player.lastGrounded > player.coyoteTime) {
+      player.canJump = false;
+  }
+
+  // === INPUT → ANTICIPAZIONE SALTO ===
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) &&
+      player.canJump && !player.inCutscene && player.jumpState === "ground") {
     player.jumpState = "anticipation";
     player.jumpAnticStart = PP.timers.getTime(scene);
   }
 
   // === ANTICIPAZIONE → SALTO ===
-  if (player.jumpState === "anticipation") {
-    if (PP.timers.getTime(scene) - player.jumpAnticStart > player.jumpAnticTime) {
-      PP.physics.set_velocity_y(player, player.jumpForce);
-      player.jumpPressedTime = PP.timers.getTime(scene);
-      player.canJump = false;
-      player.jumpState = "up";
-    }
+  if (player.jumpState === "anticipation" &&
+      PP.timers.getTime(scene) - player.jumpAnticStart > player.jumpAnticTime) {
+    PP.physics.set_velocity_y(player, player.jumpForce);
+    player.jumpPressedTime = PP.timers.getTime(scene);
+    player.canJump = false;
+    player.jumpState = "up";
   }
 
-  // === JUMP HOLD ===
-  if (
-    player.jumpState === "up" &&
-    PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) &&
-    PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime
-  ) {
+  // === JUMP HOLD / GRAVITY ===
+  if (player.jumpState === "up" &&
+      PP.interactive.kb.is_key_down(scene, PP.key_codes.SPACE) &&
+      PP.timers.getTime(scene) - player.jumpPressedTime < player.jumpHoldTime) {
     PP.physics.set_acceleration_y(player, player.gravityUp);
   } else {
     PP.physics.set_acceleration_y(player, player.gravityDown);
   }
 
   // === JUMP CUT ===
-  if (
-    PP.interactive.kb.is_key_up(scene, PP.key_codes.SPACE) &&
-    PP.physics.get_velocity_y(player) < 0
-  ) {
-    PP.physics.set_velocity_y(
-      player,
-      PP.physics.get_velocity_y(player) / player.jumpCutMultiplier
-    );
+  if (PP.interactive.kb.is_key_up(scene, PP.key_codes.SPACE) &&
+      PP.physics.get_velocity_y(player) < 0) {
+    PP.physics.set_velocity_y(player, PP.physics.get_velocity_y(player) / player.jumpCutMultiplier);
   }
 
   // === TRANSIZIONE UP → DOWN ===
-  if (
-    player.jumpState === "up" &&
-    PP.physics.get_velocity_y(player) > 0
-  ) {
-    player.jumpState = "down";
-  }
+  if (player.jumpState === "up" && PP.physics.get_velocity_y(player) > 0) player.jumpState = "down";
 
-  if (player.jumpState === "anticipation") {
-    PP.assets.sprite.animation_play(player, "salto_pre");
-  }
-  else if (player.jumpState === "up") {
-    PP.assets.sprite.animation_play(player, "salto1");
-  }
-  else if (player.jumpState === "down") {
-    PP.assets.sprite.animation_play(player, "salto2");
-    
-  }
-
-  // === ATTERRAGGIO → IDLE ===
-  if (player.ph_obj.body.blocked.down && 
-      player.jumpState !== "anticipation" && 
-      player.jumpState !== "up" && 
-      player.jumpState !== "down") {
-
-      player.jumpState = "ground";
-
-      if (!movingLeft && !movingRight && !player.isAttacking) {
-          PP.assets.sprite.animation_play(player, "idle");
-          player.isWalkingAnim = false;
+  // === ANIMAZIONI SALTO / CAMMINATA / IDLE / ATTACCO ===
+  if (!player.isAttacking) {
+      if (!player.ph_obj.body.blocked.down) {
+          // player in aria → animazioni salto
+          let jumpAnim = player.jumpState === "anticipation" ? "salto_pre" :
+                        player.jumpState === "up" ? "salto1" :
+                        player.jumpState === "down" ? "salto2" : null;
+          if (jumpAnim && player.currentAnim !== jumpAnim) {
+              PP.assets.sprite.animation_play(player, jumpAnim);
+              player.currentAnim = jumpAnim;
+          }
+      } else {
+          // player a terra → animazioni camminata/idle
+          const velocityX = PP.physics.get_velocity_x(player);
+          if (velocityX === 0) {
+              if (player.currentAnim !== "idle") {
+                  PP.assets.sprite.animation_play(player, "idle");
+                  player.currentAnim = "idle";
+              }
+          } else {
+              if (player.currentAnim !== "camminata") {
+                  PP.assets.sprite.animation_play(player, "camminata");
+                  player.currentAnim = "camminata";
+              }
+          }
       }
   }
-
 };
 
 // === FUNZIONE DI ATTACCO ===
