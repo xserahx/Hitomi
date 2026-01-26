@@ -53,6 +53,7 @@ function create_ghostly_tutorial_scene(scene) {
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
     PP.physics.add_collider(scene, PP.game_state.player, leftWall);
+    PP.physics.add_collider(scene, PP.game_state.player, behindWall);
     PP.physics.add_collider(scene, PP.game_state.player, rightWall);
 
     for (let plat of PP.game_state.platforms) {
@@ -96,7 +97,7 @@ function create_ghostly_tutorial_scene(scene) {
         }
     });
 
-   // === HUD VITE (CUORI) ===
+    // === HUD VITE ===
     PP.game_state.hearts = [];
 
     for (let i = 0; i < PP.game_state.player.maxLives; i++) {
@@ -107,7 +108,7 @@ function create_ghostly_tutorial_scene(scene) {
         heart.tile_geometry.scroll_factor_y = 0;
         PP.game_state.hearts.push(heart);
     }
-    
+
     // === NEMICI (+500 X) ===
     const enemyPositions = [
         { x: 900, y: 200, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
@@ -116,51 +117,46 @@ function create_ghostly_tutorial_scene(scene) {
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
-
-        // collisioni con terreno e piattaforme
         PP.physics.add_collider(scene, enemy, ground);
-
         for (let plat of PP.game_state.platforms) {
             PP.physics.add_collider(scene, enemy, plat);
         }
 
-        // Overlap player-nemico
-    PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
-      if (!(PP.game_state.player.lives <= 0)) {
+        PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
+            if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
+                let currentIndex = PP.game_state.player.lives - 1;
+                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+            }
+            PP.entities.player.damage(scene, PP.game_state.player, enemy);
+        });
+    }
 
-      // HUD DANNO
-      let currentIndex = PP.game_state.player.lives - 1;
-      PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-      }
-      PP.entities.player.damage(scene, PP.game_state.player, enemy);
-   });
-      }
-    // === CLICK DEL MOUSE PER ATTACCARE ===
+    // === ATTACCO ===
     scene.input.on("pointerdown", () => {
         PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies);
     });
 
     // === CAMERA ===
-   const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 40;
-   const worldHeight = ground.geometry.body_y + 15;
-   scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
-   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+    const worldWidth = rightWall.geometry.body_x - leftWall.geometry.body_x + 20;
+    const worldHeight = ground.geometry.body_y + 15;
+    scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
+    PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
- // === CUTSCENE ===
+    // === CUTSCENE ===
     if (PP.game_state.tutorialCutscene) {
         const cutscene_trigger = PP.shapes.rectangle_add(scene, 1700, 800, 40, 40, "0x000000", 0);
         PP.physics.add(scene, cutscene_trigger, PP.physics.type.STATIC);
         PP.physics.add_overlap_f(scene, PP.game_state.player, cutscene_trigger, cutscene);
     }
 
-   // === ALTRA STANZA ===
+    // === ALTRA STANZA ===
     const cutscene_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
     PP.physics.add(scene, cutscene_trigger, PP.physics.type.STATIC);
     PP.physics.add_overlap_f(scene, PP.game_state.player, cutscene_trigger, () => {
         scene.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
     });
 
-   // === CARTELLI (+500 X) ===
+    // === CARTELLI (+500 X) ===
     const sign1 = PP.shapes.rectangle_add(scene, 1625, 800, 40, 40, "0x00ff00", 1);
     const sign2 = PP.shapes.rectangle_add(scene, 1480, 730, 40, 40, "0x00ff00", 1);
     const sign3 = PP.shapes.rectangle_add(scene, 1270, 640, 40, 40, "0x00ff00", 1);
@@ -218,3 +214,13 @@ function destroy_ghostly_tutorial_scene(scene) {
 }
 
 PP.scenes.add("ghostly_tutorial_scene", preload_ghostly_tutorial_scene, create_ghostly_tutorial_scene, update_ghostly_tutorial_scene, destroy_ghostly_tutorial_scene);
+
+function cutscene(scene, player, trigger) {
+    PP.assets.destroy(trigger);
+    let talk = PP.shapes.text_add(scene, 900, 400, "Cosa sta succedendo? Perché tutto è così... spettrale?");
+
+    PP.timers.add_timer(scene, 2000, () => {
+        PP.assets.destroy(talk);
+        PP.game_state.tutorialCutscene = false;
+    }, false);
+}
