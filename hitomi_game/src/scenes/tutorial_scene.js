@@ -27,7 +27,7 @@ function create_tutorial_scene(scene) {
     const leftWall = PP.shapes.rectangle_add(scene, 500, 380, 20, 720, "0x000000", 0);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-    const behindWall = PP.shapes.rectangle_add(scene, 0, 380, 20, 720, "0x000000", 0);
+    const behindWall = PP.shapes.rectangle_add(scene, 0, 505, 20, 720, "0x000000", 0);
     PP.physics.add(scene, behindWall, PP.physics.type.STATIC);
 
     const rightWall = PP.shapes.rectangle_add(scene, 1760, 505, 20, 720, "0x000000", 0);
@@ -225,4 +225,5 @@ function cutscene(scene, player, trigger) {
         PP.assets.destroy(talk);
         PP.game_state.tutorialCutscene = false;
     }, false);
+
 }
