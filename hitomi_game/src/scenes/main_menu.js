@@ -18,15 +18,15 @@ function create(scene) {
 
   const MENU_AREAS = [
   {
-    name: "gioca", x: 510, y: 400, w: 80, h: 35, action: () => PP.scenes.start("tutorial_scene")
+    name: "gioca", x: 525, y: 400, w: 100, h: 25, action: () => PP.scenes.start("tutorial_scene")
   },
 
   {
-    name: "storia", x: 540, y: 450, w: 80, h: 35, action: () => PP.scenes.start("story_scene"),
+    name: "storia", x: 550, y: 460, w: 100, h: 25, action: () => PP.scenes.start("forest_scene")
   },
 
   {
-    name: "crediti", x: 570, y: 500, w: 80, h: 35, action: () => PP.scenes.start("forest_scene")
+    name: "crediti", x: 585, y: 525, w: 100, h: 25, action: () => PP.scenes.start("credits")
   }
 ];
 
