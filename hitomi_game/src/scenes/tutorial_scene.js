@@ -12,7 +12,7 @@ function preload_tutorial_scene(scene) {
 // === CREAZIONE SCENA ===
 function create_tutorial_scene(scene) {
 
-    PP.assets.tilesprite.add(scene, tutorial_bg, -20, -30, 1800, 920, 0, 0);
+    PP.assets.tilesprite.add(scene, tutorial_bg, 0, -30, 1800, 920, 0, 0);
     PP.game_state.woaed = false;
 
     PP.game_state.otherWorld = "ghostly_tutorial_scene";
@@ -59,14 +59,9 @@ function create_tutorial_scene(scene) {
     const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
-    // === PLAYER ===
-    let startX = scene.scene.settings.data?.x
-        ?? PP.game_state.playerPosition?.x
-        ?? 1700;
-
-    let startY = scene.scene.settings.data?.y
-        ?? PP.game_state.playerPosition?.y
-        ?? 400;
+     // === PLAYER ===
+    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1700;
+    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
@@ -92,8 +87,6 @@ function create_tutorial_scene(scene) {
         if (!PP.game_state.woaed) {
             let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra essere un mostro!");
             PP.game_state.woaed = true;
-
-            
 
         PP.timers.add_timer(scene, 2000, () => {
             PP.assets.destroy(woa);
