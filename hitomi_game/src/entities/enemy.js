@@ -5,7 +5,7 @@ PP.entities.enemy = {};
 PP.entities.enemy.preload = function (scene) {
   PP.entities.enemy.sprite = {};
   PP.entities.enemy.sprite.ombrello = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_ombrello.png", 52, 62);
-  //PP.entities.enemy.sprite.slug = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_slug.png", 70, 70);
+  PP.entities.enemy.sprite.bambino = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_bambino.png", 52, 52);
   PP.entities.enemy.sprite.lanterna = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_lanterna.png", 58, 57);
 };
 
@@ -45,14 +45,17 @@ PP.entities.enemy.create = function (scene, positions) {
 
       case "ombrello":
         PP.assets.sprite.animation_add(enemy, "walk", 0, 13, 10, -1);
+        PP.physics.set_collision_rectangle(enemy, 49, 55, 5, 2);
         break;
 
-      //case "slug":
-        //PP.assets.sprite.animation_add(enemy, "walk", 0, 3, 10, -1);
-        //break;
+      case "bambino":
+        PP.assets.sprite.animation_add(enemy, "walk", 0, 13, 10, -1);
+        PP.physics.set_collision_rectangle(enemy, 48, 50, 5, 2);
+        break;
 
       case "lanterna":
         PP.assets.sprite.animation_add(enemy, "walk", 0, 9, 10, -1);
+        PP.physics.set_collision_rectangle(enemy, 53, 49, 5, 2);
         break;
     }
 
