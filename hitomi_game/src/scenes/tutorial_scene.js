@@ -52,7 +52,7 @@ function create_tutorial_scene(scene) {
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
     const ghostlyPlatformPositions = [
-        { x: 1040, y: 600, w: 150, h: 40, sprite_name: "particelle" } // piattaforma MONDO SPETTRALE
+        { x: 970, y: 600, w: 150, h: 40, sprite_name: "particelle" } // piattaforma MONDO SPETTRALE
     ];
 
     PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);

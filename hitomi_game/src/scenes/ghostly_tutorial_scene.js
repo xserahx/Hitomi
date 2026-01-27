@@ -69,7 +69,7 @@ function create_ghostly_tutorial_scene(scene) {
     // === COLLIDER BAMBINO ===
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
         
-                        console.log(PP.game_state.woaed);
+        console.log(PP.game_state.woaed);
         let layer_domanda = PP.layers.create(scene);
         PP.layers.set_z_index(layer_domanda, 10);
 
