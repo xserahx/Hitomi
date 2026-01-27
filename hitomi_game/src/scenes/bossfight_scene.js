@@ -245,47 +245,76 @@ function destroy_bossfight_scene(scene) { }
 
 PP.scenes.add("bossfight_scene", preload_bossfight_scene, create_bossfight_scene, update_bossfight_scene, destroy_bossfight_scene);
 
-// === FUNZIONE POP UP CONTROLLI ===
 function showControlsPopup(scene) {
+
+  // SE POP UP GIÀ APERTO, NON FARE NULLA
+  if (PP.game_state.controlsPopupOpen) return;
+  PP.game_state.controlsPopupOpen = true;
+
+  // PAUSA MOVIMENTO PLAYER  SE POP UP APERTO
   PP.game_state.pause = true;
+  PP.game_state.uiBlockingInput = true;
+
   const popupLayer = PP.layers.create(scene);
   PP.layers.set_z_index(popupLayer, 100);
 
-  // sfondo scuro
-  const bg = PP.shapes.rectangle_add(scene, 3830, 460, 7700, 920, "0x000000", 0.8);
+  const cam = scene.cameras.main;
+  const centerX = cam.centerX;
+  const centerY = cam.centerY;
 
-  // testo controlli
-  const text = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 300, 600,
-    "COMANDI DEL PLATFORM\n\n" +
-    "A/D oppure ← / → : Muovi il personaggio\n" +
-    "SPAZIO : Salta\n" +
-    "SHIFT : Scatto \n" +
-    "CLICK SINISTRO DEL MOUSE : Attacca\n" +
-    "U : Cambia mondo\n"
-  );
+  // === OVERLAY SCURO ===
+  const overlay = PP.shapes.rectangle_add(scene, centerX, centerY, cam.width, cam.height, "0x000000", 0.45);
+  overlay.tile_geometry.scroll_factor_x = 0;
+  overlay.tile_geometry.scroll_factor_y = 0;
 
-  // bottone per chiudere il pop up dei comandi
-  const closeBtn = PP.shapes.text_add(scene, PP.game_state.player.geometry.x -220, 740, "CHIUDI");
+  // === PANNELLO TESTI ===
+  const panel = PP.shapes.rectangle_add(scene, centerX, centerY, 760, 420, "0x5c0a0a", 0.95);
+  panel.tile_geometry.scroll_factor_x = 0;
+  panel.tile_geometry.scroll_factor_y = 0;
 
-  //modifico le posizioni per evitaare che escano dallo schermo
-  if(PP.game_state.player.geometry.x < 1280){
-    text.geometry.x = 400;
-    closeBtn.geometry.x = 520;
-  }else if(PP.game_state.player.geometry.x > 6400){
-    text.geometry.x = 6860;
-    closeBtn.geometry.x = 6980;
-  }
+  // === TESTO COMANDI ===
+const text = PP.shapes.text_add(scene, centerX - 120, centerY - 60,
+  "TUTORIAL COMANDI\n\n" +
+  "A / D  oppure  ← / → : Muovi\n" +
+  "SPAZIO : Salta\n" +
+  "SHIFT : Scatto\n" +
+  "CLICK SINISTRO : Attacca\n" +
+  "U : Cambia mondo"
+);
 
-  // aggiungo tutto al layer
-  PP.layers.add_to_layer(popupLayer, bg);
+text.tile_geometry.scroll_factor_x = 0;
+text.tile_geometry.scroll_factor_y = 0;
+
+  // === BOTTONE CHIUDI ===
+  const closeBtn = PP.shapes.text_add(scene, centerX - 120, centerY + 100, "Chiudi 閉じる");
+  closeBtn.tile_geometry.scroll_factor_x = 0;
+  closeBtn.tile_geometry.scroll_factor_y = 0;
+
+  // hover
+  PP.interactive.mouse.add(closeBtn, "pointerover", () => {
+    closeBtn.setScale(1.1);
+  });
+
+  PP.interactive.mouse.add(closeBtn, "pointerout", () => {
+    closeBtn.setScale(1);
+  });
+
+  // === LAYER ===
+  PP.layers.add_to_layer(popupLayer, overlay);
+  PP.layers.add_to_layer(popupLayer, panel);
   PP.layers.add_to_layer(popupLayer, text);
   PP.layers.add_to_layer(popupLayer, closeBtn);
 
-  // click su chiudi
+  // === CHIUSURA ===
   PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
-    PP.assets.destroy(bg);
+
+    PP.assets.destroy(overlay);
+    PP.assets.destroy(panel);
     PP.assets.destroy(text);
     PP.assets.destroy(closeBtn);
+
     PP.game_state.pause = false;
+    PP.game_state.controlsPopupOpen = false;
+    PP.game_state.uiBlockingInput = false;
   });
 }
