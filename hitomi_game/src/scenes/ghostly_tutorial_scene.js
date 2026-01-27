@@ -72,7 +72,7 @@ function create_ghostly_tutorial_scene(scene) {
         PP.layers.set_z_index(layer_domanda, 10);
 
         if (!PP.game_state.woaed) {
-            let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra essere un mostro!");
+            let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra un mostro!");
             PP.game_state.woaed = true;
 
         PP.timers.add_timer(scene, 2000, () => {
@@ -109,7 +109,7 @@ function create_ghostly_tutorial_scene(scene) {
         PP.game_state.hearts.push(heart);
     }
 
-    // === NEMICI (+500 X) ===
+    // === NEMICI ===
     const enemyPositions = [
         { x: 900, y: 200, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
     ];
@@ -162,7 +162,7 @@ function create_ghostly_tutorial_scene(scene) {
         scene.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
     });
 
-    // === CARTELLI (+500 X) ===
+    // === CARTELLI ===
     const sign1 = PP.shapes.rectangle_add(scene, 1625, 800, 40, 40, "0x00ff00", 1);
     const sign2 = PP.shapes.rectangle_add(scene, 1480, 730, 40, 40, "0x00ff00", 1);
     const sign3 = PP.shapes.rectangle_add(scene, 1270, 640, 40, 40, "0x00ff00", 1);
@@ -189,7 +189,7 @@ function create_ghostly_tutorial_scene(scene) {
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign4, () => {
-        let tutorial = PP.shapes.text_add(scene, 6, 200, "Clicca il tasto sinistro del mouse per attaccare.");
+        let tutorial = PP.shapes.text_add(scene, 900, 400, "Clicca il tasto sinistro del mouse per attaccare.");
 
         PP.timers.add_timer(scene, 250, (s) => {
             PP.assets.destroy(tutorial);
