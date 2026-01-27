@@ -5,6 +5,7 @@ let forest_bg;
 let mountains_bg;
 let mountains_2_bg;
 let small_tree;
+let rocks;
 let bamboo_bg;
 let bush;
 
@@ -46,6 +47,7 @@ function preload_forest(scene) {
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png", 550, 684);
   bamboo_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/recinzione.png", 1096, 250);
   bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png", 150, 114);
+  rocks = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia.png", 1280, 400);
   scene.load.image("snowflake", "assets/images/forest/neve.png");
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -76,6 +78,8 @@ function create_forest(scene) {
   bg_main.tile_geometry.scroll_factor_x = 0.45;
 
   createForest(scene, small_tree, forestTrees);
+
+  rocks = PP.assets.image.add(scene, rocks, 3050, 100, 0, 0);
 
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
