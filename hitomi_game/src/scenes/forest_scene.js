@@ -1,4 +1,6 @@
 // === FOREST SCENE ===
+let help;
+
 let forest_bg;
 let mountains_bg;
 let mountains_2_bg;
@@ -35,7 +37,7 @@ const forestTrees = [
   { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
-];
+  ];
 
 function preload_forest(scene) {
   forest_bg = PP.assets.image.load(scene, "assets/images/forest/forest_background.png", 1280, 920);
@@ -47,6 +49,7 @@ function preload_forest(scene) {
   scene.load.image("snowflake", "assets/images/forest/neve.png");
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
 
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -58,19 +61,18 @@ function create_forest(scene) {
   // === STATO SCENA ===
   PP.game_state.currentScene = "forest_scene";
   PP.game_state.otherWorld = "ghostly_forest_scene";
-
   // === PARALLASSE ===
 
   // sfondo lontano
-  bg_far = PP.assets.tilesprite.add(scene, forest_bg, -20, -30, 6400, 920, 0, 0);
+  bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 0, 6402, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.15;
 
   // montagne lontane
-  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6400, 920, 0, 0);
+  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6402, 920, 0, 0);
   bg_mid.tile_geometry.scroll_factor_x = 0.3;
 
   // montagne vicine
-  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6400, 920, 0, 0);
+  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6402, 920, 0, 0);
   bg_main.tile_geometry.scroll_factor_x = 0.45;
 
   createForest(scene, small_tree, forestTrees);
@@ -81,7 +83,7 @@ function create_forest(scene) {
   let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
 
   // === PULSANTE HELP ===
-  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+  const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
   helpButton.tile_geometry.scroll_factor_x = 0;
   helpButton.tile_geometry.scroll_factor_y = 0;
 
@@ -96,7 +98,6 @@ function create_forest(scene) {
 
   const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
-
 
   // === GROUND ===
   const ground = PP.shapes.rectangle_add(scene, 3200, 1010, 6400, 40, "0x4a3b2a", 0);

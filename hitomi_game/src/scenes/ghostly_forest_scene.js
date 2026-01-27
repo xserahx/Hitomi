@@ -1,4 +1,6 @@
 // === ghostly_forest SCENE ===
+let help;
+
 let ghostly_forest_bg;
 let ghostly_mountains_bg;
 let ghostly_mountains_2_bg;
@@ -48,6 +50,7 @@ function preload_ghostly_forest(scene) {
   ghostly_bush = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/arbusto_spettrale.png", 150, 114);
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
 
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -82,7 +85,7 @@ function create_ghostly_forest(scene, data) {
   let ghostly_img_bush = PP.assets.image.add(scene, ghostly_bush, 750, 940, 0.5, 0.5);
 
   // === PULSANTE HELP ===
-  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+  const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
   helpButton.tile_geometry.scroll_factor_x = 0;
   helpButton.tile_geometry.scroll_factor_y = 0;
 

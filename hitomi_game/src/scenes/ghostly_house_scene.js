@@ -1,23 +1,27 @@
 // === ghostly_house SCENE ===
 let ghostly_house_bg;
+let help;
 let textOn = false;
 
 function preload_ghostly_house(scene) {
+  ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png", 7680, 920);
+  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
+
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
   PP.scene_objects.key.preload(scene);
-  ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png", 7680, 920);
-  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+  
 
 }
 
 function create_ghostly_house(scene, data) {
-  PP.assets.tilesprite.add(scene, ghostly_house_bg, -20, -30, 7680, 920, 0, 0);
+  PP.assets.tilesprite.add(scene, ghostly_house_bg, -25, -30, 7680, 920, 0, 0);
   PP.game_state.otherWorld = "house_scene";
 
   // === PULSANTE HELP ===
-  const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+  const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
   helpButton.tile_geometry.scroll_factor_x = 0;
   helpButton.tile_geometry.scroll_factor_y = 0;
 

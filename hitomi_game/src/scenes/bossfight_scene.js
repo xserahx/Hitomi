@@ -1,16 +1,18 @@
 // === bossfight SCENE ===
-let bossfight_bg;
-let mountains_bg;
-let mountains_2_bg;
-let small_tree;
-let bamboo_bg;
-let bush;
+let help;
 
-let bg_far;
-let bg_mid;
-let bg_main;
-let bg_trees;
-let bg_front;
+let bossfight_bg;
+let ghostly_mountains_bg;
+let ghostly_mountains_2_bg;
+let ghostly_small_tree;
+let ghostly_bamboo_bg;
+let ghostly_bush;
+
+let ghostly_bg_far;
+let ghostly_bg_mid;
+let ghostly_bg_main;
+let ghostly_bg_trees;
+let ghostly_bg_front;
 
 function createbossfight(scene, treeSprite, treePositionArray) {
   for (let position of treePositionArray) {
@@ -38,14 +40,15 @@ const bossfightTrees = [
 ];
 
 function preload_bossfight_scene(scene) {
-  bossfight_bg = PP.assets.image.load(scene,"assets/images/forest/forest_background.png",1280,920);
-  mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna1.png",1280,720);
-  mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/montagna2.png",1280,720);
-  small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png",550, 684);
-  bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse/recinzione.png",1096,250);
-  bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png",150,114);
+  bossfight_bg = PP.assets.image.load(scene,"assets/images/forest/ghostly_forest_background.png",1280,920);
+  ghostly_mountains_2_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse_spettrale/montagna1_spettrale.png",1280,720);
+  ghostly_mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse_spettrale/montagna2_spettrale.png",1280,720);
+  ghostly_small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/alberello_spettrale.png",550, 684);
+  ghostly_bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse_spettrale/recinzione_spettrale.png",1096,250);
+  ghostly_bush = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/arbusto_spettrale.png",150,114);
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene,"assets/images/heart.png",120,50);
+  help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
 
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -60,26 +63,26 @@ function create_bossfight_scene(scene) {
 
  // === PARALLASSE ===
   // sfondo lontano
-  bg_far = PP.assets.tilesprite.add(scene, bossfight_bg, -20, -30, 6400, 920, 0, 0);
-  bg_far.tile_geometry.scroll_factor_x = 0.15;
+  ghostly_bg_far = PP.assets.tilesprite.add(scene, bossfight_bg, -20, -30, 6400, 920, 0, 0);
+  ghostly_bg_far.tile_geometry.scroll_factor_x = 0.15;
 
   // montagne lontane
-  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6400, 920, 0, 0);
-  bg_mid.tile_geometry.scroll_factor_x = 0.3;
+  ghostly_bg_mid = PP.assets.tilesprite.add(scene, ghostly_mountains_bg, 0, 200, 6400, 920, 0, 0);
+  ghostly_bg_mid.tile_geometry.scroll_factor_x = 0.3;
 
   // montagne vicine
-  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6400, 920, 0, 0);
-  bg_main.tile_geometry.scroll_factor_x = 0.45;
+  ghostly_bg_main = PP.assets.tilesprite.add(scene, ghostly_mountains_2_bg, 0, 200, 6400, 920, 0, 0);
+  ghostly_bg_main.tile_geometry.scroll_factor_x = 0.45;
 
-  createbossfight(scene, small_tree, bossfightTrees);
+  createbossfight(scene, ghostly_small_tree, bossfightTrees);
 
   // recinzione in bamboo
-  bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
-  
-  let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
+  ghostly_bg_front = PP.assets.tilesprite.add(scene, ghostly_bamboo_bg, -20, 750, 6400, 250, 0, 0);
+
+  let img_bush = PP.assets.image.add(scene, ghostly_bush, 750, 940, 0.5, 0.5);
 
     // === PULSANTE HELP ===
-    const helpButton = PP.shapes.text_add(scene, 1220, 35, "?");
+    const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
     helpButton.tile_geometry.scroll_factor_x = 0;
     helpButton.tile_geometry.scroll_factor_y = 0;
 
