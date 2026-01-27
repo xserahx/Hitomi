@@ -14,25 +14,57 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["basetta_2"] = PP.assets.image.load(scene, "assets/images/house/basetta_2.png", 150, 20);
     PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
     PP.scene_objects.platform.sprite["culla"] = PP.assets.image.load(scene, "assets/images/culla.png", 100, 60);
-    PP.scene_objects.platform.sprite["particelle"] = PP.assets.image.load(scene, "assets/images/house/particelle.png", 100, 60);
+
+    // Particelle 
+    let graphics = scene.add.graphics();
+    graphics.fillStyle(0xffffff);
+    graphics.fillCircle(10, 10, 10);
+    graphics.generateTexture('ghost_particle', 20, 20);
+    graphics.destroy();
+
+    PP.scene_objects.platform.sprite["particelle"] = { id: 'ghost_particle' };
 };
 
-// Creazione piattaforme
 PP.scene_objects.platform.create = function(scene, positions) {
     const platforms = [];
 
     for (let p of positions) {
-        // prendo lo sprite dal preload
+
+        // uso phaser per generare le particelle e animarle poiché non possibile con il framework PP
+        
+        // PARTICELLE
+        if (p.sprite_name === "particelle") {
+
+    scene.add.particles(
+        p.x + p.w / 2,
+        p.y + p.h / 2,
+        'ghost_particle',
+        {
+            x: { min: -p.w / 2, max: p.w / 2 },
+            y: { min: -p.h / 2, max: p.h / 2 },
+            quantity: 1,
+            frequency: 50,
+            lifespan: 1500,
+            scale: { start: 1, end: 0.5 },
+            alpha: { start: 0.8, end: 0 },
+            tint: 0xBF40BF,
+            blendMode: 'SCREEN',
+            speedX: { min: -10, max: 10 },
+            speedY: { min: -10, max: 10 },
+            rotate: { min: 0, max: 360 }
+        }
+    );
+    continue;
+}
+
+        // PIATTAFORME 
         let sprite = PP.scene_objects.platform.sprite[p.sprite_name];
         if (!sprite) {
             console.error("Sprite non trovato: " + p.sprite_name);
             continue;
         }
 
-        // aggiungo l'immagine alla scena
-        let plat = PP.assets.image.add(scene, PP.scene_objects.platform.sprite[p.sprite_name], p.x, p.y, 0.5, 0, 0.5);
-
-        // aggiungo fisica e collisioni
+        let plat = PP.assets.image.add(scene, sprite, p.x, p.y, 0.5, 0, 0.5);
         PP.physics.add(scene, plat, PP.physics.type.STATIC);
         PP.physics.set_collision_rectangle(plat, p.w, p.h, 0, 0);
 
