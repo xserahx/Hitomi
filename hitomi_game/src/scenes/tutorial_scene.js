@@ -106,6 +106,7 @@ function create_tutorial_scene(scene) {
 
                 PP.interactive.mouse.add(button_si, "pointerdown", () => {
                     PP.entities.player.get_baby(scene, PP.game_state.player);
+                    PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
                     PP.game_state.inRoom = true;
                     PP.assets.destroy(layer_domanda);
                     const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!");
@@ -117,6 +118,7 @@ function create_tutorial_scene(scene) {
                 });
 
                 PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                    PP.game_state.has_baby = false;
                     PP.game_state.inRoom = true;
                     PP.assets.destroy(layer_domanda);
                     const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
@@ -142,6 +144,7 @@ function create_tutorial_scene(scene) {
 
                 PP.interactive.mouse.add(button_si, "pointerdown", () => {
                     PP.game_state.has_baby = false;
+                    PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
                     PP.assets.destroy(layer_domanda);
                     const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
                     PP.timers.add_timer(scene, 3000, () => {
@@ -169,6 +172,7 @@ function create_tutorial_scene(scene) {
 
                 PP.interactive.mouse.add(button_si, "pointerdown", () => {
                     PP.entities.player.get_baby(scene, PP.game_state.player);
+                    PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
                     PP.game_state.inRoom = true;
                     PP.assets.destroy(layer_domanda);
                     const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me, deve esserci un modo di salvarlo!");

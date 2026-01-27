@@ -3,12 +3,15 @@ PP.entities.player = {};
 
 // === PRELOAD ===
 PP.entities.player.preload = function (scene) {
-    PP.entities.player.img = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_bambino.png", 120, 120);
+    PP.entities.player.img_goody = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_goody.png", 120, 120);
+    PP.entities.player.img_bambino = PP.assets.sprite.load_spritesheet(scene, "assets/images/player/spritesheet_bambino.png", 120, 120);
 }
 
 // === CREATE ===
 PP.entities.player.create = function (scene, x, y) {
-    const player = PP.assets.sprite.add(scene, PP.entities.player.img, x, y, 0.5, 0.5);
+    const img = PP.game_state.has_baby ? PP.entities.player.img_bambino : PP.entities.player.img_goody;
+
+    const player = PP.assets.sprite.add(scene, img, x, y, 0.5, 0.5);
     PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
     PP.physics.set_collision_rectangle(player, 40, 120, 40, 0);
 
@@ -52,7 +55,7 @@ PP.entities.player.create = function (scene, x, y) {
     PP.physics.set_acceleration_y(player, player.gravityDown);
 
     // === ANIMAZIONI ===
-    PP.assets.sprite.animation_add(player, "camminata", 0, 7, 16, -1);
+    PP.assets.sprite.animation_add(player, "camminata", 0, 7, 12, -1);
     PP.assets.sprite.animation_add(player, "idle", 8, 12, 5, -1);
     PP.assets.sprite.animation_add(player, "attacco", 16, 21, 20, 0);
     PP.assets.sprite.animation_add(player, "salto_pre", 24, 24, 1, 0);
@@ -83,9 +86,8 @@ PP.entities.player.update = function (scene, player) {
     // === INPUT ===
     const movingLeft  = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
     const movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
-    let speed = 200;
-    if (PP.game_state.has_baby) player.dashSpeed = 400;
-
+    let speed = PP.game_state.has_baby ? 150 : 200;
+    player.dashSpeed = PP.game_state.has_baby ? 400 : 600;
     // === DEV MODE ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && !PP.game_state.DevMode) {
         PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
@@ -308,6 +310,28 @@ PP.entities.player.get_baby = function (scene, player) {
     PP.game_state.has_baby = true;
     console.log("Player has baby:", PP.game_state.has_baby);
 }
+
+PP.entities.player.set_sprite_by_state = function (scene, player) {
+    const newImg = PP.game_state.has_baby
+        ? PP.entities.player.img_bambino
+        : PP.entities.player.img_goody;
+
+    // Cambia texture del Phaser Sprite
+    player.ph_obj.setTexture(newImg.id);
+
+    // Reset animazione
+    player.currentAnim = "";
+
+    // Ricrea animazioni sul nuovo spritesheet
+    PP.assets.sprite.animation_add(player, "camminata", 0, 7, 12, -1);
+    PP.assets.sprite.animation_add(player, "idle", 8, 12, 5, -1);
+    PP.assets.sprite.animation_add(player, "attacco", 16, 21, 20, 0);
+    PP.assets.sprite.animation_add(player, "salto_pre", 24, 24, 1, 0);
+    PP.assets.sprite.animation_add(player, "salto1", 25, 26, 10, 0);
+    PP.assets.sprite.animation_add(player, "salto2", 27, 29, 12, 0);
+    PP.assets.sprite.animation_add(player, "dash", 40, 43, 12, 0);
+    PP.assets.sprite.animation_add(player, "morte", 32, 36, 10, 0);
+};
 
 // === CAMBIO MONDO ===
 PP.entities.player.changeWorld = function (scene) {
