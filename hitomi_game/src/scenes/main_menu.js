@@ -10,6 +10,7 @@ function create(scene) {
   PP.game_state.DevMode = false;
   PP.game_state.changingWorld = false;
   PP.game_state.pause = false;
+  PP.game_state.has_baby = false;
 
   PP.assets.image.add(scene, menu_bg, centerX, centerY, 0.5, 0.5);
 

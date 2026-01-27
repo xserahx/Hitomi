@@ -1,5 +1,6 @@
 // === TUTORIAL SCENE ===
 let tutorial_bg;
+let count = false;
 
 function preload_tutorial_scene(scene) {
     tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background_long.png", 1800, 920);
@@ -21,16 +22,17 @@ function create_tutorial_scene(scene) {
     if (!PP.game_state.changingWorld) {
         PP.game_state.isPLayerFlipped = true;
         PP.game_state.tutorialCutscene = true;
+        PP.game_state.inRoom = false;
     }
 
     // === MURI (spostati +500) ===
-    const leftWall = PP.shapes.rectangle_add(scene, 500, 380, 20, 720, "0x000000", 0);
+    const leftWall = PP.shapes.rectangle_add(scene, 500, 365, 20, 720, "0x000000", 0);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
     const behindWall = PP.shapes.rectangle_add(scene, 0, 505, 20, 720, "0x000000", 0);
     PP.physics.add(scene, behindWall, PP.physics.type.STATIC);
 
-    const rightWall = PP.shapes.rectangle_add(scene, 1760, 505, 20, 720, "0x000000", 0);
+    const rightWall = PP.shapes.rectangle_add(scene, 1760, 365, 20, 720, "0x000000", 0);
     PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
     // === GROUND (espanso) ===
@@ -50,8 +52,8 @@ function create_tutorial_scene(scene) {
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
     const ghostlyPlatformPositions = [
-    { x: 1040,  y: 600, w: 150, h: 40, sprite_name: "particelle" } // piattaforma MONDO SPETTRALE
-     ];
+        { x: 1040, y: 600, w: 150, h: 40, sprite_name: "particelle" } // piattaforma MONDO SPETTRALE
+    ];
 
     PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
@@ -59,7 +61,7 @@ function create_tutorial_scene(scene) {
     const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
-     // === PLAYER ===
+    // === PLAYER ===
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1700;
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
 
@@ -82,32 +84,110 @@ function create_tutorial_scene(scene) {
 
     // === COLLIDER BAMBINO ===
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
+        
+                        console.log(PP.game_state.woaed);
         let layer_domanda = PP.layers.create(scene);
         PP.layers.set_z_index(layer_domanda, 10);
 
-        if (!PP.game_state.woaed) {
+        if (!PP.game_state.woaed && !PP.game_state.inRoom) {
             let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra essere un mostro!");
             PP.game_state.woaed = true;
 
-        PP.timers.add_timer(scene, 2000, () => {
-            PP.assets.destroy(woa);
+            PP.timers.add_timer(scene, 2000, () => {
+                PP.assets.destroy(woa);
 
-            PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi raccogliere Nanashi?");
-            let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
-            let button_no = PP.shapes.text_add(scene, 330, 580, "No");
+                PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi raccogliere Nanashi?");
+                let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
+                let button_no = PP.shapes.text_add(scene, 330, 580, "No");
 
-            PP.layers.add_to_layer(layer_domanda, button_no);
-            PP.layers.add_to_layer(layer_domanda, button_si);
+                PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
+                PP.layers.add_to_layer(layer_domanda, button_no);
+                PP.layers.add_to_layer(layer_domanda, button_si);
 
-            PP.interactive.mouse.add(button_si, "pointerdown", () => {
-                PP.entities.player.get_baby(scene, PP.game_state.player);
-                PP.scenes.start("house_scene");
-            });
+                PP.interactive.mouse.add(button_si, "pointerdown", () => {
+                    PP.entities.player.get_baby(scene, PP.game_state.player);
+                    PP.game_state.inRoom = true;
+                    PP.assets.destroy(layer_domanda);
+                    const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!");
+                    PP.timers.add_timer(scene, 1000, () => {
+                        PP.assets.destroy(babyKept);
+                        PP.game_state.woaed = false;
+                        console.log(PP.game_state.woaed);
+                    }, false);
+                });
 
-            PP.interactive.mouse.add(button_no, "pointerdown", () => {
-                PP.scenes.start("house_scene");
-            });
-        }, false);
+                PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                    PP.game_state.inRoom = true;
+                    PP.assets.destroy(layer_domanda);
+                    const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
+                    PP.timers.add_timer(scene, 1000, () => {
+                        PP.assets.destroy(babyDropped);
+                        PP.game_state.woaed = false;
+                    }, false);
+                });
+            }, false);
+        }else if (PP.game_state.woaed == false) {
+            PP.game_state.woaed = true;
+            console.log("Baby check " + PP.game_state.has_baby);
+
+            if(PP.game_state.has_baby == true){
+
+                PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi lasciare Nanashi?");
+                let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
+                let button_no = PP.shapes.text_add(scene, 330, 580, "No");
+
+                PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
+                PP.layers.add_to_layer(layer_domanda, button_no);
+                PP.layers.add_to_layer(layer_domanda, button_si);
+
+                PP.interactive.mouse.add(button_si, "pointerdown", () => {
+                    PP.game_state.has_baby = false;
+                    PP.assets.destroy(layer_domanda);
+                    const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
+                    PP.timers.add_timer(scene, 3000, () => {
+                        PP.assets.destroy(babyDropped);
+                        PP.game_state.woaed = false;
+                    }, false);
+                });
+
+                PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                    PP.assets.destroy(layer_domanda);
+                    const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me, deve esserci un modo di salvarlo!");
+                    PP.timers.add_timer(scene, 3000, () => {
+                        PP.assets.destroy(babyKept);
+                        PP.game_state.woaed = false;
+                    }, false);
+                });
+            }else if(PP.game_state.has_baby == false){
+                PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi riprendere Nanashi?");
+                let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
+                let button_no = PP.shapes.text_add(scene, 330, 580, "No");
+
+                PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
+                PP.layers.add_to_layer(layer_domanda, button_no);
+                PP.layers.add_to_layer(layer_domanda, button_si);
+
+                PP.interactive.mouse.add(button_si, "pointerdown", () => {
+                    PP.entities.player.get_baby(scene, PP.game_state.player);
+                    PP.game_state.inRoom = true;
+                    PP.assets.destroy(layer_domanda);
+                    const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me, deve esserci un modo di salvarlo!");
+                    PP.timers.add_timer(scene, 3000, () => {
+                        PP.assets.destroy(babyKept);
+                        PP.game_state.woaed = false;
+                    }, false);
+                });
+
+                PP.interactive.mouse.add(button_no, "pointerdown", () => {
+                    PP.game_state.inRoom = true;
+                    PP.assets.destroy(layer_domanda);
+                    const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
+                    PP.timers.add_timer(scene, 3000, () => {
+                        PP.assets.destroy(babyDropped);
+                        PP.game_state.woaed = false;
+                    }, false);
+                });
+            }
         }
     });
 
@@ -142,15 +222,15 @@ function create_tutorial_scene(scene) {
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
 
-        if (PP.game_state.player.isInvincible) return;
+            if (PP.game_state.player.isInvincible) return;
 
-          let currentIndex = PP.game_state.player.lives - 1;
-          if (currentIndex >= 0) {
-            PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-          }
+            let currentIndex = PP.game_state.player.lives - 1;
+            if (currentIndex >= 0) {
+                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+            }
 
-        PP.entities.player.damage(scene, PP.game_state.player, enemy);
-       });
+            PP.entities.player.damage(scene, PP.game_state.player, enemy);
+        });
     }
 
     // === ATTACCO ===
@@ -176,6 +256,30 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, cutscene_trigger, PP.physics.type.STATIC);
     PP.physics.add_overlap_f(scene, PP.game_state.player, cutscene_trigger, () => {
         scene.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
+        PP.assets.destroy(cutscene_trigger);
+
+    });
+
+    // === ANTI SKIP ===
+    const stop = PP.shapes.rectangle_add(scene, 1760, 800, 20, 50, "0x000000", 0);
+    PP.physics.add(scene, stop, PP.physics.type.STATIC);
+    PP.physics.add_collider_f(scene, PP.game_state.player, stop, () => {
+        PP.game_state.tutorialCutscene = true;
+        const comeback = PP.shapes.text_add(scene, 900, 400, "I can't run away yet, i need to save Nanashi...");
+        PP.timers.add_timer(scene, 1000, () => {
+            PP.assets.destroy(comeback);
+            PP.game_state.player.geometry.x -= 50;
+        }, false);
+        PP.timers.add_timer(scene, 1500, () => {
+            PP.game_state.tutorialCutscene = false;
+        }, false);
+    });
+
+    // === FINE LIVELLO ===
+    const end_level_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
+    PP.physics.add(scene, end_level_trigger, PP.physics.type.STATIC);
+    PP.physics.add_overlap_f(scene, PP.game_state.player, end_level_trigger, () => {
+        if (PP.game_state.inRoom == true) { PP.scenes.start("house_scene"); }
     });
 
     // === CARTELLI (+500 X) ===
