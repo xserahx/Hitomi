@@ -119,21 +119,21 @@ function create_forest(scene) {
   bamboo_2 = PP.assets.image.add(scene, bamboo_2, 2100, 0, 0, 0);
 
   tori = PP.assets.image.add(scene, tori, 200, 470, 0, 0);
-  tempio = PP.assets.image.add(scene, tempio, 3095, -20, 0, 0);
+  tempio = PP.assets.image.add(scene, tempio, 3095 + 60, -20, 0, 0);
 
-  rocks = PP.assets.image.add(scene, rocks, 2440, 100, 0, 0);
+  rocks = PP.assets.image.add(scene, rocks, 2440 + 60, 100, 0, 0);
 
   createForest(scene, small_tree, forestTrees);
 
-  radice = PP.assets.image.add(scene, radice, 2680, 140, 0, 0);
+  radice = PP.assets.image.add(scene, radice, 2680 + 60, 140, 0, 0);
 
   big_tree = PP.assets.image.add(scene, big_tree, 190, 1000, 0.5, 1);
 
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
 
-  pontile = PP.assets.image.add(scene, pontile, 3320, 310, 0, 0);
-  pontile_2 = PP.assets.image.add(scene, pontile_2, 3730, 480, 0, 0);
+  pontile = PP.assets.image.add(scene, pontile, 3395, 310, 0, 0);
+  pontile_2 = PP.assets.image.add(scene, pontile_2, 3820, 480, 0, 0);
 
   statue = PP.assets.image.add(scene, statue, 600, 740, 0, 0);
 
@@ -155,7 +155,7 @@ function create_forest(scene) {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 5, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 4690, 420, 40, 920, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === GROUND ===
@@ -173,6 +173,7 @@ function create_forest(scene) {
     // === TRONCO DA SCAVALCARE ===
     { x: 1050, y: 770, w: 200, h: 480, sprite_name: "tronco" },
     { x: 1600, y: 640, w: 290, h: 390, sprite_name: "roccia_1" },
+    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
     //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2" },
@@ -190,7 +191,7 @@ function create_forest(scene) {
 
     // PIATTAFORME FINALI
     //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4250, y: 665, w: 150, h: 20, sprite_name: "piattaforma" },
+    { x: 4190, y: 665, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
     // { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
 
   ];
@@ -199,11 +200,11 @@ function create_forest(scene) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    //{ x: 2240, y: 665, w: 150, h: 20, sprite_name: "particelle" },
-    //{ x: 3050, y: 515, w: 150, h: 20, sprite_name: "particelle" },
-    //{ x: 3050, y: 215, w: 150, h: 20, sprite_name: "particelle" },
-    //{ x: 3900, y: 500, w: 150, h: 20, sprite_name: "particelle" }, //penultimo
-    //{ x: 4550, y: 850, w: 150, h: 20, sprite_name: "particelle" } //ultimo
+    { x: 2410, y: 825, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3000, y: 515, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3000, y: 215, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3800, y: 500, w: 150, h: 20, sprite_name: "particelle" }, //penultimo
+    { x: 4390, y: 850, w: 150, h: 20, sprite_name: "particelle" } //ultimo
 
   ];
 
@@ -243,13 +244,12 @@ function create_forest(scene) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 400, y: 800, sprite_name: "pterodattilo" },
-    { x: 1200, y: 800, sprite_name: "slug" },
-    { x: 2250, y: 800, sprite_name: "lanterna" },
-    { x: 2050, y: 155, sprite_name: "pterodattilo" },
-    { x: 3150, y: 800, sprite_name: "lanterna" },
-    { x: 3350, y: 800, sprite_name: "pterodattilo" },
-    { x: 3550, y: 800, sprite_name: "slug" }
+    { x: 400, y: 855, sprite_name: "lanterna" },
+    { x: 1200, y: 970, sprite_name: "lanterna" }, //slug
+    { x: 1890, y: 970, sprite_name: "lanterna" }, //pterodattilo
+    { x: 3150, y: 970, sprite_name: "lanterna" },
+    { x: 3350, y: 970, sprite_name: "lanterna" }, //pterodattilo
+    { x: 3550, y: 970, sprite_name: "lanterna" } //slug
   ];
 
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
