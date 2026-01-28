@@ -109,12 +109,14 @@ function create_house(scene, data) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    { x: 605,  y: 595, w: 150, h: 40, sprite_name: "particelle" }, // piattaforma centrale 
-    { x: 2065, y: 520, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 525,  y: 595, w: 150, h: 40, sprite_name: "particelle" }, // piattaforma centrale 
+    { x: 1990, y: 520, w: 150, h: 42, sprite_name: "particelle" },
 //    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "particelle" }, //Piattaforma per salire sull'accrocchio
-    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "particelle" }
+    { x: 3165, y: 740, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 3415, y: 600, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 4105, y: 450, w: 150, h: 42, sprite_name: "particelle" }
+
+    
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
@@ -156,14 +158,14 @@ function create_house(scene, data) {
   const enemyPositions = [
     { x: 1730, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
     { x: 2040, y: 830, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
-    { x: 3900, y: 840, w: 75, h: 75, speed: 70, sprite_name: "bambino" }, // WHAT??
+    { x: 3900, y: 840, w: 75, h: 75, speed: 70, sprite_name: "bambino" },
     { x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 4380, y: 840, w: 75, h: 75, speed: 70, sprite_name: "slug" },
-    { x: 5500, y: 840, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
+    { x: 5200, y: 840, w: 150, h: 150, speed: 80, sprite_name: "pterodatillo" },
     { x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
     { x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 6900, y: 840, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
-    { x: 7030, y: 840, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
+    { x: 7030, y: 830, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
     { x: 7980, y: 840, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
