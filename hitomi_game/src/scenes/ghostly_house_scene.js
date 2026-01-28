@@ -111,7 +111,7 @@ function create_ghostly_house(scene, data) {
 
   // === PLAYER ===
   let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 50;
-  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 500;
+  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
 
