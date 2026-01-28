@@ -116,19 +116,21 @@ function create_forest(scene) {
   bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 0, 6402, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.1;
 
-
   // montagne di sfondo 
   bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 210, 6400, 920, 0, 0);
   bg_mid.tile_geometry.scroll_factor_x = 0.2;
 
-  // parallasse anouk
+  // parallasse a
   bamboofondo3 = PP.assets.tilesprite.add(scene, bamboofondo3, 0, 0, 6400, 920, 0, 0);
-    bamboofondo3.tile_geometry.scroll_factor_x = 0.3;
+  bamboofondo3.tile_geometry.scroll_factor_x = 0.3;
+
   bamboofondo2 = PP.assets.tilesprite.add(scene, bamboofondo2, 0, 0, 6400, 920, 0, 0);
-    bamboofondo2.tile_geometry.scroll_factor_x = 0.4;
+  bamboofondo2.tile_geometry.scroll_factor_x = 0.4;
+
   bamboofondo1 = PP.assets.tilesprite.add(scene, bamboofondo1, 0, 0, 6400, 920, 0, 0);
-    bamboofondo1.tile_geometry.scroll_factor_x = 0.5;
-tori = PP.assets.tilesprite.add(scene, tori, 200, 400, 900, 1000, 0, 0);
+  bamboofondo1.tile_geometry.scroll_factor_x = 0.5;
+
+  tori = PP.assets.tilesprite.add(scene, tori, 200, 400, 900, 1000, 0, 0);
   tori.tile_geometry.scroll_factor_x = 0.55;
 
 
@@ -154,13 +156,7 @@ tori = PP.assets.tilesprite.add(scene, tori, 200, 400, 900, 1000, 0, 0);
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
 
-
-
-
   separatore = PP.assets.image.add(scene, separatore, 0, 0, 0, 0);
-
-
-
   
   // pontili
   pontile = PP.assets.image.add(scene, pontile, 3395, 310, 0, 0);
@@ -170,7 +166,7 @@ tori = PP.assets.tilesprite.add(scene, tori, 200, 400, 900, 1000, 0, 0);
 
   fox_statue = PP.assets.image.add(scene, fox_statue, 325, 860, 0, 0);
 
-  bush = PP.assets.image.add(scene, bush, 190, 945, 0.5, 0.5);
+  bush = PP.assets.image.add(scene, bush, 190, 930, 0.5, 0.5);
 
   // === PULSANTE HELP ===
   const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
