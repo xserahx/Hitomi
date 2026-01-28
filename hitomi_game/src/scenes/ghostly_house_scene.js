@@ -57,8 +57,8 @@ function create_ghostly_house(scene, data) {
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
-    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "cuscino" },
     { x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
