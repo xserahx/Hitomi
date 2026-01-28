@@ -86,7 +86,7 @@ function create_tutorial_scene(scene) {
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
 
         if (!PP.game_state.woaed && !PP.game_state.inRoom) {
-            let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra essere un mostro!");
+            let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra un mostro!");
             PP.game_state.woaed = true;
 
             PP.timers.add_timer(scene, 2000, () => {
@@ -184,7 +184,7 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, stop, PP.physics.type.STATIC);
     PP.physics.add_collider_f(scene, PP.game_state.player, stop, () => {
         PP.game_state.tutorialCutscene = true;
-        const comeback = PP.shapes.text_add(scene, 900, 400, "I can't run away yet, i need to save Nanashi...");
+        const comeback = PP.shapes.text_add(scene, 900, 400, "Non posso scappare, devo salvare Nanashi...");
         PP.timers.add_timer(scene, 1000, () => {
             PP.assets.destroy(comeback);
             PP.game_state.player.geometry.x -= 50;

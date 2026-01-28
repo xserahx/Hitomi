@@ -331,8 +331,8 @@ PP.entities.player.setSpriteByNanashiState = function (scene, player) {
 // === CAMBIO MONDO ===
 PP.entities.player.changeWorld = function (scene) {
     console.log("World changing to:", PP.game_state.otherWorld);
+    PP.game_state.changingWorld = true;
     config.player_x = PP.game_state.player.geometry.x;
     config.player_y = PP.game_state.player.geometry.y;
     PP.scenes.start(PP.game_state.otherWorld);
-    PP.game_state.changingWorld = true;
 }
