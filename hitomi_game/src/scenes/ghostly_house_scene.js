@@ -194,7 +194,7 @@ function create_ghostly_house(scene, data) {
 
   PP.game_state.doors = PP.scene_objects.key.create(scene, doors);
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     if (PP.game_state.doorsOpened[i] == true) {
       PP.assets.destroy(PP.game_state.doors[i]);
     }
@@ -239,7 +239,7 @@ function update_ghostly_house(scene) {
 
   // === SE DEV MODE ATTIVA NON SERVONO CHIAVI ===
   if (PP.game_state.DevMode == true) {
-    PP.game_state.houseKeyCollected = [true, true, true];
+    PP.game_state.houseKeyCollected = [true, true];
   }
 
   if (PP.game_state.player) {
