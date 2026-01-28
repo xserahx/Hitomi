@@ -12,6 +12,9 @@ function preload_ghostly_tutorial_scene(scene) {
 function create_ghostly_tutorial_scene(scene) {
     PP.assets.tilesprite.add(scene, ghostly_tutorial_bg, 0, -30, 1800, 920, 0, 0);
     PP.game_state.otherWorld = "tutorial_scene";
+    PP.game_state.currentScene = "ghostly_tutorial_scene";
+
+    PP.game_state.woaed = false;
 
     // === MURI ===
     const leftWall = PP.shapes.rectangle_add(scene, 500, 365, 20, 720, "0x000000", 0);
@@ -67,10 +70,10 @@ function create_ghostly_tutorial_scene(scene) {
     }
 
     // === FINE LIVELLO ===
-    const end_level_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
+    const end_level_trigger = PP.shapes.rectangle_add(scene, 550, 800, 40, 40, "0x000000", 0);
     PP.physics.add(scene, end_level_trigger, PP.physics.type.STATIC);
-    if (PP.game_state.endingReady == true) {
-        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, ending_level);
+    if (PP.game_state.inRoom == true) {
+        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, () => {PP.scenes.start("house_scene")});
     }
 
 
@@ -98,9 +101,6 @@ function create_ghostly_tutorial_scene(scene) {
                 baby_question(scene, 1);
             }
         }
-
-        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, ending_level);
-        PP.game_state.endingReady = true;
     });
 
     // === HUD VITE ===
@@ -200,7 +200,7 @@ function create_ghostly_tutorial_scene(scene) {
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
-        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi A, per muoverti in giro. Premi SPAZIO per saltare.");
+        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi A e D per muoverti in giro. Premi SPAZIO per saltare.");
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
@@ -273,66 +273,51 @@ function baby_question(scene, type) {
     let layer_domanda = PP.layers.create(scene);
     PP.layers.set_z_index(layer_domanda, 10);
 
-    if (type == -1) { PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi lasciare Nanashi?"); }
-    else if (type == 1) { PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi prendere Nanashi?"); }
+    // Testo domanda
+    const questionText = (type === 1) ? "Vuoi prendere Nanashi?" : "Vuoi lasciare Nanashi?";
+    let askChild = PP.shapes.text_add(scene, 150, 550, questionText);
 
+    // Pulsanti
     let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
     let button_no = PP.shapes.text_add(scene, 330, 580, "No");
 
-    PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
-    PP.layers.add_to_layer(layer_domanda, button_no);
+    // Aggiungi al layer
+    PP.layers.add_to_layer(layer_domanda, askChild);
     PP.layers.add_to_layer(layer_domanda, button_si);
+    PP.layers.add_to_layer(layer_domanda, button_no);
 
+    // Logica scelta SÌ
     PP.interactive.mouse.add(button_si, "pointerdown", () => {
-        if (type == -1) {
-            PP.game_state.has_baby = false;
-            PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
-        } else if (type == 1) {
-            PP.entities.player.get_baby(scene, PP.game_state.player);
-            PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
+        if (type === -1) {
+            PP.game_state.nanashiState = "not_taken";   // Aggiorna flag
+        } else if (type === 1) {
+            PP.game_state.nanashiState = "taken";       // Aggiorna flag
         }
 
+        PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player); // forza aggiornamento sprite
         PP.assets.destroy(layer_domanda);
 
-        //La risposta condivide il tipo della domanda, perchè affermativa, pertanto se chiede di prenderlo, la risposta positiva è quella che lo prende e viceversa.
+        // risposta testuale
         baby_response(scene, type);
 
-        //Nel momento in cui il giocatore sceglie per la prima volta, si considera che sia entrato nella stanza.
-        if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
+        if (!PP.game_state.inRoom) PP.game_state.inRoom = true;
+        PP.entities.player.refreshWorld(scene, PP.game_state.player);
     });
 
+    // Logica scelta NO
     PP.interactive.mouse.add(button_no, "pointerdown", () => {
-        PP.assets.destroy(layer_domanda);
-
-        //La risposta contraria al tipo della domanda, perchè negativa, pertanto se chiede di prenderlo, la risposta negativa è quella che non lo prende e viceversa.
-        baby_response(scene, -type);
-
-        if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
-    });
-}
-
-function ending_level(scene) {
-    if (PP.game_state.inRoom == true && PP.game_state.woaed == false) {
-        PP.game_state.woaed = true;
-        const exitText = PP.shapes.text_add(scene, 250, 250, "Sono pronta a prendere Nananshi e andarmene da qui?");
-        if (PP.game_state.has_baby == false) {
-            PP.shapes.text_change(exitText, "Sono pronta a lasciare Nananshi e scappare?");
+        if (type === -1) {
+            PP.game_state.nanashiState = "taken";     // risposta contraria
+        } else if (type === 1) {
+            PP.game_state.nanashiState = "not_taken";
         }
 
-        const yesButton = PP.shapes.text_add(scene, 250, 300, "Si");
-        const noButton = PP.shapes.text_add(scene, 350, 300, "No");
+        PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player);
+        PP.assets.destroy(layer_domanda);
+        baby_response(scene, -type);
 
-        PP.interactive.mouse.add(yesButton, "pointerdown", () => {
-            PP.scenes.start("house_scene");
-        });
+        if (!PP.game_state.inRoom) PP.game_state.inRoom = true;
 
-        PP.interactive.mouse.add(noButton, "pointerdown", () => {
-            PP.assets.destroy(exitText);
-            PP.assets.destroy(yesButton);
-            PP.assets.destroy(noButton);
-            PP.timers.add_timer(scene, 1000, () => {
-                PP.game_state.woaed = false;
-            }, false);
-        });
-    }
+        PP.entities.player.refreshWorld(scene, PP.game_state.player);
+    });
 }
