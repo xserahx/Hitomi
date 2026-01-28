@@ -307,7 +307,17 @@ function create_forest(scene) {
   });
 
   PP.game_state.changingWorld = false;
-}
+
+    // === NOTTE ===
+  const cam = scene.cameras.main;
+  const nightOverlay = PP.shapes.rectangle_add(scene, cam.centerX, cam.centerY, cam.width, cam.height, "0x000022", 0.30);
+
+  nightOverlay.tile_geometry.scroll_factor_x = 0;
+  nightOverlay.tile_geometry.scroll_factor_y = 0;
+
+  PP.layers.set_z_index(nightOverlay, 20);
+
+  }
 
 function update_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
