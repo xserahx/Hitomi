@@ -41,6 +41,12 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["roccia_1"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia_1.png", 500, 150);
     PP.scene_objects.platform.sprite["roccia_2"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia_2.png", 500, 150);
 
+    // Piattaforme foresta spettrale
+    PP.scene_objects.platform.sprite["tronco_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tronco_spettrale.png", 300, 350);
+    PP.scene_objects.platform.sprite["piattaforma_foresta_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/piattaforma_erbetta_spettrale.png");
+    PP.scene_objects.platform.sprite["roccia_1_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_1_spettrale.png", 500, 150);
+    PP.scene_objects.platform.sprite["roccia_2_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_2_spettrale.png", 500, 150);
+
     // Particelle 
     let graphics = scene.add.graphics();
     graphics.fillStyle(0xffffff);
