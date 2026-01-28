@@ -221,14 +221,17 @@ PP.entities.player.update = function (scene, player) {
 PP.entities.player.damage = function (scene, player, enemy) {
     if (player.isInvincible || PP.game_state.DevMode) return;
 
-    player.lives -= 1;
+    player.lives--;
     PP.game_state.actualLives = player.lives;
     console.log("vite attuali " + player.lives);
-    player.isInvincible = true;
 
-    // Aggiorna HUD vite
-    if (player.lives >= 0 && PP.game_state.hearts[player.lives]) {
-        PP.assets.sprite.animation_play(PP.game_state.hearts[player.lives], "Cuore");
+    player.isInvincible = true;
+    const heartIndex = player.lives;
+
+    if (heartIndex >= 0 && PP.game_state.hearts[heartIndex]) {
+        PP.assets.sprite.animation_play(
+            PP.game_state.hearts[heartIndex], "empty"  
+        );
     }
 
     // === KNOCKBACK ===
