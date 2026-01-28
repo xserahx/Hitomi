@@ -65,8 +65,8 @@ function create_house(scene, data) {
       { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
-    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "cuscino" },
     //{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
@@ -84,10 +84,10 @@ function create_house(scene, data) {
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
-    { x: 5300, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
-    { x: 5758, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
-    
-    { x: 5708, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
+    { x: 5480, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
+    { x: 5710, y: 325, w: 42, h: 99, sprite_name: "paletto" }, //Parete verticale del coso
+
+    { x: 5708, y: 285, w: 150, h: 42, sprite_name: "paletto_1" }, // Parete orizzontale alla fine di quella verticale
 
     { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
