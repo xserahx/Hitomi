@@ -2,10 +2,10 @@
 let ghostly_tutorial_bg;
 
 function preload_ghostly_tutorial_scene(scene) {
-  ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background_long.png", 1800, 920);
-  PP.scene_objects.platform.preload(scene);
-  PP.entities.player.preload(scene);
-  PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
+    ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background_long.png", 1800, 920);
+    PP.scene_objects.platform.preload(scene);
+    PP.entities.player.preload(scene);
+    PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 }
 
 // === CREAZIONE SCENA ===
@@ -28,13 +28,13 @@ function create_ghostly_tutorial_scene(scene) {
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
     // === PIATTAFORME ===
-    const platformPositions = [ 
+    const platformPositions = [
         { x: 1270, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
         { x: 1030, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma 
         { x: 1480, y: 773, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
         { x: 828, y: 470, w: 40, h: 395, sprite_name: "palo" },  // palo
         { x: 850, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
-        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2"}, // base sopra culla
+        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }, // base sopra culla
         { x: 150, y: 805, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
@@ -42,7 +42,7 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === BAMBINO ===
     const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
-        PP.physics.add(scene, baby, PP.physics.type.STATIC);
+    PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
     let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1700;
@@ -61,10 +61,18 @@ function create_ghostly_tutorial_scene(scene) {
     }
 
     //Check se sta cambiando mondo
-    if(PP.game_state.changingWorld){
+    if (PP.game_state.changingWorld) {
         PP.game_state.player.geometry.x = config.player_x;
         PP.game_state.player.geometry.y = config.player_y;
     }
+
+    // === FINE LIVELLO ===
+    const end_level_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
+    PP.physics.add(scene, end_level_trigger, PP.physics.type.STATIC);
+    if (PP.game_state.endingReady == true) {
+        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, ending_level);
+    }
+
 
     // === COLLIDER BAMBINO ===
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
@@ -79,6 +87,7 @@ function create_ghostly_tutorial_scene(scene) {
                 baby_question(scene, 1);
 
             }, false);
+
         } else if (PP.game_state.woaed == false) {
             PP.game_state.woaed = true;
             console.log("Baby check " + PP.game_state.has_baby);
@@ -89,6 +98,9 @@ function create_ghostly_tutorial_scene(scene) {
                 baby_question(scene, 1);
             }
         }
+
+        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, ending_level);
+        PP.game_state.endingReady = true;
     });
 
     // === HUD VITE ===
@@ -119,15 +131,15 @@ function create_ghostly_tutorial_scene(scene) {
         // Overlap player-nemico
         PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
 
-        if (PP.game_state.player.isInvincible) return;
+            if (PP.game_state.player.isInvincible) return;
 
-          let currentIndex = PP.game_state.player.lives - 1;
-          if (currentIndex >= 0) {
-            PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-          }
+            let currentIndex = PP.game_state.player.lives - 1;
+            if (currentIndex >= 0) {
+                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+            }
 
-        PP.entities.player.damage(scene, PP.game_state.player, enemy);
-       });
+            PP.entities.player.damage(scene, PP.game_state.player, enemy);
+        });
     }
 
 
@@ -142,7 +154,7 @@ function create_ghostly_tutorial_scene(scene) {
     scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
     PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
-    if(PP.game_state.changingWorld == true && PP.game_state.player.geometry.x < 500) {
+    if (PP.game_state.changingWorld == true && PP.game_state.player.geometry.x < 500) {
         scene.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
     }
 
@@ -176,25 +188,18 @@ function create_ghostly_tutorial_scene(scene) {
         }, false);
     });
 
-    // === FINE LIVELLO ===
-    const end_level_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
-    PP.physics.add(scene, end_level_trigger, PP.physics.type.STATIC);
-    PP.physics.add_overlap_f(scene, PP.game_state.player, end_level_trigger, () => {
-        if (PP.game_state.inRoom == true) { PP.scenes.start("house_scene"); }
-    });
-
     // === CARTELLI ===
     const sign1 = PP.shapes.rectangle_add(scene, 1625, 800, 40, 40, "0x00ff00", 1);
     const sign2 = PP.shapes.rectangle_add(scene, 1480, 730, 40, 40, "0x00ff00", 1);
     const sign3 = PP.shapes.rectangle_add(scene, 1270, 640, 40, 40, "0x00ff00", 1);
     const sign4 = PP.shapes.rectangle_add(scene, 1035, 565, 40, 40, "0x00ff00", 1);
-    
+
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
     PP.physics.add(scene, sign3, PP.physics.type.STATIC);
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
 
-      PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
+    PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
         let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi A, per muoverti in giro. Premi SPAZIO per saltare.");
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
@@ -224,8 +229,8 @@ function update_ghostly_tutorial_scene(scene) {
     if (PP.game_state.tutorialCutscene) return;
     PP.entities.player.update(scene, PP.game_state.player);
     PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
-    
-        // === CAMBIO MONDO ===
+
+    // === CAMBIO MONDO ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
         PP.entities.player.changeWorld(scene);
     }
@@ -238,7 +243,7 @@ function update_ghostly_tutorial_scene(scene) {
     }
 }
 
-function destroy_ghostly_tutorial_scene(scene) {  
+function destroy_ghostly_tutorial_scene(scene) {
 }
 
 PP.scenes.add("ghostly_tutorial_scene", preload_ghostly_tutorial_scene, create_ghostly_tutorial_scene, update_ghostly_tutorial_scene, destroy_ghostly_tutorial_scene);
@@ -255,8 +260,8 @@ function cutscene(scene, player, trigger) {
 
 function baby_response(scene, type) {
     let interaction;
-    if (type == -1) {interaction = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri..."); }
-    else if (type == 1) {interaction = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!"); }
+    if (type == -1) { interaction = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri..."); }
+    else if (type == 1) { interaction = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!"); }
 
     PP.timers.add_timer(scene, 3000, () => {
         PP.assets.destroy(interaction);
@@ -304,4 +309,30 @@ function baby_question(scene, type) {
 
         if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
     });
+}
+
+function ending_level(scene) {
+    if (PP.game_state.inRoom == true && PP.game_state.woaed == false) {
+        PP.game_state.woaed = true;
+        const exitText = PP.shapes.text_add(scene, 250, 250, "Sono pronta a prendere Nananshi e andarmene da qui?");
+        if (PP.game_state.has_baby == false) {
+            PP.shapes.text_change(exitText, "Sono pronta a lasciare Nananshi e scappare?");
+        }
+
+        const yesButton = PP.shapes.text_add(scene, 250, 300, "Si");
+        const noButton = PP.shapes.text_add(scene, 350, 300, "No");
+
+        PP.interactive.mouse.add(yesButton, "pointerdown", () => {
+            PP.scenes.start("house_scene");
+        });
+
+        PP.interactive.mouse.add(noButton, "pointerdown", () => {
+            PP.assets.destroy(exitText);
+            PP.assets.destroy(yesButton);
+            PP.assets.destroy(noButton);
+            PP.timers.add_timer(scene, 1000, () => {
+                PP.game_state.woaed = false;
+            }, false);
+        });
+    }
 }

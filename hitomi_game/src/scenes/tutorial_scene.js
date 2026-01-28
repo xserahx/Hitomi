@@ -23,6 +23,7 @@ function create_tutorial_scene(scene) {
         PP.game_state.isPLayerFlipped = true;
         PP.game_state.tutorialCutscene = true;
         PP.game_state.inRoom = false;
+        PP.game_state.endingReady = false;
     }
 
     // === MURI (spostati +500) ===
@@ -82,7 +83,14 @@ function create_tutorial_scene(scene) {
         PP.game_state.player.geometry.y = config.player_y;
     }
 
-   // === COLLIDER BAMBINO ===
+    // === FINE LIVELLO ===
+    const end_level_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
+    PP.physics.add(scene, end_level_trigger, PP.physics.type.STATIC);
+    if (PP.game_state.endingReady == true) {
+        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, ending_level);
+    }
+
+    // === COLLIDER BAMBINO ===
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
 
         if (!PP.game_state.woaed && !PP.game_state.inRoom) {
@@ -95,6 +103,8 @@ function create_tutorial_scene(scene) {
                 baby_question(scene, 1);
 
             }, false);
+
+
         } else if (PP.game_state.woaed == false) {
             PP.game_state.woaed = true;
             console.log("Baby check " + PP.game_state.has_baby);
@@ -105,6 +115,9 @@ function create_tutorial_scene(scene) {
                 baby_question(scene, 1);
             }
         }
+
+        PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, ending_level);
+        PP.game_state.endingReady = true;
     });
 
     // === HUD VITE ===
@@ -160,7 +173,7 @@ function create_tutorial_scene(scene) {
     scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
     PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
-    if(PP.game_state.changingWorld == true && PP.game_state.player.geometry.x < 500) {
+    if (PP.game_state.changingWorld == true && PP.game_state.player.geometry.x < 500) {
         scene.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
     }
 
@@ -194,12 +207,7 @@ function create_tutorial_scene(scene) {
         }, false);
     });
 
-    // === FINE LIVELLO ===
-    const end_level_trigger = PP.shapes.rectangle_add(scene, 500, 800, 40, 40, "0x000000", 0);
-    PP.physics.add(scene, end_level_trigger, PP.physics.type.STATIC);
-    PP.physics.add_overlap_f(scene, PP.game_state.player, end_level_trigger, () => {
-        if (PP.game_state.inRoom == true) { PP.scenes.start("house_scene"); }
-    });
+
 
     // === CARTELLI (+500 X) ===
     const sign1 = PP.shapes.rectangle_add(scene, 1625, 800, 40, 40, "0x00ff00", 1);
@@ -315,10 +323,36 @@ function baby_question(scene, type) {
             PP.game_state.nanashiState = "not_taken";
         }
 
-        PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player); 
+        PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player);
         PP.assets.destroy(layer_domanda);
         baby_response(scene, -type);
 
         if (!PP.game_state.inRoom) PP.game_state.inRoom = true;
     });
+}
+
+function ending_level(scene) {
+    if (PP.game_state.inRoom == true && PP.game_state.woaed == false) {
+        PP.game_state.woaed = true;
+        const exitText = PP.shapes.text_add(scene, 250, 250, "Sono pronta a prendere Nananshi e andarmene da qui?");
+        if (PP.game_state.has_baby == false) {
+            PP.shapes.text_change(exitText, "Sono pronta a lasciare Nananshi e scappare?");
+        }
+
+        const yesButton = PP.shapes.text_add(scene, 250, 300, "Si");
+        const noButton = PP.shapes.text_add(scene, 350, 300, "No");
+
+        PP.interactive.mouse.add(yesButton, "pointerdown", () => {
+            PP.scenes.start("house_scene");
+        });
+
+        PP.interactive.mouse.add(noButton, "pointerdown", () => {
+            PP.assets.destroy(exitText);
+            PP.assets.destroy(yesButton);
+            PP.assets.destroy(noButton);
+            PP.timers.add_timer(scene, 1000, () => {
+                PP.game_state.woaed = false;
+            }, false);
+        });
+    }
 }
