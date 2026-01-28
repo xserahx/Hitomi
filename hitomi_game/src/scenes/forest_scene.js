@@ -110,8 +110,8 @@ function create_forest(scene) {
   // === STATO SCENA ===
   PP.game_state.currentScene = "forest_scene";
   PP.game_state.otherWorld = "ghostly_forest_scene";
-  // === PARALLASSE ===
 
+  // === PARALLASSE ===
   // sfondo lontano
   bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 0, 6402, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.1;
@@ -198,7 +198,7 @@ function create_forest(scene) {
     { x: 820, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
 
     // === TRONCO DA SCAVALCARE ===
-    { x: 1050, y: 770, w: 200, h: 480, sprite_name: "tronco" },
+    { x: 1050, y: 700, w: 200, h: 480, sprite_name: "tronco" },
     { x: 1600, y: 640, w: 290, h: 390, sprite_name: "roccia_1" },
     { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
 
