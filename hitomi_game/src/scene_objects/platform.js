@@ -18,7 +18,6 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["basetta_2"] = PP.assets.image.load(scene, "assets/images/house/basetta_2.png", 150, 20);
     PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
     PP.scene_objects.platform.sprite["culla"] = PP.assets.image.load(scene, "assets/images/culla.png", 100, 60);
-    PP.scene_objects.platform.sprite["cuscino"] = PP.assets.image.load(scene, "assets/images/house/cuscino.png", 200, 100);
 
 
     // Piattaforme spettrali tutorial e casa
@@ -32,7 +31,6 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["g_basetta_1"] = PP.assets.image.load(scene, "assets/images/house/g_basetta_1.png", 150, 20);
     PP.scene_objects.platform.sprite["g_basetta_2"] = PP.assets.image.load(scene, "assets/images/house/g_basetta_2.png", 150, 20);
     PP.scene_objects.platform.sprite["g_palo"] = PP.assets.image.load(scene, "assets/images/house/g_palo.png", 50, 270);
-    PP.scene_objects.platform.sprite["g_cuscino"] = PP.assets.image.load(scene, "assets/images/house/g_cuscino.png", 200, 100);
 
 
     // Piattaforme foresta

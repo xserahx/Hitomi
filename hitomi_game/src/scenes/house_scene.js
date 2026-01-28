@@ -65,8 +65,8 @@ function create_house(scene, data) {
       { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
-    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "cuscino" },
-    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
     //{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
