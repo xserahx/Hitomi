@@ -9,8 +9,7 @@ PP.entities.player.preload = function (scene) {
 
 // === CREATE ===
 PP.entities.player.create = function (scene, x, y) {
-    const img = PP.game_state.has_baby ? PP.entities.player.img_bambino : PP.entities.player.img_goody;
-
+    const img = (PP.game_state.nanashiState === "taken") ? PP.entities.player.img_bambino : PP.entities.player.img_goody;
     const player = PP.assets.sprite.add(scene, img, x, y, 0.5, 0.5);
     PP.physics.add(scene, player, PP.physics.type.DYNAMIC);
     PP.physics.set_collision_rectangle(player, 40, 120, 40, 0);
@@ -66,6 +65,9 @@ PP.entities.player.create = function (scene, x, y) {
 
     if (PP.game_state.isPLayerFlipped) player.geometry.flip_x = true;
 
+    PP.assets.sprite.animation_play(player, "idle");
+    player.currentAnim = "idle";
+
     return player;
 };
 
@@ -86,8 +88,9 @@ PP.entities.player.update = function (scene, player) {
     // === INPUT ===
     const movingLeft  = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
     const movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
-    let speed = PP.game_state.has_baby ? 150 : 200;
-    player.dashSpeed = PP.game_state.has_baby ? 400 : 600;
+    const hasNanashi = PP.game_state.nanashiState === "taken";
+    let speed = hasNanashi ? 150 : 200;
+    player.dashSpeed = hasNanashi ? 400 : 600;
     // === DEV MODE ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && !PP.game_state.DevMode) {
         PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
@@ -102,7 +105,6 @@ PP.entities.player.update = function (scene, player) {
         !player.isDashing && PP.timers.getTime(scene) - player.lastDash > player.dashCooldown) {
         player.isDashing = true;
         player.lastDash = PP.timers.getTime(scene);
-        PP.physics.change_gravity(scene, 200);
         PP.physics.set_velocity_x(player, (player.geometry.flip_x ? -1 : 1) * player.dashSpeed);
     }
 
@@ -305,32 +307,25 @@ PP.entities.player.attack = function (scene, player, enemies) {
     }, false);
 };
 
-// === RACCOLTA BAMBINO ===
-PP.entities.player.get_baby = function (scene, player) {
-    PP.game_state.has_baby = true;
-    console.log("Player has baby:", PP.game_state.has_baby);
-}
+PP.entities.player.setSpriteByNanashiState = function (scene, player) {
+    // Scegli il nuovo spritesheet
+    const newSprite = PP.game_state.nanashiState === "taken" ? PP.entities.player.img_bambino : PP.entities.player.img_goody;
 
-PP.entities.player.set_sprite_by_state = function (scene, player) {
-    const newImg = PP.game_state.has_baby
-        ? PP.entities.player.img_bambino
-        : PP.entities.player.img_goody;
+    // Cambia texture Phaser
+    player.ph_obj.setTexture(newSprite.id);
+    player.ph_obj.setFrame(0);
 
-    // Cambia texture del Phaser Sprite
-    player.ph_obj.setTexture(newImg.id);
+    // Aggiorna orig_sprite così le nuove animazioni useranno lo spritesheet corretto
+    player.orig_sprite = newSprite;
 
-    // Reset animazione
-    player.currentAnim = "";
-
-    // Ricrea animazioni sul nuovo spritesheet
-    PP.assets.sprite.animation_add(player, "camminata", 0, 7, 12, -1);
-    PP.assets.sprite.animation_add(player, "idle", 8, 12, 5, -1);
-    PP.assets.sprite.animation_add(player, "attacco", 16, 21, 20, 0);
-    PP.assets.sprite.animation_add(player, "salto_pre", 24, 24, 1, 0);
-    PP.assets.sprite.animation_add(player, "salto1", 25, 26, 10, 0);
-    PP.assets.sprite.animation_add(player, "salto2", 27, 29, 12, 0);
-    PP.assets.sprite.animation_add(player, "dash", 40, 43, 12, 0);
-    PP.assets.sprite.animation_add(player, "morte", 32, 36, 10, 0);
+    // Forza animazione idle/salto
+    if (player.ph_obj.body.blocked.down) {
+        PP.assets.sprite.animation_play(player, "idle");
+        player.currentAnim = "idle";
+    } else {
+        PP.assets.sprite.animation_play(player, "salto1");
+        player.currentAnim = "salto1";
+    }
 };
 
 // === CAMBIO MONDO ===

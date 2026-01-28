@@ -261,12 +261,15 @@ function cutscene(scene, player, trigger) {
 
 function baby_response(scene, type) {
     let interaction;
-    if (type == -1) {interaction = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri..."); }
-    else if (type == 1) {interaction = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!"); }
+    if (type === -1) {
+        interaction = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
+    } else if (type === 1) {
+        interaction = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!");
+    }
 
     PP.timers.add_timer(scene, 3000, () => {
         PP.assets.destroy(interaction);
-        PP.game_state.woaed = false;
+        PP.game_state.woaed = false; // reset per poter interagire di nuovo
     }, false);
 }
 
@@ -274,40 +277,48 @@ function baby_question(scene, type) {
     let layer_domanda = PP.layers.create(scene);
     PP.layers.set_z_index(layer_domanda, 10);
 
-    if (type == -1) { PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi lasciare Nanashi?"); }
-    else if (type == 1) { PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi prendere Nanashi?"); }
+    // Testo domanda
+    const questionText = (type === 1) ? "Vuoi prendere Nanashi?" : "Vuoi lasciare Nanashi?";
+    let askChild = PP.shapes.text_add(scene, 150, 550, questionText);
 
+    // Pulsanti
     let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
     let button_no = PP.shapes.text_add(scene, 330, 580, "No");
 
-    PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
-    PP.layers.add_to_layer(layer_domanda, button_no);
+    // Aggiungi al layer
+    PP.layers.add_to_layer(layer_domanda, askChild);
     PP.layers.add_to_layer(layer_domanda, button_si);
+    PP.layers.add_to_layer(layer_domanda, button_no);
 
+    // Logica scelta SÌ
     PP.interactive.mouse.add(button_si, "pointerdown", () => {
-        if (type == -1) {
-            PP.game_state.has_baby = false;
-            PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
-        } else if (type == 1) {
-            PP.entities.player.get_baby(scene, PP.game_state.player);
-            PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
+        if (type === -1) {
+            PP.game_state.nanashiState = "not_taken";   // Aggiorna flag
+        } else if (type === 1) {
+            PP.game_state.nanashiState = "taken";       // Aggiorna flag
         }
 
+        PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player); // forza aggiornamento sprite
         PP.assets.destroy(layer_domanda);
 
-        //La risposta condivide il tipo della domanda, perchè affermativa, pertanto se chiede di prenderlo, la risposta positiva è quella che lo prende e viceversa.
+        // risposta testuale
         baby_response(scene, type);
 
-        //Nel momento in cui il giocatore sceglie per la prima volta, si considera che sia entrato nella stanza.
-        if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
+        if (!PP.game_state.inRoom) PP.game_state.inRoom = true;
     });
 
+    // Logica scelta NO
     PP.interactive.mouse.add(button_no, "pointerdown", () => {
-        PP.assets.destroy(layer_domanda);
+        if (type === -1) {
+            PP.game_state.nanashiState = "taken";     // risposta contraria
+        } else if (type === 1) {
+            PP.game_state.nanashiState = "not_taken";
+        }
 
-        //La risposta contraria al tipo della domanda, perchè negativa, pertanto se chiede di prenderlo, la risposta negativa è quella che non lo prende e viceversa.
+        PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player); 
+        PP.assets.destroy(layer_domanda);
         baby_response(scene, -type);
 
-        if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
+        if (!PP.game_state.inRoom) PP.game_state.inRoom = true;
     });
 }
