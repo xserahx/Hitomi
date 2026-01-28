@@ -7,6 +7,7 @@ PP.entities.enemy.preload = function (scene) {
   PP.entities.enemy.sprite.ombrello = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_ombrello.png", 58, 102);
   PP.entities.enemy.sprite.bambino = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_bambino.png", 52, 52);
   PP.entities.enemy.sprite.pterodattilo = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_pterodattilo.png", 150, 105);
+  PP.entities.enemy.sprite.slug = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_slug.png", 102, 102);
   PP.entities.enemy.sprite.lanterna = PP.assets.sprite.load_spritesheet(scene,"assets/images/mob/spritesheet_lanterna.png", 58, 57);
 };
 
@@ -63,8 +64,12 @@ PP.entities.enemy.create = function (scene, positions) {
         PP.assets.sprite.animation_add(enemy, "walk", 8, 0, 10, -1);
         PP.physics.set_collision_rectangle(enemy, 120, 100, 10, 0);
         break;
-    }
 
+      case "slug":
+        PP.assets.sprite.animation_add(enemy, "walk", 0, 6, 10, -1);
+        PP.physics.set_collision_rectangle(enemy, 90, 90, 8, 10);
+        break;
+    }
     enemies.push(enemy);
   }
 
