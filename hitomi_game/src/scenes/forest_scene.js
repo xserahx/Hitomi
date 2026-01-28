@@ -3,6 +3,11 @@ let help;
 
 let forest_bg;
 let mountains_bg;
+
+let bamboofondo3;
+let bamboofondo2;
+let bamboofondo1;
+
 let tori;
 let tempio;
 
@@ -15,6 +20,7 @@ let cespuglio_2;
 let rocks;
 let radice;
 
+let separatore;
 let fox_statue;
 let statue;
 
@@ -59,6 +65,10 @@ const forestTrees = [
 function preload_forest(scene) {
   forest_bg = PP.assets.image.load(scene, "assets/images/forest/forest_background.png", 1280, 920);
   mountains_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/montagna.png", 1280, 720);
+
+  bamboofondo3 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl3parallax.png", 6402, 1080);
+  bamboofondo2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl2parallax.png", 6402, 1080);
+  bamboofondo1 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl1parallax.png", 6402, 1080);
   
   big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/albero_bamboo.png", 800, 1000);
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png", 550, 684);
@@ -76,6 +86,7 @@ function preload_forest(scene) {
   rocks = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia.png", 1280, 400);
   radice = PP.assets.image.load(scene, "assets/images/forest/parallasse/radice.png", 400, 200);
 
+  separatore = PP.assets.image.load(scene, "assets/images/forest/parallasse/solidoopaco.png", 6402, 1080);
   tori = PP.assets.image.load(scene, "assets/images/forest/parallasse/tori.png", 400, 600);
   tempio = PP.assets.image.load(scene, "assets/images/forest/parallasse/tempio.png", 600, 800);
 
@@ -103,11 +114,23 @@ function create_forest(scene) {
 
   // sfondo lontano
   bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 0, 6402, 920, 0, 0);
-  bg_far.tile_geometry.scroll_factor_x = 0.15;
+  bg_far.tile_geometry.scroll_factor_x = 0.1;
+
 
   // montagne di sfondo 
   bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 210, 6400, 920, 0, 0);
-  bg_mid.tile_geometry.scroll_factor_x = 0.3;
+  bg_mid.tile_geometry.scroll_factor_x = 0.2;
+
+  // parallasse anouk
+  bamboofondo3 = PP.assets.tilesprite.add(scene, bamboofondo3, 0, 0, 6400, 920, 0, 0);
+    bamboofondo3.tile_geometry.scroll_factor_x = 0.3;
+  bamboofondo2 = PP.assets.tilesprite.add(scene, bamboofondo2, 0, 0, 6400, 920, 0, 0);
+    bamboofondo2.tile_geometry.scroll_factor_x = 0.4;
+  bamboofondo1 = PP.assets.tilesprite.add(scene, bamboofondo1, 0, 0, 6400, 920, 0, 0);
+    bamboofondo1.tile_geometry.scroll_factor_x = 0.5;
+tori = PP.assets.tilesprite.add(scene, tori, 200, 400, 900, 1000, 0, 0);
+  tori.tile_geometry.scroll_factor_x = 0.55;
+
 
   cespuglio = PP.assets.image.add(scene, cespuglio, 2400, 450, 0, 0);
   cespuglio_2 = PP.assets.image.add(scene, cespuglio_2, 1700, 430, 0, 0);
@@ -118,7 +141,6 @@ function create_forest(scene) {
   bamboo = PP.assets.image.add(scene, bamboo, 1130, 0, 0, 0);
   bamboo_2 = PP.assets.image.add(scene, bamboo_2, 2100, 0, 0, 0);
 
-  tori = PP.assets.image.add(scene, tori, 200, 470, 0, 0);
   tempio = PP.assets.image.add(scene, tempio, 3095 + 60, -20, 0, 0);
 
   rocks = PP.assets.image.add(scene, rocks, 2440 + 60, 100, 0, 0);
@@ -132,6 +154,15 @@ function create_forest(scene) {
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
 
+
+
+
+  separatore = PP.assets.image.add(scene, separatore, 0, 0, 0, 0);
+
+
+
+  
+  // pontili
   pontile = PP.assets.image.add(scene, pontile, 3395, 310, 0, 0);
   pontile_2 = PP.assets.image.add(scene, pontile_2, 3820, 480, 0, 0);
 
