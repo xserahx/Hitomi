@@ -6,7 +6,6 @@ let ghostly_mountains_bg;
 let ghostly_mountains_2_bg;
 let ghostly_small_tree;
 let ghostly_bamboo_bg;
-let ghostly_bush;
 
 let ghostly_bg_far;
 let ghostly_bg_mid;
@@ -45,7 +44,6 @@ function preload_bossfight_scene(scene) {
   ghostly_mountains_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse_spettrale/montagna2_spettrale.png",1280,720);
   ghostly_small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/alberello_spettrale.png",550, 684);
   ghostly_bamboo_bg = PP.assets.image.load(scene,"assets/images/forest/parallasse_spettrale/recinzione_spettrale.png",1096,250);
-  ghostly_bush = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/arbusto_spettrale.png",150,114);
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene,"assets/images/heart.png",120,50);
   help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
@@ -79,8 +77,6 @@ function create_bossfight_scene(scene) {
 
   // recinzione in bamboo
   ghostly_bg_front = PP.assets.tilesprite.add(scene, ghostly_bamboo_bg, -20, 750, 6400, 250, 0, 0);
-
-  let img_bush = PP.assets.image.add(scene, ghostly_bush, 750, 940, 0.5, 0.5);
 
     // === PULSANTE HELP ===
     const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
