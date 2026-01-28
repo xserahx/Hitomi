@@ -3,7 +3,7 @@ PP.entities.boss = {};
 
 // === PRELOAD ===
 PP.entities.boss.preload = function (scene) {
-  PP.entities.boss.img_samurai = PP.assets.sprite.load_spritesheet(scene, "assets/images/mob/spritesheet_samurai.png", 133, 132);
+  PP.entities.boss.img_samurai = PP.assets.sprite.load_spritesheet(scene, "assets/images/mob/spritesheet_samurai.png", 204, 201);
 };
 
 // === CREAZIONE BOSS ===
@@ -11,7 +11,7 @@ PP.entities.boss.create = function (scene, positions) {
   const img_samurai = PP.entities.boss.img_samurai;
   const boss = PP.assets.sprite.add(scene, img_samurai, 1230, 500, 0.5, 0.5);
   PP.physics.add(scene, boss, PP.physics.type.DYNAMIC);
-  PP.physics.set_collision_rectangle(boss, 60, 132, 60, 0);
+  PP.physics.set_collision_rectangle(boss, 100, 200, 80, 0);
 
   boss.state = "idle"; // idle | walk | attack | dead | dash
   boss.state_check = "idle";
