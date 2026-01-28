@@ -68,10 +68,6 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === COLLIDER BAMBINO ===
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
-        
-        console.log(PP.game_state.woaed);
-        let layer_domanda = PP.layers.create(scene);
-        PP.layers.set_z_index(layer_domanda, 10);
 
         if (!PP.game_state.woaed && !PP.game_state.inRoom) {
             let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra essere un mostro!");
@@ -80,97 +76,17 @@ function create_ghostly_tutorial_scene(scene) {
             PP.timers.add_timer(scene, 2000, () => {
                 PP.assets.destroy(woa);
 
-                PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi raccogliere Nanashi?");
-                let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
-                let button_no = PP.shapes.text_add(scene, 330, 580, "No");
+                baby_question(scene, 1);
 
-                PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
-                PP.layers.add_to_layer(layer_domanda, button_no);
-                PP.layers.add_to_layer(layer_domanda, button_si);
-
-                PP.interactive.mouse.add(button_si, "pointerdown", () => {
-                    PP.entities.player.get_baby(scene, PP.game_state.player);
-                    PP.game_state.inRoom = true;
-                    PP.assets.destroy(layer_domanda);
-                    const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!");
-                    PP.timers.add_timer(scene, 1000, () => {
-                        PP.assets.destroy(babyKept);
-                        PP.game_state.woaed = false;
-                        console.log(PP.game_state.woaed);
-                    }, false);
-                });
-
-                PP.interactive.mouse.add(button_no, "pointerdown", () => {
-                    PP.game_state.inRoom = true;
-                    PP.assets.destroy(layer_domanda);
-                    const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
-                    PP.timers.add_timer(scene, 1000, () => {
-                        PP.assets.destroy(babyDropped);
-                        PP.game_state.woaed = false;
-                    }, false);
-                });
             }, false);
-        }else if (PP.game_state.woaed == false) {
+        } else if (PP.game_state.woaed == false) {
             PP.game_state.woaed = true;
             console.log("Baby check " + PP.game_state.has_baby);
 
-            if(PP.game_state.has_baby == true){
-
-                PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi lasciare Nanashi?");
-                let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
-                let button_no = PP.shapes.text_add(scene, 330, 580, "No");
-
-                PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
-                PP.layers.add_to_layer(layer_domanda, button_no);
-                PP.layers.add_to_layer(layer_domanda, button_si);
-
-                PP.interactive.mouse.add(button_si, "pointerdown", () => {
-                    PP.game_state.has_baby = false;
-                    PP.assets.destroy(layer_domanda);
-                    const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
-                    PP.timers.add_timer(scene, 3000, () => {
-                        PP.assets.destroy(babyDropped);
-                        PP.game_state.woaed = false;
-                    }, false);
-                });
-
-                PP.interactive.mouse.add(button_no, "pointerdown", () => {
-                    PP.assets.destroy(layer_domanda);
-                    const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me, deve esserci un modo di salvarlo!");
-                    PP.timers.add_timer(scene, 3000, () => {
-                        PP.assets.destroy(babyKept);
-                        PP.game_state.woaed = false;
-                    }, false);
-                });
-            }else if(PP.game_state.has_baby == false){
-                PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi riprendere Nanashi?");
-                let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
-                let button_no = PP.shapes.text_add(scene, 330, 580, "No");
-
-                PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
-                PP.layers.add_to_layer(layer_domanda, button_no);
-                PP.layers.add_to_layer(layer_domanda, button_si);
-
-                PP.interactive.mouse.add(button_si, "pointerdown", () => {
-                    PP.entities.player.get_baby(scene, PP.game_state.player);
-                    PP.game_state.inRoom = true;
-                    PP.assets.destroy(layer_domanda);
-                    const babyKept = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me, deve esserci un modo di salvarlo!");
-                    PP.timers.add_timer(scene, 3000, () => {
-                        PP.assets.destroy(babyKept);
-                        PP.game_state.woaed = false;
-                    }, false);
-                });
-
-                PP.interactive.mouse.add(button_no, "pointerdown", () => {
-                    PP.game_state.inRoom = true;
-                    PP.assets.destroy(layer_domanda);
-                    const babyDropped = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...");
-                    PP.timers.add_timer(scene, 3000, () => {
-                        PP.assets.destroy(babyDropped);
-                        PP.game_state.woaed = false;
-                    }, false);
-                });
+            if (PP.game_state.has_baby == true) {
+                baby_question(scene, -1);
+            } else if (PP.game_state.has_baby == false) {
+                baby_question(scene, 1);
             }
         }
     });
@@ -225,6 +141,10 @@ function create_ghostly_tutorial_scene(scene) {
     const worldHeight = ground.geometry.body_y + 15;
     scene.cameras.main.setBounds(leftWall.geometry.body_x, 0, worldWidth, worldHeight);
     PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
+
+    if(PP.game_state.changingWorld == true && PP.game_state.player.geometry.x < 500) {
+        scene.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
+    }
 
     // === CUTSCENE ===
     if (PP.game_state.tutorialCutscene) {
@@ -331,4 +251,57 @@ function cutscene(scene, player, trigger) {
         PP.assets.destroy(talk);
         PP.game_state.tutorialCutscene = false;
     }, false);
+}
+
+function baby_response(scene, type) {
+    let interaction;
+    if (type == -1) {interaction = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri..."); }
+    else if (type == 1) {interaction = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!"); }
+
+    PP.timers.add_timer(scene, 3000, () => {
+        PP.assets.destroy(interaction);
+        PP.game_state.woaed = false;
+    }, false);
+}
+
+function baby_question(scene, type) {
+    let layer_domanda = PP.layers.create(scene);
+    PP.layers.set_z_index(layer_domanda, 10);
+
+    if (type == -1) { PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi lasciare Nanashi?"); }
+    else if (type == 1) { PP.game_state.askChild = PP.shapes.text_add(scene, 150, 550, "Vuoi prendere Nanashi?"); }
+
+    let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
+    let button_no = PP.shapes.text_add(scene, 330, 580, "No");
+
+    PP.layers.add_to_layer(layer_domanda, PP.game_state.askChild);
+    PP.layers.add_to_layer(layer_domanda, button_no);
+    PP.layers.add_to_layer(layer_domanda, button_si);
+
+    PP.interactive.mouse.add(button_si, "pointerdown", () => {
+        if (type == -1) {
+            PP.game_state.has_baby = false;
+            PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
+        } else if (type == 1) {
+            PP.entities.player.get_baby(scene, PP.game_state.player);
+            PP.entities.player.set_sprite_by_state(scene, PP.game_state.player);
+        }
+
+        PP.assets.destroy(layer_domanda);
+
+        //La risposta condivide il tipo della domanda, perchè affermativa, pertanto se chiede di prenderlo, la risposta positiva è quella che lo prende e viceversa.
+        baby_response(scene, type);
+
+        //Nel momento in cui il giocatore sceglie per la prima volta, si considera che sia entrato nella stanza.
+        if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
+    });
+
+    PP.interactive.mouse.add(button_no, "pointerdown", () => {
+        PP.assets.destroy(layer_domanda);
+
+        //La risposta contraria al tipo della domanda, perchè negativa, pertanto se chiede di prenderlo, la risposta negativa è quella che non lo prende e viceversa.
+        baby_response(scene, -type);
+
+        if (PP.game_state.inRoom == false) { PP.game_state.inRoom = true; }
+    });
 }
