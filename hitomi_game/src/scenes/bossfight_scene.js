@@ -53,6 +53,7 @@ function preload_bossfight_scene(scene) {
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
+  PP.entities.boss.preload(scene);
 }
 
 // === CREAZIONE SCENA ===
