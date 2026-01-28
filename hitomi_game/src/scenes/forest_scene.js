@@ -3,15 +3,33 @@ let help;
 
 let forest_bg;
 let mountains_bg;
-let mountains_2_bg;
+let tori;
+let tempio;
+
+let big_tree;
 let small_tree;
-let rocks;
-let bamboo_bg;
 let bush;
+let cespuglio;
+let cespuglio_2;
+
+let rocks;
+let radice;
+
+let fox_statue;
+let statue;
+
+let bamboo_rev;
+let bamboo_rev_2; 
+
+let bamboo_bg;
+let bamboo;
+let bamboo_2;
+
+let pontile;
+let pontile_2;
 
 let bg_far;
 let bg_mid;
-let bg_main;
 let bg_trees;
 let bg_front;
 
@@ -23,31 +41,49 @@ function createForest(scene, treeSprite, treePositionArray) {
 
 const forestTrees = [
 
-  { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 3980, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4100, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4300, y: 850, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4450, y: 730, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4590, y: 770, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4670, y: 860, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4750, y: 840, pivot_x: 0.5, pivot_y: 0.5 },
+ { x: 4800, y: 730, pivot_x: 0.5, pivot_y: 0.5 },
 
-
-  { x: 700, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 900, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1100, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1300, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
-
-  { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+ // { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+ // { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+ // { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+ // { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
   ];
 
 function preload_forest(scene) {
   forest_bg = PP.assets.image.load(scene, "assets/images/forest/forest_background.png", 1280, 920);
-  mountains_2_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/montagna1.png", 1280, 720);
-  mountains_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/montagna2.png", 1280, 720);
+  mountains_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/montagna.png", 1280, 720);
+  
+  big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/albero_bamboo.png", 800, 1000);
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png", 550, 684);
+  cespuglio = PP.assets.image.load(scene, "assets/images/forest/parallasse/cespuglio.png", 200, 150);
+  cespuglio_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/cespuglio.png", 200, 150);
+  
   bamboo_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/recinzione.png", 1096, 250);
+  bamboo_rev = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo_reverse.png", 1096, 250);
+  bamboo_rev_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo_reverse.png", 1096, 250);
+
+  bamboo = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo.png", 1096, 250);
+  bamboo_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo.png", 1096, 250);
+
   bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png", 150, 114);
   rocks = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia.png", 1280, 400);
+  radice = PP.assets.image.load(scene, "assets/images/forest/parallasse/radice.png", 400, 200);
+
+  tori = PP.assets.image.load(scene, "assets/images/forest/parallasse/tori.png", 400, 600);
+  tempio = PP.assets.image.load(scene, "assets/images/forest/parallasse/tempio.png", 600, 800);
+
+  pontile = PP.assets.image.load(scene, "assets/images/forest/parallasse/pontile.png", 400, 200);
+  pontile_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/pontile_2.png", 400, 200);
+
+  fox_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse/statua_2.png", 300, 400);
+  statue = PP.assets.image.load(scene, "assets/images/forest/parallasse/statua.png", 400, 600);
   scene.load.image("snowflake", "assets/images/forest/neve.png");
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -69,22 +105,41 @@ function create_forest(scene) {
   bg_far = PP.assets.tilesprite.add(scene, forest_bg, 0, 0, 6402, 920, 0, 0);
   bg_far.tile_geometry.scroll_factor_x = 0.15;
 
-  // montagne lontane
-  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 200, 6402, 920, 0, 0);
+  // montagne di sfondo 
+  bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 210, 6400, 920, 0, 0);
   bg_mid.tile_geometry.scroll_factor_x = 0.3;
 
-  // montagne vicine
-  bg_main = PP.assets.tilesprite.add(scene, mountains_2_bg, 0, 200, 6402, 920, 0, 0);
-  bg_main.tile_geometry.scroll_factor_x = 0.45;
+  cespuglio = PP.assets.image.add(scene, cespuglio, 2400, 450, 0, 0);
+  cespuglio_2 = PP.assets.image.add(scene, cespuglio_2, 1700, 430, 0, 0);
+
+  bamboo_rev = PP.assets.image.add(scene, bamboo_rev, 520, 0, 0, 0);
+  bamboo_rev_2 = PP.assets.image.add(scene, bamboo_rev_2, 1550, 0, 0, 0);
+  
+  bamboo = PP.assets.image.add(scene, bamboo, 1130, 0, 0, 0);
+  bamboo_2 = PP.assets.image.add(scene, bamboo_2, 2100, 0, 0, 0);
+
+  tori = PP.assets.image.add(scene, tori, 200, 470, 0, 0);
+  tempio = PP.assets.image.add(scene, tempio, 3095, -20, 0, 0);
+
+  rocks = PP.assets.image.add(scene, rocks, 2440, 100, 0, 0);
 
   createForest(scene, small_tree, forestTrees);
 
-  rocks = PP.assets.image.add(scene, rocks, 3050, 100, 0, 0);
+  radice = PP.assets.image.add(scene, radice, 2680, 140, 0, 0);
+
+  big_tree = PP.assets.image.add(scene, big_tree, 190, 1000, 0.5, 1);
 
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
 
-  let img_bush = PP.assets.image.add(scene, bush, 750, 940, 0.5, 0.5);
+  pontile = PP.assets.image.add(scene, pontile, 3320, 310, 0, 0);
+  pontile_2 = PP.assets.image.add(scene, pontile_2, 3730, 480, 0, 0);
+
+  statue = PP.assets.image.add(scene, statue, 600, 740, 0, 0);
+
+  fox_statue = PP.assets.image.add(scene, fox_statue, 325, 860, 0, 0);
+
+  bush = PP.assets.image.add(scene, bush, 190, 945, 0.5, 0.5);
 
   // === PULSANTE HELP ===
   const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
@@ -100,7 +155,7 @@ function create_forest(scene) {
   const leftWall = PP.shapes.rectangle_add(scene, 0, 460, 5, 1060, "0x000000", 0);
   PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
-  const rightWall = PP.shapes.rectangle_add(scene, 5050, 460, 40, 920, "0x000000", 0);
+  const rightWall = PP.shapes.rectangle_add(scene, 4690, 420, 40, 920, "0x000000", 0);
   PP.physics.add(scene, rightWall, PP.physics.type.STATIC);
 
   // === GROUND ===
@@ -111,29 +166,28 @@ function create_forest(scene) {
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
-    { x: 400, y: 850, w: 150, h: 20, sprite_name: "piattaforma" },
-    //{ x: 820, y: 825, w: 200, h: 20, sprite_name: "piattaforma" }, // SOLO MONDO SPETTRALE
-    { x: 1060, y: 720, w: 150, h: 20, sprite_name: "piattaforma" },
+    { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 820, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
 
-    // === MASSO (?) DA SCAVALCARE ===
-    { x: 1400, y: 730, w: 150, h: 350, sprite_name: "piattaforma" },
-    { x: 1532, y: 870, w: 150, h: 20, sprite_name: "piattaforma" },
+    // === TRONCO DA SCAVALCARE ===
+    { x: 1050, y: 770, w: 200, h: 480, sprite_name: "tronco" },
+    { x: 1600, y: 640, w: 290, h: 390, sprite_name: "roccia_1" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
-    { x: 1780, y: 665, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 1970, y: 755, w: 150, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
-    //{ x: 2440, y: 665, w: 100, h: 20, sprite_name: "piattaforma" }, SOLO MONDO SPETTRALE
-    { x: 2510, y: 590, w: 150, h: 20, sprite_name: "piattaforma" }, //SOLO MONDO REALE
+    //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2" },
+    { x: 2200, y: 640, w: 320, h: 390, sprite_name: "roccia_2" }, //SOLO MONDO REALE
+    { x: 2510, y: 590, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
-    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma" },
-    { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma" },
-    //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma" },
-
+    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma_foresta" },
     //{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
+
     // PIATTAFORME FINALI
     //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 4250, y: 665, w: 150, h: 20, sprite_name: "piattaforma" },
@@ -145,12 +199,11 @@ function create_forest(scene) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    { x: 820, y: 825, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 2240, y: 665, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 3050, y: 515, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 3050, y: 215, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 3900, y: 500, w: 150, h: 20, sprite_name: "particelle" }, //penultimo
-    { x: 4550, y: 850, w: 150, h: 20, sprite_name: "particelle" } //ultimo
+    //{ x: 2240, y: 665, w: 150, h: 20, sprite_name: "particelle" },
+    //{ x: 3050, y: 515, w: 150, h: 20, sprite_name: "particelle" },
+    //{ x: 3050, y: 215, w: 150, h: 20, sprite_name: "particelle" },
+    //{ x: 3900, y: 500, w: 150, h: 20, sprite_name: "particelle" }, //penultimo
+    //{ x: 4550, y: 850, w: 150, h: 20, sprite_name: "particelle" } //ultimo
 
   ];
 
