@@ -269,6 +269,7 @@ function create_forest(scene) {
 
     PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
     PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
+    PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
 
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
@@ -276,7 +277,7 @@ function create_forest(scene) {
     if (i < PP.game_state.player.lives) {
         PP.assets.sprite.animation_play(heart, "full");
     } else {
-        PP.assets.sprite.animation_play(heart, "empty");
+        PP.assets.sprite.animation_play(heart, "staticempty");
     }
 
     PP.game_state.hearts.push(heart);
