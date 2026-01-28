@@ -43,63 +43,69 @@ function create_ghostly_house(scene, data) {
   // === PIATTAFORME ===
   const platformPositions = [
 
-    //======TUTORIAL======
-    { x: 820, y: 675, w: 150, h: 40, sprite_name: "g_piattaforma" },  // piattaforma iniziale
-    { x: 610, y: 600, w: 150, h: 40, sprite_name: "g_piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 773, w: 110, h: 90, sprite_name: "g_rialzino" }, // muretto
-    { x: 378, y: 470, w: 40, h: 395, sprite_name: "g_palo" },  // colonna di sinistra
-    { x: 400, y: 550, w: 150, h: 20, sprite_name: "g_basetta_1" }, // base del nemico
-    { x: 205, y: 640, w: 150, h: 20, sprite_name: "g_basetta_2" }, // base sopra culla
+  //======TUTORIAL======
+    { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+    { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
+    { x: 1030, y: 773, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 378, y: 470, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
+    { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
+    { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }, // base sopra culla
     // /DA FLIPPARE
     { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
-    { x: 2270, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
+    { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
-    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 2065, y: 520, w: 150, h: 42, sprite_name: "g_piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
-    { x: 2490, y: 435, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 2840, y: -169, w: 100, h: 900, sprite_name: "g_piattaforma" }, //MURO CON PORTA SOTTO
+    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 2165, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
+    { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
-    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 3490, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 4180, y: 450, w: 150, h: 42, sprite_name: "g_piattaforma" },// standard
+    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 4130, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// standard
 
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" },// standard                RIMANE
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" }, // penultima piattaforma  RIMANE
-//    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "g_piattaforma" },  // Terzo muro
-    { x: 4180, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
-    { x: 4920, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// standard                RIMANE
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+
+//    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 4180, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
-    { x: 5860, y: 774, w: 150, h: 93, sprite_name: "g_rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
-    { x: 5480, y: 425, w: 500, h: 41, sprite_name: "g_trave" }, //Piattaforma larga attaccata al muro
-    { x: 5710, y: 325, w: 42, h: 99, sprite_name: "g_paletto" }, //Parete verticale del coso
-    { x: 5708, y: 285, w: 150, h: 42, sprite_name: "g_paletto_1" }, // Parete orizzontale alla fine di quella verticale
-//    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "g_piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
-    // { x: 6058, y: 155, w: 150, h: 42, sprite_name: "g_piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
-{ x: 6058, y: 612, w: 150, h: 42, sprite_name: "g_piattaforma" }, //Piattaforma per salire sull'accrocchio
+    { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
+
+    // L
+    { x: 5580, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
+    { x: 5810, y: 325, w: 42, h: 99, sprite_name: "paletto" }, //Parete verticale del coso
+    { x: 5808, y: 285, w: 150, h: 42, sprite_name: "paletto_1" }, // Parete orizzontale alla fine di quella verticale
+
+    //    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
+    // { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
+{ x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
+
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
-    { x: 6400, y: 340, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    // { x: 6700, y: 220, w: 250, h: 42, sprite_name: "g_piattaforma" },
-    { x: 7100, y: 340, w: 150, h: 42, sprite_name: "g_piattaforma" },
+    { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
+    // { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
+    { x: 7100, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===
-    { x: 6380, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
-    { x: 7120, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
+    { x: 6380, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 7120, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: -171, w: 100, h: 900, sprite_name: "g_piattaforma" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7645, y: -171, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
   ];
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
     { x: 3240 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     { x: 3730 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 4830 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 4830 +75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     { x: 6700 -75, y: 220, w: 250, h: 42, sprite_name: "particelle" },
     { x: 6058 -75, y: 155, w: 150, h: 42, sprite_name: "particelle" }
   ];

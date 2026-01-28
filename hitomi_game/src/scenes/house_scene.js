@@ -54,7 +54,7 @@ function create_house(scene, data) {
   // === PIATTAFORME ===
   const platformPositions = [
     
-    //======TUTORIAL======
+  //======TUTORIAL======
     { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
     { x: 1030, y: 773, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
     { x: 378, y: 470, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
@@ -79,15 +79,18 @@ function create_house(scene, data) {
     { x: 4180, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
-    { x: 4830, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     RIMANE
+    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+
+    { x: 4980, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     RIMANE
 //    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
-    { x: 5480, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
-    { x: 5710, y: 325, w: 42, h: 99, sprite_name: "paletto" }, //Parete verticale del coso
 
-    { x: 5708, y: 285, w: 150, h: 42, sprite_name: "paletto_1" }, // Parete orizzontale alla fine di quella verticale
+    // L
+    { x: 5400, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
+    { x: 5858, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
+    { x: 5808, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
 
     { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
@@ -110,11 +113,11 @@ function create_house(scene, data) {
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
     { x: 525,  y: 595, w: 150, h: 40, sprite_name: "particelle" }, // piattaforma centrale 
-    { x: 1990, y: 520, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 2090, y: 520, w: 150, h: 42, sprite_name: "particelle" },
 //    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "particelle" }, //Piattaforma per salire sull'accrocchio
     { x: 3165, y: 740, w: 150, h: 42, sprite_name: "particelle" },
     { x: 3415, y: 600, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 4105, y: 450, w: 150, h: 42, sprite_name: "particelle" }
+    { x: 4055, y: 450, w: 150, h: 42, sprite_name: "particelle" }
 
     
   ];
