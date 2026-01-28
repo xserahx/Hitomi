@@ -336,3 +336,8 @@ PP.entities.player.changeWorld = function (scene) {
     config.player_y = PP.game_state.player.geometry.y;
     PP.scenes.start(PP.game_state.otherWorld);
 }
+
+PP.entities.player.refreshWorld = function (scene, player) {
+    PP.game_state.otherWorld = PP.game_state.currentScene;
+    PP.entities.player.changeWorld(scene, player);
+}
