@@ -21,6 +21,20 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["cuscino"] = PP.assets.image.load(scene, "assets/images/house/cuscino.png", 200, 100);
 
 
+    // Piattaforme spettrali tutorial e casa
+    PP.scene_objects.platform.sprite["g_vaso"] = PP.assets.image.load(scene, "assets/images/house/g_vaso.png");
+    PP.scene_objects.platform.sprite["g_piattaforma"] = PP.assets.image.load(scene, "assets/images/house/g_piattaforma.png");
+    PP.scene_objects.platform.sprite["g_rialzino"] = PP.assets.image.load(scene, "assets/images/house/g_armadio3.png");
+    PP.scene_objects.platform.sprite["g_trave"] = PP.assets.image.load(scene, "assets/images/house/g_trave.png");
+    PP.scene_objects.platform.sprite["g_paletto"] = PP.assets.image.load(scene, "assets/images/house/g_paletto.png");
+    PP.scene_objects.platform.sprite["g_paletto_1"] = PP.assets.image.load(scene, "assets/images/house/g_paletto_1.png");
+    PP.scene_objects.platform.sprite["g_muro_grande"] = PP.assets.image.load(scene, "assets/images/house/g_muro_grande.png", 100, 620);
+    PP.scene_objects.platform.sprite["g_basetta_1"] = PP.assets.image.load(scene, "assets/images/house/g_basetta_1.png", 150, 20);
+    PP.scene_objects.platform.sprite["g_basetta_2"] = PP.assets.image.load(scene, "assets/images/house/g_basetta_2.png", 150, 20);
+    PP.scene_objects.platform.sprite["g_palo"] = PP.assets.image.load(scene, "assets/images/house/g_palo.png", 50, 270);
+    PP.scene_objects.platform.sprite["g_cuscino"] = PP.assets.image.load(scene, "assets/images/house/g_cuscino.png", 200, 100);
+
+
     // Piattaforme foresta
     PP.scene_objects.platform.sprite["tronco"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/tronco.png", 300, 350);
     PP.scene_objects.platform.sprite["piattaforma_foresta"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/piattaforma_erbetta.png");

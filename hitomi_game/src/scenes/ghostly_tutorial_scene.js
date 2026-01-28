@@ -29,12 +29,12 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === PIATTAFORME ===
     const platformPositions = [
-        { x: 1270, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-        { x: 1030, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma 
-        { x: 1480, y: 773, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
-        { x: 828, y: 470, w: 40, h: 395, sprite_name: "palo" },  // palo
-        { x: 850, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
-        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }, // base sopra culla
+        { x: 1270, y: 675, w: 150, h: 40, sprite_name: "g_piattaforma" },  // piattaforma iniziale
+        { x: 1030, y: 600, w: 150, h: 40, sprite_name: "g_piattaforma" },  // piattaforma 
+        { x: 1480, y: 773, w: 110, h: 90, sprite_name: "g_rialzino" }, // muretto
+        { x: 828, y: 470, w: 40, h: 395, sprite_name: "g_palo" },  // palo
+        { x: 850, y: 550, w: 150, h: 20, sprite_name: "g_basetta_1" }, // base del nemico
+        { x: 655, y: 640, w: 150, h: 20, sprite_name: "g_basetta_2" }, // base sopra culla
         { x: 150, y: 805, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
