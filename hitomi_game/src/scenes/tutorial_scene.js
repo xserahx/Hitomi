@@ -169,6 +169,8 @@ function create_tutorial_scene(scene) {
     PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
     for (let enemy of PP.game_state.enemies) {
+        PP.layers.add_to_layer(playerLayer, enemy);
+        // aggiunto enemy allo stesso layer del player per essere in primo piano rispetto ai cartelli
 
         // collisioni con terreno e piattaforme
         PP.physics.add_collider(scene, enemy, ground);
