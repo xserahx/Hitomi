@@ -1,4 +1,5 @@
 // === TUTORIAL SCENE ===
+// DEFINIZIONI VARIABILI
 let tutorial_bg;
 let baby;
 let culla;
@@ -7,6 +8,7 @@ let sign_2;
 let sign_3;
 let count = false;
 
+//PRELOAD
 function preload_tutorial_scene(scene) {
     tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background_long.png", 1800, 920);
     baby = PP.assets.image.load(scene, "assets/images/tutorial/culla_nanashi.png", 100, 100);
@@ -61,8 +63,9 @@ function create_tutorial_scene(scene) {
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
+    // PIATTAFORME MONDO SPETTRALE
     const ghostlyPlatformPositions = [
-        { x: 970, y: 600, w: 150, h: 40, sprite_name: "particelle" } // piattaforma MONDO SPETTRALE
+        { x: 970, y: 600, w: 150, h: 40, sprite_name: "particelle" } 
     ];
 
     PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
@@ -129,10 +132,12 @@ function create_tutorial_scene(scene) {
     // === HUD VITE ===
     PP.game_state.hearts = [];
 
+    //PERDITA VITE
     for (let i = 0; i < PP.game_state.player.maxLives; i++) {
     let x = 60 + (i * 80);
     let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
 
+    // ASSET DEI CUORI
     PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
     PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
     PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
@@ -228,10 +233,12 @@ function create_tutorial_scene(scene) {
 
     // === CARTELLI  ===
    
+    // DICHIARO FUNZIONI
     let sign1 = PP.assets.image.add(scene, sign_1, 1600, 740, 0, 0);
     let sign2 = PP.assets.image.add(scene, sign_2, 1455, 650, 0, 0);
     let sign3 = PP.assets.image.add(scene, sign_3, 1250, 550, 0, 0);
 
+    // FISICA
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
     PP.physics.add(scene, sign3, PP.physics.type.STATIC);
@@ -254,6 +261,7 @@ function create_tutorial_scene(scene) {
     PP.game_state.changingWorld = false;
 }
 
+// CUTSCENE
 function update_tutorial_scene(scene) {
     if (PP.game_state.tutorialCutscene) return;
     PP.entities.player.update(scene, PP.game_state.player);
@@ -271,10 +279,12 @@ function update_tutorial_scene(scene) {
     }
 }
 
+// DESTROY
 function destroy_tutorial_scene(scene) { }
 
 PP.scenes.add("tutorial_scene", preload_tutorial_scene, create_tutorial_scene, update_tutorial_scene, destroy_tutorial_scene);
 
+// INTERAZIONE COL BAMBINO
 function cutscene(scene, player, trigger) {
     PP.assets.destroy(trigger);
     let talk = PP.shapes.text_add(scene, 900, 400, "Devo salvare Nanashi, non posso lasciarlo qui da solo...");
@@ -285,6 +295,7 @@ function cutscene(scene, player, trigger) {
     }, false);
 }
 
+// POSSIBILI RISPOTE ALL'INTEREZIONE COL BAMBINO
 function baby_response(scene, type) {
     let interaction;
     if (type === -1) {
