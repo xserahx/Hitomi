@@ -42,6 +42,8 @@ function create_ghostly_tutorial_scene(scene) {
         { x: 828, y: 470, w: 40, h: 395, sprite_name: "g_palo" },  // palo
         { x: 850, y: 550, w: 150, h: 20, sprite_name: "g_basetta_1" }, // base del nemico
         { x: 655, y: 640, w: 150, h: 20, sprite_name: "g_basetta_2" }, // base sopra culla
+        { x: 615, y: 773, w: 100, h: 90, sprite_name: "g_rialzino" },
+
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);

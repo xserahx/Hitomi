@@ -49,7 +49,8 @@ function create_tutorial_scene(scene) {
         { x: 1480, y: 773, w: 100, h: 90, sprite_name: "rialzino" },
         { x: 828, y: 470, w: 40, h: 395, sprite_name: "palo" },
         { x: 850, y: 550, w: 150, h: 20, sprite_name: "basetta_1" },
-        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }
+        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" },
+        { x: 615, y: 773, w: 100, h: 90, sprite_name: "rialzino" },
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
