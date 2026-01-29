@@ -28,7 +28,7 @@ PP.entities.boss.create = function (scene, positions) {
 
   PP.assets.sprite.animation_add(boss, "idle", 13, 15, 3, -1);
   PP.assets.sprite.animation_add(boss, "walk", 6, 12, 10, -1);
-  PP.assets.sprite.animation_add_list(boss, "attack", [0, 1, 2, 3, 4, 5, 5, 4, 3, 2], 12, 0);
+  PP.assets.sprite.animation_add_list(boss, "attack", [0, 1, 1, 1, 2, 2, 2, 3, 4, 5, 5, 4, 3, 2, 1, 0], 10, 0);
   PP.assets.sprite.animation_add(boss, "dash", 6, 12, 15, -1);
 
   boss.isAttacking = false;
@@ -82,7 +82,7 @@ PP.entities.boss.update = function (scene, boss, player) {
   }
 
   // === DIREZIONE DEL BOSS ===
-  if (PP.game_state.bossIsDead == false && boss.state !== "idle") {
+  if (PP.game_state.bossIsDead == false && boss.state !== "idle" && boss.isAttacking == false) {
     // se sconfitto, non guarda il player
     if (dx > 0) {
       boss.geometry.flip_x = false; // guarda a destra verso il player
@@ -124,7 +124,7 @@ PP.entities.boss.update = function (scene, boss, player) {
   }
 
   // === TRIGGER DI ATTACCO ===
-  if (dx < 200 && dx > -200 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false && boss.isAttacking == false) {
+  if (dx < 150 && dx > -150 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false && boss.isAttacking == false) {
     PP.entities.boss.attack(scene, boss, player);
   }
 };
@@ -146,18 +146,23 @@ PP.entities.boss.attack = function (scene, boss, player) {
   let dir = boss.direction;
   PP.assets.sprite.animation_play(boss, "attack", false);
 
-  const hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xABCDEF", 0);
+  let warning = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xFF0000", 0.3);
+  let hitbox;
 
-  PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
+  PP.timers.add_timer(scene, 1000, () => {
+    PP.assets.destroy(warning);
 
-  PP.physics.add_overlap_f(scene, hitbox, player, () => {
-    PP.entities.player.damage(scene, PP.game_state.player, hitbox);
-  });
+    hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xABCDEF", 0);
+    PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
-  PP.timers.add_timer(scene, 600, () => {
-    PP.shapes.destroy(hitbox);
+    PP.physics.add_overlap_f(scene, hitbox, player, () => {
+      PP.entities.player.damage(scene, PP.game_state.player, hitbox);
+    });
+
+    PP.timers.add_timer(scene, 600, () => {
+      PP.shapes.destroy(hitbox);
+    }, false);
   }, false);
-
 };
 
 // === FUNZIONE DI DANNO ===
