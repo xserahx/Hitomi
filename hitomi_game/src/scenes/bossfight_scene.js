@@ -7,6 +7,11 @@ let ghostly_mountains_2_bg;
 let ghostly_small_tree;
 let ghostly_bamboo_bg;
 
+let ghostly_tori;
+let ghostly_bamboo_rev;
+let ghostly_bamboo_rev_2; 
+let ghostly_bamboo;
+
 let ghostly_bg_far;
 let ghostly_bg_mid;
 let ghostly_bg_main;
@@ -21,7 +26,7 @@ function createbossfight(scene, treeSprite, treePositionArray) {
 
 const bossfightTrees = [
 
-  { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+ /* { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
@@ -35,7 +40,7 @@ const bossfightTrees = [
   { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },*/
 ];
 
 function preload_bossfight_scene(scene) {
@@ -52,6 +57,12 @@ function preload_bossfight_scene(scene) {
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
   PP.entities.boss.preload(scene);
+    ghostly_tori = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tori_spettrale.png", 400, 600);
+
+
+ ghostly_bamboo_rev = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/bamboo_reverse_spettrale.png", 1096, 250);
+  ghostly_bamboo_rev_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/bamboo_reverse_spettrale.png", 1096, 250);
+  ghostly_bamboo = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/bamboo_spettrale.png", 1096, 250);
 }
 
 // === CREAZIONE SCENA ===
@@ -72,6 +83,18 @@ function create_bossfight_scene(scene) {
   // montagne vicine
   ghostly_bg_main = PP.assets.tilesprite.add(scene, ghostly_mountains_2_bg, 0, 200, 6400, 920, 0, 0);
   ghostly_bg_main.tile_geometry.scroll_factor_x = 0.45;
+
+
+
+  ghostly_bamboo_rev = PP.assets.image.add(scene, ghostly_bamboo_rev, 200, 0, 0, 0);
+  ghostly_bamboo_rev_2 = PP.assets.image.add(scene, ghostly_bamboo_rev_2, 800, 0, 0, 0);
+
+  ghostly_bamboo = PP.assets.image.add(scene, ghostly_bamboo, 300, 0, 0, 0);
+
+
+ ghostly_tori = PP.assets.tilesprite.add(scene, ghostly_tori, 200, 400, 900, 1000, 0, 0);
+  ghostly_tori.tile_geometry.scroll_factor_x = 0.55;
+
 
   createbossfight(scene, ghostly_small_tree, bossfightTrees);
 
