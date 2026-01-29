@@ -16,10 +16,10 @@ PP.entities.boss.create = function (scene, positions) {
   boss.state = "idle"; // idle | walk | attack | dead | dash
   boss.state_check = "idle";
 
-  boss.speed = 150;
+  boss.speed = 200;
   boss.detectionRange = 1280;
   boss.deadZone = 5;
-  boss.walkzone = 350;
+  boss.walkzone = 400;
   boss.walkSpeed = 500;
   boss.geometry.flip_x = true;
   boss.direction = -1;
@@ -124,7 +124,7 @@ PP.entities.boss.update = function (scene, boss, player) {
   }
 
   // === TRIGGER DI ATTACCO ===
-  if (dx < 150 && dx > -150 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false && boss.isAttacking == false) {
+  if (dx < 100 && dx > -100 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false && boss.isAttacking == false) {
     PP.entities.boss.attack(scene, boss, player);
   }
 };
@@ -138,7 +138,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
   boss.isAttacking = true;
   boss.state = "attack";
 
-  PP.timers.add_timer(scene, 2500, () => {
+  PP.timers.add_timer(scene, 1500, () => {
     boss.isAttacking = false;
     boss.state = "idle";
   }, false);
