@@ -247,7 +247,7 @@ function update_ghostly_tutorial_scene(scene) {
     PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
     // === CAMBIO MONDO ===
-    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.R)) {
         PP.entities.player.changeWorld(scene);
     }
 
