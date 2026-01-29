@@ -6,8 +6,8 @@ PP.scene_objects.key.preload = function(scene) {
     // carico le immagini e salvo i riferimenti 
     PP.scene_objects.key.sprite = {};
     PP.scene_objects.key.sprite["chiave"] = PP.assets.image.load(scene, "assets/images/house/chiave.png", 50, 50);
-    PP.scene_objects.key.sprite["door"] = PP.assets.image.load(scene, "assets/images/house/door.png", 100, 140);
-    PP.scene_objects.key.sprite["doorframe"] = PP.assets.image.load(scene, "assets/images/house/doorframe.png", 100, 140);
+    PP.scene_objects.key.sprite["door"] = PP.assets.image.load(scene, "assets/images/house/porta_aperta.png", 100, 140);
+    PP.scene_objects.key.sprite["locked_door"] = PP.assets.image.load(scene, "assets/images/house/porta_chiusa.png", 120, 140);
 };
 
 // Creazione piattaforme
