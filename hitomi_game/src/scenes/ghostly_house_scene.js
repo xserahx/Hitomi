@@ -181,13 +181,7 @@ function create_ghostly_house(scene, data) {
 
     // collisioni con terreno e piattaforme
     PP.physics.add_collider(scene, enemy, ground);
-  PP.physics.add_collider(scene, enemy, leftWall);
-  PP.physics.add_collider(scene, enemy, rightWall);
-  PP.physics.add_collider(scene, enemy, hitboxInvisibile);
-  PP.physics.add_collider(scene, enemy, ramo);
-  PP.physics.add_collider(scene, enemy, massi);
-  PP.physics.add_collider(scene, enemy, massi2);
-
+  
     for (let plat of PP.game_state.platforms) {
       PP.physics.add_collider(scene, enemy, plat);
     }
