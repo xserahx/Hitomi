@@ -239,7 +239,7 @@ function create_tutorial_scene(scene) {
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign3, () => {
-        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi U per cambiare mondo.");
+        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi W per cambiare mondo.");
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
