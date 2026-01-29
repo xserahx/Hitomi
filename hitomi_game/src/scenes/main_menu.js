@@ -29,8 +29,8 @@ function create(scene) {
   },
 
   {
-    name: "crediti", x: 585, y: 525, w: 100, h: 25, action: () => PP.scenes.start("credit_scene")
-  }
+    name: "crediti", x: 585, y: 525, w: 100, h: 25, action: () => PP.scenes.start("credits")
+  
 ];
 
 MENU_AREAS.forEach(item => {
@@ -96,3 +96,4 @@ function destroy(scene) {
 }
 
 PP.scenes.add("main_menu", preload, create, update, destroy);
+
