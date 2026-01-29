@@ -89,16 +89,17 @@ function create_house(scene, data) {
     { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
 
     // L
-    { x: 5400, y: 425, w: 500, h: 42, sprite_name: "piattaforma" }, //Piattaforma larga attaccata al muro
-    { x: 5858, y: 325, w: 42, h: 100, sprite_name: "piattaforma" }, //Parete verticale del coso
-    { x: 5808, y: 285, w: 150, h: 42, sprite_name: "piattaforma" }, // Parete orizzontale alla fine di quella verticale
+    { x: 5580, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
+    { x: 5810, y: 325, w: 42, h: 99, sprite_name: "paletto" }, //Parete verticale del coso
+    { x: 5808, y: 285, w: 150, h: 42, sprite_name: "paletto_1" }, // Parete orizzontale alla fine di quella verticale
 
     { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
     { x: 6058, y: 612, w: 150, h: 42, sprite_name: "piattaforma" }, //Piattaforma per salire sull'accrocchio
 
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
-    { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
+    { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" }, 
+    { x: 6600, y: 220, w: 150, h: 42, sprite_name: "piattaforma" }, // !!!!!!!!
+    { x: 6900, y: 220, w: 150, h: 42, sprite_name: "piattaforma" }, // !!!!!!!!
     { x: 7100, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===
@@ -211,7 +212,7 @@ function create_house(scene, data) {
   const keys=
   [
     { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
-    { x: 3740, y: 785,  collected: false, id: 2, sprite_name: "chiave" }
+    { x: 2950, y: 785,  collected: false, id: 2, sprite_name: "chiave" }
 
   ];
 

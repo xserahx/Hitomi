@@ -59,15 +59,15 @@ function create_ghostly_house(scene, data) {
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     //=======PIATTAFORME PER LA PRIMA CHIAVE=========
-    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "cuscino" },
-    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2165, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
-    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "cuscino" },
-    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "cuscino" },
+    { x: 3240, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3490, y: 600, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4130, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// standard
 
@@ -108,7 +108,8 @@ function create_ghostly_house(scene, data) {
     { x: 3240 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     { x: 3730 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     { x: 4830 +75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 6700 -75, y: 220, w: 250, h: 42, sprite_name: "particelle" },
+    { x: 6600 -75, y: 220, w: 150, h: 42, sprite_name: "particelle" }, // !!!!!!
+    { x: 6900 -75, y: 220, w: 150, h: 42, sprite_name: "particelle" }, // !!!!!!
     { x: 6058 -75, y: 155, w: 150, h: 42, sprite_name: "particelle" }
   ];
 
@@ -204,7 +205,7 @@ function create_ghostly_house(scene, data) {
   const keys =
     [
       { x: 2470, y: 358, collected: false, id: 1, sprite_name: "chiave" },
-    { x: 3740, y: 785,  collected: false, id: 2, sprite_name: "chiave" }
+    { x: 2950, y: 785,  collected: false, id: 2, sprite_name: "chiave" }
     ];
 
   PP.game_state.keys = PP.scene_objects.key.create(scene, keys);

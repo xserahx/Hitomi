@@ -250,14 +250,14 @@ function create_forest(scene) {
     { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
-    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
+    { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma_foresta" },
     //{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
 
     // PIATTAFORME FINALI
     //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4190, y: 665, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 4180, y: 695, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     // { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
 
   ];
@@ -268,8 +268,11 @@ function create_forest(scene) {
   const ghostlyPlatformPositions = [
     { x: 2430, y: 825, w: 150, h: 20, sprite_name: "particelle" },
     { x: 2980, y: 515, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3880, y: 530, w: 150, h: 20, sprite_name: "particellee" }, 
     { x: 2980, y: 215, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 4390, y: 850, w: 150, h: 20, sprite_name: "particelle" } //ultimo
+    { x: 3470, y: 440, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 3800, y: 530, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 4370, y: 850, w: 150, h: 20, sprite_name: "particelle" }, //ultimo
 
   ];
 

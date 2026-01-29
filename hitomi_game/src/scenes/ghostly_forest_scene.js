@@ -233,15 +233,16 @@ function create_ghostly_forest(scene, data) {
     { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
     { x: 3050, y: 515, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
     { x: 3050, y: 215, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
-    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
-    { x: 3900, y: 500, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" }, 
+    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 3550, y: 440, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 3880, y: 530, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" }, 
     
     //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
     //{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
 
     // PIATTAFORME FINALI
     //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
-    { x: 4490, y: 850, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" }, 
+    { x: 4450, y: 850, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" }, 
     // { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
 
   ];
@@ -255,8 +256,8 @@ function create_ghostly_forest(scene, data) {
     { x: 2440, y: 700, w: 150, h: 20, sprite_name: "particelle" }, // secondo fantasma
     { x: 2800, y: 765, w: 150, h: 20, sprite_name: "particelle" },
     { x: 2970, y: 375, w: 150, h: 20, sprite_name: "particelle" }, //HELL NO
-    { x: 4190 - 80, y: 665, w: 150, h: 20, sprite_name: "particelle" }, //penultimo //vero
-    { x: 3550 - 80, y: 325, w: 150, h: 20, sprite_name: "particelle" } //ultimo //vero
+    { x: 4100, y: 695, w: 150, h: 20, sprite_name: "particelle" }, //penultimo //vero
+    { x: 3470, y: 325, w: 150, h: 20, sprite_name: "particelle" } //ultimo //vero
 
     
 
