@@ -113,13 +113,12 @@ function create_ghostly_tutorial_scene(scene) {
 
             }, false);
 
-        } else if (PP.game_state.woaed == false) {
+         } else if (PP.game_state.woaed == false) {
             PP.game_state.woaed = true;
-            console.log("Baby check " + PP.game_state.has_baby);
 
-            if (PP.game_state.has_baby == true) {
+            if (PP.game_state.nanashiState == "taken") {
                 baby_question(scene, -1);
-            } else if (PP.game_state.has_baby == false) {
+            } else if (PP.game_state.nanashiState != "taken") {
                 baby_question(scene, 1);
             }
         }
