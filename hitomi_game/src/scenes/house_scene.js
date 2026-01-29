@@ -60,6 +60,7 @@ function create_house(scene, data) {
     { x: 378, y: 470, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
     { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2"}, // base sopra culla
+    { x: 105, y: 770, w: 40, h: 90, sprite_name: "paletto" }, // paletto
 
     // DA FLIPPARE
       { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
