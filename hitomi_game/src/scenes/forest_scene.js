@@ -12,9 +12,7 @@ let bamboofondo1;
 let tori;
 let tempio;
 
-let big_tree;
 let small_tree;
-let bush;
 let cespuglio;
 let cespuglio_2;
 
@@ -71,7 +69,6 @@ function preload_forest(scene) {
   bamboofondo2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl2parallax.png", 6402, 1080);
   bamboofondo1 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl1parallax.png", 6402, 1080);
 
-  big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/albero_bamboo.png", 800, 1000);
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png", 550, 684);
   cespuglio = PP.assets.image.load(scene, "assets/images/forest/parallasse/cespuglio.png", 200, 150);
   cespuglio_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/cespuglio.png", 200, 150);
@@ -84,7 +81,6 @@ function preload_forest(scene) {
   bamboo_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo.png", 1096, 250);
   casa = PP.assets.image.load(scene, "assets/images/forest/parallasse/casa.png", 726, 920);
 
-  bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png", 150, 114);
   rocks = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia.png", 1280, 400);
   radice = PP.assets.image.load(scene, "assets/images/forest/parallasse/radice.png", 400, 200);
 
@@ -158,12 +154,11 @@ function create_forest(scene) {
   createForest(scene, small_tree, forestTrees);
 
   radice = PP.assets.image.add(scene, radice, 2680 + 60, 140, 0, 0);
-  casa = PP.assets.image.add(scene, casa, 0, 50, 0, 0);
-
-  big_tree = PP.assets.image.add(scene, big_tree, 190, 1000, 0.5, 1);
+  
 
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
+  casa = PP.assets.image.add(scene, casa, -100, 80, 0, 0);
 
   separatore = PP.assets.image.add(scene, separatore, 0, 0, 0, 0);
 
@@ -180,8 +175,6 @@ function create_forest(scene) {
   roccia_2 = PP.assets.image.add(scene, roccia_2, 1900, 650, 0, 0);
 
   fox_statue = PP.assets.image.add(scene, fox_statue, 325, 860, 0, 0);
-
-  bush = PP.assets.image.add(scene, bush, 190, 930, 0.5, 0.5);
 
   // === PULSANTE HELP ===
   const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
