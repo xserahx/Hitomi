@@ -125,17 +125,29 @@ function create_bossfight_scene(scene) {
         PP.physics.add_collider(scene, PP.game_state.player, plat);
     }
 
-    // === HUD VITE (CUORI) ===
+   // === HUD VITE ===
     PP.game_state.hearts = [];
 
     for (let i = 0; i < PP.game_state.player.maxLives; i++) {
-        let x = 60 + (i * 80);
-        let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
-        PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
-        heart.tile_geometry.scroll_factor_x = 0;
-        heart.tile_geometry.scroll_factor_y = 0;
-        PP.game_state.hearts.push(heart);
+    let x = 60 + (i * 80);
+    let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+
+    PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
+    PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
+    PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
+
+
+    heart.tile_geometry.scroll_factor_x = 0;
+    heart.tile_geometry.scroll_factor_y = 0;
+
+    if (i < PP.game_state.player.lives) {
+        PP.assets.sprite.animation_play(heart, "full");
+    } else {
+        PP.assets.sprite.animation_play(heart, "staticempty");
     }
+
+    PP.game_state.hearts.push(heart);
+}
 
     // === BOSS ===
     PP.game_state.boss = PP.entities.boss.create(scene);
@@ -145,13 +157,18 @@ function create_bossfight_scene(scene) {
     for (let plat of PP.game_state.platforms) {
         PP.physics.add_collider(scene, PP.game_state.boss, plat);
     }
+    
+   // Overlap player-nemico
     PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
-        if (!(PP.game_state.player.lives <= 0 && (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly))) {
+      if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
-            // HUD DANNO
-            let currentIndex = PP.game_state.player.lives - 1;
-            PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
-        }
+        // HUD DANNO
+         let i = PP.game_state.player.lives - 1;
+            if (i >= 0 && PP.game_state.hearts[i]) {
+              PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
+            }
+
+      }
 
         if (!PP.game_state.bossIsDead && !PP.game_state.bossIsFriendly) { PP.entities.player.damage(scene, PP.game_state.player, PP.game_state.boss); }
         else if (PP.game_state.bossIsFriendly == true) {

@@ -110,10 +110,11 @@ function preload_forest(scene) {
 
   fox_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse/statua_2.png", 300, 400);
   statue = PP.assets.image.load(scene, "assets/images/forest/parallasse/statua.png", 400, 600);
+  help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
   scene.load.image("snowflake", "assets/images/forest/neve.png");
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
-  help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
+  
 
   PP.scene_objects.platform.preload(scene);
   PP.entities.player.preload(scene);
@@ -303,15 +304,28 @@ function create_forest(scene) {
     PP.game_state.player.geometry.y = config.player_y;
   }
 
-  // === HUD CUORI ===
-  PP.game_state.hearts = [];
-  for (let i = 0; i < PP.game_state.player.maxLives; i++) {
-    const heart = PP.assets.sprite.add(scene, PP.game_state.lives, 60 + i * 80, 50, 0.5, 0.5);
-    PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
+  // === HUD VITE ===
+    PP.game_state.hearts = [];
+
+    for (let i = 0; i < PP.game_state.player.maxLives; i++) {
+    let x = 60 + (i * 80);
+    let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+
+    PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
+    PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
+    PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
+
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
+
+    if (i < PP.game_state.player.lives) {
+        PP.assets.sprite.animation_play(heart, "full");
+    } else {
+        PP.assets.sprite.animation_play(heart, "staticempty");
+    }
+
     PP.game_state.hearts.push(heart);
-  }
+}
 
   // === NEMICI ===
   const enemyPositions = [
@@ -345,8 +359,11 @@ function create_forest(scene) {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
         // HUD DANNO
-        let currentIndex = PP.game_state.player.lives - 1;
-        PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+         let i = PP.game_state.player.lives - 1;
+            if (i >= 0 && PP.game_state.hearts[i]) {
+              PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
+            }
+
       }
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });

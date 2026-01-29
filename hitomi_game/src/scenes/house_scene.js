@@ -145,17 +145,29 @@ function create_house(scene, data) {
     PP.game_state.player.geometry.y = config.player_y;
   }
 
-  // === HUD VITE (CUORI) ===
-  PP.game_state.hearts = [];
+  // === HUD VITE ===
+    PP.game_state.hearts = [];
 
-  for (let i = 0; i < PP.game_state.player.maxLives; i++) {
+    for (let i = 0; i < PP.game_state.player.maxLives; i++) {
     let x = 60 + (i * 80);
     let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
-    PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
+
+    PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
+    PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
+    PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
+
+
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
+
+    if (i < PP.game_state.player.lives) {
+        PP.assets.sprite.animation_play(heart, "full");
+    } else {
+        PP.assets.sprite.animation_play(heart, "staticempty");
+    }
+
     PP.game_state.hearts.push(heart);
-  }
+}
 
   // === NEMICI ===
   const enemyPositions = [

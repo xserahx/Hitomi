@@ -107,13 +107,26 @@ function create_ghostly_tutorial_scene(scene) {
     PP.game_state.hearts = [];
 
     for (let i = 0; i < PP.game_state.player.maxLives; i++) {
-        let x = 60 + (i * 80);
-        let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
-        PP.assets.sprite.animation_add(heart, "Cuore", 0, 8, 8, 1);
-        heart.tile_geometry.scroll_factor_x = 0;
-        heart.tile_geometry.scroll_factor_y = 0;
-        PP.game_state.hearts.push(heart);
+    let x = 60 + (i * 80);
+    let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
+
+    PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
+    PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
+    PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
+
+
+    heart.tile_geometry.scroll_factor_x = 0;
+    heart.tile_geometry.scroll_factor_y = 0;
+
+    if (i < PP.game_state.player.lives) {
+        PP.assets.sprite.animation_play(heart, "full");
+    } else {
+        PP.assets.sprite.animation_play(heart, "staticempty");
     }
+
+    PP.game_state.hearts.push(heart);
+}
+
 
     // === NEMICI ===
     const enemyPositions = [
@@ -133,9 +146,9 @@ function create_ghostly_tutorial_scene(scene) {
 
             if (PP.game_state.player.isInvincible) return;
 
-            let currentIndex = PP.game_state.player.lives - 1;
-            if (currentIndex >= 0) {
-                PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+             let i = PP.game_state.player.lives - 1;
+            if (i >= 0 && PP.game_state.hearts[i]) {
+              PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
             }
 
             PP.entities.player.damage(scene, PP.game_state.player, enemy);
