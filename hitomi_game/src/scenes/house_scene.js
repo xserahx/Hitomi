@@ -88,7 +88,7 @@ function create_house(scene, data) {
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
     { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
 
-    // L
+    // L 
     { x: 5580, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
     { x: 5810, y: 325, w: 42, h: 99, sprite_name: "paletto" }, //Parete verticale del coso
     { x: 5808, y: 285, w: 150, h: 42, sprite_name: "paletto_1" }, // Parete orizzontale alla fine di quella verticale
@@ -177,12 +177,12 @@ function create_house(scene, data) {
     { x: 3900, y: 840, w: 75, h: 75, speed: 70, sprite_name: "bambino" },
     { x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 4680, y: 820, w: 75, h: 75, speed: 70, sprite_name: "slug" },
-    { x: 5200, y: 820, w: 150, h: 150, speed: 80, sprite_name: "pterodattilo" },
+    { x: 5580, y: 415 - 41, w: 150, h: 150, speed: 80, sprite_name: "pterodattilo" },
     { x: 5700, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
     { x: 5500, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
     { x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
     { x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 6900, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
+    { x: 6500, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
     { x: 7030, y: 830, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
     { x: 7980, y: 820, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
