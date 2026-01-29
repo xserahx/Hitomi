@@ -2,6 +2,8 @@
 let ghostly_tutorial_bg;
 let baby;
 let culla;
+let playerLayer;
+let propsLayer;
 let sign_1;
 let sign_2;
 let sign_3;
@@ -29,6 +31,8 @@ function create_ghostly_tutorial_scene(scene) {
     PP.game_state.currentScene = "ghostly_tutorial_scene";
 
     PP.game_state.woaed = false;
+    playerLayer = PP.layers.create(scene);
+    PP.layers.set_z_index(playerLayer, 20);
 
     // === MURI ===
     const leftWall = PP.shapes.rectangle_add(scene, 500, 365, 20, 720, "0x000000", 0);
@@ -68,6 +72,8 @@ function create_ghostly_tutorial_scene(scene) {
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+    PP.layers.add_to_layer(playerLayer, PP.game_state.player);
+    // creo un layer per permettere al player di trovarsi davanti ai cartelli
 
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
@@ -217,15 +223,23 @@ function create_ghostly_tutorial_scene(scene) {
     });
 
     // === CARTELLI ===
+    propsLayer = PP.layers.create(scene);
+    PP.layers.set_z_index(propsLayer, 10);
+    // creo il layer dei cartelli posizionandolo dietro a quello del player così da avere il pg in primo piano
     let sign1 = PP.assets.image.add(scene, sign_1, 1600, 740, 0, 0);
     let sign2 = PP.assets.image.add(scene, sign_2, 1455, 650, 0, 0);
     let sign3 = PP.assets.image.add(scene, sign_3, 1250, 550, 0, 0);
     let sign4 = PP.assets.image.add(scene, sign_4, 1005, 470, 0, 0);
-
+    
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
     PP.physics.add(scene, sign3, PP.physics.type.STATIC);
     PP.physics.add(scene, sign4, PP.physics.type.STATIC);
+
+    PP.layers.add_to_layer(propsLayer, sign1);
+    PP.layers.add_to_layer(propsLayer, sign2);
+    PP.layers.add_to_layer(propsLayer, sign3);
+    PP.layers.add_to_layer(propsLayer, sign4);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
         let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi A e D per muoverti in giro. Premi SPAZIO per saltare.");

@@ -3,6 +3,8 @@
 let tutorial_bg;
 let baby;
 let culla;
+let playerLayer;
+let propsLayer;
 let sign_1;
 let sign_2;
 let sign_3;
@@ -27,6 +29,8 @@ function create_tutorial_scene(scene) {
 
     PP.assets.tilesprite.add(scene, tutorial_bg, 0, -30, 1800, 920, 0, 0);
     PP.game_state.woaed = false;
+    playerLayer = PP.layers.create(scene);
+    PP.layers.set_z_index(playerLayer, 20);
 
     PP.game_state.otherWorld = "ghostly_tutorial_scene";
     PP.game_state.currentScene = "tutorial_scene";
@@ -80,6 +84,8 @@ function create_tutorial_scene(scene) {
     let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
+    PP.layers.add_to_layer(playerLayer, PP.game_state.player);
+    // creo un layer per permettere al player di trovarsi davanti ai cartelli
 
     // === COLLIDER PLAYER ===
     PP.physics.add_collider(scene, PP.game_state.player, ground);
@@ -232,11 +238,18 @@ function create_tutorial_scene(scene) {
     });
 
     // === CARTELLI  ===
+    propsLayer = PP.layers.create(scene);
+    PP.layers.set_z_index(propsLayer, 10);
+    // creo il layer dei cartelli posizionandolo dietro a quello del player così da avere il pg in primo piano
    
     // DICHIARO FUNZIONI
     let sign1 = PP.assets.image.add(scene, sign_1, 1600, 740, 0, 0);
     let sign2 = PP.assets.image.add(scene, sign_2, 1455, 650, 0, 0);
     let sign3 = PP.assets.image.add(scene, sign_3, 1250, 550, 0, 0);
+
+    PP.layers.add_to_layer(propsLayer, sign1);
+    PP.layers.add_to_layer(propsLayer, sign2);
+    PP.layers.add_to_layer(propsLayer, sign3);
 
     // FISICA
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
