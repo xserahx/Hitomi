@@ -43,48 +43,6 @@ MENU_AREAS.forEach(item => {
 
   PP.interactive.mouse.add(hitbox, "pointerdown", item.action);
 });
-
-  // === TITOLO PRINCIPALE ===
-  //s.add.text(centerX, centerY - 120, "Hitomi", {
-  //  fontFamily: "Gotham",
-  //  fontSize: "120px",
-  //  color: "#FFFFFF",
-  //  fontStyle: "bold",
-  //  align: "center"
-  // }).setOrigin(0.5);
-
-  // === SOTTOTITOLO ===
-  //s.add.text(centerX, centerY - 20, "Through The Other Side", {
-  //  fontFamily: "Baskerville",
-  //  fontSize: "50px",
-  //  color: "#FFFFFF",
-  //  align: "center"
-  // }).setOrigin(0.5);
-
-  // === MENU OPZIONI ===
-  //const menuItems = [
-   // { label: "Gioca", y: centerY + 100, action: () => PP.scenes.start("tutorial_scene") },
-   // { label: "Storia", y: centerY + 150, action: () => PP.scenes.start("tutorial_scene") },
-   // { label: "Crediti", y: centerY + 200, action: () => PP.scenes.start("credits") },
-   // { label: "House Scene (DEV)", y: centerY + 250, action: () => PP.scenes.start("house_scene") },
-   // { label: "Forest Scene (DEV)", y: centerY + 300, action: () => PP.scenes.start("forest_scene") },
-   // { label: "Boss Scene (DEV)", y: centerY + 350, action: () => PP.scenes.start("bossfight_scene") }
- // ];
-
-  //menuItems.forEach(item => {
-  //  const text = s.add.text(centerX, item.y, item.label, {
-  //    fontFamily: "Gotham",
-  //    fontSize: "45px",
-  //    color: "#FFFFFF",
-  //    align: "center"
-  //  }).setOrigin(0.5);
-
-    // === Effetti interattivi ===
-    //text.setInteractive({ useHandCursor: true });
-    //text.on("pointerover", () => text.setColor("#6b60e6ff"));
-    //text.on("pointerout", () => text.setColor("#FFFFFF"));
-    //text.on("pointerdown", item.action);
-  //});
 }
 
 function update(scene) {
@@ -96,4 +54,5 @@ function destroy(scene) {
 }
 
 PP.scenes.add("main_menu", preload, create, update, destroy);
+
 
