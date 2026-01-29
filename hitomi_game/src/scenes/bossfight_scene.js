@@ -1,4 +1,5 @@
 // === bossfight SCENE ===
+let count=0;
 let help;
 
 let bossfight_bg;
@@ -183,7 +184,9 @@ function create_bossfight_scene(scene) {
 
   // Overlap player-nemico
   PP.physics.add_overlap_f(scene, PP.game_state.player, PP.game_state.boss, () => {
-    if (PP.game_state.bossIsFriendly == true) {
+    if (PP.game_state.bossIsFriendly == true && count==0) {
+      
+      count++;
 
       PP.game_state.askSamurai = PP.shapes.text_add(scene, 200, 830, "Haruki è sconfitto, dovrei chiedergli cosa sta succedendo?");
 
@@ -198,9 +201,11 @@ function create_bossfight_scene(scene) {
         else { PP.scenes.start("kakurebi_scene"); }
       });
       PP.interactive.mouse.add(button_no, "pointerdown", () => {
+        
         PP.assets.destroy(PP.game_state.askSamurai);
         PP.assets.destroy(button_si);
         PP.assets.destroy(button_no);
+        count = 0;
       });
     }
   });
