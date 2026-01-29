@@ -214,7 +214,7 @@ function create_ghostly_forest(scene, data) {
     // === PRIME PIATTAFORME ===
     { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
     { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
-    { x: 820, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
+    { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
 
     // === TRONCO DA SCAVALCARE ===
     { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA

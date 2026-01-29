@@ -231,7 +231,7 @@ function create_forest(scene) {
     // === PRIME PIATTAFORME ===
     { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
     { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    { x: 820, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
 
     // === TRONCO DA SCAVALCARE ===
 
