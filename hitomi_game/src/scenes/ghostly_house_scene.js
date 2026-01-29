@@ -194,7 +194,6 @@ function create_ghostly_house(scene, data) {
               PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
             }
       }
-      }
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });
   }
