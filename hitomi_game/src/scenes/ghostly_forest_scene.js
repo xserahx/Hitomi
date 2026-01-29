@@ -386,7 +386,7 @@ function update_ghostly_forest(scene) {
   PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
   // === CAMBIO MONDO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.R)) {
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.W)) {
     console.log("Changing world");
     PP.entities.player.changeWorld(scene);
   }

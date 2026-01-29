@@ -290,7 +290,7 @@ function update_house(scene) {
   }
 
   // === CAMBIO MONDO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.R)) {
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.W)) {
     console.log("Changing world");
     PP.entities.player.changeWorld(scene);
   }

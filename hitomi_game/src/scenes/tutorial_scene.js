@@ -251,7 +251,7 @@ function update_tutorial_scene(scene) {
     PP.entities.player.update(scene, PP.game_state.player);
     PP.entities.enemy.update(scene, PP.game_state.enemies, PP.game_state.player);
 
-    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.R)) {
+    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.W)) {
         PP.entities.player.changeWorld(scene);
     }
 
