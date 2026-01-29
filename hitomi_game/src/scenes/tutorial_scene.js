@@ -1,11 +1,13 @@
 // === TUTORIAL SCENE ===
 let tutorial_bg;
 let baby;
+let culla;
 let count = false;
 
 function preload_tutorial_scene(scene) {
     tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background_long.png", 1800, 920);
     baby = PP.assets.image.load(scene, "assets/images/tutorial/culla_nanashi.png", 100, 100);
+    culla = PP.assets.image.load(scene, "assets/images/tutorial/culla.png", 100, 100);
     PP.entities.player.preload(scene);
     PP.entities.enemy.preload(scene);
     PP.scene_objects.platform.preload(scene);
@@ -27,7 +29,7 @@ function create_tutorial_scene(scene) {
         PP.game_state.inRoom = false;
     }
 
-    // === MURI (spostati +500) ===
+    // === MURI  ===
     const leftWall = PP.shapes.rectangle_add(scene, 500, 365, 20, 720, "0x000000", 0);
     PP.physics.add(scene, leftWall, PP.physics.type.STATIC);
 
@@ -41,7 +43,7 @@ function create_tutorial_scene(scene) {
     const ground = PP.shapes.rectangle_add(scene, 4080, 870, 8700, 10, "0x000000", 0);
     PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
-    // === PIATTAFORME (+500 X) ===
+    // === PIATTAFORME  ===
     const platformPositions = [
         { x: 1270, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },
         { x: 1480, y: 773, w: 110, h: 90, sprite_name: "rialzino" },
@@ -58,8 +60,9 @@ function create_tutorial_scene(scene) {
 
     PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
-    // === BAMBINO (+500 X) ===
-    baby = PP.assets.image.add(scene, baby, 200, 765, 0, 0);
+    // === BAMBINO  ===
+    let cullaImage = PP.game_state.nanashiState === "taken" ? culla : baby;          
+    baby = PP.assets.image.add(scene, cullaImage, 200, 765, 0, 0);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
@@ -140,7 +143,7 @@ function create_tutorial_scene(scene) {
     PP.game_state.hearts.push(heart);
 }
 
-    // === NEMICI (+500 X) ===
+    // === NEMICI  ===
     const enemyPositions = [
         { x: 868, y: 530, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
     ];
@@ -216,9 +219,7 @@ function create_tutorial_scene(scene) {
         }, false);
     });
 
-
-
-    // === CARTELLI (+500 X) ===
+    // === CARTELLI  ===
     const sign1 = PP.shapes.rectangle_add(scene, 1625, 800, 40, 40, "0x00ff00", 1);
     const sign2 = PP.shapes.rectangle_add(scene, 1480, 730, 40, 40, "0x00ff00", 1);
     const sign3 = PP.shapes.rectangle_add(scene, 1270, 640, 40, 40, "0x00ff00", 1);
@@ -312,7 +313,11 @@ function baby_question(scene, type) {
         if (type === -1) {
             PP.game_state.nanashiState = "not_taken";   // Aggiorna flag
         } else if (type === 1) {
-            PP.game_state.nanashiState = "taken";       // Aggiorna flag
+            PP.game_state.nanashiState = "taken";
+            // cambia sprite culla → vuota
+            PP.assets.destroy(baby);
+            baby = PP.assets.image.add(scene, culla, 200, 765, 0, 0);
+            PP.physics.add(scene, baby, PP.physics.type.STATIC);      
         }
 
         PP.entities.player.setSpriteByNanashiState(scene, PP.game_state.player); // forza aggiornamento sprite
