@@ -83,7 +83,7 @@ function create_house(scene, data) {
     { x: 4180, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
-    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+//    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
 
     { x: 4980, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     RIMANE
 //    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
@@ -121,8 +121,9 @@ function create_house(scene, data) {
     { x: 2090, y: 520, w: 150, h: 42, sprite_name: "particelle" },
 //    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "particelle" }, //Piattaforma per salire sull'accrocchio
     { x: 3165, y: 740, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 3415, y: 600, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 4055, y: 450, w: 150, h: 42, sprite_name: "particelle" }
+    { x: 3345, y: 600, w: 150, h: 42, sprite_name: "particelle" },
+    { x: 4035, y: 450, w: 150, h: 42, sprite_name: "particelle" },
+        {x: 4630, y: 300, w: 150, h: 42, sprite_name: "particelle" }
 
     
   ];
