@@ -1,36 +1,15 @@
 // === FINALE KAKUREBI ===
+let kakurebi_bg;
+
 function preload_kakurebi(scene) {
+  kakurebi_bg = PP.assets.image.load(scene, "assets/images/story/standard_ending.png", 1280, 720);
 }
 
 function create_kakurebi(scene, data) {
-  // Sfondo nero
-  scene.cameras.main.setBackgroundColor(0x000000);
-
-  const gameOverText = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY - 100,
-    "KAKUREBI - ECLISSI",
-    { font: "64px Arial", fill: "#0000ff" }
-  );
-  gameOverText.setOrigin(0.5);
-
-
-  const restartButton = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY,
-    "Goody has recognized, but not truly accepted, the other side. Maybe something was missing?",
-    { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
-  );
-  restartButton.setOrigin(0.5);
-  restartButton.setInteractive({ useHandCursor: true });
-  restartButton.on("pointerdown", () => {
-    // Forza la posizione iniziale del player all’inizio della casa
-    PP.game_state.playerPosition = { x: 200, y: 500 };
-    scene.scene.start("main_menu_scene", { x: 200, y: 500 });
-  });
-
-  // Fade in della scena
-  scene.cameras.main.fadeIn(500, 0, 0, 0);
+  const centerX = PP.game.config.canvas_width / 2;
+  const centerY = PP.game.config.canvas_height / 2;
+  PP.assets.image.add(scene, kakurebi_bg, centerX, centerY, 0.5, 0.5);
+  
 }
 
 function update_kakurebi(scene) {

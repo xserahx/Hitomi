@@ -1,38 +1,16 @@
 // === FINALE TEITAI ===
-function preload_teitai(scene) {
+let teitai_bg;
 
+function preload_teitai(scene) {
+  teitai_bg = PP.assets.image.load(scene, "assets/images/story/bad_ending.png", 1280, 720);
 }
 
 function create_teitai(scene, data) {
-  // Sfondo nero
-  scene.cameras.main.setBackgroundColor(0x000000);
+  const centerX = PP.game.config.canvas_width / 2;
+  const centerY = PP.game.config.canvas_height / 2;
 
+  PP.assets.image.add(scene, teitai_bg, centerX, centerY, 0.5, 0.5);
 
-  const gameOverText = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY - 100,
-    "TEITAI - ECLISSI",
-    { font: "64px Arial", fill: "#ff0000" }
-  );
-  gameOverText.setOrigin(0.5);
-
-
-  const restartButton = scene.add.text(
-    scene.cameras.main.centerX,
-    scene.cameras.main.centerY,
-    "Goody has escaped form the other side, is there something else?",
-    { font: "32px Arial", fill: "#ffffff", backgroundColor: "#333333", padding: { x: 10, y: 5 } }
-  );
-  restartButton.setOrigin(0.5);
-  restartButton.setInteractive({ useHandCursor: true });
-  restartButton.on("pointerdown", () => {
-    // Forza la posizione iniziale del player all’inizio della casa
-    PP.game_state.playerPosition = { x: 200, y: 500 };
-    scene.scene.start("main_menu_scene", { x: 200, y: 500 });
-  });
-
-  // Fade in della scena
-  scene.cameras.main.fadeIn(500, 0, 0, 0);
 }
 
 function update_teitai(scene) {
