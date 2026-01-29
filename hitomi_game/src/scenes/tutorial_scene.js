@@ -1,9 +1,11 @@
 // === TUTORIAL SCENE ===
 let tutorial_bg;
+let baby;
 let count = false;
 
 function preload_tutorial_scene(scene) {
     tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/tutorial_background_long.png", 1800, 920);
+    baby = PP.assets.image.load(scene, "assets/images/tutorial/culla_nanashi.png", 100, 100);
     PP.entities.player.preload(scene);
     PP.entities.enemy.preload(scene);
     PP.scene_objects.platform.preload(scene);
@@ -45,8 +47,7 @@ function create_tutorial_scene(scene) {
         { x: 1480, y: 773, w: 110, h: 90, sprite_name: "rialzino" },
         { x: 828, y: 470, w: 40, h: 395, sprite_name: "palo" },
         { x: 850, y: 550, w: 150, h: 20, sprite_name: "basetta_1" },
-        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" },
-        { x: 150, y: 805, w: 100, h: 60, sprite_name: "culla" }
+        { x: 655, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -58,7 +59,7 @@ function create_tutorial_scene(scene) {
     PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
     // === BAMBINO (+500 X) ===
-    const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
+    baby = PP.assets.image.add(scene, baby, 200, 765, 0, 0);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===

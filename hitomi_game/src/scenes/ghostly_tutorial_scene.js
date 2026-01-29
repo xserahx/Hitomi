@@ -1,8 +1,10 @@
 // === ghostly_tutorial SCENE ===
 let ghostly_tutorial_bg;
+let baby;
 
 function preload_ghostly_tutorial_scene(scene) {
     ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background_long.png", 1800, 920);
+    baby = PP.assets.image.load(scene, "assets/images/tutorial/culla_nanashi.png", 100, 100);
     PP.scene_objects.platform.preload(scene);
     PP.entities.player.preload(scene);
     PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -38,13 +40,12 @@ function create_ghostly_tutorial_scene(scene) {
         { x: 828, y: 470, w: 40, h: 395, sprite_name: "g_palo" },  // palo
         { x: 850, y: 550, w: 150, h: 20, sprite_name: "g_basetta_1" }, // base del nemico
         { x: 655, y: 640, w: 150, h: 20, sprite_name: "g_basetta_2" }, // base sopra culla
-        { x: 150, y: 805, w: 100, h: 60, sprite_name: "culla" }   // culla del bimbo
     ];
 
     PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
 
     // === BAMBINO ===
-    const baby = PP.shapes.rectangle_add(scene, 185, 785, 40, 40, "0xffffff", 1);
+    baby = PP.assets.image.add(scene, baby, 200, 765, 0, 0);
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
