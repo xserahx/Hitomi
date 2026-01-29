@@ -26,9 +26,9 @@ function createbossfight(scene, treeSprite, treePositionArray) {
 
 const bossfightTrees = [
 
- /* { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },/*
   { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
 
 
@@ -92,7 +92,7 @@ function create_bossfight_scene(scene) {
   ghostly_bamboo = PP.assets.image.add(scene, ghostly_bamboo, 300, 0, 0, 0);
 
 
- ghostly_tori = PP.assets.tilesprite.add(scene, ghostly_tori, 200, 400, 900, 1000, 0, 0);
+ ghostly_tori = PP.assets.tilesprite.add(scene, ghostly_tori, 370, 400, 900, 1000, 0, 0);
   ghostly_tori.tile_geometry.scroll_factor_x = 0.55;
 
 
