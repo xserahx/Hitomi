@@ -46,7 +46,7 @@ function create_ghostly_house(scene, data) {
   //======TUTORIAL======
     { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
     { x: 610, y: 600, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 773, w: 110, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 1030, y: 773, w: 100, h: 90, sprite_name: "rialzino" }, // muretto
     { x: 378, y: 470, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
     { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2" }, // base sopra culla
@@ -63,7 +63,7 @@ function create_ghostly_house(scene, data) {
     { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 2165, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2840, y: -169, w: 100, h: 900, sprite_name: "piattaforma" }, //MURO CON PORTA SOTTO
+    { x: 2820, y: 70, w: 180, h: 658, sprite_name: "muro" },  //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 3240, y: 740, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -80,7 +80,7 @@ function create_ghostly_house(scene, data) {
     { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
     // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
-    { x: 5860, y: 774, w: 150, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
+    { x: 5860, y: 774, w: 100, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
 
     // L
     { x: 5580, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
@@ -100,7 +100,7 @@ function create_ghostly_house(scene, data) {
     { x: 6380, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 7120, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7645, y: -171, w: 100, h: 900, sprite_name: "piattaforma" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7620, y: 70, w: 180, h: 658, sprite_name: "muro" } //ULTIMO MURO CON PORTA SOTTO
   ];
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
@@ -213,10 +213,11 @@ function create_ghostly_house(scene, data) {
 
   PP.game_state.keys = PP.scene_objects.key.create(scene, keys);
 
-  const doors =
-    [
-      { x: 2765, y: 726, sprite_name: "door", collected: false, id: 1 },
-    { x: 7570, y: 726, sprite_name: "door", collected: false, id: 2 }    ];
+  const doors=
+  [
+    { x: 2768, y: 660, sprite_name: "locked_door", collected: false, id: 1 },
+    { x: 7570, y: 660, sprite_name: "locked_door", collected: false, id: 2 }    
+  ];
 
   PP.game_state.doors = PP.scene_objects.key.create(scene, doors);
 
@@ -275,7 +276,7 @@ function update_ghostly_house(scene) {
     };
   }
   // === CAMBIO MONDO ===
-  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.W)) {
+  if (PP.interactive.kb.is_key_down(scene, PP.key_codes.U)) {
     PP.entities.player.changeWorld(scene);
   }
 
