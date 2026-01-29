@@ -1,5 +1,6 @@
 // === ghostly_forest SCENE ===
 let help;
+let panel;
 
 let ghostly_forest_bg;
 let ghostly_mountains_bg;
@@ -71,11 +72,10 @@ function preload_ghostly_forest(scene) {
   ghostly_bamboofondo2 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/lvl2parallax_spettrale.png", 6402, 1080);
   ghostly_bamboofondo1 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/lvl1parallax_spettrale.png", 6402, 1080);
 
-    tronco_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tronco_spettrale.png", 300, 350);
+  tronco_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tronco_spettrale.png", 300, 350);
   roccia_1_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_1_spettrale.png", 500, 150);
   roccia_2_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_2_spettrale.png", 500, 150);
   ghostly_casa = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/casa_spettrale.png", 726, 920);
-
 
   ghostly_big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/albero_bamboo_spettrale.png", 800, 1000);
   ghostly_small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/alberello_spettrale.png", 550, 684);
@@ -99,8 +99,9 @@ function preload_ghostly_forest(scene) {
   ghostly_pontile_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/pontile_2_spettrale.png", 400, 200);
   ghostly_fox_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/statua_2_spettrale.png", 300, 400);
   ghostly_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/statua_spettrale.png", 400, 600);
+  
   help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
-
+  panel = PP.assets.image.load(scene, "assets/images/comandi_bg.png", 760, 428 )
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
 
@@ -351,7 +352,7 @@ function create_ghostly_forest(scene, data) {
     PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
-        // HUD DANNO
+       // HUD DANNO
          let i = PP.game_state.player.lives - 1;
             if (i >= 0 && PP.game_state.hearts[i]) {
               PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
@@ -415,14 +416,14 @@ PP.scenes.add('ghostly_forest_scene', preload_ghostly_forest, create_ghostly_for
 
 function showControlsPopup(scene) {
 
-  // SE POP UP GIÀ APERTO, NON FARE NULLA
+ // SE POP UP GIÀ APERTO, NON FARE NULLA
   if (PP.game_state.controlsPopupOpen) return;
   PP.game_state.controlsPopupOpen = true;
 
   // PAUSA MOVIMENTO PLAYER  SE POP UP APERTO
   PP.game_state.pause = true;
   PP.game_state.uiBlockingInput = true;
-
+  
   const popupLayer = PP.layers.create(scene);
   PP.layers.set_z_index(popupLayer, 100);
 
@@ -430,59 +431,56 @@ function showControlsPopup(scene) {
   const centerX = cam.centerX;
   const centerY = cam.centerY;
 
-  // === OVERLAY SCURO ===
+  // === OVERLAY ===
   const overlay = PP.shapes.rectangle_add(scene, centerX, centerY, cam.width, cam.height, "0x000000", 0.45);
   overlay.tile_geometry.scroll_factor_x = 0;
   overlay.tile_geometry.scroll_factor_y = 0;
 
-  // === PANNELLO TESTI ===
-  const panel = PP.shapes.rectangle_add(scene, centerX, centerY, 760, 420, "0x5c0a0a", 0.95);
-  panel.tile_geometry.scroll_factor_x = 0;
-  panel.tile_geometry.scroll_factor_y = 0;
+  // === PANELLO ===
+  const panel_img = PP.assets.image.add(scene, panel, centerX, centerY, 0.5, 0.5);
+  panel_img.tile_geometry.scroll_factor_x = 0;
+  panel_img.tile_geometry.scroll_factor_y = 0;
 
-  // === TESTO COMANDI ===
-const text = PP.shapes.text_add(scene, centerX - 120, centerY - 60,
-  "TUTORIAL COMANDI\n\n" +
-  "A / D  oppure  ← / → : Muovi\n" +
-  "SPAZIO : Salta\n" +
-  "SHIFT : Scatto\n" +
-  "CLICK SINISTRO : Attacca\n" +
-  "U : Cambia mondo"
-);
+  // === HITBOX ===
+  const hitbox_close = PP.shapes.rectangle_add(scene, centerX + 300, centerY + 160, 90, 40, "0x000000", 0);
+  const hitbox_menu = PP.shapes.rectangle_add(scene, centerX - 230, centerY + 160, 120, 60, "0x000000", 0);
 
-text.tile_geometry.scroll_factor_x = 0;
-text.tile_geometry.scroll_factor_y = 0;
+  hitbox_close.tile_geometry.scroll_factor_x = 0;
+  hitbox_close.tile_geometry.scroll_factor_y = 0;
 
-  // === BOTTONE CHIUDI ===
-  const closeBtn = PP.shapes.text_add(scene, centerX - 120, centerY + 100, "Chiudi 閉じる");
-  closeBtn.tile_geometry.scroll_factor_x = 0;
-  closeBtn.tile_geometry.scroll_factor_y = 0;
+  hitbox_menu.tile_geometry.scroll_factor_x = 0;
+  hitbox_menu.tile_geometry.scroll_factor_y = 0;
 
-  // hover
-  PP.interactive.mouse.add(closeBtn, "pointerover", () => {
-    closeBtn.setScale(1.1);
-  });
-
-  PP.interactive.mouse.add(closeBtn, "pointerout", () => {
-    closeBtn.setScale(1);
-  });
-
-  // === LAYER ===
+  // === AGGIUNGI AL LAYER ===
   PP.layers.add_to_layer(popupLayer, overlay);
-  PP.layers.add_to_layer(popupLayer, panel);
-  PP.layers.add_to_layer(popupLayer, text);
-  PP.layers.add_to_layer(popupLayer, closeBtn);
+  PP.layers.add_to_layer(popupLayer, panel_img);
+  PP.layers.add_to_layer(popupLayer, hitbox_close);
+  PP.layers.add_to_layer(popupLayer, hitbox_menu);
 
-  // === CHIUSURA ===
-  PP.interactive.mouse.add(closeBtn, "pointerdown", () => {
+  // === INTERAZIONI ===
+  PP.interactive.mouse.add(hitbox_close, "pointerdown", (pointer) => {
+    closeMenu();
+  });
 
+  PP.interactive.mouse.add(hitbox_menu, "pointerdown", (pointer) => {
+    PP.scenes.start("main_menu");
+    resetControlsPopupState();
+  });
+
+  // === FUNZIONE CHIUSURA  ===
+  function closeMenu() {
     PP.assets.destroy(overlay);
-    PP.assets.destroy(panel);
-    PP.assets.destroy(text);
-    PP.assets.destroy(closeBtn);
+    PP.assets.destroy(panel_img);
+    PP.assets.destroy(hitbox_close);
+    PP.assets.destroy(hitbox_menu);
 
     PP.game_state.pause = false;
     PP.game_state.controlsPopupOpen = false;
     PP.game_state.uiBlockingInput = false;
-  });
+  }
+}
+  function resetControlsPopupState() {     
+    PP.game_state.pause = false;
+    PP.game_state.controlsPopupOpen = false;
+    PP.game_state.uiBlockingInput = false;
 }
