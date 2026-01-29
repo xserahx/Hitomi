@@ -3,7 +3,8 @@ let menu_bg;
 function preload(scene) {
   menu_bg = PP.assets.image.load(scene, "assets/images/homepage.png",1280, 720);
 }
-
+ 
+// CREATE
 function create(scene) {
   const centerX = PP.game.config.canvas_width / 2;
   const centerY = PP.game.config.canvas_height / 2;
@@ -17,17 +18,18 @@ function create(scene) {
   PP.game_state.bossIsDead = false;
   PP.game_state.bossIsFriendly = false;
 
+  // COSTANTI
   const MENU_AREAS = [
   {
     name: "gioca", x: 525, y: 400, w: 100, h: 25, action: () => PP.scenes.start("tutorial_scene")
   },
 
   {
-    name: "storia", x: 550, y: 460, w: 100, h: 25, action: () => PP.scenes.start("forest_scene")
+    name: "storia", x: 550, y: 460, w: 100, h: 25, action: () => PP.scenes.start("story_scene")
   },
 
   {
-    name: "crediti", x: 585, y: 525, w: 100, h: 25, action: () => PP.scenes.start("bossfight_scene")
+    name: "crediti", x: 585, y: 525, w: 100, h: 25, action: () => PP.scenes.start("credit_scene")
   }
 ];
 

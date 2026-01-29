@@ -1,8 +1,9 @@
 let story_panels = [];
 let arrow_story
 
+// PRELOAD
 function preload_story(scene) {
-
+ // TAVOLE DELLA STORIA
   story_panels[0] = PP.assets.image.load(scene,"assets/images/story/tavola_1.jpg",1280,720);
 
   story_panels[1] = PP.assets.image.load(scene,"assets/images/story/tavola_2.jpg",1280,720);
@@ -47,6 +48,7 @@ function showStoryPanel(scene) {
   }
 }
 
+// FRECCIA 
 function createArrow(scene, x, y) {
 
   const arrow = PP.assets.image.add(scene, arrow_story, x, y, 0.5, 0.5);
@@ -66,7 +68,7 @@ function createArrow(scene, x, y) {
     arrow.geometry.scale = 1.5;
   });
 
-  // click → avanti
+  // click = avanti
   PP.interactive.mouse.add(arrow, "pointerdown", () => {
     scene.storyIndex++;
     showStoryPanel(scene);

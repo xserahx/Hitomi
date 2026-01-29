@@ -2,6 +2,7 @@
 let musubi_bg;
 
 function preload_musubi(scene) {
+  // PRELOAD TAVOLA FINALI
   musubi_bg = PP.assets.image.load(scene, "assets/images/story/good_ending.jpg", 1280, 720);
 }
 
@@ -17,7 +18,7 @@ function update_musubi(scene) {
 }
 
 function destroy_musubi(scene) {
-  // Pulizia risorse se necessario
+  // Nessuna risprsa da rimuovere 
 }
 
 // === REGISTRA LA SCENA ===

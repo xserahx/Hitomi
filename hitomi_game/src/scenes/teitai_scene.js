@@ -1,10 +1,12 @@
 // === FINALE TEITAI ===
 let teitai_bg;
 
+// PRELOAD IMMAGINE
 function preload_teitai(scene) {
   teitai_bg = PP.assets.image.load(scene, "assets/images/story/bad_ending.jpg", 1280, 720);
 }
 
+// CREATE
 function create_teitai(scene, data) {
   const centerX = PP.game.config.canvas_width / 2;
   const centerY = PP.game.config.canvas_height / 2;
