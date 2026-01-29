@@ -80,7 +80,6 @@ PP.entities.player.update = function (scene, player) {
                         PP.game_state.tutorialCutscene;
 
     if (player.lives === 0 || player.inCutscene) {
-        player.isInvincible = true;
         PP.physics.set_velocity_x(player, 0);
         return;
     }
@@ -219,7 +218,8 @@ PP.entities.player.update = function (scene, player) {
 
 // === DAMAGE ===
 PP.entities.player.damage = function (scene, player, enemy) {
-    if (player.isInvincible || PP.game_state.DevMode) return;
+    console.log("Player damaged");
+    if (player.isInvincible || PP.game_state.DevMode || player.inCutscene == true) return;
 
     player.lives--;
     PP.game_state.actualLives = player.lives;

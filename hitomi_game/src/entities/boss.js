@@ -9,17 +9,17 @@ PP.entities.boss.preload = function (scene) {
 // === CREAZIONE BOSS ===
 PP.entities.boss.create = function (scene, positions) {
   const img_samurai = PP.entities.boss.img_samurai;
-  const boss = PP.assets.sprite.add(scene, img_samurai, 1230, 500, 0.5, 0.5);
+  const boss = PP.assets.sprite.add(scene, img_samurai, 1150, 890, 0.5, 0.5);
   PP.physics.add(scene, boss, PP.physics.type.DYNAMIC);
-  PP.physics.set_collision_rectangle(boss, 100, 200, 80, 0);
+  PP.physics.set_collision_rectangle(boss, 68, 200, 90, 0);
 
   boss.state = "idle"; // idle | walk | attack | dead | dash
   boss.state_check = "idle";
 
-  boss.speed = 200;
+  boss.speed = 150;
   boss.detectionRange = 1280;
   boss.deadZone = 5;
-  boss.walkzone = 400;
+  boss.walkzone = 350;
   boss.walkSpeed = 500;
   boss.geometry.flip_x = true;
   boss.direction = -1;
@@ -28,7 +28,7 @@ PP.entities.boss.create = function (scene, positions) {
 
   PP.assets.sprite.animation_add(boss, "idle", 13, 15, 3, -1);
   PP.assets.sprite.animation_add(boss, "walk", 6, 12, 10, -1);
-  PP.assets.sprite.animation_add(boss, "attack", 0, 5, 8, 0);
+  PP.assets.sprite.animation_add_list(boss, "attack", [0, 1, 2, 3, 4, 5, 5, 4, 3, 2], 12, 0);
   PP.assets.sprite.animation_add(boss, "dash", 6, 12, 15, -1);
 
   boss.isAttacking = false;
@@ -37,13 +37,9 @@ PP.entities.boss.create = function (scene, positions) {
   const bossground = PP.shapes.rectangle_add(scene, 640, 1010, 1280, 40, "0x000000", 0);
   PP.physics.add(scene, bossground, PP.physics.type.STATIC);
   PP.physics.add_collider_f(scene, boss, bossground, () => {
-    console.log("boss on ground");
-
-    if(boss.state_check !==boss.state) {
+    if (boss.state_check !== boss.state) {
       PP.assets.sprite.animation_play(boss, boss.state, true);
       boss.state_check = boss.state;
-      
-      console.log("Animazione in partenza: " + boss.state);
     }
   });
 
@@ -52,66 +48,73 @@ PP.entities.boss.create = function (scene, positions) {
 
 // === UPDATE BOSS ===
 PP.entities.boss.update = function (scene, boss, player) {
+  // === CALCOLO DELLA DISTANZA DAL PLAYER ===
+  const dx = player.geometry.x - boss.geometry.x;
+  const distance = Math.abs(dx);
 
-  // === STATO DEAD
-if (PP.game_state.bossIsDead == true) {
-
-  if (boss.geometry.body_x > 120) {
-    PP.physics.set_velocity_x(boss, -50);
-    boss.state = "walk";
-  } else {
-    PP.physics.set_velocity_x(boss, 0);
-    boss.state = "idle";
-    PP.game_state.bossIsDead = false;
-    PP.game_state.bossIsFriendly = true;
-  }
-
-  return; 
-}
-
+  // === GESTIONE CUTSCENE E RESET ===
   if (PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true) {
     boss.inCutscene = true;
   } else { boss.inCutscene = false; }
 
-  if(PP.game_state.reset == true) {
+  if (PP.game_state.reset == true) {
     boss.lives = boss.maxLives;
     PP.game_state.reset = false;
   }
 
-  const dx = player.geometry.x - boss.geometry.x;
-  const distance = Math.abs(dx);
 
-  if (PP.game_state.bossIsDead == false && boss.state !== "dead_idle") {
+  // === MORTE DEL BOSS ===
+  //Quando il boss muore, si avvicina alla aprte sinistra dello schermo e diventa amichevole
+  if (PP.game_state.bossIsDead == true) {
+
+    if (boss.geometry.body_x > 120) {
+      boss.geometry.flip_x = true;
+      PP.physics.set_velocity_x(boss, -50);
+      boss.state = "walk";
+    } else {
+      PP.physics.set_velocity_x(boss, 0);
+      boss.state = "idle";
+      boss.geometry.flip_x = false;
+      PP.game_state.bossIsDead = false;
+      PP.game_state.bossIsFriendly = true;
+    }
+    return;
+  }
+
+  // === DIREZIONE DEL BOSS ===
+  if (PP.game_state.bossIsDead == false && boss.state !== "idle") {
     // se sconfitto, non guarda il player
-
     if (dx > 0) {
       boss.geometry.flip_x = false; // guarda a destra verso il player
+      PP.physics.set_collision_rectangle(boss, 68, 200, 55, 0);
       boss.direction = 1;
     } else {
       boss.geometry.flip_x = true;  // guarda a sinistra verso il player
       boss.direction = -1;
+      PP.physics.set_collision_rectangle(boss, 68, 200, 90, 0);
     }
   }
 
+  // === MOVIMENTO VERSO IL PLAYER ===
   if (distance < boss.detectionRange && boss.inCutscene == false && PP.game_state.bossIsFriendly == false) {
 
-    if (dx > boss.deadZone && boss.lives > 0) {
-      if (dx < boss.walkzone) { 
+    if (dx > boss.deadZone && boss.lives > 0 && boss.isAttacking == false) {
+      if (dx < boss.walkzone) {
         PP.physics.set_velocity_x(boss, boss.speed);
         boss.state = "walk";
       }
-      else { 
+      else {
         PP.physics.set_velocity_x(boss, boss.walkSpeed);
         boss.state = "dash";
       }
       boss.direction = 1;
-    } else if (dx < -boss.deadZone && boss.lives > 0) {
-      if (dx > -boss.walkzone) { 
+    } else if (dx < -boss.deadZone && boss.lives > 0 && boss.isAttacking == false) {
+      if (dx > -boss.walkzone) {
         PP.physics.set_velocity_x(boss, -boss.speed);
         boss.state = "walk";
       }
-      else { 
-        PP.physics.set_velocity_x(boss, -boss.walkSpeed); 
+      else {
+        PP.physics.set_velocity_x(boss, -boss.walkSpeed);
         boss.state = "dash";
       }
       boss.direction = -1;
@@ -120,45 +123,30 @@ if (PP.game_state.bossIsDead == true) {
     }
   }
 
-  if (PP.game_state.bossIsDead == true) {
-    boss.speed = 50;
-
-    if (boss.geometry.body_x > 120) {
-      PP.physics.set_velocity_x(boss, -boss.speed);
-    } else {
-      boss.speed = 0;
-      PP.physics.set_velocity_x(boss, 0);
-      PP.game_state.bossIsDead = false;
-      PP.game_state.bossIsFriendly = true;
-    }
-  }
-
-  //Se il player è vicino, attacca
-  if (dx < 300 && dx > -300 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false) {
+  // === TRIGGER DI ATTACCO ===
+  if (dx < 200 && dx > -200 && boss.inCutscene == false && PP.game_state.bossIsFriendly == false && boss.isAttacking == false) {
     PP.entities.boss.attack(scene, boss, player);
   }
 };
 
-PP.entities.boss.walk = function (scene, boss) {
-  boss.isWalking = true;
-  boss.state = "walk";
-}
 
+
+// === FUNZIONE DI ATTACCO ===
 PP.entities.boss.attack = function (scene, boss, player) {
-
   if (boss.isWalking || boss.isAttacking || boss.inCutscene || PP.game_state.bossIsFriendly) return;
 
- boss.isAttacking = true;
- boss.state = "attack";
+  boss.isAttacking = true;
+  boss.state = "attack";
 
-PP.timers.add_timer(scene, 3000, () => {
-  boss.isAttacking = false;
-  boss.state = "idle"; 
-}, false);
+  PP.timers.add_timer(scene, 2500, () => {
+    boss.isAttacking = false;
+    boss.state = "idle";
+  }, false);
 
   let dir = boss.direction;
+  PP.assets.sprite.animation_play(boss, "attack", false);
 
-  const hitbox = PP.shapes.rectangle_add(scene,boss.geometry.x + 50 * dir, boss.geometry.y, 100, 80, "0xABCDEF", 0);
+  const hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xABCDEF", 0);
 
   PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
@@ -166,13 +154,13 @@ PP.timers.add_timer(scene, 3000, () => {
     PP.entities.player.damage(scene, PP.game_state.player, hitbox);
   });
 
-  PP.timers.add_timer(scene, 100, () => {
+  PP.timers.add_timer(scene, 600, () => {
     PP.shapes.destroy(hitbox);
   }, false);
 
 };
 
-// === FUNZIONE DI DANNO
+// === FUNZIONE DI DANNO ===
 PP.entities.boss.damage = function (scene, boss, hitbox) {
   if (boss.isInvincible || boss.inCutscene == true) return;
 
@@ -186,26 +174,26 @@ PP.entities.boss.damage = function (scene, boss, hitbox) {
   }, false);
 
   if (boss.lives <= 0) {
-  PP.game_state.bossIsDead = true;
-  boss.isAttacking = false;
-}
+    PP.game_state.bossIsDead = true;
+    boss.isAttacking = false;
+  }
 
- // === ANIMAZIONI BOSS ===
-const mv = boss.geometry.body_velocity_x;  // mv = movimento orizzontale
+  // === ANIMAZIONI BOSS ===
+  const mv = boss.geometry.body_velocity_x;  // mv = movimento orizzontale
 
-if (boss.state === "attack") {
-  PP.assets.sprite.animation_play(boss, "attack", true);
-}
-else if (boss.state === "dead") {
-  PP.assets.sprite.animation_play(boss, "idle", true);
-}
-else if (Math.abs(mv) > 5) {
-  boss.state = "walk";
-  PP.assets.sprite.animation_play(boss, "walk", true);
-}
-else {
-  boss.state = "idle";
-  PP.assets.sprite.animation_play(boss, "idle", true);
-}
+  if (boss.state === "attack") {
+    PP.assets.sprite.animation_play(boss, "attack", true);
+  }
+  else if (boss.state === "dead") {
+    PP.assets.sprite.animation_play(boss, "idle", true);
+  }
+  else if (Math.abs(mv) > 5) {
+    boss.state = "walk";
+    PP.assets.sprite.animation_play(boss, "walk", true);
+  }
+  else {
+    boss.state = "idle";
+    PP.assets.sprite.animation_play(boss, "idle", true);
+  }
 
 };  
