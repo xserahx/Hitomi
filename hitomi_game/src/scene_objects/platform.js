@@ -13,7 +13,6 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["trave"] = PP.assets.image.load(scene, "assets/images/house/trave_1.png");
     PP.scene_objects.platform.sprite["paletto"] = PP.assets.image.load(scene, "assets/images/house/paletto.png");
     PP.scene_objects.platform.sprite["paletto_1"] = PP.assets.image.load(scene, "assets/images/house/paletto_1.png");
-    PP.scene_objects.platform.sprite["muro_grande"] = PP.assets.image.load(scene, "assets/images/house/muro_grande.png", 100, 620);
     PP.scene_objects.platform.sprite["basetta_1"] = PP.assets.image.load(scene, "assets/images/house/basetta_1.png", 150, 20);
     PP.scene_objects.platform.sprite["basetta_2"] = PP.assets.image.load(scene, "assets/images/house/basetta_2.png", 150, 20);
     PP.scene_objects.platform.sprite["palo"] = PP.assets.image.load(scene, "assets/images/house/palo.png", 50, 270);
@@ -26,7 +25,6 @@ PP.scene_objects.platform.preload = function(scene) {
     PP.scene_objects.platform.sprite["g_trave"] = PP.assets.image.load(scene, "assets/images/house/g_trave.png");
     PP.scene_objects.platform.sprite["g_paletto"] = PP.assets.image.load(scene, "assets/images/house/g_paletto.png");
     PP.scene_objects.platform.sprite["g_paletto_1"] = PP.assets.image.load(scene, "assets/images/house/g_paletto_1.png");
-    PP.scene_objects.platform.sprite["g_muro_grande"] = PP.assets.image.load(scene, "assets/images/house/g_muro_grande.png", 100, 620);
     PP.scene_objects.platform.sprite["g_basetta_1"] = PP.assets.image.load(scene, "assets/images/house/g_basetta_1.png", 150, 20);
     PP.scene_objects.platform.sprite["g_basetta_2"] = PP.assets.image.load(scene, "assets/images/house/g_basetta_2.png", 150, 20);
     PP.scene_objects.platform.sprite["g_palo"] = PP.assets.image.load(scene, "assets/images/house/g_palo.png", 50, 270);
@@ -34,17 +32,10 @@ PP.scene_objects.platform.preload = function(scene) {
     // Piattaforme foresta
     PP.scene_objects.platform.sprite["piattaforma_foresta"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/piattaforma_erbetta.png");
     PP.scene_objects.platform.sprite["piattaforma_foresta_roccia"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/piattaforma_roccia.png");
-//    PP.scene_objects.platform.sprite["tronco"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/tronco.png", 300, 350, 0.5, 0.5);
-//    PP.scene_objects.platform.sprite["roccia_1"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia_1.png", 500, 150);
-//    PP.scene_objects.platform.sprite["roccia_2"] = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia_2.png", 500, 150);
 
     // Piattaforme foresta spettrale
     PP.scene_objects.platform.sprite["piattaforma_foresta_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/piattaforma_erbetta_spettrale.png");
     PP.scene_objects.platform.sprite["piattaforma_foresta_roccia_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/piattaforma_roccia_spettrale.png");
-
-//    PP.scene_objects.platform.sprite["tronco_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tronco_spettrale.png", 300, 350);
-//    PP.scene_objects.platform.sprite["roccia_1_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_1_spettrale.png", 500, 150);
-//    PP.scene_objects.platform.sprite["roccia_2_spettrale"] = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_2_spettrale.png", 500, 150);
 
     // Particelle 
     let graphics = scene.add.graphics();
