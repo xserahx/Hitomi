@@ -20,6 +20,7 @@ let ghostly_cespuglio_2;
 
 let ghostly_rocks;
 let ghostly_radice;
+let ghostly_casa;
 
 let ghostly_separatore;
 let ghostly_fox_statue;
@@ -73,6 +74,7 @@ function preload_ghostly_forest(scene) {
     tronco_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tronco_spettrale.png", 300, 350);
   roccia_1_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_1_spettrale.png", 500, 150);
   roccia_2_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_2_spettrale.png", 500, 150);
+  ghostly_casa = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/casa_spettrale.png", 726, 920);
 
 
   ghostly_big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/albero_bamboo_spettrale.png", 800, 1000);
@@ -152,6 +154,7 @@ function create_ghostly_forest(scene, data) {
   createGhostlyForest(scene, ghostly_small_tree, ghostly_forestTrees);
 
   ghostly_radice = PP.assets.image.add(scene, ghostly_radice, 2680 + 60, 140, 0, 0);
+  ghostly_casa = PP.assets.image.add(scene, ghostly_casa, 0, 50, 0, 0);
 
   ghostly_big_tree = PP.assets.image.add(scene, ghostly_big_tree, 190, 1000, 0.5, 1);
 

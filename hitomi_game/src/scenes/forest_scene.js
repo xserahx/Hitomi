@@ -19,6 +19,7 @@ let cespuglio_2;
 
 let rocks;
 let radice;
+let casa;
 
 let separatore;
 let fox_statue;
@@ -84,6 +85,7 @@ function preload_forest(scene) {
 
   bamboo = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo.png", 1096, 250);
   bamboo_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo.png", 1096, 250);
+  casa = PP.assets.image.load(scene, "assets/images/forest/parallasse/casa.png", 726, 920);
 
   bush = PP.assets.image.load(scene, "assets/images/forest/parallasse/arbusto.png", 150, 114);
   rocks = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia.png", 1280, 400);
@@ -166,6 +168,7 @@ function create_forest(scene) {
   createForest(scene, small_tree, forestTrees);
 
   radice = PP.assets.image.add(scene, radice, 2680 + 60, 140, 0, 0);
+  casa = PP.assets.image.add(scene, casa, 0, 50, 0, 0);
 
   big_tree = PP.assets.image.add(scene, big_tree, 190, 1000, 0.5, 1);
 

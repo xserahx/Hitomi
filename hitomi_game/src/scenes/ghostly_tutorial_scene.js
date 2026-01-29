@@ -2,11 +2,21 @@
 let ghostly_tutorial_bg;
 let baby;
 let culla;
+let sign_1;
+let sign_2;
+let sign_3;
+let sign_4;
+
+// === PRELOAD SCENA ===
 
 function preload_ghostly_tutorial_scene(scene) {
     ghostly_tutorial_bg = PP.assets.image.load(scene, "assets/images/tutorial/ghostly_tutorial_background_long.png", 1800, 920);
     baby = PP.assets.image.load(scene, "assets/images/tutorial/culla_nanashi.png", 100, 100);
     culla = PP.assets.image.load(scene, "assets/images/tutorial/culla.png", 100, 100);
+    sign_1 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_1.png", 48, 97);
+    sign_2 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_2.png", 48, 97);
+    sign_3 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_3.png", 48, 97);
+    sign_4 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_4.png", 48, 97);
     PP.scene_objects.platform.preload(scene);
     PP.entities.player.preload(scene);
     PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -207,10 +217,10 @@ function create_ghostly_tutorial_scene(scene) {
     });
 
     // === CARTELLI ===
-    const sign1 = PP.shapes.rectangle_add(scene, 1625, 800, 40, 40, "0x00ff00", 1);
-    const sign2 = PP.shapes.rectangle_add(scene, 1480, 730, 40, 40, "0x00ff00", 1);
-    const sign3 = PP.shapes.rectangle_add(scene, 1270, 640, 40, 40, "0x00ff00", 1);
-    const sign4 = PP.shapes.rectangle_add(scene, 1035, 565, 40, 40, "0x00ff00", 1);
+    let sign1 = PP.assets.image.add(scene, sign_1, 1600, 740, 0, 0);
+    let sign2 = PP.assets.image.add(scene, sign_2, 1455, 650, 0, 0);
+    let sign3 = PP.assets.image.add(scene, sign_3, 1250, 550, 0, 0);
+    let sign4 = PP.assets.image.add(scene, sign_4, 1005, 470, 0, 0);
 
     PP.physics.add(scene, sign1, PP.physics.type.STATIC);
     PP.physics.add(scene, sign2, PP.physics.type.STATIC);
