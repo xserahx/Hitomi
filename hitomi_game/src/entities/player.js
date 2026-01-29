@@ -74,10 +74,7 @@ PP.entities.player.create = function (scene, x, y) {
 // === UPDATE ===
 PP.entities.player.update = function (scene, player) {
     // === STATO CUTSCENE / PAUSA / MORTE ===
-    player.inCutscene = PP.game_state.bossIsDead || 
-                        PP.game_state.duringBossCutscene || 
-                        PP.game_state.pause || 
-                        PP.game_state.tutorialCutscene;
+    player.inCutscene = PP.game_state.bossIsDead || PP.game_state.duringBossCutscene || PP.game_state.pause || PP.game_state.tutorialCutscene;
 
     if (player.lives === 0 || player.inCutscene) {
         PP.physics.set_velocity_x(player, 0);
@@ -88,8 +85,9 @@ PP.entities.player.update = function (scene, player) {
     const movingLeft  = PP.interactive.kb.is_key_down(scene, PP.key_codes.A) || PP.interactive.kb.is_key_down(scene, PP.key_codes.LEFT);
     const movingRight = PP.interactive.kb.is_key_down(scene, PP.key_codes.D) || PP.interactive.kb.is_key_down(scene, PP.key_codes.RIGHT);
     const hasNanashi = PP.game_state.nanashiState === "taken";
-    let speed = hasNanashi ? 150 : 200;
-    player.dashSpeed = hasNanashi ? 400 : 600;
+    let speed = hasNanashi ? 170 : 200;
+    player.dashSpeed = hasNanashi ? 450 : 600;
+
     // === DEV MODE ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && !PP.game_state.DevMode) {
         PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
