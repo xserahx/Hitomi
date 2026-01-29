@@ -30,6 +30,8 @@ PP.entities.boss.create = function (scene, positions) {
   PP.assets.sprite.animation_add(boss, "walk", 6, 12, 10, -1);
   PP.assets.sprite.animation_add_list(boss, "attack", [0, 1, 1, 1, 2, 2, 2, 3, 4, 5, 5,5,5, 4, 3, 2, 1, 0], 15, 0);
   PP.assets.sprite.animation_add(boss, "dash", 6, 12, 15, -1);
+  PP.assets.sprite.animation_add(boss, "dying", 16, 24, 4.5, 0);
+  PP.assets.sprite.animation_add(boss, "dead", 23, 29, 4.5, -1);
 
   boss.isAttacking = false;
   boss.inCutscene = false;
@@ -73,10 +75,14 @@ PP.entities.boss.update = function (scene, boss, player) {
       boss.state = "walk";
     } else {
       PP.physics.set_velocity_x(boss, 0);
-      boss.state = "idle";
+      boss.state = "dying";
       boss.geometry.flip_x = false;
       PP.game_state.bossIsDead = false;
       PP.game_state.bossIsFriendly = true;
+
+      PP.timers.add_timer(scene, 900, () => {
+        boss.state = "dead";
+      }, false);
     }
     return;
   }
