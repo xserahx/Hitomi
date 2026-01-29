@@ -212,27 +212,27 @@ function create_ghostly_forest(scene, data) {
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
-    { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
-    { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
-    { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
+    { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
 
     // === TRONCO DA SCAVALCARE ===
-    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
-//    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
+    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" }, //SOLO MONDO FRNTASMA
+//    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" }, //SOLO MONDO FRNTASMA
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
     //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2_spettrale" },
-    { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, 
-    { x: 2510, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" }, //SOLO MONDO REALE
+    { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 2510, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
-//    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+//    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
 
 //    { x: 3000, y: 515, w: 150, h: 20, sprite_name: "particelle" }, 
 //    { x: 3000, y: 215, w: 150, h: 20, sprite_name: "particelle" },DIVENTANO VERE. 655
-    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
-    { x: 3050, y: 515, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
-    { x: 3050, y: 215, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
+    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 3050, y: 515, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
+    { x: 3050, y: 215, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia_spettrale" },
     { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
     { x: 3900, y: 500, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" }, 
     

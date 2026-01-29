@@ -229,28 +229,27 @@ function create_forest(scene) {
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
-    { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 410, y: 875, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
+    { x: 650, y: 865, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
+    { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
 
     // === TRONCO DA SCAVALCARE ===
 
     { x: 1050, y: 700, w: 1, h: 1, sprite_name: "tronco" }, // QUESTO
-    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
+    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, //SOLO MONDO FRNTASMA
     { x: 1600, y: 650, w: 1, h: 1, sprite_name: "roccia_1" },
-    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
-    { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-
+    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, //SOLO MONDO FRNTASMA
+    { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
     //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2" },
     { x: 2200, y: 650, w: 1, h: 1, sprite_name: "roccia_2" }, //SOLO MONDO REALE
-    { x: 2510, y: 690, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO REALE
+    { x: 2510, y: 690, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
-    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+    { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
+    { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
+    { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
     { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
     //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma_foresta" },
