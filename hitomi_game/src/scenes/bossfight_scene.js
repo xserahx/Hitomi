@@ -199,20 +199,24 @@ function create_bossfight_scene(scene) {
   PP.physics.add(scene, trigger, PP.physics.type.STATIC);
 
   PP.physics.add_overlap_f(scene, PP.game_state.player, trigger, () => {
-    let talk = PP.shapes.text_add(scene, 150, 830, "Goody fermati! Possiamo ancora parlarne!");
+    let talk = PP.shapes.text_add(scene, 800, 725, "Goody fermati! Possiamo ancora parlarne!");
+    let answer;
+    let retalk
 
     PP.assets.destroy(trigger);
 
     PP.timers.add_timer(scene, 2000, (scene) => {
-      PP.shapes.text_change(talk, "Lasciami stare, yokai!");
+      answer = PP.shapes.text_add(scene, 200, 725, "Lasciami stare, Yokai!");
+      PP.assets.destroy(talk);
     }, false);
 
     PP.timers.add_timer(scene, 4000, (scene) => {
-      PP.shapes.text_change(talk, "Non posso farti andare via così...");
+      PP.assets.destroy(answer);
+      retalk = PP.shapes.text_add(scene, 800, 725, "Non posso lasciarti andare via così...");
     }, false);
 
     PP.timers.add_timer(scene, 6000, (scene) => {
-      PP.assets.destroy(talk);
+      PP.assets.destroy(retalk);
 
       PP.game_state.duringBossCutscene = false;
       PP.game_state.bossCutsceneDone = true;
