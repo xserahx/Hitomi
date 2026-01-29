@@ -39,9 +39,11 @@ PP.entities.boss.create = function (scene, positions) {
   const bossground = PP.shapes.rectangle_add(scene, 640, 1010, 1280, 40, "0x000000", 0);
   PP.physics.add(scene, bossground, PP.physics.type.STATIC);
   PP.physics.add_collider_f(scene, boss, bossground, () => {
-    if (boss.state_check !== boss.state) {
+    if (boss.state_check !== boss.state && PP.game_state.pause == false) {
       PP.assets.sprite.animation_play(boss, boss.state, true);
       boss.state_check = boss.state;
+    }else if(PP.game_state.pause == true){
+      PP.assets.sprite.animation_stop(boss);
     }
   });
 
@@ -55,7 +57,7 @@ PP.entities.boss.update = function (scene, boss, player) {
   const distance = Math.abs(dx);
 
   // === GESTIONE CUTSCENE E RESET ===
-  if (PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true) {
+  if (PP.game_state.bossIsDead == true || PP.game_state.duringBossCutscene == true || PP.game_state.pause == true) {
     boss.inCutscene = true;
   } else { boss.inCutscene = false; }
 
@@ -92,19 +94,19 @@ PP.entities.boss.update = function (scene, boss, player) {
     // se sconfitto, non guarda il player
     if (dx > 0) {
       boss.geometry.flip_x = false; // guarda a destra verso il player
-      PP.physics.set_collision_rectangle(boss, 68, 200, 55, 0);
+      if(boss.geometry.flip_x == false) {PP.physics.set_collision_rectangle(boss, 68, 200, 55, 0);}
       boss.direction = 1;
     } else {
       boss.geometry.flip_x = true;  // guarda a sinistra verso il player
       boss.direction = -1;
-      PP.physics.set_collision_rectangle(boss, 68, 200, 90, 0);
+      if(boss.geometry.flip_x == true) {PP.physics.set_collision_rectangle(boss, 68, 200, 90, 0);}  
     }
   }
 
   // === MOVIMENTO VERSO IL PLAYER ===
-  if (distance < boss.detectionRange && boss.inCutscene == false && PP.game_state.bossIsFriendly == false) {
+  if (distance < boss.detectionRange && PP.game_state.bossIsFriendly == false) {
 
-    if (dx > boss.deadZone && boss.lives > 0 && boss.isAttacking == false) {
+    if (dx > boss.deadZone && boss.lives > 0 && boss.isAttacking == false && boss.inCutscene == false) {
       if (dx < boss.walkzone) {
         PP.physics.set_velocity_x(boss, boss.speed);
         boss.state = "walk";
@@ -114,7 +116,7 @@ PP.entities.boss.update = function (scene, boss, player) {
         boss.state = "dash";
       }
       boss.direction = 1;
-    } else if (dx < -boss.deadZone && boss.lives > 0 && boss.isAttacking == false) {
+    } else if (dx < -boss.deadZone && boss.lives > 0 && boss.isAttacking == false && boss.inCutscene == false) {
       if (dx > -boss.walkzone) {
         PP.physics.set_velocity_x(boss, -boss.speed);
         boss.state = "walk";
