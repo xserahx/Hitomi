@@ -148,7 +148,6 @@ function create_ghostly_house(scene, data) {
     PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
     PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
 
-
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
 
@@ -177,16 +176,22 @@ function create_ghostly_house(scene, data) {
     { x: 7980, y: 840, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
-  
 
   for (let enemy of PP.game_state.enemies) {
 
     // collisioni con terreno e piattaforme
     PP.physics.add_collider(scene, enemy, ground);
+  PP.physics.add_collider(scene, enemy, leftWall);
+  PP.physics.add_collider(scene, enemy, rightWall);
+  PP.physics.add_collider(scene, enemy, hitboxInvisibile);
+  PP.physics.add_collider(scene, enemy, ramo);
+  PP.physics.add_collider(scene, enemy, massi);
+  PP.physics.add_collider(scene, enemy, massi2);
 
     for (let plat of PP.game_state.platforms) {
       PP.physics.add_collider(scene, enemy, plat);
     }
+
     // Overlap player-nemico
     PP.physics.add_overlap_f(scene, PP.game_state.player, enemy, () => {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
@@ -196,6 +201,7 @@ function create_ghostly_house(scene, data) {
             if (i >= 0 && PP.game_state.hearts[i]) {
               PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
             }
+
       }
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });

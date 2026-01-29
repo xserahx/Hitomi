@@ -158,7 +158,6 @@ function create_house(scene, data) {
     PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
     PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
 
-
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
 
@@ -185,6 +184,7 @@ function create_house(scene, data) {
     { x: 7030, y: 830, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
     { x: 7980, y: 840, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
+  
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
   for (let enemy of PP.game_state.enemies) {
@@ -201,8 +201,11 @@ function create_house(scene, data) {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
         // HUD DANNO
-        let currentIndex = PP.game_state.player.lives - 1;
-        PP.assets.sprite.animation_play(PP.game_state.hearts[currentIndex], "Cuore");
+         let i = PP.game_state.player.lives - 1;
+            if (i >= 0 && PP.game_state.hearts[i]) {
+              PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
+            }
+
       }
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });
