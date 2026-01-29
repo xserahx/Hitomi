@@ -1,12 +1,15 @@
 let story_panels = [];
+let arrow_story
 
 function preload_story(scene) {
 
-  story_panels[0] = PP.assets.image.load(scene,"assets/images/story/tavola_1.png",1280,720);
+  story_panels[0] = PP.assets.image.load(scene,"assets/images/story/tavola_1.jpg",1280,720);
 
-  story_panels[1] = PP.assets.image.load(scene,"assets/images/story/tavola_2.png",1280,720);
+  story_panels[1] = PP.assets.image.load(scene,"assets/images/story/tavola_2.jpg",1280,720);
 
-  story_panels[2] = PP.assets.image.load(scene,"assets/images/story/tavola_3.png",1280,720);
+  story_panels[2] = PP.assets.image.load(scene,"assets/images/story/tavola_3.jpg",1280,720);
+
+  arrow_story = PP.assets.image.load(scene,"assets/images/story/arrow_story.png",70,70);
 }
 
 function create_story(scene) {
@@ -37,33 +40,60 @@ function showStoryPanel(scene) {
   // === PULSANTE ===
   const isLast = scene.storyIndex === story_panels.length - 1;
 
-  const buttonText = isLast ? "Continua..." : "→";
+  if (isLast) {
+    createContinueButton(scene, centerX + 500, centerY + 325);
+  } else {
+    createArrow(scene, centerX + 580, centerY + 325);
+  }
+}
 
-  const button = PP.shapes.text_add(scene, centerX + 500, centerY + 325, buttonText);
+function createArrow(scene, x, y) {
 
-  button.tile_geometry.scroll_factor_x = 0;
-  button.tile_geometry.scroll_factor_y = 0;
+  const arrow = PP.assets.image.add(scene, arrow_story, x, y, 0.5, 0.5);
+  arrow.geometry.scale = 1.5;
 
-  PP.layers.add_to_layer(scene.storyLayer, button);
+  arrow.tile_geometry.scroll_factor_x = 0;
+  arrow.tile_geometry.scroll_factor_y = 0;
 
-  // === INTERAZIONE ===
-  PP.interactive.mouse.add(button, "pointerover", () => {
-    button.geometry.scale = 1.1;
+  PP.layers.add_to_layer(scene.storyLayer, arrow);
+
+  // hover
+  PP.interactive.mouse.add(arrow, "pointerover", () => {
+    arrow.geometry.scale = 1.7;
   });
 
-  PP.interactive.mouse.add(button, "pointerout", () => {
-    button.geometry.scale = 1;
+  PP.interactive.mouse.add(arrow, "pointerout", () => {
+    arrow.geometry.scale = 1.5;
   });
 
-  PP.interactive.mouse.add(button, "pointerdown", () => {
+  // click → avanti
+  PP.interactive.mouse.add(arrow, "pointerdown", () => {
+    scene.storyIndex++;
+    showStoryPanel(scene);
+  });
+}
 
-    if (isLast) {
-      // vai al platform
-      PP.scenes.start("tutorial_scene");
-    } else {
-      scene.storyIndex++;
-      showStoryPanel(scene);
-    }
+function createContinueButton(scene, x, y) {
+
+  const text = PP.shapes.text_add(scene, x, y, "Continua...");
+  text.geometry.scale_x = 1.2;
+  text.geometry.scale_y = 1.2;
+
+  text.tile_geometry.scroll_factor_x = 0;
+  text.tile_geometry.scroll_factor_y = 0;
+
+  PP.layers.add_to_layer(scene.storyLayer, text);
+
+  PP.interactive.mouse.add(text, "pointerover", () => {
+    text.geometry.scale = 1.6;
+  });
+
+  PP.interactive.mouse.add(text, "pointerout", () => {
+    text.geometry.scale = 1.4;
+  });
+
+  PP.interactive.mouse.add(text, "pointerdown", () => {
+    PP.scenes.start("tutorial_scene");
   });
 }
 
