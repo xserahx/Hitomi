@@ -25,7 +25,7 @@ let fox_statue;
 let statue;
 
 let bamboo_rev;
-let bamboo_rev_2; 
+let bamboo_rev_2;
 
 let bamboo_bg;
 let bamboo;
@@ -33,6 +33,9 @@ let bamboo_2;
 
 let pontile;
 let pontile_2;
+let tronco;
+let roccia_1;
+let roccia_2;
 
 let bg_far;
 let bg_mid;
@@ -47,20 +50,20 @@ function createForest(scene, treeSprite, treePositionArray) {
 
 const forestTrees = [
 
- { x: 3980, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4100, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4300, y: 850, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4450, y: 730, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4590, y: 770, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4670, y: 860, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4750, y: 840, pivot_x: 0.5, pivot_y: 0.5 },
- { x: 4800, y: 730, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 3980, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4100, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4300, y: 850, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4450, y: 730, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4590, y: 770, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4670, y: 860, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4750, y: 840, pivot_x: 0.5, pivot_y: 0.5 },
+  { x: 4800, y: 730, pivot_x: 0.5, pivot_y: 0.5 },
 
- // { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
- // { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
- // { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
- // { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
-  ];
+  // { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
+  // { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
+  // { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
+  // { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
+];
 
 function preload_forest(scene) {
   forest_bg = PP.assets.image.load(scene, "assets/images/forest/forest_background.png", 1280, 920);
@@ -69,12 +72,12 @@ function preload_forest(scene) {
   bamboofondo3 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl3parallax.png", 6402, 1080);
   bamboofondo2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl2parallax.png", 6402, 1080);
   bamboofondo1 = PP.assets.image.load(scene, "assets/images/forest/parallasse/lvl1parallax.png", 6402, 1080);
-  
+
   big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/albero_bamboo.png", 800, 1000);
   small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse/alberello.png", 550, 684);
   cespuglio = PP.assets.image.load(scene, "assets/images/forest/parallasse/cespuglio.png", 200, 150);
   cespuglio_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/cespuglio.png", 200, 150);
-  
+
   bamboo_bg = PP.assets.image.load(scene, "assets/images/forest/parallasse/recinzione.png", 1096, 250);
   bamboo_rev = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo_reverse.png", 1096, 250);
   bamboo_rev_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/bamboo_reverse.png", 1096, 250);
@@ -90,8 +93,20 @@ function preload_forest(scene) {
   tori = PP.assets.image.load(scene, "assets/images/forest/parallasse/tori.png", 400, 600);
   tempio = PP.assets.image.load(scene, "assets/images/forest/parallasse/tempio.png", 600, 800);
 
-  pontile = PP.assets.image.load(scene, "assets/images/forest/parallasse/pontile.png", 400, 200);
-  pontile_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/pontile_2.png", 400, 200);
+  pontile = PP.assets.image.load(scene, "assets/images/forest/parallasse/pontile.png", 400, 200, 0, 0);
+  pontile_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/pontile_2.png", 400, 200, 0, 0);
+
+
+
+
+  tronco = PP.assets.image.load(scene, "assets/images/forest/parallasse/tronco.png", 300, 350), 0, 0;
+
+  roccia_1 = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia_1.png", 500, 150, 0, 0);
+
+  roccia_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse/roccia_2.png", 500, 150, 0, 0);
+
+
+
 
   fox_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse/statua_2.png", 300, 400);
   statue = PP.assets.image.load(scene, "assets/images/forest/parallasse/statua.png", 400, 600);
@@ -139,7 +154,7 @@ function create_forest(scene) {
 
   bamboo_rev = PP.assets.image.add(scene, bamboo_rev, 520, 0, 0, 0);
   bamboo_rev_2 = PP.assets.image.add(scene, bamboo_rev_2, 1550, 0, 0, 0);
-  
+
   bamboo = PP.assets.image.add(scene, bamboo, 1130, 0, 0, 0);
   bamboo_2 = PP.assets.image.add(scene, bamboo_2, 2100, 0, 0, 0);
 
@@ -157,12 +172,18 @@ function create_forest(scene) {
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
 
   separatore = PP.assets.image.add(scene, separatore, 0, 0, 0, 0);
-  
+
   // pontili
   pontile = PP.assets.image.add(scene, pontile, 3395, 310, 0, 0);
   pontile_2 = PP.assets.image.add(scene, pontile_2, 3820, 480, 0, 0);
 
   statue = PP.assets.image.add(scene, statue, 600, 740, 0, 0);
+
+  tronco = PP.assets.image.add(scene, tronco, 900, 700, 0, 0);
+
+  roccia_1 = PP.assets.image.add(scene, roccia_1, 1300, 650, 0, 0)
+
+  roccia_2 = PP.assets.image.add(scene, roccia_2, 1900, 650, 0, 0);
 
   fox_statue = PP.assets.image.add(scene, fox_statue, 325, 860, 0, 0);
 
@@ -189,7 +210,21 @@ function create_forest(scene) {
   const ground = PP.shapes.rectangle_add(scene, 3200, 1010, 6400, 40, "0x4a3b2a", 0);
   PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
-  // === PIATTAFORME ===
+  // === PIATTAFORME === 
+
+  const hitboxInvisibile = PP.shapes.rectangle_add(scene, 1040, 890, 135, 225, "0x4a3b2a", 0);
+  PP.physics.add(scene, hitboxInvisibile, PP.physics.type.STATIC);
+
+  const ramo = PP.shapes.rectangle_add(scene, 1120, 1000, 135, 225, "0x4a3b2a", 0);
+  PP.physics.add(scene, ramo, PP.physics.type.STATIC);
+
+  const massi = PP.shapes.rectangle_add(scene, 1620, 900, 210, 500, "0x4a3b2a", 0);
+  PP.physics.add(scene, massi, PP.physics.type.STATIC);
+
+  const massi2 = PP.shapes.rectangle_add(scene, 2220, 900, 210, 500, "0x4a3b2a", 0);
+  PP.physics.add(scene, massi2, PP.physics.type.STATIC);
+
+
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
@@ -198,14 +233,18 @@ function create_forest(scene) {
     { x: 820, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
 
     // === TRONCO DA SCAVALCARE ===
-    { x: 1050, y: 700, w: 200, h: 480, sprite_name: "tronco" },
-    { x: 1600, y: 640, w: 290, h: 390, sprite_name: "roccia_1" },
+
+    { x: 1050, y: 700, w: 1, h: 1, sprite_name: "tronco" }, // QUESTO
+    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
+    { x: 1600, y: 650, w: 1, h: 1, sprite_name: "roccia_1" },
     { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
+    { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
+
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
     //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2" },
-    { x: 2200, y: 640, w: 320, h: 390, sprite_name: "roccia_2" }, //SOLO MONDO REALE
-    { x: 2510, y: 590, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO REALE
+    { x: 2200, y: 650, w: 1, h: 1, sprite_name: "roccia_2" }, //SOLO MONDO REALE
+    { x: 2510, y: 690, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
     { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
@@ -227,10 +266,9 @@ function create_forest(scene) {
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
   const ghostlyPlatformPositions = [
-    { x: 2410, y: 825, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 3000, y: 515, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 3000, y: 215, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 3800, y: 500, w: 150, h: 20, sprite_name: "particelle" }, //penultimo
+    { x: 2430, y: 825, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 2980, y: 515, w: 150, h: 20, sprite_name: "particelle" },
+    { x: 2980, y: 215, w: 150, h: 20, sprite_name: "particelle" },
     { x: 4390, y: 850, w: 150, h: 20, sprite_name: "particelle" } //ultimo
 
   ];
@@ -248,6 +286,12 @@ function create_forest(scene) {
   PP.physics.add_collider(scene, PP.game_state.player, ground);
   PP.physics.add_collider(scene, PP.game_state.player, leftWall);
   PP.physics.add_collider(scene, PP.game_state.player, rightWall);
+  PP.physics.add_collider(scene, PP.game_state.player, hitboxInvisibile);
+  PP.physics.add_collider(scene, PP.game_state.player, ramo);
+  PP.physics.add_collider(scene, PP.game_state.player, massi);
+  PP.physics.add_collider(scene, PP.game_state.player, massi2);
+
+
 
   for (let plat of PP.game_state.platforms) {
     PP.physics.add_collider(scene, PP.game_state.player, plat);
@@ -271,18 +315,27 @@ function create_forest(scene) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 400, y: 855, sprite_name: "lanterna" },
-    { x: 1200, y: 970, sprite_name: "lanterna" }, //slug
-    { x: 1890, y: 970, sprite_name: "lanterna" }, //pterodattilo
+    { x: 450, y: 855, sprite_name: "lanterna" },
+    { x: 1300, y: 970, sprite_name: "lanterna" }, //slug
+    { x: 1890, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
     { x: 3150, y: 970, sprite_name: "lanterna" },
-    { x: 3350, y: 970, sprite_name: "lanterna" }, //pterodattilo
+    { x: 3350, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
     { x: 3550, y: 970, sprite_name: "lanterna" } //slug
   ];
 
   PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
 
   for (let enemy of PP.game_state.enemies) {
+
+    // collisioni con terreno e piattaforme
     PP.physics.add_collider(scene, enemy, ground);
+  PP.physics.add_collider(scene, enemy, leftWall);
+  PP.physics.add_collider(scene, enemy, rightWall);
+  PP.physics.add_collider(scene, enemy, hitboxInvisibile);
+  PP.physics.add_collider(scene, enemy, ramo);
+  PP.physics.add_collider(scene, enemy, massi);
+  PP.physics.add_collider(scene, enemy, massi2);
+
     for (let plat of PP.game_state.platforms) {
       PP.physics.add_collider(scene, enemy, plat);
     }
@@ -306,15 +359,15 @@ function create_forest(scene) {
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
   scene.input.on("pointerdown", () => {
-  // click su UI → niente attacco
-  if (PP.game_state.uiBlockingInput) return;
+    // click su UI → niente attacco
+    if (PP.game_state.uiBlockingInput) return;
 
-  // gioco in pausa 
-  if (PP.game_state.pause) return;
+    // gioco in pausa 
+    if (PP.game_state.pause) return;
 
-  PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies
-  );
-});
+    PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.enemies
+    );
+  });
 
   // === NEVE ===
   scene.snowflakes = [];
@@ -335,7 +388,7 @@ function create_forest(scene) {
 
   PP.game_state.changingWorld = false;
 
-    // === NOTTE ===
+  // === NOTTE ===
   const cam = scene.cameras.main;
   const nightOverlay = PP.shapes.rectangle_add(scene, cam.centerX, cam.centerY, cam.width, cam.height, "0x000022", 0.30);
 
@@ -344,7 +397,7 @@ function create_forest(scene) {
 
   PP.layers.set_z_index(nightOverlay, 20);
 
-  }
+}
 
 function update_forest(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
@@ -416,17 +469,17 @@ function showControlsPopup(scene) {
   panel.tile_geometry.scroll_factor_y = 0;
 
   // === TESTO COMANDI ===
-const text = PP.shapes.text_add(scene, centerX - 120, centerY - 60,
-  "TUTORIAL COMANDI\n\n" +
-  "A / D  oppure  ← / → : Muovi\n" +
-  "SPAZIO : Salta\n" +
-  "SHIFT : Scatto\n" +
-  "CLICK SINISTRO : Attacca\n" +
-  "U : Cambia mondo"
-);
+  const text = PP.shapes.text_add(scene, centerX - 120, centerY - 60,
+    "TUTORIAL COMANDI\n\n" +
+    "A / D  oppure  ← / → : Muovi\n" +
+    "SPAZIO : Salta\n" +
+    "SHIFT : Scatto\n" +
+    "CLICK SINISTRO : Attacca\n" +
+    "U : Cambia mondo"
+  );
 
-text.tile_geometry.scroll_factor_x = 0;
-text.tile_geometry.scroll_factor_y = 0;
+  text.tile_geometry.scroll_factor_x = 0;
+  text.tile_geometry.scroll_factor_y = 0;
 
   // === BOTTONE CHIUDI ===
   const closeBtn = PP.shapes.text_add(scene, centerX - 120, centerY + 100, "Chiudi 閉じる");

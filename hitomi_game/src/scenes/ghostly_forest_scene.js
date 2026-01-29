@@ -25,6 +25,10 @@ let ghostly_separatore;
 let ghostly_fox_statue;
 let ghostly_statue;
 
+let tronco_spettrale;
+let roccia_1_spettrale;
+let roccia_2_spettrale;
+
 let ghostly_bamboo_rev;
 let ghostly_bamboo_rev_2; 
 
@@ -66,6 +70,11 @@ function preload_ghostly_forest(scene) {
   ghostly_bamboofondo2 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/lvl2parallax_spettrale.png", 6402, 1080);
   ghostly_bamboofondo1 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/lvl1parallax_spettrale.png", 6402, 1080);
 
+    tronco_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/tronco_spettrale.png", 300, 350);
+  roccia_1_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_1_spettrale.png", 500, 150);
+  roccia_2_spettrale = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/roccia_2_spettrale.png", 500, 150);
+
+
   ghostly_big_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/albero_bamboo_spettrale.png", 800, 1000);
   ghostly_small_tree = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/alberello_spettrale.png", 550, 684);
   ghostly_cespuglio = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/cespuglio_spettrale.png", 200, 150);
@@ -88,6 +97,7 @@ function preload_ghostly_forest(scene) {
   ghostly_pontile_2 = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/pontile_2_spettrale.png", 400, 200);
   ghostly_fox_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/statua_2_spettrale.png", 300, 400);
   ghostly_statue = PP.assets.image.load(scene, "assets/images/forest/parallasse_spettrale/statua_spettrale.png", 400, 600);
+
 
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
   help = PP.assets.image.load(scene, "assets/images/help_comandi.png", 50, 50);
@@ -113,6 +123,8 @@ function create_ghostly_forest(scene, data) {
   ghostly_bg_mid.tile_geometry.scroll_factor_x = 0.2;
 
   // parallasse a
+
+
   ghostly_bamboofondo3 = PP.assets.tilesprite.add(scene, ghostly_bamboofondo3, 0, 0, 6400, 920, 0, 0);
   ghostly_bamboofondo3.tile_geometry.scroll_factor_x = 0.3;
   ghostly_bamboofondo2 = PP.assets.tilesprite.add(scene, ghostly_bamboofondo2, 0, 0, 6400, 920, 0, 0);
@@ -135,6 +147,8 @@ function create_ghostly_forest(scene, data) {
 
   ghostly_rocks = PP.assets.image.add(scene, ghostly_rocks, 2440 + 60, 100, 0, 0);
 
+
+
   createGhostlyForest(scene, ghostly_small_tree, ghostly_forestTrees);
 
   ghostly_radice = PP.assets.image.add(scene, ghostly_radice, 2680 + 60, 140, 0, 0);
@@ -155,6 +169,10 @@ function create_ghostly_forest(scene, data) {
   ghostly_fox_statue = PP.assets.image.add(scene, ghostly_fox_statue, 325, 860, 0, 0);
 
   ghostly_bush = PP.assets.image.add(scene, ghostly_bush, 190, 930, 0.5, 0.5);
+
+  tronco_spettrale = PP.assets.image.add(scene, tronco_spettrale, 900,  700, 0, 0);
+  roccia_1_spettrale = PP.assets.image.add(scene, roccia_1_spettrale, 1300,  650, 0, 0); 
+  roccia_2_spettrale = PP.assets.image.add(scene, roccia_2_spettrale, 1900, 650, 0, 0);
 
   // === PULSANTE HELP ===
   const helpButton = PP.assets.image.add(scene, help, 1220, 45, 0.5, 0.5);
@@ -178,6 +196,19 @@ function create_ghostly_forest(scene, data) {
   PP.physics.add(scene, ground, PP.physics.type.STATIC);
 
   // === PIATTAFORME ===
+
+    const hitboxInvisibile = PP.shapes.rectangle_add(scene, 1040, 890, 135, 225, "0x4a3b2a", 0);
+  PP.physics.add(scene, hitboxInvisibile, PP.physics.type.STATIC);
+
+        const ramo = PP.shapes.rectangle_add(scene, 1120,  1000,  135,  225, "0x4a3b2a", 0);
+  PP.physics.add(scene, ramo, PP.physics.type.STATIC);
+
+    const massi = PP.shapes.rectangle_add(scene, 1620,  900,  210,  500, "0x4a3b2a", 0);
+  PP.physics.add(scene, massi, PP.physics.type.STATIC);
+
+      const massi2 = PP.shapes.rectangle_add(scene, 2220,  900,  210,  500, "0x4a3b2a", 0);
+  PP.physics.add(scene, massi2, PP.physics.type.STATIC);
+
   const platformPositions = [
 
     // === PRIME PIATTAFORME ===
@@ -186,13 +217,12 @@ function create_ghostly_forest(scene, data) {
     { x: 820, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
 
     // === TRONCO DA SCAVALCARE ===
-    { x: 1050, y: 700, w: 200, h: 480, sprite_name: "tronco_spettrale" },
-    { x: 1600, y: 640, w: 290, h: 390, sprite_name: "roccia_1_spettrale" },
+    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
 //    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, //SOLO MONDO FRNTASMA
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
     //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2_spettrale" },
-    { x: 2200, y: 640, w: 320, h: 390, sprite_name: "roccia_2_spettrale" }, //SOLO MONDO REALE
+    { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta" }, 
     { x: 2510, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
@@ -205,6 +235,7 @@ function create_ghostly_forest(scene, data) {
     { x: 3050, y: 215, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
     { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
     { x: 3900, y: 500, w: 150, h: 20, sprite_name: "piattaforma_foresta_spettrale" }, 
+    
     //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma_foresta_spettrale" },
     //{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
 
@@ -221,7 +252,7 @@ function create_ghostly_forest(scene, data) {
   const ghostlyPlatformPositions = [
 
     { x: 1820, y: 825, w: 150, h: 20, sprite_name: "particelle" }, // in mezzo alle rocce 
-    { x: 2420, y: 590, w: 150, h: 20, sprite_name: "particelle" }, // secondo fantasma
+    { x: 2440, y: 700, w: 150, h: 20, sprite_name: "particelle" }, // secondo fantasma
     { x: 2800, y: 765, w: 150, h: 20, sprite_name: "particelle" },
     { x: 2970, y: 375, w: 150, h: 20, sprite_name: "particelle" }, //HELL NO
     { x: 4190 - 80, y: 665, w: 150, h: 20, sprite_name: "particelle" }, //penultimo //vero
@@ -239,10 +270,15 @@ function create_ghostly_forest(scene, data) {
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY)
 
+
   // Collider player
   PP.physics.add_collider(scene, PP.game_state.player, ground);
   PP.physics.add_collider(scene, PP.game_state.player, leftWall);
   PP.physics.add_collider(scene, PP.game_state.player, rightWall);
+  PP.physics.add_collider(scene, PP.game_state.player, hitboxInvisibile);
+  PP.physics.add_collider(scene, PP.game_state.player, ramo);
+  PP.physics.add_collider(scene, PP.game_state.player, massi);
+  PP.physics.add_collider(scene, PP.game_state.player, massi2);
 
   for (let plat of PP.game_state.platforms) {
     PP.physics.add_collider(scene, PP.game_state.player, plat);
@@ -268,11 +304,11 @@ function create_ghostly_forest(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 400, y: 855, sprite_name: "lanterna" },
-    { x: 1200, y: 970, sprite_name: "lanterna" }, //slug
-    { x: 1890, y: 970, sprite_name: "pterodattilo" }, //pterodattilo
+    { x: 450, y: 855, sprite_name: "lanterna" },
+    { x: 1300, y: 970, sprite_name: "lanterna" }, //slug
+    { x: 1890, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
     { x: 3150, y: 970, sprite_name: "lanterna" },
-    { x: 3350, y: 970, sprite_name: "pterodattilo" }, //pterodattilo
+    { x: 3350, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
     { x: 3550, y: 970, sprite_name: "lanterna" } //slug
 
   ];
@@ -283,6 +319,12 @@ function create_ghostly_forest(scene, data) {
 
     // collisioni con terreno e piattaforme
     PP.physics.add_collider(scene, enemy, ground);
+  PP.physics.add_collider(scene, enemy, leftWall);
+  PP.physics.add_collider(scene, enemy, rightWall);
+  PP.physics.add_collider(scene, enemy, hitboxInvisibile);
+  PP.physics.add_collider(scene, enemy, ramo);
+  PP.physics.add_collider(scene, enemy, massi);
+  PP.physics.add_collider(scene, enemy, massi2);
 
     for (let plat of PP.game_state.platforms) {
       PP.physics.add_collider(scene, enemy, plat);
