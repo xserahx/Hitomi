@@ -317,15 +317,29 @@ function create_forest(scene) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 450, y: 855, sprite_name: "lanterna" },
-    { x: 1300, y: 970, sprite_name: "lanterna" }, //slug
-    { x: 1890, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
-    { x: 3150, y: 970, sprite_name: "lanterna" },
-    { x: 3350, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
-    { x: 3550, y: 970, sprite_name: "lanterna" } //slug
+    { id: "tutorial_lanterna_1", x: 450, y: 855, sprite_name: "lanterna" },
+    { id: "tutorial_lanterna_2", x: 1300, y: 970, sprite_name: "lanterna" }, //slug
+    { id: "tutorial_pterodattilo_1", x: 1890, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
+    { id: "tutorial_lanterna_3", x: 3150, y: 970, sprite_name: "lanterna" },
+    { id: "tutorial_pterodattilo_2", x: 3350, y: 940, sprite_name: "pterodattilo" }, //pterodattilo
+    { id: "tutorial_lanterna_4", x: 3550, y: 970, sprite_name: "lanterna" } //slug
   ];
 
-  PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+    PP.game_state.enemies = [];
+
+    for (let pos of enemyPositions) {
+        const state = PP.game_state.enemiesState[pos.id];
+
+        if (state && state.alive === false) continue;
+
+        if (state && typeof state.x === "number" && typeof state.y === "number") {
+            pos.x = state.x;
+            pos.y = state.y;
+        }    
+
+        const created = PP.entities.enemy.create(scene, [pos]);
+        PP.game_state.enemies.push(...created);
+    }
 
   for (let enemy of PP.game_state.enemies) {
 
@@ -420,6 +434,15 @@ function update_forest(scene) {
       y: PP.game_state.player.y
     };
   }
+  if (PP.game_state.enemies) {
+      for (let enemy of PP.game_state.enemies) {
+          const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+          state.x = enemy.geometry.x;  // posizione corrente
+          state.y = enemy.geometry.y;
+          PP.game_state.enemiesState[enemy.id] = state;
+      }
+  }
+
 
   const snowTopY = 900 - (40 / 2);
   const snowTopX = 7680;

@@ -329,14 +329,29 @@ PP.entities.player.setSpriteByNanashiState = function (scene, player) {
     }
 };
 
-// === CAMBIO MONDO ===
 PP.entities.player.changeWorld = function (scene) {
     console.log("World changing to:", PP.game_state.otherWorld);
+
+    // === LOGICA PLAYER ===
     PP.game_state.changingWorld = true;
     config.player_x = PP.game_state.player.geometry.x;
     config.player_y = PP.game_state.player.geometry.y;
+
+    // === SALVATAGGIO NEMICI ===
+    if (PP.game_state.enemies && PP.game_state.enemiesState) {
+        for (let enemy of PP.game_state.enemies) {
+            if (!enemy || !enemy.id) continue;
+
+            const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+            state.x = enemy.geometry.x;
+            state.y = enemy.geometry.y;
+            PP.game_state.enemiesState[enemy.id] = state;
+        }
+    }
+
+    // === CAMBIO SCENA ===
     PP.scenes.start(PP.game_state.otherWorld);
-}
+};
 
 PP.entities.player.refreshWorld = function (scene, player) {
     PP.game_state.otherWorld = PP.game_state.currentScene;

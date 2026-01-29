@@ -134,6 +134,7 @@ PP.entities.enemy.damage = function (scene, enemy, hitbox) {
 
   // knockback
   const dir = enemy.geometry.body_x < hitbox.geometry.body_x ? -1 : 1;
+  enemy.isKnocked = true; // subito prima di applicare la velocità
   PP.physics.set_velocity_x(enemy, 400 * dir);
   PP.physics.set_velocity_y(enemy, -250);
 
@@ -148,8 +149,8 @@ PP.entities.enemy.damage = function (scene, enemy, hitbox) {
   if (enemy.lives <= 0) {
     PP.game_state.enemiesState[enemy.id] = {
       alive: false,
-      x: enemy.x,
-      y: enemy.y
+      x: enemy.geometry.x,
+      y: enemy.geometry.y
     }
     PP.assets.destroy(enemy);
   }

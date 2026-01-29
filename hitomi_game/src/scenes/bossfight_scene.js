@@ -190,10 +190,10 @@ function create_bossfight_scene(scene) {
       
       count++;
 
-      PP.game_state.askSamurai = PP.shapes.text_add(scene, 200, 830, "Haruki è sconfitto, dovrei chiedergli cosa sta succedendo?");
+      PP.game_state.askSamurai = PP.shapes.text_styled_add(scene, 200, 830, "Haruki è sconfitto, dovrei chiedergli cosa sta succedendo?", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
-      let button_si = PP.shapes.text_add(scene, 230, 860, "Resta");
-      let button_no = PP.shapes.text_add(scene, 580, 860, "Vai via");
+      let button_si = PP.shapes.text_styled_add(scene, 230, 860, "Resta", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
+      let button_no = PP.shapes.text_styled_add(scene, 580, 860, "Vai via", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
       PP.interactive.mouse.add(button_si, "pointerdown", () => {
         PP.assets.destroy(PP.game_state.askSamurai);
@@ -229,20 +229,20 @@ function create_bossfight_scene(scene) {
   PP.physics.add(scene, trigger, PP.physics.type.STATIC);
 
   PP.physics.add_overlap_f(scene, PP.game_state.player, trigger, () => {
-    let talk = PP.shapes.text_add(scene, 800, 725, "Goody fermati! Possiamo ancora parlarne!");
+    let talk = PP.shapes.text_styled_add(scene, 800, 725, "Goody fermati! Possiamo ancora parlarne!", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
     let answer;
     let retalk
 
     PP.assets.destroy(trigger);
 
     PP.timers.add_timer(scene, 2000, (scene) => {
-      answer = PP.shapes.text_add(scene, 200, 725, "Lasciami stare, Yokai!");
+      answer = PP.shapes.text_styled_add(scene, 200, 725, "Lasciami stare, Yokai!", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
       PP.assets.destroy(talk);
     }, false);
 
     PP.timers.add_timer(scene, 4000, (scene) => {
       PP.assets.destroy(answer);
-      retalk = PP.shapes.text_add(scene, 800, 725, "Non posso lasciarti andare via così...");
+      retalk = PP.shapes.text_styled_add(scene, 800, 725, "Non posso lasciarti andare via così...", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
     }, false);
 
     PP.timers.add_timer(scene, 6000, (scene) => {
@@ -267,10 +267,6 @@ function update_bossfight_scene(scene) {
       y: PP.game_state.player.y
     };
   }
-
-  //if (PP.game_state.bossIsFriendly == true) {
-  //    let go_away = PP.shapes.text_add(scene, 580, 500, "Run from the forest! --->");
-  //}
 
   if (PP.game_state.bossIsFriendly == true && PP.game_state.player.geometry.x >= 1250) {
     PP.scenes.start("teitai_scene");

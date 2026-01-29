@@ -165,22 +165,36 @@ function create_ghostly_house(scene, data) {
 
   // === NEMICI ===
   const enemyPositions = [
-    { x: 1730, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 2040, y: 830, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
-    { x: 3900, y: 840, w: 75, h: 75, speed: 70, sprite_name: "bambino" },
-    { x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 4680, y: 820, w: 75, h: 75, speed: 70, sprite_name: "slug" },
-    { x: 5580, y: 415 - 41, w: 150, h: 150, speed: 80, sprite_name: "pterodattilo" },
-    { x: 5700, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
-    { x: 5500, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
-    { x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
-    { x: 6500, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
-    { x: 7030, y: 830, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
-    { x: 7980, y: 820, w: 170, h: 170, speed: 70, sprite_name: "slug" }
+    { id: "house_lanterna_1", x: 1730, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { id: "house_ombrello_1", x: 2040, y: 830, w: 50, h: 70, speed: 80, sprite_name: "ombrello" },
+    { id: "house_bambino_1", x: 3900, y: 840, w: 75, h: 75, speed: 70, sprite_name: "bambino" },
+    { id: "house_bambino_2", x: 4380, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { id: "house_slug_1", x: 4680, y: 820, w: 75, h: 75, speed: 70, sprite_name: "slug" },
+    { id: "house_pterodattilo_1",x: 5580, y: 415 - 41, w: 150, h: 150, speed: 80, sprite_name: "pterodattilo" },
+    { id: "house_ciabatta_1", x: 5700, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
+    { id: "house_bambino_3", x: 5500, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { id: "house_lanterna_2", x: 6025, y: 840, w: 75, h: 75, speed: 80, sprite_name: "lanterna" },
+    { id: "house_bambino_4", x: 6800, y: 840, w: 75, h: 75, speed: 100, sprite_name: "bambino" },
+    { id: "house_ciabatta_2", x: 6500, y: 825, w: 80, h: 80, speed: 80, sprite_name: "ciabatta" },
+    { id: "house_ombrello_2", x: 7030, y: 830, w: 75, h: 75, speed: 80, sprite_name: "ombrello" },
+    { id: "house_slug_2", x: 7980, y: 820, w: 170, h: 170, speed: 70, sprite_name: "slug" }
   ];
   
-  PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+  PP.game_state.enemies = [];
+
+  for (let pos of enemyPositions) {
+      const state = PP.game_state.enemiesState[pos.id];
+
+      if (state && state.alive === false) continue;
+
+      if (state && typeof state.x === "number" && typeof state.y === "number") {
+          pos.x = state.x;
+          pos.y = state.y;
+      }    
+
+      const created = PP.entities.enemy.create(scene, [pos]);
+      PP.game_state.enemies.push(...created);
+  }
 
   for (let enemy of PP.game_state.enemies) {
 
@@ -277,6 +291,15 @@ function update_ghostly_house(scene) {
       y: config.player_y
     };
   }
+  if (PP.game_state.enemies) {
+      for (let enemy of PP.game_state.enemies) {
+          const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+          state.x = enemy.geometry.x;  // posizione corrente
+          state.y = enemy.geometry.y;
+          PP.game_state.enemiesState[enemy.id] = state;
+      }
+  }
+
   // === CAMBIO MONDO ===
   if (PP.interactive.kb.is_key_down(scene, PP.key_codes.W)) {
     PP.entities.player.changeWorld(scene);
@@ -375,7 +398,7 @@ function collectKey(scene, player, key) {
     return;
   }
   PP.game_state.houseKeyCollected[key.id - 1] = true;
-  PP.game_state.statusKey = PP.shapes.text_add(scene, player.geometry.x - 400, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...");
+  PP.game_state.statusKey = PP.shapes.text_styled_add(scene, player.geometry.x - 400, 600, "Una chiave? Forse potrebbe aprire qualche piccola serratura...", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
   PP.assets.destroy(key);
 
   PP.timers.add_timer(scene, 2000, (s) => {
@@ -387,7 +410,7 @@ function collectKey(scene, player, key) {
 // === FUNZIONE APERTURE PORTA ===
 function doorDialogue(scene, player, door) {
   if (PP.game_state.houseKeyCollected[door.id - 1] == false) {
-    let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 400, 600, "La porta è chiusa a chiave...");
+    let avvisoPorta = PP.shapes.text_styled_add(scene, PP.game_state.player.geometry.x - 400, 600, "La porta è chiusa a chiave...", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
     PP.timers.add_timer(scene, 300, (s) => {
       PP.assets.destroy(avvisoPorta);
@@ -406,8 +429,8 @@ function doorDialogue(scene, player, door) {
     PP.assets.destroy(avvisoPorta);
   }, false);
 
-  let button_si = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 360, 650, "Si");
-  let button_no = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 100, 650, "No");
+  let button_si = PP.shapes.text_styled_add(scene, PP.game_state.player.geometry.x - 360, 650, "Si", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
+  let button_no = PP.shapes.text_styled_add(scene, PP.game_state.player.geometry.x - 100, 650, "No", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
   textOn = true;
 
   PP.timers.add_timer(scene, 2000, (s) => {

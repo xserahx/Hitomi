@@ -8,7 +8,14 @@ const config = {
   player_x: 0,
   player_y: 0,
   player_is_hit: false
-}
+};
 
-// Create the game with PoliPhaer
-PP.game.create(config)
+// ✅ INIZIALIZZAZIONE GLOBALE DELLO STATO
+PP.game_state = PP.game_state || {};
+PP.game_state.enemiesState = PP.game_state.enemiesState || {};
+PP.game_state.playerPosition = PP.game_state.playerPosition || null;
+PP.game_state.nanashiState = PP.game_state.nanashiState || "not_taken";
+PP.game_state.changingWorld = false;
+
+// Create the game with PoliPhaser
+PP.game.create(config);

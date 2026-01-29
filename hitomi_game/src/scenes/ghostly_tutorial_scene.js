@@ -103,7 +103,7 @@ function create_ghostly_tutorial_scene(scene) {
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
 
         if (!PP.game_state.woaed && !PP.game_state.inRoom) {
-            let woa = PP.shapes.text_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra un mostro!");
+            let woa = PP.shapes.text_styled_add(scene, 80, 550, "Cosa sta succedendo? Anche il bambino sembra un mostro!", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
             PP.game_state.woaed = true;
 
             PP.timers.add_timer(scene, 2000, () => {
@@ -151,10 +151,24 @@ function create_ghostly_tutorial_scene(scene) {
 
     // === NEMICI ===
     const enemyPositions = [
-        { x: 868, y: 530, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
+        { id: "tutorial_lanterna_1", x: 868, y: 530, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
     ];
 
-    PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+    PP.game_state.enemies = [];
+
+        for (let pos of enemyPositions) {
+        const state = PP.game_state.enemiesState[pos.id];
+
+        if (state && state.alive === false) continue;
+
+        if (state && typeof state.x === "number" && typeof state.y === "number") {
+            pos.x = state.x;
+            pos.y = state.y;
+        }
+
+        const created = PP.entities.enemy.create(scene, [pos]);
+        PP.game_state.enemies.push(...created);
+    }
 
     for (let enemy of PP.game_state.enemies) {
 
@@ -215,7 +229,7 @@ function create_ghostly_tutorial_scene(scene) {
     PP.physics.add(scene, stop, PP.physics.type.STATIC);
     PP.physics.add_collider_f(scene, PP.game_state.player, stop, () => {
         PP.game_state.tutorialCutscene = true;
-        const comeback = PP.shapes.text_add(scene, 900, 400, "Non posso scappare, devo salvare Nanashi...");
+        const comeback = PP.shapes.text_styled_add(scene, 900, 400, "Non posso scappare, devo salvare Nanashi...", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
         PP.timers.add_timer(scene, 1000, () => {
             PP.assets.destroy(comeback);
             PP.game_state.player.geometry.x -= 50;
@@ -245,22 +259,22 @@ function create_ghostly_tutorial_scene(scene) {
     PP.layers.add_to_layer(propsLayer, sign4);
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign1, () => {
-        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi A e D per muoverti in giro. Premi SPAZIO per saltare.");
+        let tutorial = PP.shapes.text_styled_add(scene, 900, 400, "Premi A e D per muoverti in giro. Premi SPAZIO per saltare.", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign2, () => {
-        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi SHIFT per fare uno scatto.");
+        let tutorial = PP.shapes.text_styled_add(scene, 900, 400, "Premi SHIFT per fare uno scatto.", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign3, () => {
-        let tutorial = PP.shapes.text_add(scene, 900, 400, "Premi W per cambiare mondo.");
+        let tutorial = PP.shapes.text_styled_add(scene, 900, 400, "Premi W per cambiare mondo.", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
         PP.timers.add_timer(scene, 250, () => PP.assets.destroy(tutorial), false);
     });
 
     PP.physics.add_overlap_f(scene, PP.game_state.player, sign4, () => {
-        let tutorial = PP.shapes.text_add(scene, 900, 400, "Clicca il tasto sinistro del mouse per attaccare.");
+        let tutorial = PP.shapes.text_styled_add(scene, 900, 400, "Clicca il tasto sinistro del mouse per attaccare.", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
         PP.timers.add_timer(scene, 250, (s) => {
             PP.assets.destroy(tutorial);
@@ -286,6 +300,15 @@ function update_ghostly_tutorial_scene(scene) {
             y: PP.game_state.player.y
         };
     }
+    if (PP.game_state.enemies) {
+        for (let enemy of PP.game_state.enemies) {
+            const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+            state.x = enemy.geometry.x;
+            state.y = enemy.geometry.y;
+            PP.game_state.enemiesState[enemy.id] = state;
+        }
+    }
+
 }
 
 function destroy_ghostly_tutorial_scene(scene) {
@@ -295,7 +318,7 @@ PP.scenes.add("ghostly_tutorial_scene", preload_ghostly_tutorial_scene, create_g
 
 function cutscene(scene, player, trigger) {
     PP.assets.destroy(trigger);
-    let talk = PP.shapes.text_add(scene, 900, 400, "Cosa sta succedendo? Perché tutto è così... spettrale?");
+    let talk = PP.shapes.text_styled_add(scene, 900, 400, "Cosa sta succedendo? Perché tutto è così... spettrale?", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
     PP.timers.add_timer(scene, 2000, () => {
         PP.assets.destroy(talk);
@@ -305,8 +328,8 @@ function cutscene(scene, player, trigger) {
 
 function baby_response(scene, type) {
     let interaction;
-    if (type == -1) { interaction = PP.shapes.text_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri..."); }
-    else if (type == 1) { interaction = PP.shapes.text_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!"); }
+    if (type == -1) { interaction = PP.shapes.text_styled_add(scene, 150, 550, "Non posso portarlo con me, è solo un mostro come tutti gli altri...", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);}
+    else if (type == 1) { interaction = PP.shapes.text_styled_add(scene, 150, 550, "Lo porterò con me lo stesso, deve esserci un modo di salvarlo!", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0); }
 
     PP.timers.add_timer(scene, 3000, () => {
         PP.assets.destroy(interaction);
@@ -323,8 +346,8 @@ function baby_question(scene, type) {
     let askChild = PP.shapes.text_add(scene, 150, 550, questionText);
 
     // Pulsanti
-    let button_si = PP.shapes.text_add(scene, 180, 580, "Si");
-    let button_no = PP.shapes.text_add(scene, 330, 580, "No");
+    let button_si = PP.shapes.text_styled_add(scene, 180, 580, "Si", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
+    let button_no = PP.shapes.text_styled_add(scene, 330, 580, "No", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
     // Aggiungi al layer
     PP.layers.add_to_layer(layer_domanda, askChild);
