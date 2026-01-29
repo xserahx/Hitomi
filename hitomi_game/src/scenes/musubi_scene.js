@@ -2,7 +2,7 @@
 let musubi_bg;
 
 function preload_musubi(scene) {
-  musubi_bg = PP.assets.image.load(scene, "assets/images/story/good_ending.png", 1280, 720);
+  musubi_bg = PP.assets.image.load(scene, "assets/images/story/good_ending.jpg", 1280, 720);
 }
 
 function create_musubi(scene, data) {

@@ -2,7 +2,7 @@
 let teitai_bg;
 
 function preload_teitai(scene) {
-  teitai_bg = PP.assets.image.load(scene, "assets/images/story/bad_ending.png", 1280, 720);
+  teitai_bg = PP.assets.image.load(scene, "assets/images/story/bad_ending.jpg", 1280, 720);
 }
 
 function create_teitai(scene, data) {

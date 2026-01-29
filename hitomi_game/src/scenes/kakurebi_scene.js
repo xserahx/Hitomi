@@ -2,7 +2,7 @@
 let kakurebi_bg;
 
 function preload_kakurebi(scene) {
-  kakurebi_bg = PP.assets.image.load(scene, "assets/images/story/standard_ending.png", 1280, 720);
+  kakurebi_bg = PP.assets.image.load(scene, "assets/images/story/standard_ending.jpg", 1280, 720);
 }
 
 function create_kakurebi(scene, data) {
