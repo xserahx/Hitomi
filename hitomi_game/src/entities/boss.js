@@ -28,7 +28,7 @@ PP.entities.boss.create = function (scene, positions) {
 
   PP.assets.sprite.animation_add(boss, "idle", 13, 15, 3, -1);
   PP.assets.sprite.animation_add(boss, "walk", 6, 12, 10, -1);
-  PP.assets.sprite.animation_add_list(boss, "attack", [0, 1, 1, 1, 2, 2, 2, 3, 4, 5, 5, 4, 3, 2, 1, 0], 10, 0);
+  PP.assets.sprite.animation_add_list(boss, "attack", [0, 1, 1, 1, 2, 2, 2, 3, 4, 5, 5,5,5, 4, 3, 2, 1, 0], 15, 0);
   PP.assets.sprite.animation_add(boss, "dash", 6, 12, 15, -1);
 
   boss.isAttacking = false;
@@ -149,7 +149,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
   let warning = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xFF0000", 0.3);
   let hitbox;
 
-  PP.timers.add_timer(scene, 1000, () => {
+  PP.timers.add_timer(scene, 500, () => {
     PP.assets.destroy(warning);
 
     hitbox = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xABCDEF", 0);
@@ -159,7 +159,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
       PP.entities.player.damage(scene, PP.game_state.player, hitbox);
     });
 
-    PP.timers.add_timer(scene, 600, () => {
+    PP.timers.add_timer(scene, 450, () => {
       PP.shapes.destroy(hitbox);
     }, false);
   }, false);
