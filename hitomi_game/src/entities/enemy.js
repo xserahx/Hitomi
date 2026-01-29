@@ -24,6 +24,8 @@ PP.entities.enemy.create = function (scene, positions) {
 
     const enemy = PP.assets.sprite.add(scene,sheet,pos.x,pos.y,0.5,0.5);
 
+    enemy.id = pos.id;
+
     PP.physics.add(scene, enemy, PP.physics.type.DYNAMIC);
 
     // === PARAMETRI BASE ===
@@ -144,6 +146,11 @@ PP.entities.enemy.damage = function (scene, enemy, hitbox) {
   }, false);
 
   if (enemy.lives <= 0) {
+    PP.game_state.enemiesState[enemy.id] = {
+      alive: false,
+      x: enemy.x,
+      y: enemy.y
+    }
     PP.assets.destroy(enemy);
   }
 };

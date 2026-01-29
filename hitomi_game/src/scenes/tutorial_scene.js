@@ -163,10 +163,26 @@ function create_tutorial_scene(scene) {
 
     // === NEMICI  ===
     const enemyPositions = [
-        { x: 868, y: 530, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
+        { id: "lanterna1", x: 868, y: 530, w: 75, h: 75, speed: 100, sprite_name: "lanterna" }
     ];
 
-    PP.game_state.enemies = PP.entities.enemy.create(scene, enemyPositions);
+    PP.game_state.enemies = [];
+
+    for (let pos of enemyPositions) {
+        const state = PP.game_state.enemiesState[pos.id];
+
+        // Se è morto → NON lo ricrei
+        if (state && state.alive === false) continue;
+
+        // Se è vivo → usa posizione salvata
+        if (state) {
+            pos.x = state.x;
+            pos.y = state.y;
+        }
+
+        const created = PP.entities.enemy.create(scene, [pos]);
+        PP.game_state.enemies.push(...created);
+    }
 
     for (let enemy of PP.game_state.enemies) {
         PP.layers.add_to_layer(playerLayer, enemy);
@@ -284,6 +300,13 @@ function update_tutorial_scene(scene) {
 
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.W)) {
         PP.entities.player.changeWorld(scene);
+        for (let enemy of PP.game_state.enemies) {
+            PP.game_state.enemiesState[enemy.id] = {
+                alive: true,
+                x: enemy.x,
+                y: enemy.y
+            };
+        }
     }
 
     if (PP.game_state.player) {
@@ -291,6 +314,17 @@ function update_tutorial_scene(scene) {
             x: PP.game_state.player.x,
             y: PP.game_state.player.y
         };
+    }
+
+    if (PP.game_state.enemies) {
+        for (let enemy of PP.game_state.enemies) {
+            if (!PP.game_state.enemiesState[enemy.id]) {
+                PP.game_state.enemiesState[enemy.id] = { alive: true };
+            }
+
+            PP.game_state.enemiesState[enemy.id].x = enemy.x;
+            PP.game_state.enemiesState[enemy.id].y = enemy.y;
+        }
     }
 }
 

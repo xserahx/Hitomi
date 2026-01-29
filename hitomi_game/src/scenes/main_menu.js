@@ -30,7 +30,7 @@ function create(scene) {
 
   {
     name: "crediti", x: 585, y: 525, w: 100, h: 25, action: () => PP.scenes.start("credits")
-  
+  }
 ];
 
 MENU_AREAS.forEach(item => {
