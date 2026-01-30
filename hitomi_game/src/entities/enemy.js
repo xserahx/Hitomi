@@ -85,7 +85,6 @@ PP.entities.enemy.create = function (scene, positions) {
   return enemies;
 };
 
-
 PP.entities.enemy.update = function (scene, enemies, player) {
   for (let enemy of enemies) {
     if (!enemy?.ph_obj?.body) continue;
@@ -154,4 +153,5 @@ PP.entities.enemy.damage = function (scene, enemy, hitbox) {
     }
     PP.assets.destroy(enemy);
   }
+
 };
