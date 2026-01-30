@@ -12,7 +12,12 @@ function create_game_over(scene, data) {
 
   const MENU_AREAS = [
   {
-   name: "retry", x: 440, y: 590, w: 150, h: 35, action: () => PP.scenes.start(PP.game_state.currentScene)
+   name: "retry", x: 440, y: 590, w: 150, h: 35, action: () => {
+      PP.game_state.enemiesState = {};
+      PP.game_state.actualLives = 3;
+      PP.game_state.changingWorld = false;
+      PP.scenes.start(PP.game_state.currentScene);
+   }
   },
 
   {
