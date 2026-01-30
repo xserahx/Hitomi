@@ -82,8 +82,16 @@ function create_tutorial_scene(scene) {
     PP.physics.add(scene, baby, PP.physics.type.STATIC);
 
     // === PLAYER ===
-    let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1700;
-    let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
+    let startX, startY;
+
+    if (PP.game_state.respawn) {
+      startX = 1700;
+      startY = 400;
+      PP.game_state.respawn = false;
+  } else {
+      startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1700;
+      startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
+    }
 
     PP.game_state.player = PP.entities.player.create(scene, startX, startY);
     PP.layers.add_to_layer(playerLayer, PP.game_state.player);

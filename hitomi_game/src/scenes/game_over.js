@@ -24,8 +24,15 @@ function create_game_over(scene, data) {
   },
 
   {
-    name: "quit", x: 830, y: 600, w: 150, h: 35, action: () => PP.scenes.start("main_menu")
+    name: "quit", x: 830, y: 600, w: 150, h: 35, action: () => {
+      PP.game_state.enemiesState = {};
+      PP.game_state.actualLives = 3;
+      PP.game_state.changingWorld = false;
+      PP.game_state.respawn = true;
+      PP.scenes.start(PP.game_state.currentScene);
+      PP.scenes.start("main_menu")
   }
+   }
 ];
 
 MENU_AREAS.forEach(item => {

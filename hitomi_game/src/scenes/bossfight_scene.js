@@ -308,6 +308,10 @@ function showControlsPopup(scene) {
   });
 
   PP.interactive.mouse.add(hitbox_menu, "pointerdown", (pointer) => {
+    PP.game_state.enemiesState = {};
+    PP.game_state.actualLives = 3;
+    PP.game_state.changingWorld = false;
+    PP.game_state.respawn = true;
     PP.scenes.start("main_menu");
     resetControlsPopupState();
   });

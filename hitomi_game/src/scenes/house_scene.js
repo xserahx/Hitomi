@@ -268,8 +268,6 @@ function create_house(scene, data) {
     PP.physics.add_collider_f(scene, PP.game_state.player, door, doorDialogue);
   }
   
-
-
   // === CLICK DEL MOUSE PER ATTACCARE ===
   scene.input.on("pointerdown", () => {
   // click su UI → niente attacco
@@ -381,6 +379,10 @@ function showControlsPopup(scene) {
   });
 
   PP.interactive.mouse.add(hitbox_menu, "pointerdown", (pointer) => {
+    PP.game_state.enemiesState = {};
+    PP.game_state.actualLives = 3;
+    PP.game_state.changingWorld = false;
+    PP.game_state.respawn = true;
     PP.scenes.start("main_menu");
     resetControlsPopupState();
   });
