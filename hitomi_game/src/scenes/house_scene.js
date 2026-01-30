@@ -66,17 +66,14 @@ function create_house(scene, data) {
     { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2"}, // base sopra culla
     { x: 135, y: 773, w: 100, h: 90, sprite_name: "rialzino" }, // primo mobiletto a sinstra
-      { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
+    { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
     { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" }, // prima piattaforma della scala
     { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" }, // seconda piattaforma della scala
-    //{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" }, // apice della scala
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" }, // vaso per terra
-    { x: 2820, y: 56, w: 180, h: 658, sprite_name: "muro" },  //MURO CON PORTA SOTTO
-    { x: 2820, y: -156, w: 180, h: 658, sprite_name: "muro" },  //MURO CON PORTA SOTTO
-
+    { x: 2813, y: 15, w: 90, h: 700, sprite_name: "muro" },  // MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -85,8 +82,6 @@ function create_house(scene, data) {
     { x: 4180, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, 
     { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
-//    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma solo mondo fantasma 
-
     { x: 4980, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     
 
     // === SCALA A Z ===
@@ -110,7 +105,7 @@ function create_house(scene, data) {
     { x: 6380, y: 737, w: 87, h: 130, sprite_name: "vaso" },
     { x: 7120, y: 737, w: 87, h: 130, sprite_name: "vaso" },
 
-    { x: 7620, y: 70, w: 180, h: 658, sprite_name: "muro" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7613, y: 15, w: 90, h: 700, sprite_name: "muro" } //ULTIMO MURO CON PORTA SOTTO
 
   ];
 
@@ -120,11 +115,10 @@ function create_house(scene, data) {
   const ghostlyPlatformPositions = [
     { x: 525,  y: 595, w: 150, h: 40, sprite_name: "particelle" }, // piattaforma centrale 
     { x: 2090, y: 520, w: 150, h: 42, sprite_name: "particelle" },
-//    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "particelle" }, //Piattaforma per salire sull'accrocchio
     { x: 3165, y: 740, w: 150, h: 42, sprite_name: "particelle" },
     { x: 3345, y: 600, w: 150, h: 42, sprite_name: "particelle" },
     { x: 4035, y: 450, w: 150, h: 42, sprite_name: "particelle" },
-        {x: 4630, y: 300, w: 150, h: 42, sprite_name: "particelle" }
+    {x: 4630, y: 300, w: 150, h: 42, sprite_name: "particelle" }
 
 
   ];
@@ -142,7 +136,6 @@ function create_house(scene, data) {
       startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 50;
       startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
   }
-
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
   console.log("Ha preso il bambino " + PP.game_state.has_baby);
@@ -176,9 +169,9 @@ function create_house(scene, data) {
     heart.tile_geometry.scroll_factor_y = 0;
 
     if (i < PP.game_state.player.lives) {
-        PP.assets.sprite.animation_play(heart, "full");
+      PP.assets.sprite.animation_play(heart, "full");
     } else {
-        PP.assets.sprite.animation_play(heart, "staticempty");
+      PP.assets.sprite.animation_play(heart, "staticempty");
     }
 
     PP.game_state.hearts.push(heart);
@@ -209,8 +202,8 @@ function create_house(scene, data) {
       if (state && state.alive === false) continue;
 
       if (state && typeof state.x === "number" && typeof state.y === "number") {
-          pos.x = state.x;
-          pos.y = state.y;
+        pos.x = state.x;
+        pos.y = state.y;
       }    
 
       const created = PP.entities.enemy.create(scene, [pos]);
@@ -231,9 +224,9 @@ function create_house(scene, data) {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
         // HUD DANNO
-         let i = PP.game_state.player.lives - 1;
-            if (i >= 0 && PP.game_state.hearts[i]) {
-              PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
+        let i = PP.game_state.player.lives - 1;
+          if (i >= 0 && PP.game_state.hearts[i]) {
+            PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
             }
 
       }
@@ -300,7 +293,6 @@ function create_house(scene, data) {
   PP.game_state.changingWorld = false;
 }
 
-
 // === UPDATE ===
 function update_house(scene) {
   PP.entities.player.update(scene, PP.game_state.player);
@@ -318,11 +310,11 @@ function update_house(scene) {
     };
   }
   if (PP.game_state.enemies) {
-      for (let enemy of PP.game_state.enemies) {
-          const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
-          state.x = enemy.geometry.x;  // posizione corrente
-          state.y = enemy.geometry.y;
-          PP.game_state.enemiesState[enemy.id] = state;
+    for (let enemy of PP.game_state.enemies) {
+       const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+       state.x = enemy.geometry.x;  // posizione corrente
+       state.y = enemy.geometry.y;
+       PP.game_state.enemiesState[enemy.id] = state;
       }
   }
 
@@ -353,7 +345,7 @@ function showControlsPopup(scene) {
   if (PP.game_state.controlsPopupOpen) return;
   PP.game_state.controlsPopupOpen = true;
 
-  // PAUSA MOVIMENTO PLAYER  SE POP UP APERTO
+  // PAUSA MOVIMENTO PLAYER SE POP UP APERTO
   PP.game_state.pause = true;
   PP.game_state.uiBlockingInput = true;
   
@@ -452,7 +444,7 @@ function doorDialogue(scene, player, door) {
     
     let avvisoPorta = PP.shapes.text_styled_add(scene, PP.game_state.player.geometry.x - 400, 600, "Vuoi usare la chiave per aprire la porta?", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
 
-    PP.timers.add_timer(scene, 2000, (s) => {
+    PP.timers.add_timer(scene, 3500, (s) => {
       PP.assets.destroy(avvisoPorta);
     }, false);
 
@@ -460,7 +452,7 @@ function doorDialogue(scene, player, door) {
     let button_no = PP.shapes.text_styled_add(scene, PP.game_state.player.geometry.x - 100, 650, "No", 17, "serif", "normal", "0xffffff", "0x000000", 0, 0);
     textOn=true;
 
-    PP.timers.add_timer(scene, 2000, (s) => {
+    PP.timers.add_timer(scene, 3000, (s) => {
       PP.assets.destroy(button_no);
       PP.assets.destroy(button_si);
       textOn=false;

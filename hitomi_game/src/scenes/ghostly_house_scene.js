@@ -65,7 +65,7 @@ function create_ghostly_house(scene, data) {
     { x: 1865, y: 610, w: 150, h: 42, sprite_name: "g_piattaforma" },
     { x: 2165, y: 520, w: 150, h: 42, sprite_name: "g_piattaforma" }, // DA METTERE SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "g_piattaforma" },
-    { x: 2820, y: 70, w: 180, h: 658, sprite_name: "muro" },  //MURO CON PORTA SOTTO
+    { x: 2813, y: 15, w: 90, h: 700, sprite_name: "g_muro" },  //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 3240, y: 740, w: 150, h: 42, sprite_name: "g_piattaforma" },
@@ -73,27 +73,22 @@ function create_ghostly_house(scene, data) {
     { x: 3490, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" },
     { x: 4130, y: 450, w: 150, h: 42, sprite_name: "g_piattaforma" },// standard
 
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" },// standard                RIMANE
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" }, // penultima piattaforma  RIMANE
-    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" }, // penultima piattaforma  RIMANE
-
-//    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" },// standard                
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" }, // penultima piattaforma  
+    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "g_piattaforma" }, // penultima piattaforma  
     { x: 4180, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
     { x: 4920, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
 
-    // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
+    // === STRUTTURA COSTRUITA ADDOSSO ALLA PARETE  ===
     { x: 5860, y: 774, w: 100, h: 93, sprite_name: "g_rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
 
-    // L
-    { x: 5580, y: 425, w: 500, h: 41, sprite_name: "g_trave" }, //Piattaforma larga attaccata al muro
-    { x: 5810, y: 325, w: 42, h: 99, sprite_name: "g_paletto" }, //Parete verticale del coso
+    // Struttura ad L
+    { x: 5580, y: 425, w: 500, h: 41, sprite_name: "g_trave" }, // Piattaforma larga attaccata al muro
+    { x: 5810, y: 325, w: 42, h: 99, sprite_name: "g_paletto" }, // Parete verticale del coso
     { x: 5808, y: 285, w: 150, h: 42, sprite_name: "g_paletto_1" }, // Parete orizzontale alla fine di quella verticale
+    { x: 6058, y: 612, w: 150, h: 42, sprite_name: "g_piattaforma" }, // Piattaforma per salire sull'accrocchio
 
-    //    { x: 5908, y: 437, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma per salire sull'accrocchio (SOLO MONDO SPETTRALE)
-    // { x: 6058, y: 155, w: 150, h: 42, sprite_name: "piattaforma" }, // Piattaforma orizzontale a angolo retto dopo l'accrocchio
-{ x: 6058, y: 612, w: 150, h: 42, sprite_name: "g_piattaforma" }, //Piattaforma per salire sull'accrocchio
-
-    //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
+    //=== PIATTAFORME GRANDI PER LA FINE DEL LIVELLO ===
     { x: 6400, y: 340, w: 150, h: 42, sprite_name: "g_piattaforma" },
     // { x: 6700, y: 220, w: 250, h: 42, sprite_name: "piattaforma" },
     { x: 7100, y: 340, w: 150, h: 42, sprite_name: "g_piattaforma" },
@@ -101,8 +96,7 @@ function create_ghostly_house(scene, data) {
     // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===
     { x: 6380, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
     { x: 7120, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
-
-    { x: 7620, y: 70, w: 180, h: 658, sprite_name: "muro" } //ULTIMO MURO CON PORTA SOTTO
+    { x: 7613, y: 15, w: 90, h: 700, sprite_name: "g_muro" } // ULTIMO MURO CON PORTA SOTTO
   ];
 
   // === PIATTAFORME NEL MONDO SPETTRALE ===
@@ -182,7 +176,7 @@ function create_ghostly_house(scene, data) {
   
   PP.game_state.enemies = [];
 
-  // tracciamnte poszione del nemico
+  // traccia posizione del nemico
   for (let pos of enemyPositions) {
       const state = PP.game_state.enemiesState[pos.id];
 
@@ -233,8 +227,8 @@ function create_ghostly_house(scene, data) {
   // PORTE
   const doors=
   [
-  { x: 2768, y: 715, sprite_name: "locked_door", collected: false, id: 1 },
-  { x: 7570, y: 715, sprite_name: "locked_door", collected: false, id: 2 }    
+  { x: 2768, y: 715, sprite_name: "g_locked_door", collected: false, id: 1 },
+  { x: 7570, y: 715, sprite_name: "g_locked_door", collected: false, id: 2 }    
   ];
 
   PP.game_state.doors = PP.scene_objects.key.create(scene, doors);
@@ -295,10 +289,10 @@ function update_ghostly_house(scene) {
   }
   if (PP.game_state.enemies) {
       for (let enemy of PP.game_state.enemies) {
-          const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
-          state.x = enemy.geometry.x;  // posizione corrente
-          state.y = enemy.geometry.y;
-          PP.game_state.enemiesState[enemy.id] = state;
+        const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+        state.x = enemy.geometry.x;  // posizione corrente
+        state.y = enemy.geometry.y;
+        PP.game_state.enemiesState[enemy.id] = state;
       }
   }
 
@@ -328,7 +322,7 @@ function showControlsPopup(scene) {
   if (PP.game_state.controlsPopupOpen) return;
   PP.game_state.controlsPopupOpen = true;
 
-  // PAUSA MOVIMENTO PLAYER  SE POP UP APERTO
+  // PAUSA MOVIMENTO PLAYER SE POP UP APERTO
   PP.game_state.pause = true;
   PP.game_state.uiBlockingInput = true;
   
@@ -424,6 +418,7 @@ function doorDialogue(scene, player, door) {
   if (textOn == true) {
     return;
   }
+  
 // TESTI DELLE PORTE
   let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 400, 600, "Vuoi usare la chiave per aprire la porta?");
 
