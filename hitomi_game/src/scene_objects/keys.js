@@ -6,8 +6,8 @@ PP.scene_objects.key.preload = function(scene) {
     // carico le immagini e salvo i riferimenti 
     PP.scene_objects.key.sprite = {};
     PP.scene_objects.key.sprite["chiave"] = PP.assets.image.load(scene, "assets/images/house/chiave.png", 50, 50);
-    PP.scene_objects.key.sprite["door"] = PP.assets.image.load(scene, "assets/images/house/porta_aperta.png", 100, 140);
     PP.scene_objects.key.sprite["locked_door"] = PP.assets.image.load(scene, "assets/images/house/porta_chiusa.png", 120, 140);
+     PP.scene_objects.key.sprite["g_locked_door"] = PP.assets.image.load(scene, "assets/images/house/g_porta_chiusa.png", 120, 140);
 };
 
 // Creazione piattaforme
@@ -29,7 +29,7 @@ PP.scene_objects.key.create = function(scene, positions) {
         PP.physics.add(scene, plat, PP.physics.type.STATIC);
         
         if(p.sprite_name == "chiave"){PP.physics.set_collision_rectangle(plat, 50, 50, 0, 0);}
-        else if(p.sprite_name == "door") {PP.physics.set_collision_rectangle(plat, 100, 140, 0, 0);}
+        else if(p.sprite_name == "locked_door") {PP.physics.set_collision_rectangle(plat, 100, 140, 0, 0);}
         else {PP.physics.set_collision_rectangle(plat, 120, 140, 0, 0);}
 
         plat.id= p.id;
