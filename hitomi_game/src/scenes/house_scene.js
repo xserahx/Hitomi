@@ -130,8 +130,17 @@ function create_house(scene, data) {
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
 
   // === PLAYER ===
-  let startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 50;
-  let startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
+  let startX, startY;
+
+  if (PP.game_state.respawn) {
+      startX = 50;
+      startY = 700;
+      PP.game_state.respawn = false;
+  } else {
+      startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 50;
+      startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 700;
+  }
+
 
   PP.game_state.player = PP.entities.player.create(scene, startX, startY);
   console.log("Ha preso il bambino " + PP.game_state.has_baby);

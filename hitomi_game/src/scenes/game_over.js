@@ -16,6 +16,7 @@ function create_game_over(scene, data) {
       PP.game_state.enemiesState = {};
       PP.game_state.actualLives = 3;
       PP.game_state.changingWorld = false;
+      PP.game_state.respawn = true;
       PP.scenes.start(PP.game_state.currentScene);
    }
   },
