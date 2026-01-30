@@ -66,15 +66,15 @@ PP.entities.boss.update = function (scene, boss, player) {
     PP.game_state.reset = false;
   }
 
-
   // === MORTE DEL BOSS ===
-  //Quando il boss muore, si avvicina alla aprte sinistra dello schermo e diventa amichevole
+  // Quando il boss muore, si avvicina alla parte sinistra dello schermo e diventa amichevole
   if (PP.game_state.bossIsDead == true) {
 
     if (boss.geometry.body_x > 120) {
       boss.geometry.flip_x = true;
       PP.physics.set_velocity_x(boss, -50);
       boss.state = "walk";
+
     } else {
       PP.physics.set_velocity_x(boss, 0);
       boss.state = "dying";
@@ -96,6 +96,7 @@ PP.entities.boss.update = function (scene, boss, player) {
       boss.geometry.flip_x = false; // guarda a destra verso il player
       if(boss.geometry.flip_x == false) {PP.physics.set_collision_rectangle(boss, 68, 200, 55, 0);}
       boss.direction = 1;
+      
     } else {
       boss.geometry.flip_x = true;  // guarda a sinistra verso il player
       boss.direction = -1;

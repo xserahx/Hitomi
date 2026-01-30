@@ -191,9 +191,7 @@ PP.entities.player.update = function (scene, player) {
             player.currentAnim = "attacco";
         }
     } else if (!player.ph_obj.body.blocked.down) {
-        let jumpAnim = player.jumpState === "anticipation" ? "salto_pre" :
-                       player.jumpState === "up" ? "salto1" :
-                       player.jumpState === "down" ? "salto2" : null;
+        let jumpAnim = player.jumpState === "anticipation" ? "salto_pre" : player.jumpState === "up" ? "salto1" : player.jumpState === "down" ? "salto2" : null;
         if (jumpAnim && player.currentAnim !== jumpAnim) {
             PP.assets.sprite.animation_play(player, jumpAnim);
             player.currentAnim = jumpAnim;
