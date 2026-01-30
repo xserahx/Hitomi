@@ -1,14 +1,16 @@
+// STORY SCENE 
+// DICHIARAZIONE VARIABILI
 let story_panels = [];
 let arrow_story
 
 // PRELOAD
 function preload_story(scene) {
  // TAVOLE DELLA STORIA
-  story_panels[0] = PP.assets.image.load(scene,"assets/images/story/tavola_1.jpg",1280,720);
+  story_panels[0] = PP.assets.image.load(scene,"assets/images/story/tavola_1.jpg",1280,720); // tavola 1
 
-  story_panels[1] = PP.assets.image.load(scene,"assets/images/story/tavola_2.jpg",1280,720);
+  story_panels[1] = PP.assets.image.load(scene,"assets/images/story/tavola_2.jpg",1280,720); // tavola 2 
 
-  story_panels[2] = PP.assets.image.load(scene,"assets/images/story/tavola_3.jpg",1280,720);
+  story_panels[2] = PP.assets.image.load(scene,"assets/images/story/tavola_3.jpg",1280,720); // tavola 3
 
   arrow_story = PP.assets.image.load(scene,"assets/images/story/arrow_story.png",70,70);
 }

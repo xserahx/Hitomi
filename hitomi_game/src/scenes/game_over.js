@@ -1,5 +1,7 @@
 // === GAME OVER SCENE ===
+// DICHIARAZIONE VARIABILI
 let gameover_bg;
+
 function preload_game_over(scene) {
   gameover_bg = PP.assets.image.load(scene, "assets/images/game_over.png", 1280, 720);
 }
@@ -28,7 +30,7 @@ function create_game_over(scene, data) {
 
 MENU_AREAS.forEach(item => {
 
-  // HITBOX INVISIBILE
+  // HITBOX 
   const hitbox = PP.shapes.rectangle_add(scene, item.x, item.y, item.w, item.h, "0x000000", 0);
 
   hitbox.tile_geometry.scroll_factor_x = 0;

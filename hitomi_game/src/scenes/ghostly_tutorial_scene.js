@@ -1,4 +1,5 @@
 // === ghostly_tutorial SCENE ===
+// DICHIARAZIONE VARIABILI
 let ghostly_tutorial_bg;
 let baby;
 let culla;
@@ -19,6 +20,7 @@ function preload_ghostly_tutorial_scene(scene) {
     sign_2 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_2.png", 48, 97);
     sign_3 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_3.png", 48, 97);
     sign_4 = PP.assets.image.load(scene, "assets/images/tutorial/g_cartello_4.png", 48, 97);
+    
     PP.scene_objects.platform.preload(scene);
     PP.entities.player.preload(scene);
     PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -98,7 +100,6 @@ function create_ghostly_tutorial_scene(scene) {
         PP.physics.add_collider_f(scene, PP.game_state.player, end_level_trigger, () => {PP.scenes.start("house_scene")});
     }
 
-
     // === COLLIDER BAMBINO ===
     PP.physics.add_overlap_f(scene, PP.game_state.player, baby, () => {
 
@@ -135,7 +136,6 @@ function create_ghostly_tutorial_scene(scene) {
     PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
     PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
 
-
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
 
@@ -147,7 +147,6 @@ function create_ghostly_tutorial_scene(scene) {
 
     PP.game_state.hearts.push(heart);
 }
-
 
     // === NEMICI ===
     const enemyPositions = [

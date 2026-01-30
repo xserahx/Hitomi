@@ -1,4 +1,5 @@
 // === bossfight SCENE ===
+// DICHIARAZIONE VARIABILI
 let count=0;
 let help;
 let panel;
@@ -30,19 +31,7 @@ const bossfightTrees = [
 
   { x: 200, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
   { x: 100, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },/*
-  { x: 450, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
-
-
-  { x: 700, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 900, y: 800, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1100, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1300, y: 810, pivot_x: 0.5, pivot_y: 0.5 },
-
-  { x: 1600, y: 750, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 2000, y: 830, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1400, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
-  { x: 1800, y: 800, pivot_x: 0.5, pivot_y: 0.5 },*/
+  { x: 300, y: 780, pivot_x: 0.5, pivot_y: 0.5 },
 ];
 
 function preload_bossfight_scene(scene) {
@@ -86,18 +75,12 @@ function create_bossfight_scene(scene) {
   // montagne vicine
   ghostly_bg_main = PP.assets.tilesprite.add(scene, ghostly_mountains_2_bg, 0, 200, 6400, 920, 0, 0);
   ghostly_bg_main.tile_geometry.scroll_factor_x = 0.45;
-
-
-
   ghostly_bamboo_rev = PP.assets.image.add(scene, ghostly_bamboo_rev, 200, 0, 0, 0);
   ghostly_bamboo_rev_2 = PP.assets.image.add(scene, ghostly_bamboo_rev_2, 800, 0, 0, 0);
-
   ghostly_bamboo = PP.assets.image.add(scene, ghostly_bamboo, 300, 0, 0, 0);
 
-
- ghostly_tori = PP.assets.tilesprite.add(scene, ghostly_tori, 370, 400, 900, 1000, 0, 0);
+  ghostly_tori = PP.assets.tilesprite.add(scene, ghostly_tori, 370, 400, 900, 1000, 0, 0);
   ghostly_tori.tile_geometry.scroll_factor_x = 0.55;
-
 
   createbossfight(scene, ghostly_small_tree, bossfightTrees);
 
@@ -218,7 +201,6 @@ function create_bossfight_scene(scene) {
   scene.cameras.main.setBounds(leftWall.geometry.body_x + 20, 0, worldWidth, worldHeight);
   PP.camera.start_follow(scene, PP.game_state.player, 0, 0);
 
-
   // === CLICK DEL MOUSE PER ATTACCARE ===
   scene.input.on("pointerdown", () => {
     PP.entities.player.attack(scene, PP.game_state.player, PP.game_state.boss);
@@ -275,7 +257,6 @@ function update_bossfight_scene(scene) {
 
 function destroy_bossfight_scene(scene) { }
 
-
 PP.scenes.add("bossfight_scene", preload_bossfight_scene, create_bossfight_scene, update_bossfight_scene, destroy_bossfight_scene);
 
 function showControlsPopup(scene) {
@@ -284,7 +265,7 @@ function showControlsPopup(scene) {
   if (PP.game_state.controlsPopupOpen) return;
   PP.game_state.controlsPopupOpen = true;
 
-  // PAUSA MOVIMENTO PLAYER  SE POP UP APERTO
+  // PAUSA MOVIMENTO PLAYER SE POP UP APERTO
   PP.game_state.pause = true;
   PP.game_state.uiBlockingInput = true;
   

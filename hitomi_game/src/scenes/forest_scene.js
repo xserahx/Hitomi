@@ -1,4 +1,5 @@
 // === FOREST SCENE ===
+// DICHIARAZIONE VARIABILI
 let help;
 let panel;
 
@@ -124,7 +125,7 @@ function create_forest(scene) {
   bg_mid = PP.assets.tilesprite.add(scene, mountains_bg, 0, 210, 6400, 920, 0, 0);
   bg_mid.tile_geometry.scroll_factor_x = 0.2;
 
-  // parallasse a
+  // parallasse bamboo
   bamboofondo3 = PP.assets.tilesprite.add(scene, bamboofondo3, 0, 0, 6400, 920, 0, 0);
   bamboofondo3.tile_geometry.scroll_factor_x = 0.3;
 
@@ -137,7 +138,6 @@ function create_forest(scene) {
   tori = PP.assets.tilesprite.add(scene, tori, 200, 400, 900, 1000, 0, 0);
   tori.tile_geometry.scroll_factor_x = 0.55;
 
-
   cespuglio = PP.assets.image.add(scene, cespuglio, 2400, 450, 0, 0);
   cespuglio_2 = PP.assets.image.add(scene, cespuglio_2, 1700, 430, 0, 0);
 
@@ -148,18 +148,15 @@ function create_forest(scene) {
   bamboo_2 = PP.assets.image.add(scene, bamboo_2, 2100, 0, 0, 0);
 
   tempio = PP.assets.image.add(scene, tempio, 3095 + 60, -20, 0, 0);
-
   rocks = PP.assets.image.add(scene, rocks, 2440 + 60, 100, 0, 0);
 
   createForest(scene, small_tree, forestTrees);
 
   radice = PP.assets.image.add(scene, radice, 2680 + 60, 140, 0, 0);
   
-
   // recinzione in bamboo
   bg_front = PP.assets.tilesprite.add(scene, bamboo_bg, -20, 750, 6400, 250, 0, 0);
   casa = PP.assets.image.add(scene, casa, -100, 80, 0, 0);
-
   separatore = PP.assets.image.add(scene, separatore, 0, 0, 0, 0);
 
   // pontili
@@ -167,13 +164,9 @@ function create_forest(scene) {
   pontile_2 = PP.assets.image.add(scene, pontile_2, 3820, 480, 0, 0);
 
   statue = PP.assets.image.add(scene, statue, 600, 740, 0, 0);
-
   tronco = PP.assets.image.add(scene, tronco, 900, 700, 0, 0);
-
   roccia_1 = PP.assets.image.add(scene, roccia_1, 1300, 650, 0, 0)
-
   roccia_2 = PP.assets.image.add(scene, roccia_2, 1900, 650, 0, 0);
-
   fox_statue = PP.assets.image.add(scene, fox_statue, 325, 860, 0, 0);
 
   // === PULSANTE HELP ===
@@ -220,16 +213,14 @@ function create_forest(scene) {
     { x: 860, y: 782, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
 
     // === TRONCO DA SCAVALCARE ===
-
-    { x: 1050, y: 700, w: 1, h: 1, sprite_name: "tronco" }, // QUESTO
-    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, //SOLO MONDO FRNTASMA
+    { x: 1050, y: 700, w: 1, h: 1, sprite_name: "tronco" }, 
+    { x: 1260, y: 650, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, 
     { x: 1600, y: 650, w: 1, h: 1, sprite_name: "roccia_1" },
-    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, //SOLO MONDO FRNTASMA
+    { x: 1900, y: 825, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, 
     { x: 2000, y: 700, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
 
     // === PIATTAFORME PRIMA DELLA SCALA ===
-    //{ x: 1780, y: 665, w: 150, h: 20, sprite_name: "roccia_2" },
-    { x: 2200, y: 650, w: 1, h: 1, sprite_name: "roccia_2" }, //SOLO MONDO REALE
+    { x: 2200, y: 650, w: 1, h: 1, sprite_name: "roccia_2" }, // SOLO MONDO REALE
     { x: 2510, y: 690, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" }, //SOLO MONDO REALE
 
     // === ALBERO DA SCALARE ===
@@ -238,14 +229,9 @@ function create_forest(scene) {
     { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    //{ x: 3700, y: 400, w: 100, h: 20, sprite_name: "piattaforma_foresta" },
-    //{ x: 3900, y: 500, w: 100, h: 20, sprite_name: "piattaforma" },
 
     // PIATTAFORME FINALI
-    //{ x: 3990, y: 665, w: 100, h: 20, sprite_name: "piattaforma" },
     { x: 4180, y: 695, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
-    // { x: 4550, y: 850, w: 200, h: 20, sprite_name: "piattaforma" }
-
   ];
 
   PP.game_state.platforms = PP.scene_objects.platform.create(scene, platformPositions);
@@ -258,7 +244,7 @@ function create_forest(scene) {
     { x: 2980, y: 215, w: 150, h: 20, sprite_name: "particelle" },
     { x: 3470, y: 440, w: 150, h: 20, sprite_name: "particelle" },
     { x: 3800, y: 530, w: 150, h: 20, sprite_name: "particelle" },
-    { x: 4370, y: 850, w: 150, h: 20, sprite_name: "particelle" }, //ultimo
+    { x: 4370, y: 850, w: 150, h: 20, sprite_name: "particelle" },  // ultima piattaforma
 
   ];
 
@@ -279,8 +265,6 @@ function create_forest(scene) {
   PP.physics.add_collider(scene, PP.game_state.player, ramo);
   PP.physics.add_collider(scene, PP.game_state.player, massi);
   PP.physics.add_collider(scene, PP.game_state.player, massi2);
-
-
 
   for (let plat of PP.game_state.platforms) {
     PP.physics.add_collider(scene, PP.game_state.player, plat);
@@ -328,13 +312,13 @@ function create_forest(scene) {
     PP.game_state.enemies = [];
 
     for (let pos of enemyPositions) {
-        const state = PP.game_state.enemiesState[pos.id];
+      const state = PP.game_state.enemiesState[pos.id];
 
-        if (state && state.alive === false) continue;
+      if (state && state.alive === false) continue;
 
-        if (state && typeof state.x === "number" && typeof state.y === "number") {
-            pos.x = state.x;
-            pos.y = state.y;
+      if (state && typeof state.x === "number" && typeof state.y === "number") {
+        pos.x = state.x;
+         pos.y = state.y;
         }    
 
         const created = PP.entities.enemy.create(scene, [pos]);
@@ -345,12 +329,12 @@ function create_forest(scene) {
 
     // collisioni con terreno e piattaforme
     PP.physics.add_collider(scene, enemy, ground);
-  PP.physics.add_collider(scene, enemy, leftWall);
-  PP.physics.add_collider(scene, enemy, rightWall);
-  PP.physics.add_collider(scene, enemy, hitboxInvisibile);
-  PP.physics.add_collider(scene, enemy, ramo);
-  PP.physics.add_collider(scene, enemy, massi);
-  PP.physics.add_collider(scene, enemy, massi2);
+    PP.physics.add_collider(scene, enemy, leftWall);
+    PP.physics.add_collider(scene, enemy, rightWall);
+    PP.physics.add_collider(scene, enemy, hitboxInvisibile);
+    PP.physics.add_collider(scene, enemy, ramo);
+    PP.physics.add_collider(scene, enemy, massi);
+    PP.physics.add_collider(scene, enemy, massi2);
 
     for (let plat of PP.game_state.platforms) {
       PP.physics.add_collider(scene, enemy, plat);
@@ -361,11 +345,10 @@ function create_forest(scene) {
       if (!(PP.game_state.player.lives <= 0) && !PP.game_state.player.isInvincible) {
 
         // HUD DANNO
-         let i = PP.game_state.player.lives - 1;
-            if (i >= 0 && PP.game_state.hearts[i]) {
-              PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
+        let i = PP.game_state.player.lives - 1;
+          if (i >= 0 && PP.game_state.hearts[i]) {
+            PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");
             }
-
       }
       PP.entities.player.damage(scene, PP.game_state.player, enemy);
     });
@@ -407,15 +390,6 @@ function create_forest(scene) {
 
   PP.game_state.changingWorld = false;
 
-  // === NOTTE ===
-  const cam = scene.cameras.main;
-  const nightOverlay = PP.shapes.rectangle_add(scene, cam.centerX, cam.centerY, cam.width, cam.height, "0x000022", 0.30);
-
-  nightOverlay.tile_geometry.scroll_factor_x = 0;
-  nightOverlay.tile_geometry.scroll_factor_y = 0;
-
-  PP.layers.set_z_index(nightOverlay, 20);
-
 }
 
 function update_forest(scene) {
@@ -436,13 +410,12 @@ function update_forest(scene) {
   }
   if (PP.game_state.enemies) {
       for (let enemy of PP.game_state.enemies) {
-          const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
-          state.x = enemy.geometry.x;  // posizione corrente
-          state.y = enemy.geometry.y;
-          PP.game_state.enemiesState[enemy.id] = state;
+        const state = PP.game_state.enemiesState[enemy.id] || { alive: true };
+        state.x = enemy.geometry.x;  // posizione corrente
+        state.y = enemy.geometry.y;
+        PP.game_state.enemiesState[enemy.id] = state;
       }
   }
-
 
   const snowTopY = 900 - (40 / 2);
   const snowTopX = 7680;
@@ -474,7 +447,7 @@ function showControlsPopup(scene) {
   if (PP.game_state.controlsPopupOpen) return;
   PP.game_state.controlsPopupOpen = true;
 
-  // PAUSA MOVIMENTO PLAYER  SE POP UP APERTO
+  // PAUSA MOVIMENTO PLAYER SE POP UP APERTO
   PP.game_state.pause = true;
   PP.game_state.uiBlockingInput = true;
   

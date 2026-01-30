@@ -1,3 +1,5 @@
+// MAIN MENU
+// DICHIARAZIONE VARIABILI
 let menu_bg;
 
 function preload(scene) {
@@ -37,7 +39,6 @@ MENU_AREAS.forEach(item => {
 
   // HITBOX INVISIBILE
   const hitbox = PP.shapes.rectangle_add(scene, item.x, item.y, item.w, item.h, "0xffffff", 0);
-
   hitbox.tile_geometry.scroll_factor_x = 0;
   hitbox.tile_geometry.scroll_factor_y = 0;
 

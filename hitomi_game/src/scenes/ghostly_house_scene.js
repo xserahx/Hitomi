@@ -1,4 +1,5 @@
 // === ghostly_house SCENE ===
+// DICHIARAZIONE VARIABILI
 let ghostly_house_bg;
 let help;
 let panel;
@@ -54,9 +55,6 @@ function create_ghostly_house(scene, data) {
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "g_basetta_2" }, // base sopra culla
     { x: 135, y: 773, w: 100, h: 90, sprite_name: "g_rialzino" },
 
-    // /DA FLIPPARE
-    { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
-
     //=======CASA======
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "g_vaso" },
 
@@ -104,8 +102,8 @@ function create_ghostly_house(scene, data) {
     { x: 3240 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     { x: 3730 -75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     { x: 4830 +75, y: 450, w: 150, h: 42, sprite_name: "particelle" },
-    { x: 6600 -75, y: 220, w: 150, h: 42, sprite_name: "particelle" }, // !!!!!!
-    { x: 6900 -75, y: 220, w: 150, h: 42, sprite_name: "particelle" }, // !!!!!!
+    { x: 6600 -75, y: 220, w: 150, h: 42, sprite_name: "particelle" }, 
+    { x: 6900 -75, y: 220, w: 150, h: 42, sprite_name: "particelle" }, 
     { x: 6058 -75, y: 155, w: 150, h: 42, sprite_name: "particelle" }
   ];
 
@@ -418,7 +416,7 @@ function doorDialogue(scene, player, door) {
   if (textOn == true) {
     return;
   }
-  
+
 // TESTI DELLE PORTE
   let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 400, 600, "Vuoi usare la chiave per aprire la porta?");
 

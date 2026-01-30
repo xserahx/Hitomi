@@ -1,4 +1,5 @@
 // === HOUSE SCENE ===
+// DICHIARAZIONE VARIABILI
 let house_bg;
 let help;
 let panel;
@@ -66,7 +67,6 @@ function create_house(scene, data) {
     { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2"}, // base sopra culla
     { x: 135, y: 773, w: 100, h: 90, sprite_name: "rialzino" }, // primo mobiletto a sinstra
-    { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
     { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" }, // prima piattaforma della scala
@@ -119,8 +119,6 @@ function create_house(scene, data) {
     { x: 3345, y: 600, w: 150, h: 42, sprite_name: "particelle" },
     { x: 4035, y: 450, w: 150, h: 42, sprite_name: "particelle" },
     {x: 4630, y: 300, w: 150, h: 42, sprite_name: "particelle" }
-
-
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);

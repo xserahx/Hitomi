@@ -1,3 +1,5 @@
+// CREDITS
+// DICHIARAZIONE VARIABILI
 let crediti_bg;
 let back_arrow;
 
