@@ -227,7 +227,7 @@ function create_forest(scene) {
     { x: 2880, y: 765, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3050, y: 655, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
     { x: 3050, y: 375, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
-    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta_roccia" },
+    { x: 3250, y: 165, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
     { x: 3550, y: 325, w: 150, h: 20, sprite_name: "piattaforma_foresta" },
 
     // PIATTAFORME FINALI
