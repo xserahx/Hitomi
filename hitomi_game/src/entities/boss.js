@@ -96,7 +96,7 @@ PP.entities.boss.update = function (scene, boss, player) {
       boss.geometry.flip_x = false; // guarda a destra verso il player
       if(boss.geometry.flip_x == false) {PP.physics.set_collision_rectangle(boss, 68, 200, 55, 0);}
       boss.direction = 1;
-      
+
     } else {
       boss.geometry.flip_x = true;  // guarda a sinistra verso il player
       boss.direction = -1;
@@ -138,8 +138,6 @@ PP.entities.boss.update = function (scene, boss, player) {
   }
 };
 
-
-
 // === FUNZIONE DI ATTACCO ===
 PP.entities.boss.attack = function (scene, boss, player) {
   if (boss.isWalking || boss.isAttacking || boss.inCutscene || PP.game_state.bossIsFriendly) return;
@@ -155,7 +153,7 @@ PP.entities.boss.attack = function (scene, boss, player) {
   let dir = boss.direction;
   PP.assets.sprite.animation_play(boss, "attack", false);
 
-  let warning = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xFF0000", 0.3);
+  let warning = PP.shapes.rectangle_add(scene, boss.geometry.x + 50 * dir, boss.geometry.y - 25, 125, 80, "0xFF0000", 0);
   let hitbox;
 
   PP.timers.add_timer(scene, 500, () => {

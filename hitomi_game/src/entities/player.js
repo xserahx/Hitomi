@@ -88,15 +88,6 @@ PP.entities.player.update = function (scene, player) {
     let speed = hasNanashi ? 170 : 200;
     player.dashSpeed = hasNanashi ? 450 : 600;
 
-    // === DEV MODE ===
-    if (PP.interactive.kb.is_key_down(scene, PP.key_codes.P) && !PP.game_state.DevMode) {
-        PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOW IN DEV MODE");
-        PP.game_state.DevMode = true;
-    } else if (PP.interactive.kb.is_key_down(scene, PP.key_codes.O) && PP.game_state.DevMode) {
-        PP.shapes.text_add(scene, player.geometry.body_x, player.geometry.body_y - 200, "PLAYER IS NOT IN DEV MODE ANYMORE");
-        PP.game_state.DevMode = false;
-    }
-
     // === DASH ===
     if (PP.interactive.kb.is_key_down(scene, PP.key_codes.SHIFT) && !player.inCutscene &&
         !player.isDashing && PP.timers.getTime(scene) - player.lastDash > player.dashCooldown) {
@@ -215,7 +206,7 @@ PP.entities.player.update = function (scene, player) {
 // === DAMAGE ===
 PP.entities.player.damage = function (scene, player, enemy) {
     console.log("Player damaged");
-    if (player.isInvincible || PP.game_state.DevMode || player.inCutscene == true) return;
+    if (player.isInvincible || player.inCutscene == true) return;
 
     player.lives--;
     PP.game_state.actualLives = player.lives;
@@ -277,7 +268,7 @@ PP.entities.player.attack = function (scene, player, enemies) {
     let dir = player.geometry.flip_x ? -1 : 1;
     let hitboxX = player.geometry.body_x + (dir === -1 ? -50 : 80);
     let hitboxY = player.geometry.body_y + 40;
-    const hitbox = PP.shapes.rectangle_add(scene, hitboxX, hitboxY, 100, 100, "0xABCDEF", 1);
+    const hitbox = PP.shapes.rectangle_add(scene, hitboxX, hitboxY, 100, 100, "0xABCDEF", 0);
     PP.physics.add(scene, hitbox, PP.physics.type.STATIC);
 
     if (Array.isArray(enemies)) {

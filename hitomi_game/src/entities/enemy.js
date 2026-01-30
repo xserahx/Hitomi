@@ -153,5 +153,4 @@ PP.entities.enemy.damage = function (scene, enemy, hitbox) {
     }
     PP.assets.destroy(enemy);
   }
-
 };
