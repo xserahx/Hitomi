@@ -1,7 +1,7 @@
 // === FINALE TEITAI ===
-let teitai_bg;
+// DICHIARAZIONE VARIABILI
+let teitai_bg;  // tavola finale dedicata al bad ending del platform
 
-// PRELOAD IMMAGINE
 function preload_teitai(scene) {
   teitai_bg = PP.assets.image.load(scene, "assets/images/story/bad_ending.jpg", 1280, 720);
 }

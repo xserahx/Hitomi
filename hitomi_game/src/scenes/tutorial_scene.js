@@ -1,5 +1,5 @@
 // === TUTORIAL SCENE ===
-// DEFINIZIONI VARIABILI
+// DICHIARAZIONE VARIABILI
 let tutorial_bg;
 let baby;
 let culla;
@@ -19,6 +19,7 @@ function preload_tutorial_scene(scene) {
     sign_1 = PP.assets.image.load(scene, "assets/images/tutorial/cartello_1.png", 48, 97);
     sign_2 = PP.assets.image.load(scene, "assets/images/tutorial/cartello_2.png", 48, 97);
     sign_3 = PP.assets.image.load(scene, "assets/images/tutorial/cartello_3.png", 48, 97);
+
     PP.entities.player.preload(scene);
     PP.entities.enemy.preload(scene);
     PP.scene_objects.platform.preload(scene);
@@ -139,7 +140,7 @@ function create_tutorial_scene(scene) {
     // === HUD VITE ===
     PP.game_state.hearts = [];
 
-    //PERDITA VITE
+    // PERDITA VITE
     for (let i = 0; i < PP.game_state.player.maxLives; i++) {
     let x = 60 + (i * 80);
     let heart = PP.assets.sprite.add(scene, PP.game_state.lives, x, 50, 0.5, 0.5);
@@ -148,7 +149,6 @@ function create_tutorial_scene(scene) {
     PP.assets.sprite.animation_add(heart, "full", 0, 0, 1, 0);
     PP.assets.sprite.animation_add(heart, "empty", 1, 8, 8, 0);
     PP.assets.sprite.animation_add(heart, "staticempty", 8, 0, 0.01, 0);
-
 
     heart.tile_geometry.scroll_factor_x = 0;
     heart.tile_geometry.scroll_factor_y = 0;
@@ -199,7 +199,7 @@ function create_tutorial_scene(scene) {
 
             if (PP.game_state.player.isInvincible) return;
 
-            // HUD DANNO
+         // HUD DANNO
             let i = PP.game_state.player.lives - 1;
             if (i >= 0 && PP.game_state.hearts[i]) {
               PP.assets.sprite.animation_play(PP.game_state.hearts[i], "empty");

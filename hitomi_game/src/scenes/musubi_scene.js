@@ -1,8 +1,8 @@
 // === FINALE MUSUBI ===
-let musubi_bg;
+// DICHIARAZIONE VARIABILI
+let musubi_bg; // tavola finale dedicata al good ending del platform
 
 function preload_musubi(scene) {
-  // PRELOAD TAVOLA FINALI
   musubi_bg = PP.assets.image.load(scene, "assets/images/story/good_ending.jpg", 1280, 720);
 }
 

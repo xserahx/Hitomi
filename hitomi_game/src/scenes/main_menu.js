@@ -10,7 +10,6 @@ function preload(scene) {
 function create(scene) {
   const centerX = PP.game.config.canvas_width / 2;
   const centerY = PP.game.config.canvas_height / 2;
-  PP.game_state.DevMode = false;
   PP.game_state.changingWorld = false;
   PP.game_state.pause = false;
   PP.game_state.has_baby = false;
