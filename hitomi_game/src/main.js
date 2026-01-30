@@ -3,14 +3,14 @@ const config = {
   canvas_height: 720,
   canvas_id: 'game',
   background_color: 0x000000,
-  debug_mode: true,
+  debug_mode: false,
   gravity_value: 600,
   player_x: 0,
   player_y: 0,
   player_is_hit: false
 };
 
-// ✅ INIZIALIZZAZIONE GLOBALE DELLO STATO
+// Inizializzazione degli stati a livello globale
 PP.game_state = PP.game_state || {};
 PP.game_state.enemiesState = PP.game_state.enemiesState || {};
 PP.game_state.playerPosition = PP.game_state.playerPosition || null;
