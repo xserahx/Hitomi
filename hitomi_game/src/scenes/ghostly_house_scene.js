@@ -233,8 +233,8 @@ function create_ghostly_house(scene, data) {
   // PORTE
   const doors=
   [
-    { x: 2768, y: 660, sprite_name: "locked_door", collected: false, id: 1 },
-    { x: 7570, y: 660, sprite_name: "locked_door", collected: false, id: 2 }    
+  { x: 2768, y: 715, sprite_name: "locked_door", collected: false, id: 1 },
+  { x: 7570, y: 715, sprite_name: "locked_door", collected: false, id: 2 }    
   ];
 
   PP.game_state.doors = PP.scene_objects.key.create(scene, doors);

@@ -74,7 +74,9 @@ function create_house(scene, data) {
     //{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // SOLO NEL MONDO SPETTRALE
     { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" }, // apice della scala
     { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" }, // vaso per terra
-    { x: 2820, y: 70, w: 180, h: 658, sprite_name: "muro" }, //MURO CON PORTA SOTTO
+    { x: 2820, y: 56, w: 180, h: 658, sprite_name: "muro" },  //MURO CON PORTA SOTTO
+    { x: 2820, y: -156, w: 180, h: 658, sprite_name: "muro" },  //MURO CON PORTA SOTTO
+
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
     { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
@@ -243,8 +245,8 @@ function create_house(scene, data) {
 // PORTE
    const doors=
   [
-    { x: 2768, y: 660, sprite_name: "locked_door", collected: false, id: 1 },
-    { x: 7570, y: 660, sprite_name: "locked_door", collected: false, id: 2 }    
+    { x: 2768, y: 715, sprite_name: "locked_door", collected: false, id: 1 },
+    { x: 7570, y: 715, sprite_name: "locked_door", collected: false, id: 2 }    
   ];
 
   PP.game_state.doors = PP.scene_objects.key.create(scene, doors);
