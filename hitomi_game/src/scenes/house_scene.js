@@ -4,6 +4,7 @@ let help;
 let panel;
 let textOn=false;
 
+// PRELOAD
 function preload_house(scene) {
   house_bg = PP.assets.image.load(scene, "assets/images/house/house_background.png", 7680, 920);
   panel = PP.assets.image.load(scene, "assets/images/comandi_bg.png", 760, 428 )
@@ -16,11 +17,13 @@ function preload_house(scene) {
   PP.entities.enemy.preload(scene);
 }
 
+// CREATE
 function create_house(scene, data) {
   PP.assets.tilesprite.add(scene, house_bg, -20, -30, 7680, 920, 0, 0);
   PP.game_state.currentScene = "house_scene";
   PP.game_state.otherWorld = "ghostly_house_scene";
 
+  // CAMBIO MONDO
   if (PP.game_state.changingWorld == false) {
     PP.game_state.houseKeyCollected = [
       false,
@@ -56,42 +59,38 @@ function create_house(scene, data) {
   // === PIATTAFORME ===
   const platformPositions = [
     
-  //======TUTORIAL======
+   //======TUTORIAL======
     { x: 820, y: 675, w: 150, h: 40, sprite_name: "piattaforma" },  // piattaforma iniziale
-    { x: 1030, y: 773, w: 100, h: 90, sprite_name: "rialzino" }, // muretto
+    { x: 1030, y: 773, w: 100, h: 90, sprite_name: "rialzino" }, // mobiletto a destra
     { x: 378, y: 470, w: 40, h: 395, sprite_name: "palo" },  // colonna di sinistra
     { x: 400, y: 550, w: 150, h: 20, sprite_name: "basetta_1" }, // base del nemico
     { x: 205, y: 640, w: 150, h: 20, sprite_name: "basetta_2"}, // base sopra culla
-    { x: 135, y: 773, w: 100, h: 90, sprite_name: "rialzino" },
-
-
-    // DA FLIPPARE
+    { x: 135, y: 773, w: 100, h: 90, sprite_name: "rialzino" }, // primo mobiletto a sinstra
       { x: 100, y: 805, w: 100, h: 60, sprite_name: "culla" },   // culla del bimbo
 
     //=======CASA======
-    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 1590, y: 700, w: 150, h: 42, sprite_name: "piattaforma" }, // prima piattaforma della scala
+    { x: 1865, y: 610, w: 150, h: 42, sprite_name: "piattaforma" }, // seconda piattaforma della scala
     //{ x: 2065, y: 520, w: 150, h: 42, sprite_name: "piattaforma" }, // SOLO NEL MONDO SPETTRALE
-    { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" },
-    { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 2490, y: 435, w: 150, h: 42, sprite_name: "piattaforma" }, // apice della scala
+    { x: 2270, y: 737, w: 87, h: 130, sprite_name: "vaso" }, // vaso per terra
     { x: 2820, y: 70, w: 180, h: 658, sprite_name: "muro" }, //MURO CON PORTA SOTTO
 
     //=======PIATTAFORME PER LA SECONDA CHIAVE=========
-    { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
-    { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },// da avvicinare
-    { x: 3730, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },// NEW 
+    { x: 3240, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3490, y: 300, w: 150, h: 42, sprite_name: "piattaforma" },
+    { x: 3730, y: 450, w: 150, h: 42, sprite_name: "piattaforma" },
     { x: 4180, y: 737, w: 87, h: 130, sprite_name: "vaso" },
+    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, 
     { x: 4920, y: 737, w: 87, h: 130, sprite_name: "vaso" },
-    { x: 4430, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
-//    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma  RIMANE
+//    { x: 4730, y: 300, w: 150, h: 42, sprite_name: "piattaforma" }, // penultima piattaforma solo mondo fantasma 
 
-    { x: 4980, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     RIMANE
-//    { x: 5200, y: 425, w: 100, h: 300, sprite_name: "piattaforma" },  // Terzo muro
+    { x: 4980, y: 450, w: 150, h: 42, sprite_name: "piattaforma" }, // piattaforma finale     
 
-    // === ARZIGOGOLO COSTRUITO ADDOSSO ALLA PARETE (VEDI MARCELLO) ===
-    { x: 5860, y: 774, w: 100, h: 93, sprite_name: "rialzino" }, //Non ho capito che sprite andrebbe messo, chiedere a Marcello (SOLO MONDO REALE)
+    // === SCALA A Z ===
+    { x: 5860, y: 774, w: 100, h: 93, sprite_name: "rialzino" }, 
 
-    // L 
+    // L A 90 GRADI A MEZZ ARIA CON PTERODATTILO
     { x: 5580, y: 425, w: 500, h: 41, sprite_name: "trave" }, //Piattaforma larga attaccata al muro
     { x: 5810, y: 325, w: 42, h: 99, sprite_name: "paletto" }, //Parete verticale del coso
     { x: 5808, y: 285, w: 150, h: 42, sprite_name: "paletto_1" }, // Parete orizzontale alla fine di quella verticale
@@ -101,8 +100,8 @@ function create_house(scene, data) {
 
     //=== PIATTAFORME GROSSE PER LA FINE DEL LIVELLO ===
     { x: 6400, y: 340, w: 150, h: 42, sprite_name: "piattaforma" }, 
-    { x: 6600, y: 220, w: 150, h: 42, sprite_name: "piattaforma" }, // !!!!!!!!
-    { x: 6900, y: 220, w: 150, h: 42, sprite_name: "piattaforma" }, // !!!!!!!!
+    { x: 6600, y: 220, w: 150, h: 42, sprite_name: "piattaforma" }, 
+    { x: 6900, y: 220, w: 150, h: 42, sprite_name: "piattaforma" }, 
     { x: 7100, y: 340, w: 150, h: 42, sprite_name: "piattaforma" },
 
     // === VASI SOTTO ALLE PIATTAFORME GRANDI PER FERMARE I NEMICI ===
@@ -125,7 +124,7 @@ function create_house(scene, data) {
     { x: 4035, y: 450, w: 150, h: 42, sprite_name: "particelle" },
         {x: 4630, y: 300, w: 150, h: 42, sprite_name: "particelle" }
 
-    
+
   ];
 
   PP.game_state.ghostlyPlatforms = PP.scene_objects.platform.create(scene, ghostlyPlatformPositions);
@@ -231,7 +230,7 @@ function create_house(scene, data) {
     });
   }
 
-    // ==== ESPERIMENTO CHIAVI ====
+    // ==== CHIAVI ====
   const keys=
   [
     { x: 2470, y: 358,  collected: false, id: 1,sprite_name: "chiave" },
@@ -241,6 +240,7 @@ function create_house(scene, data) {
 
   PP.game_state.keys = PP.scene_objects.key.create(scene, keys);
 
+// PORTE
    const doors=
   [
     { x: 2768, y: 660, sprite_name: "locked_door", collected: false, id: 1 },
@@ -455,6 +455,7 @@ function doorDialogue(scene, player, door) {
       textOn=false;
     }, false);
 
+    // uso mouse per ripsodnere alle scelte delle porte
     PP.interactive.mouse.add(button_si, "pointerdown", () => {
       PP.assets.destroy(door);
       PP.game_state.doorsOpened[door.id-1] = true;

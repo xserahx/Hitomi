@@ -4,6 +4,7 @@ let help;
 let panel;
 let textOn = false;
 
+// PRELOAD
 function preload_ghostly_house(scene) {
   ghostly_house_bg = PP.assets.image.load(scene, "assets/images/house/ghostly_house_background.png", 7680, 920);
   PP.game_state.lives = PP.assets.sprite.load_spritesheet(scene, "assets/images/heart.png", 120, 50);
@@ -14,10 +15,9 @@ function preload_ghostly_house(scene) {
   PP.entities.player.preload(scene);
   PP.entities.enemy.preload(scene);
   PP.scene_objects.key.preload(scene);
-  
-
 }
 
+// CREATE
 function create_ghostly_house(scene, data) {
   PP.assets.tilesprite.add(scene, ghostly_house_bg, -20, -30, 7680, 920, 0, 0);
   PP.game_state.otherWorld = "house_scene";
@@ -182,6 +182,7 @@ function create_ghostly_house(scene, data) {
   
   PP.game_state.enemies = [];
 
+  // tracciamnte poszione del nemico
   for (let pos of enemyPositions) {
       const state = PP.game_state.enemiesState[pos.id];
 
@@ -220,7 +221,7 @@ function create_ghostly_house(scene, data) {
     });
   }
 
-  // ==== ESPERIMENTO CHIAVI ====
+  // ==== CHIAVI ====
   const keys =
     [
       { x: 2470, y: 358, collected: false, id: 1, sprite_name: "chiave" },
@@ -229,6 +230,7 @@ function create_ghostly_house(scene, data) {
 
   PP.game_state.keys = PP.scene_objects.key.create(scene, keys);
 
+  // PORTE
   const doors=
   [
     { x: 2768, y: 660, sprite_name: "locked_door", collected: false, id: 1 },
@@ -422,7 +424,7 @@ function doorDialogue(scene, player, door) {
   if (textOn == true) {
     return;
   }
-
+// TESTI DELLE PORTE
   let avvisoPorta = PP.shapes.text_add(scene, PP.game_state.player.geometry.x - 400, 600, "Vuoi usare la chiave per aprire la porta?");
 
   PP.timers.add_timer(scene, 2000, (s) => {
