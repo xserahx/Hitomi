@@ -88,7 +88,7 @@ function create_tutorial_scene(scene) {
       startX = 1700;
       startY = 400;
       PP.game_state.respawn = false;
-  } else {
+    } else {
       startX = scene.scene.settings.data?.x ?? PP.game_state.playerPosition?.x ?? 1700;
       startY = scene.scene.settings.data?.y ?? PP.game_state.playerPosition?.y ?? 400;
     }
@@ -341,7 +341,7 @@ function cutscene(scene, player, trigger) {
     }, false);
 }
 
-// POSSIBILI RISPOTE ALL'INTEREZIONE COL BAMBINO
+// POSSIBILI RISPOSTE ALL'INTERAZIONE COL BAMBINO
 function baby_response(scene, type) {
     let interaction;
     if (type === -1) {
